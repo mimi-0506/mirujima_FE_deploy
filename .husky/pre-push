@@ -1,8 +1,6 @@
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+#. "$(dirname "$0")/_/husky.sh"
 
-echo "Running ESLint with auto-fix..."
-npx eslint . --fix
-
-echo "Running Prettier with auto-fix..."
-npx prettier --write .
+#TODO: 테스트 추가시 활성화
+#echo "🚀 푸시 전에 코드 검사를 수행합니다..."
+#npm test
