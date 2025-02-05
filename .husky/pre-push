@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "Running ESLint with auto-fix..."
+npx eslint . --fix
+
+echo "Running Prettier with auto-fix..."
+npx prettier --write .
