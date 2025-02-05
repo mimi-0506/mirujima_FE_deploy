@@ -14,5 +14,6 @@
   "useTabs": false,
   "rangeStart": 0,
   "requirePragma": false,
-  "insertPragma": false
+  "insertPragma": false,
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
