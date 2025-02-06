@@ -1,6 +1,6 @@
 import localFont from 'next/font/local';
 
-import { InfoStoreProvider } from '@/provider/store-provider';
+import { InfoStoreProvider, ModalStoreProvider } from '@/provider/store-provider';
 
 import type { Metadata } from 'next';
 
@@ -26,9 +26,11 @@ export default function RootLayout({
 }>) {
   return (
     <InfoStoreProvider>
-      <html lang="ko">
-        <body className={`${pretendard.className} antialiased`}>{children}</body>
-      </html>
+      <ModalStoreProvider>
+        <html lang="ko">
+          <body className={`${pretendard.className} antialiased`}>{children}</body>
+        </html>
+      </ModalStoreProvider>
     </InfoStoreProvider>
   );
 }
