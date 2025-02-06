@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import Link from 'next/link';
 
+import Info from './Info';
 import Logo from '../../public/images/logo/mirujima-logo.svg';
 
 export default function NavBar() {
@@ -30,6 +31,7 @@ export default function NavBar() {
         <Logo />
       </Link>
       <CloseButton />
+      <Info />
     </div>
   );
 }
