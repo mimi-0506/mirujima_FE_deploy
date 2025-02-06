@@ -60,7 +60,7 @@ export default function SignUpPage() {
           />
           <InputField
             label="이메일"
-            placeholder="을 입력해주세요"
+            placeholder="이메일을 입력해주세요"
             register={register('email')}
             type="email"
             errorMessage={errors.email?.message}
