@@ -34,6 +34,9 @@ export default function NavBar() {
       <CloseButton />
       <Info />
       <NewTodo />
+      <div>
+        <Link href="/dashboard">대시보드</Link>
+      </div>
     </div>
   );
 }
