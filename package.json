@@ -17,6 +17,9 @@
     ]
   },
   "dependencies": {
+    "@blocknote/core": "^0.23.1",
+    "@blocknote/mantine": "^0.23.1",
+    "@blocknote/react": "^0.23.1",
     "@heroui/skeleton": "^2.2.6",
     "@lukemorales/query-key-factory": "^1.3.4",
     "@svgr/webpack": "^8.1.0",
