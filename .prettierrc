@@ -10,9 +10,10 @@
   "semi": true,
   "singleQuote": true,
   "tabWidth": 2,
-  "trailingComma": "all",
+  "trailingComma": "none",
   "useTabs": false,
   "rangeStart": 0,
   "requirePragma": false,
-  "insertPragma": false
+  "insertPragma": false,
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
