@@ -27,7 +27,7 @@ export default function MediumNav({
 
   return isOpen ? (
     <div className="absolute inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-      <div className="absolute left-0 flex h-screen w-[300px] flex-col border border-black">
+      <div className="absolute left-0 flex h-screen w-[300px] flex-col border border-black bg-white">
         <Link href="/dashboard" className="block w-fit">
           <Logo />
         </Link>

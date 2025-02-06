@@ -6,7 +6,7 @@ export default function Info() {
   const { id, email, name, logout } = useInfoStore((state) => state);
 
   return (
-    <div className="grid grid-cols-[1fr_3fr]">
+    <div className="flex">
       <div className="relative h-[50px] w-[50px]">
         <Image
           src={'https://i.pinimg.com/736x/c3/1f/51/c31f519a91cc2560c5d2d006913af4dc.jpg'}
@@ -17,8 +17,9 @@ export default function Info() {
       <div>
         <div>{name}</div>
         <div>{email}</div>
-        <div onClick={logout}>로그아웃</div>
+        {window.innerWidth > 375 && <div onClick={logout}>로그아웃</div>}
       </div>
+      {window.innerWidth <= 375 && <div onClick={logout}>로그아웃</div>}
     </div>
   );
 }

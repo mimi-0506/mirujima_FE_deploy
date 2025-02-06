@@ -29,7 +29,10 @@ export default function Goals() {
 
   return (
     <div>
-      <div>목표</div>
+      <div className="flex justify-between">
+        <div>목표</div>
+        {window.innerWidth <= 375 && <button onClick={() => setInput(true)}>새 목표</button>}
+      </div>
       <ul>
         {goals.map((goal) => {
           return (
@@ -39,7 +42,7 @@ export default function Goals() {
           );
         })}
       </ul>
-      <button onClick={() => setInput(true)}>새 목표</button>
+      {window.innerWidth > 375 && <button onClick={() => setInput(true)}>새 목표</button>}
       {input && (
         <input
           ref={inputRef}
