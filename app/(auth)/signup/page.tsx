@@ -4,6 +4,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 import { z } from 'zod';
 
 import { useSignUpMutation } from '../../../hooks/auth/useSignUpMutation';
@@ -87,9 +88,9 @@ export default function SignUpPage() {
         <div className="mt-4 text-center">
           <p className="text-gray-600">
             이미 계정이 있으신가요?
-            <a href="/login" className="ml-1">
+            <Link href="/login" className="ml-1">
               로그인
-            </a>
+            </Link>
           </p>
         </div>
       </div>

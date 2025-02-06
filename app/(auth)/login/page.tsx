@@ -1,9 +1,10 @@
-'use client';
+'use client'; // 클라이언트 컴포넌트
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 import { z } from 'zod';
 
 import { useLoginMutation } from '../../../hooks/auth/useLoginMutation';
@@ -26,19 +27,24 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
     mode: 'onChange'
   });
+
   const { mutate: loginMutate, isError, error } = useLoginMutation();
+
   const onSubmit = (data: LoginFormData) => {
     loginMutate(data);
   };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
         <h1 className="mb-6 text-2xl font-bold">로그인</h1>
+
         {isError && (
           <div className="mb-4 rounded bg-red-100 p-2 text-sm text-red-600">
             {error?.response?.data?.message || '로그인 중 에러가 발생했습니다.'}
           </div>
         )}
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputField
             label="이메일"
@@ -56,12 +62,13 @@ export default function LoginPage() {
           />
           <Button type="submit">로그인</Button>
         </form>
+
         <div className="mt-4 text-center">
           <p className="text-gray-600">
             계정이 없으신가요?
-            <a href="/signup" className="ml-1">
+            <Link href="/signup" className="ml-1">
               회원가입
-            </a>
+            </Link>
           </p>
         </div>
       </div>
