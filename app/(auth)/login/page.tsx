@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+import { useLoginMutation } from '../../../hooks/auth/useLoginMutation';
 import Button from '../_components/Button';
 import InputField from '../_components/InputField';
 
@@ -13,7 +14,9 @@ const loginSchema = z.object({
   email: z.string().email('올바른 이메일을 입력해주세요.'),
   password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
 });
+
 type LoginFormData = z.infer<typeof loginSchema>;
+
 export default function LoginPage() {
   const {
     register,
@@ -23,13 +26,19 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
     mode: 'onChange'
   });
+  const { mutate: loginMutate, isError, error } = useLoginMutation();
   const onSubmit = (data: LoginFormData) => {
-    console.log(data);
+    loginMutate(data);
   };
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
         <h1 className="mb-6 text-2xl font-bold">로그인</h1>
+        {isError && (
+          <div className="mb-4 rounded bg-red-100 p-2 text-sm text-red-600">
+            {error?.response?.data?.message || '로그인 중 에러가 발생했습니다.'}
+          </div>
+        )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputField
             label="이메일"
