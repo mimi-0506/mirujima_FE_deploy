@@ -55,6 +55,7 @@ export default function SignUpPage() {
             register={register('name')}
             type="name"
             errorMessage={errors.name?.message}
+            className="bg-white autofill:bg-white"
           />
           <InputField
             label="이메일"
@@ -62,6 +63,7 @@ export default function SignUpPage() {
             register={register('email')}
             type="email"
             errorMessage={errors.email?.message}
+            className="!bg-white autofill:!bg-white"
           />
           <InputField
             label="비밀번호"
@@ -69,6 +71,7 @@ export default function SignUpPage() {
             register={register('password')}
             type="password"
             errorMessage={errors.password?.message}
+            className="!bg-white autofill:!bg-white"
           />
           <InputField
             label="비밀번호 확인"
@@ -76,6 +79,7 @@ export default function SignUpPage() {
             register={register('confirmPassword')}
             type="password"
             errorMessage={errors.confirmPassword?.message}
+            className="!bg-white autofill:!bg-white"
           />
 
           <Button type="submit">회원가입</Button>
