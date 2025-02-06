@@ -1,6 +1,10 @@
 'use client';
 import { useState } from 'react';
 
+import Link from 'next/link';
+
+import Logo from '../../public/images/logo/mirujima-logo.svg';
+
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -22,6 +26,9 @@ export default function NavBar() {
     </div>
   ) : (
     <div className="absolute left-0 flex h-screen w-[300px] flex-col border border-black">
+      <Link href="/dashboard" className="block w-fit">
+        <Logo />
+      </Link>
       <CloseButton />
     </div>
   );
