@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import Link from 'next/link';
 
+import Goals from './Goals';
 import Info from './Info';
 import NewTodo from './newTodo';
 import Logo from '../../public/images/logo/mirujima-logo.svg';
@@ -37,6 +38,7 @@ export default function NavBar() {
       <div>
         <Link href="/dashboard">대시보드</Link>
       </div>
+      <Goals />
     </div>
   );
 }
