@@ -1,44 +1,28 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
-import Link from 'next/link';
-
-import Goals from './Goals';
-import Info from './Info';
-import NewTodo from './newTodo';
-import Logo from '../../public/images/logo/mirujima-logo.svg';
+import LargeNav from './LargeNav';
+import MediumNav from './MediumNav';
+import SmallNav from './SmallNav';
 
 export default function NavBar() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [screenSize, setScreenSize] = useState<number>(0);
 
-  const CloseButton = () => {
-    return (
-      <button
-        onClick={() => {
-          setIsOpen((x) => !x);
-        }}
-      >
-        닫기
-      </button>
-    );
-  };
+  useEffect(() => {
+    const handleResize = () => setScreenSize(window.innerWidth);
 
-  return isOpen ? (
-    <div className="absolute left-0 flex h-screen w-[50px] flex-col border border-black">
-      <CloseButton />
-    </div>
-  ) : (
-    <div className="absolute left-0 flex h-screen w-[300px] flex-col border border-black">
-      <Link href="/dashboard" className="block w-fit">
-        <Logo />
-      </Link>
-      <CloseButton />
-      <Info />
-      <NewTodo />
-      <div>
-        <Link href="/dashboard">대시보드</Link>
-      </div>
-      <Goals />
-    </div>
-  );
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (screenSize > 774) setIsOpen(true);
+    else setIsOpen(false);
+  }, [screenSize]);
+
+  if (screenSize <= 375) return <SmallNav isOpen={isOpen} setIsOpen={setIsOpen} />;
+  else if (screenSize > 774) return <LargeNav isOpen={isOpen} setIsOpen={setIsOpen} />;
+  return <MediumNav isOpen={isOpen} setIsOpen={setIsOpen} />;
 }
