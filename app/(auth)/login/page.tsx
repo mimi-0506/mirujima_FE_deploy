@@ -1,10 +1,11 @@
-'use client'; // 클라이언트 컴포넌트
+'use client';
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
 import { useLoginMutation } from '../../../hooks/auth/useLoginMutation';
@@ -25,13 +26,18 @@ export default function LoginPage() {
     formState: { errors }
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    mode: 'onChange'
+    mode: 'onSubmit'
   });
 
   const { mutate: loginMutate, isError, error } = useLoginMutation();
+  const router = useRouter();
 
   const onSubmit = (data: LoginFormData) => {
-    loginMutate(data);
+    loginMutate(data, {
+      onSuccess: () => {
+        router.refresh();
+      }
+    });
   };
 
   return (

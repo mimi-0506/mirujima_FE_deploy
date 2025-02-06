@@ -37,6 +37,7 @@ export default function SignUpPage() {
 
   const { mutate: signUpMutate, isError, error } = useSignUpMutation();
   const onSubmit = (data: RegisterFormData) => {
+    alert('회원가입 되었습니다.');
     signUpMutate(data);
   };
 
