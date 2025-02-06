@@ -13,7 +13,7 @@ export default function MediumNav({
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  const CloseButton = () => {
+  const MenuButton = () => {
     return (
       <button
         onClick={() => {
@@ -31,7 +31,7 @@ export default function MediumNav({
         <Link href="/dashboard" className="block w-fit">
           <Logo />
         </Link>
-        <CloseButton />
+        <MenuButton />
         <Info />
         <NewTodo />
         <div>
@@ -45,7 +45,7 @@ export default function MediumNav({
       <Link href="/dashboard" className="block w-fit">
         <Logo />
       </Link>
-      <CloseButton />
+      <MenuButton />
     </div>
   );
 }

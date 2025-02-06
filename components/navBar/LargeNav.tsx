@@ -15,7 +15,7 @@ export default function LargeNav({
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  const CloseButton = () => {
+  const MenuButton = () => {
     return (
       <button
         onClick={() => {
@@ -31,7 +31,7 @@ export default function LargeNav({
       <Link href="/dashboard" className="block w-fit">
         <Logo />
       </Link>
-      <CloseButton />
+      <MenuButton />
       <Info />
       <NewTodo />
       <div>
@@ -44,7 +44,7 @@ export default function LargeNav({
       <Link href="/dashboard" className="block w-fit">
         <Logo />
       </Link>
-      <CloseButton />
+      <MenuButton />
     </div>
   );
 }

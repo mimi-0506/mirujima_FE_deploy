@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
+import { debounce } from 'lodash';
+
 import { LARGE_MIN, SMALL_MAX } from '@/constant/screen';
 
 import LargeNav from './LargeNav';
@@ -12,7 +14,7 @@ export default function NavBar() {
   const [screenSize, setScreenSize] = useState<number>(0);
 
   useEffect(() => {
-    const handleResize = () => setScreenSize(window.innerWidth);
+    const handleResize = debounce(() => setScreenSize(window.innerWidth), 250);
 
     handleResize();
     window.addEventListener('resize', handleResize);

@@ -13,7 +13,7 @@ export default function SmallNav({
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  const CloseButton = () => {
+  const MenuButton = () => {
     return (
       <button
         onClick={() => {
@@ -31,7 +31,7 @@ export default function SmallNav({
         <Link href="/dashboard" className="block w-fit">
           <Logo />
         </Link>
-        <CloseButton />
+        <MenuButton />
       </div>
 
       <Info />
@@ -43,7 +43,7 @@ export default function SmallNav({
     </div>
   ) : (
     <div className="absolute left-0 top-0 flex h-[30px] w-screen border border-black">
-      <CloseButton />
+      <MenuButton />
       <Link href="/dashboard" className="block w-fit">
         <Logo />
       </Link>
