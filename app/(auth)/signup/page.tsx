@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+import { useSignUpMutation } from '../../../hooks/auth/useSignUpMutation';
 import Button from '../_components/Button';
 import InputField from '../_components/InputField';
 
@@ -33,14 +34,20 @@ export default function SignUpPage() {
     mode: 'onChange'
   });
 
+  const { mutate: signUpMutate, isError, error } = useSignUpMutation();
   const onSubmit = (data: RegisterFormData) => {
-    console.log('회원가입 폼 데이터:', data);
+    signUpMutate(data);
   };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
-        <h1 className="mb-6 text-2xl font-bold">회원가입</h1>
+        <h1 className="mb-6 text-2xl font-bold">회원가입</h1>{' '}
+        {isError && (
+          <div className="mb-4 rounded bg-red-100 p-2 text-sm text-red-600">
+            {error?.response?.data?.message || '회원가입 중 에러가 발생했습니다.'}
+          </div>
+        )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputField
             label="이름"
@@ -51,7 +58,7 @@ export default function SignUpPage() {
           />
           <InputField
             label="이메일"
-            placeholder="이메일을 입력해주세요"
+            placeholder="을 입력해주세요"
             register={register('email')}
             type="email"
             errorMessage={errors.email?.message}
@@ -73,7 +80,6 @@ export default function SignUpPage() {
 
           <Button type="submit">회원가입</Button>
         </form>
-
         <div className="mt-4 text-center">
           <p className="text-gray-600">
             이미 계정이 있으신가요?
