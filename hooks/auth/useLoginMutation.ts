@@ -1,6 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import api from '../../api/authApi';
+
+import type { AxiosError } from 'axios';
 
 interface LoginFormData {
   email: string;
@@ -12,23 +15,19 @@ const loginUser = async (formData: LoginFormData) => {
   return response.data;
 };
 
-export const useLoginMutation = () =>
-  useMutation({
+export const useLoginMutation = () => {
+  const router = useRouter();
+
+  return useMutation({
     mutationFn: loginUser,
 
-    onMutate: () => {
-      console.log('로그인 요청중...');
-    },
-
     onSuccess: (data) => {
-      console.log('회원가입 성공:', data);
+      alert(`반갑습니다, ${data.user?.name}님!`);
+      router.push('/dashboard');
     },
 
-    onError: (error: any) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       console.error('로그인 실패:', error);
-    },
-
-    onSettled: () => {
-      console.log('로그인 요청 완료 (성공 또는 실패)');
     }
   });
+};
