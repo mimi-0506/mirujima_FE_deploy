@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
+import { LARGE_MIN, SMALL_MAX } from '@/constant/screen';
+
 import LargeNav from './LargeNav';
 import MediumNav from './MediumNav';
 import SmallNav from './SmallNav';
@@ -18,11 +20,11 @@ export default function NavBar() {
   }, []);
 
   useLayoutEffect(() => {
-    if (screenSize > 774) setIsOpen(true);
+    if (screenSize > LARGE_MIN) setIsOpen(true);
     else setIsOpen(false);
   }, [screenSize]);
 
-  if (screenSize <= 375) return <SmallNav isOpen={isOpen} setIsOpen={setIsOpen} />;
-  else if (screenSize > 774) return <LargeNav isOpen={isOpen} setIsOpen={setIsOpen} />;
+  if (screenSize <= SMALL_MAX) return <SmallNav isOpen={isOpen} setIsOpen={setIsOpen} />;
+  else if (screenSize > LARGE_MIN) return <LargeNav isOpen={isOpen} setIsOpen={setIsOpen} />;
   return <MediumNav isOpen={isOpen} setIsOpen={setIsOpen} />;
 }

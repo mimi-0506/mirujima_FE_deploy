@@ -1,5 +1,6 @@
 import Image from 'next/image';
 
+import { SMALL_MAX } from '@/constant/screen';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function Info() {
@@ -17,9 +18,9 @@ export default function Info() {
       <div>
         <div>{name}</div>
         <div>{email}</div>
-        {window.innerWidth > 375 && <div onClick={logout}>로그아웃</div>}
+        {window.innerWidth > SMALL_MAX && <div onClick={logout}>로그아웃</div>}
       </div>
-      {window.innerWidth <= 375 && <div onClick={logout}>로그아웃</div>}
+      {window.innerWidth <= SMALL_MAX && <div onClick={logout}>로그아웃</div>}
     </div>
   );
 }

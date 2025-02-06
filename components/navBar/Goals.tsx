@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 
+import { SMALL_MAX } from '@/constant/screen';
+
 export default function Goals() {
   const [goals, setGoals] = useState<string[]>([
     '자바스크립트로 웹 서비스 만들기',
@@ -31,7 +33,7 @@ export default function Goals() {
     <div>
       <div className="flex justify-between">
         <div>목표</div>
-        {window.innerWidth <= 375 && <button onClick={() => setInput(true)}>새 목표</button>}
+        {window.innerWidth <= SMALL_MAX && <button onClick={() => setInput(true)}>새 목표</button>}
       </div>
       <ul>
         {goals.map((goal) => {
@@ -42,7 +44,7 @@ export default function Goals() {
           );
         })}
       </ul>
-      {window.innerWidth > 375 && <button onClick={() => setInput(true)}>새 목표</button>}
+      {window.innerWidth > SMALL_MAX && <button onClick={() => setInput(true)}>새 목표</button>}
       {input && (
         <input
           ref={inputRef}
