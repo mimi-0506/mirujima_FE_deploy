@@ -1,7 +1,8 @@
 import localFont from 'next/font/local';
 
-import type { Metadata } from 'next';
+import ReactQueryProvider from '../hooks/useReactQuery';
 
+import type { Metadata } from 'next';
 import './globals.css';
 
 const pretendard = localFont({
@@ -24,7 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.className} antialiased`}>{children}</body>
+      <body className={`${pretendard.className} antialiased`}>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
     </html>
   );
 }
