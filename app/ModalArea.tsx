@@ -1,10 +1,16 @@
 'use client';
 
-import TodoCreatModal from '@/modals/todoCreateModal';
+import TodoCreateCheckModal from '@/modals/todoCreateCheckModal';
+import TodoCreateModal from '@/modals/todoCreateModal';
 import { useModalStore } from '@/provider/store-provider';
 
 export default function ModalArea() {
-  const { todoCreate } = useModalStore((state) => state);
+  const { isTodoCreateModalOpen, isTodoCreateCheckModalOpen } = useModalStore((state) => state);
 
-  return <>{todoCreate && <TodoCreatModal />}</>;
+  return (
+    <>
+      {isTodoCreateModalOpen && <TodoCreateModal />}
+      {isTodoCreateCheckModalOpen && <TodoCreateCheckModal />}
+    </>
+  );
 }

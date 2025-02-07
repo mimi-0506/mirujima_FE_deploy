@@ -2,11 +2,12 @@
 
 import Image from 'next/image';
 
-import { SMALL_MAX } from '@/constant/screen';
+import useIsSmall from '@/hooks/useIsSmallScreen';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function Info() {
   const { id, email, name, logout } = useInfoStore((state) => state);
+  const { isSmallScreen } = useIsSmall();
 
   return (
     <div className="flex">
@@ -20,9 +21,9 @@ export default function Info() {
       <div>
         <div>{name}</div>
         <div>{email}</div>
-        {window.innerWidth > SMALL_MAX && <div onClick={logout}>로그아웃</div>}
+        {!isSmallScreen && <div onClick={logout}>로그아웃</div>}
       </div>
-      {window.innerWidth <= SMALL_MAX && <div onClick={logout}>로그아웃</div>}
+      {isSmallScreen && <div onClick={logout}>로그아웃</div>}
     </div>
   );
 }

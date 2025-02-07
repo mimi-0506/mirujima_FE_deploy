@@ -1,9 +1,8 @@
 'use client';
-import { useEffect, useLayoutEffect, useState } from 'react';
-
-import { debounce } from 'lodash';
+import { useLayoutEffect, useState } from 'react';
 
 import { LARGE_MIN, SMALL_MAX } from '@/constant/screen';
+import useResize from '@/hooks/useResize';
 
 import LargeNav from './LargeNav';
 import MediumNav from './MediumNav';
@@ -11,15 +10,7 @@ import SmallNav from './SmallNav';
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  const [screenSize, setScreenSize] = useState<number>(0);
-
-  useEffect(() => {
-    const handleResize = debounce(() => setScreenSize(window.innerWidth), 250);
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const { screenSize } = useResize();
 
   useLayoutEffect(() => {
     if (screenSize > LARGE_MIN) setIsOpen(true);
