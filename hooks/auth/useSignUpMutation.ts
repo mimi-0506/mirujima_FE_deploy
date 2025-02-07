@@ -13,12 +13,8 @@ interface SignUpFormData {
 }
 
 const signUpUser = async (formData: SignUpFormData) => {
-  try {
-    const response = await api.post('/4/user', formData);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await api.post('/4/user', formData);
+  return response.data;
 };
 
 export const useSignUpMutation = () => {
