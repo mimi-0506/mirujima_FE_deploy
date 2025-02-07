@@ -6,12 +6,12 @@ import useResize from './useResize';
 
 export default function useIsSmall() {
   const { screenSize } = useResize();
-  const [isSmall, setIsSmall] = useState<boolean>(true);
+  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(true);
 
   useLayoutEffect(() => {
-    if (screenSize <= SMALL_MAX) setIsSmall(true);
-    else setIsSmall(false);
+    if (screenSize <= SMALL_MAX) setIsSmallScreen(true);
+    else setIsSmallScreen(false);
   }, [screenSize]);
 
-  return { isSmall };
+  return { isSmallScreen };
 }

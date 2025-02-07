@@ -4,14 +4,14 @@ import { useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 
-import useIsSmall from '@/hooks/useIsSmall';
+import useIsSmall from '@/hooks/useIsSmallScreen';
 
 export default function Goals() {
   const [goals, setGoals] = useState<string[]>([
     '자바스크립트로 웹 서비스 만들기',
     '디자인 시스템 강의 듣기'
   ]);
-  const { isSmall } = useIsSmall();
+  const { isSmallScreen } = useIsSmall();
   const [input, setInput] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -36,7 +36,7 @@ export default function Goals() {
     <div>
       <div className="flex justify-between">
         <div>목표</div>
-        {isSmall && <button onClick={() => setInput(true)}>새 목표</button>}
+        {isSmallScreen && <button onClick={() => setInput(true)}>새 목표</button>}
       </div>
       <ul>
         {goals.map((goal) => {
@@ -47,7 +47,7 @@ export default function Goals() {
           );
         })}
       </ul>
-      {!isSmall && <button onClick={() => setInput(true)}>새 목표</button>}
+      {!isSmallScreen && <button onClick={() => setInput(true)}>새 목표</button>}
       {input && (
         <input
           ref={inputRef}

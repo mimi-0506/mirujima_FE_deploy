@@ -2,12 +2,12 @@
 
 import Image from 'next/image';
 
-import useIsSmall from '@/hooks/useIsSmall';
+import useIsSmall from '@/hooks/useIsSmallScreen';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function Info() {
   const { id, email, name, logout } = useInfoStore((state) => state);
-  const { isSmall } = useIsSmall();
+  const { isSmallScreen } = useIsSmall();
 
   return (
     <div className="flex">
@@ -21,9 +21,9 @@ export default function Info() {
       <div>
         <div>{name}</div>
         <div>{email}</div>
-        {!isSmall && <div onClick={logout}>로그아웃</div>}
+        {!isSmallScreen && <div onClick={logout}>로그아웃</div>}
       </div>
-      {isSmall && <div onClick={logout}>로그아웃</div>}
+      {isSmallScreen && <div onClick={logout}>로그아웃</div>}
     </div>
   );
 }
