@@ -1,9 +1,10 @@
+import { useStore } from 'zustand';
 import { createStore } from 'zustand/vanilla';
 
 export type InfoState = {
-  id: null | number;
-  email: null | string;
-  name: null | string;
+  id: number | null;
+  email: string | null;
+  name: string | null;
 };
 
 export type InfoActions = {
@@ -14,15 +15,19 @@ export type InfoActions = {
 export type InfoStore = InfoState & InfoActions;
 
 export const defaultInitState: InfoState = {
-  id: 0,
-  email: 'email@gmail.com',
-  name: 'Test'
+  id: null,
+  email: null,
+  name: null
 };
 
 export const createInfoStore = (initState: InfoState = defaultInitState) => {
   return createStore<InfoStore>()((set) => ({
     ...initState,
-    setInfo: (newInfo) => set((state) => ({ ...newInfo })),
-    logout: () => set((state) => ({ id: null, email: null, name: null }))
+    setInfo: (newInfo) => set(() => ({ ...newInfo })),
+    logout: () => set(() => ({ ...defaultInitState }))
   }));
 };
+export const infoStore = createInfoStore();
+export function useInfoStore() {
+  return useStore(infoStore);
+}

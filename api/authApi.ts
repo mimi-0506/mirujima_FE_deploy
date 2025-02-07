@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://sp-slidtodo-api.vercel.app'
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL
   // withCredentials: true
 });
 
