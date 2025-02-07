@@ -1,4 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+
+import { debounce } from 'lodash';
 
 import { useModalStore } from '@/provider/store-provider';
 
@@ -8,6 +10,7 @@ import Uploader from './Uploader';
 
 export default function TodoCreatModal() {
   const { setTodoCreate, setTodoCreateCheck } = useModalStore((state) => state);
+  const [allValid, setAllValid] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleTodoSubmit = (event: React.FormEvent) => {
@@ -32,6 +35,29 @@ export default function TodoCreatModal() {
     }
   };
 
+  const handleChangeIsValid = debounce(() => {
+    if (formRef.current) {
+      const formData = new FormData(formRef.current);
+      const datas = Object.fromEntries(formData.entries());
+      const isFormAllFilled = datas.title && datas.goal ? true : false;
+
+      setAllValid(isFormAllFilled);
+    }
+  }, 50);
+
+  const SubmitButton = () => {
+    return (
+      <button
+        disabled={!allValid}
+        className={`${
+          allValid ? 'bg-blue-500 hover:bg-blue-600' : 'cursor-not-allowed bg-gray-400'
+        } rounded px-4 py-2 font-bold text-white transition-colors duration-300`}
+      >
+        제출
+      </button>
+    );
+  };
+
   return (
     <dialog
       id="modal"
@@ -43,12 +69,18 @@ export default function TodoCreatModal() {
 
         <form onSubmit={handleTodoSubmit} ref={formRef} className="flex flex-col">
           <label>제목</label>
-          <input name="title" placeholder="할 일의 제목을 적어주세요" maxLength={30} required />
+          <input
+            name="title"
+            placeholder="할 일의 제목을 적어주세요"
+            maxLength={30}
+            required
+            onChange={handleChangeIsValid}
+          />
 
           <Uploader />
-          <GoalSelector />
+          <GoalSelector handleChangeIsValid={handleChangeIsValid} />
 
-          <input type="submit" />
+          <SubmitButton />
         </form>
       </div>
     </dialog>
