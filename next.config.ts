@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
       use: ['@svgr/webpack']
     });
     return config;
+  },
+  images: {
+    domains: ['i.pinimg.com']
   }
 };
 

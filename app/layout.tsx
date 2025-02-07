@@ -1,5 +1,6 @@
 import localFont from 'next/font/local';
 
+import { InfoStoreProvider, ModalStoreProvider } from '@/provider/store-provider';
 import ReactQueryProvider from '../hooks/useReactQuery';
 
 import type { Metadata } from 'next';
@@ -24,10 +25,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className={`${pretendard.className} antialiased`}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
-      </body>
-    </html>
+    <InfoStoreProvider>
+      <ModalStoreProvider>
+        <html lang="ko">
+          <body className={`${pretendard.className} antialiased`}>
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+          </body>
+        </html>
+      </ModalStoreProvider>
+    </InfoStoreProvider>
   );
 }
