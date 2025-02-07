@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+
 import { useModalStore } from '@/provider/store-provider';
 
 import CloseButton from './CloseButton';
@@ -6,7 +8,17 @@ import Uploader from './Uploader';
 
 export default function TodoCreatModal() {
   const { setTodoCreate, setTodoCreateCheck } = useModalStore((state) => state);
-  const handleTodoCreate = () => {};
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleTodoSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (formRef.current) {
+      const formData = new FormData(formRef.current);
+      console.log(Object.fromEntries(formData.entries()));
+
+      //여기에 제출 로직 추가
+    }
+  };
 
   const handleClose = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -29,9 +41,9 @@ export default function TodoCreatModal() {
         <CloseButton handleClose={handleClose} />
         <h2 className="mb-4 text-2xl font-semibold">할 일 생성</h2>
 
-        <form onSubmit={handleTodoCreate} className="flex flex-col">
+        <form onSubmit={handleTodoSubmit} ref={formRef} className="flex flex-col">
           <label>제목</label>
-          <input name="title" placeholder="할 일의 제목을 적어주세요" />
+          <input name="title" placeholder="할 일의 제목을 적어주세요" maxLength={30} required />
 
           <Uploader />
           <GoalSelector />
