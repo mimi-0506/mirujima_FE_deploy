@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
@@ -35,20 +37,21 @@ export default function SignUpPage() {
     mode: 'onChange'
   });
 
-  const { mutate: signUpMutate, isError, error } = useSignUpMutation();
+  const { mutate: signUpMutate } = useSignUpMutation();
+
   const onSubmit = (data: RegisterFormData) => {
-    signUpMutate(data);
+    signUpMutate(data, {
+      onError: (error) => {
+        toast.error('회원가입에 실패했습니다. 다시 시도해 주세요.');
+      }
+    });
   };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
+      <Toaster position="top-center" />
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
         <h1 className="mb-6 text-2xl font-bold">회원가입</h1>{' '}
-        {isError && (
-          <div className="mb-4 rounded bg-red-100 p-2 text-sm text-red-600">
-            {error?.response?.data?.message || '회원가입 중 에러가 발생했습니다.'}
-          </div>
-        )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputField
             label="이름"

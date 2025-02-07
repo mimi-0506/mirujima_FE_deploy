@@ -4,6 +4,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
@@ -49,16 +50,15 @@ export default function LoginPage() {
     });
   };
 
+  const serverErrorMessage =
+    isError && axios.isAxiosError(error) && error.response?.data?.message
+      ? error.response.data.message
+      : null;
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
         <h1 className="mb-6 text-2xl font-bold">로그인</h1>
-
-        {isError && (
-          <div className="mb-4 rounded bg-red-100 p-2 text-sm text-red-600">
-            {typeof error === 'string' ? error : error?.message || '로그인 중 에러가 발생했습니다.'}
-          </div>
-        )}
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputField
@@ -75,6 +75,7 @@ export default function LoginPage() {
             type="password"
             errorMessage={errors.password?.message}
           />
+          {serverErrorMessage && <p className="text-sm text-red-500">{serverErrorMessage}</p>}
           <Button type="submit">로그인</Button>
         </form>
 

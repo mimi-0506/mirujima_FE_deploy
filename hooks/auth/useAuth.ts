@@ -1,4 +1,5 @@
 import { useCallback, useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 import { deleteCookie, getCookie } from 'cookies-next';
 import { usePathname, useRouter } from 'next/navigation';
@@ -27,8 +28,11 @@ export default function useAuth() {
   const handleLogout = () => {
     const cookiesToDelete = ['accessToken', 'refreshToken', 'user'];
     cookiesToDelete.forEach((cookie) => deleteCookie(cookie, { path: '/' }));
+    toast.success('로그아웃 되었습니다!', { duration: 2000 });
     logout();
-    router.push('/login');
+    setTimeout(() => {
+      router.push('/login');
+    }, 500);
   };
 
   return {
