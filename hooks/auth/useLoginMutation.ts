@@ -11,7 +11,19 @@ interface LoginFormData {
   password: string;
 }
 
-const loginUser = async (formData: LoginFormData) => {
+interface LoginResponse {
+  accessToken: string;
+  user: { name: string };
+}
+
+const COOKIEOPTIONS = {
+  maxAge: 60 * 60 * 24,
+  path: '/',
+  secure: typeof window !== 'undefined' && window.location.protocol === 'https:',
+  sameSite: 'strict' as const
+};
+
+const loginUser = async (formData: LoginFormData): Promise<LoginResponse> => {
   const response = await api.post('/4/auth/login', formData);
   return response.data;
 };
@@ -19,34 +31,22 @@ const loginUser = async (formData: LoginFormData) => {
 export const useLoginMutation = () => {
   const router = useRouter();
 
-  return useMutation({
+  return useMutation<LoginResponse, AxiosError<{ message: string }>, LoginFormData>({
     mutationFn: loginUser,
 
-    onSuccess: (data) => {
+    onSuccess: (data: LoginResponse) => {
       const { accessToken, user } = data;
 
       if (accessToken && user?.name) {
-        setCookie('accessToken', accessToken, {
-          maxAge: 60 * 60 * 24 * 1,
-          path: '/',
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict'
-        });
+        setCookie('accessToken', accessToken, COOKIEOPTIONS);
+        setCookie('user', JSON.stringify({ name: user.name }), COOKIEOPTIONS);
 
-        setCookie('user', JSON.stringify({ name: user.name }), {
-          maxAge: 60 * 60 * 24 * 1,
-          path: '/',
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict'
-        });
+        router.push('/signup');
       }
-
-      router.push('/signup'); //user.name 받아오는지 확인용
-      // router.push('/dashboard'); 원래 여기로 가야하는데
     },
 
     onError: (error: AxiosError<{ message: string }>) => {
-      console.error('로그인 실패:', error);
+      console.error('로그인 실패:', error.response?.data?.message || '알 수 없는 오류');
     }
   });
 };

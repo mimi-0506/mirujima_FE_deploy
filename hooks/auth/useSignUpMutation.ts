@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import api from '../../api/authApi';
 
 import type { AxiosError } from 'axios';
+
 interface SignUpFormData {
   name: string;
   email: string;

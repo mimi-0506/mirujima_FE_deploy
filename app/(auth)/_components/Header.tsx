@@ -1,35 +1,54 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { deleteCookie, getCookie } from 'cookies-next';
 import { usePathname, useRouter } from 'next/navigation';
 
-const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
-  const [refresh, setRefresh] = useState(false);
-  const router = useRouter();
-  const pathname = usePathname();
-  useEffect(() => {
-    const token = getCookie('accessToken') as string | undefined;
-    const user = getCookie('user') as string | undefined;
+interface User {
+  name: string;
+}
 
-    if (token && user) {
-      setIsLoggedIn(true);
-      setUsername(JSON.parse(user).name);
+const useAuth = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  const checkAuth = useCallback(() => {
+    const token = getCookie('accessToken') as string | undefined;
+    const userCookie = getCookie('user') as string | undefined;
+
+    if (token && userCookie) {
+      try {
+        const parsedUser = JSON.parse(userCookie) as User;
+        setIsLoggedIn(true);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error('Error parsing user cookie:', error);
+        setIsLoggedIn(false);
+        setUser(null);
+      }
     } else {
       setIsLoggedIn(false);
-      setUsername('');
+      setUser(null);
     }
-  }, [pathname]);
+  }, []);
+
+  return { isLoggedIn, user, checkAuth };
+};
+
+const Header = () => {
+  const { isLoggedIn, user, checkAuth } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    checkAuth();
+  }, [pathname, checkAuth]);
 
   const handleLogout = () => {
     deleteCookie('accessToken');
     deleteCookie('user');
-    setIsLoggedIn(false);
-    setUsername('');
-    setRefresh((prev) => !prev);
+    checkAuth();
     router.push('/login');
   };
 
@@ -40,7 +59,7 @@ const Header = () => {
         <div>
           {isLoggedIn ? (
             <div className="flex gap-4">
-              <span>반갑습니다, {username}님!</span>
+              <span>반갑습니다, {user?.name}님!</span>
               <button className="text-red-500" onClick={handleLogout}>
                 로그아웃
               </button>
