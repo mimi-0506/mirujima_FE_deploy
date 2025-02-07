@@ -1,10 +1,11 @@
 `use client`;
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 
 import { SMALL_MAX } from '@/constant/screen';
+import useResize from '@/hooks/useResize';
 
 export default function Goals() {
   const [goals, setGoals] = useState<string[]>([
@@ -17,6 +18,14 @@ export default function Goals() {
   useEffect(() => {
     if (input && inputRef.current) inputRef.current.focus();
   }, [input]);
+
+  const { screenSize } = useResize();
+  const [isSmall, setIsSmall] = useState<boolean>(true);
+
+  useLayoutEffect(() => {
+    if (screenSize <= SMALL_MAX) setIsSmall(true);
+    else setIsSmall(false);
+  }, [screenSize]);
 
   const handleInputEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && inputRef.current) {
@@ -35,7 +44,7 @@ export default function Goals() {
     <div>
       <div className="flex justify-between">
         <div>목표</div>
-        {window.innerWidth <= SMALL_MAX && <button onClick={() => setInput(true)}>새 목표</button>}
+        {isSmall && <button onClick={() => setInput(true)}>새 목표</button>}
       </div>
       <ul>
         {goals.map((goal) => {
@@ -46,7 +55,7 @@ export default function Goals() {
           );
         })}
       </ul>
-      {window.innerWidth > SMALL_MAX && <button onClick={() => setInput(true)}>새 목표</button>}
+      {!isSmall && <button onClick={() => setInput(true)}>새 목표</button>}
       {input && (
         <input
           ref={inputRef}

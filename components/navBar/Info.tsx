@@ -1,12 +1,22 @@
 `use client`;
 
+import { useLayoutEffect, useState } from 'react';
+
 import Image from 'next/image';
 
 import { SMALL_MAX } from '@/constant/screen';
+import useResize from '@/hooks/useResize';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function Info() {
   const { id, email, name, logout } = useInfoStore((state) => state);
+  const { screenSize } = useResize();
+  const [isSmall, setIsSmall] = useState<boolean>(true);
+
+  useLayoutEffect(() => {
+    if (screenSize <= SMALL_MAX) setIsSmall(true);
+    else setIsSmall(false);
+  }, [screenSize]);
 
   return (
     <div className="flex">
@@ -20,9 +30,9 @@ export default function Info() {
       <div>
         <div>{name}</div>
         <div>{email}</div>
-        {window.innerWidth > SMALL_MAX && <div onClick={logout}>로그아웃</div>}
+        {!isSmall && <div onClick={logout}>로그아웃</div>}
       </div>
-      {window.innerWidth <= SMALL_MAX && <div onClick={logout}>로그아웃</div>}
+      {isSmall && <div onClick={logout}>로그아웃</div>}
     </div>
   );
 }
