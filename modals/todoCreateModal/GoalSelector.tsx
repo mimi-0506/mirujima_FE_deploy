@@ -20,7 +20,7 @@ export default function GoalSelector({
           목표를 선택해주세요
         </option>
         {goalList.map((goal, index) => (
-          <option key={index} value={goal}>
+          <option key={index} defaultValue={goal}>
             {goal}
           </option>
         ))}
