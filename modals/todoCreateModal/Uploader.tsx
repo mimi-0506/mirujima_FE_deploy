@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function Uploader() {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -31,7 +32,14 @@ export default function Uploader() {
 
   const handleLinkPaste = async () => {
     const nowLink = await navigator.clipboard.readText();
-    setLink(nowLink);
+
+    try {
+      const url = new URL(nowLink);
+      if (['http:', 'https:'].includes(url.protocol)) setLink(nowLink);
+      else toast.error('올바른 주소가 아닙니다!');
+    } catch {
+      toast.error('주소만 입력 가능합니다!');
+    }
   };
 
   const RadioButton = ({ use, text }: { use: 'file' | 'link'; text: string }) => {
