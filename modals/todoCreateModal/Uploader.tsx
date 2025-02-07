@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 
 export default function Uploader() {
   const fileRef = useRef(null);
-  const [selectedOption, setSelectedOption] = useState<'file' | 'line'>('file');
+  const [selectedOption, setSelectedOption] = useState<'file' | 'link'>('file');
   const [fileName, setFileName] = useState('');
 
   const handleFileChange = (e) => {
