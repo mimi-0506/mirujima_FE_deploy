@@ -4,7 +4,9 @@ import '@blocknote/core/fonts/inter.css';
 import '@blocknote/mantine/style.css';
 import './editor.css';
 
+import type { PropsWithChildren } from 'react';
 import React from 'react';
+import type { UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';
 
 import { locales } from '@blocknote/core';
 import { BlockNoteView } from '@blocknote/mantine';
@@ -17,10 +19,16 @@ import {
   TextAlignButton,
   useCreateBlockNote
 } from '@blocknote/react';
+import _ from 'lodash';
 
-export default function Editor() {
-  // const [link, setLink] = React.useState('https://naver.com');
+import type { NoteInputData } from '@/schema/noteSchema';
 
+interface Props {
+  register: UseFormRegisterReturn;
+  setValue: UseFormSetValue<NoteInputData>;
+}
+
+export default function Editor({ register, setValue, children }: PropsWithChildren<Props>) {
   const locale = locales['ko'];
   const editor = useCreateBlockNote({
     ...locale,
@@ -30,25 +38,21 @@ export default function Editor() {
     }
   });
 
+  const onChange = _.debounce(() => {
+    const content = JSON.stringify(editor.document);
+    setValue('content', content);
+  }, 50);
+
   return (
     <>
-      <div>
-        <p className="text-[12px] font-medium text-slate-800">
-          공백 포함 : 총 {0}자 | 공백제외 : 총 {0}자
-        </p>
-      </div>
-      {/* {link && (
-        <div className="h-[32px] w-full">
-          <Link href={link} target="_blank">
-            {link}
-          </Link>
-        </div>
-      )} */}
+      {children}
+      <input type="text" className="hidden" {...register} />
       <BlockNoteView
         editor={editor}
         formattingToolbar={false}
         sideMenu={false}
         slashMenu={false}
+        onChange={onChange}
         data-custom-css
       >
         <FormattingToolbar>
