@@ -27,7 +27,6 @@ export const useSignUpMutation = () => {
     onSuccess: (data) => {
       alert('회원가입 되었습니다.');
       router.push('/login');
-      router.push('/login');
     },
 
     onError: (error: Error) => {
