@@ -8,7 +8,7 @@ import CloseButton from './CloseButton';
 import GoalSelector from './GoalSelector';
 import Uploader from './Uploader';
 
-export default function TodoCreatModal() {
+export default function TodoCreateModal() {
   const { setTodoCreate, setTodoCreateCheck } = useModalStore((state) => state);
   const [allValid, setAllValid] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -24,7 +24,7 @@ export default function TodoCreatModal() {
   };
 
   const handleClose = (event: React.MouseEvent) => {
-    event.preventDefault();
+    if (event) event.preventDefault();
 
     if (formRef.current) {
       const formData = new FormData(formRef.current);

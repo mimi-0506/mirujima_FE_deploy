@@ -2,7 +2,7 @@ import { InfoStoreProvider, ModalStoreProvider } from '@/provider/store-provider
 
 import ReactQueryProvider from '../hooks/useReactQuery';
 
-export default function AllProviers({
+export default function AllProviders({
   children
 }: Readonly<{
   children: React.ReactNode;

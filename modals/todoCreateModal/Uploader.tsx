@@ -7,13 +7,21 @@ export default function Uploader() {
   const [file, setFile] = useState('');
   const [link, setLink] = useState('');
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (file) URL.revokeObjectURL(file); // 이전에 생성된 URL 해제
 
-    if (file) {
-      setFileName(file.name);
+    const selectedFile = e.target.files ? e.target.files[0] : null;
 
-      const url = URL.createObjectURL(file);
+    if (selectedFile) {
+      // 파일 크기 제한 관련해서는 이후 백엔드와 상의
+      // if (selectedFile.size > 5 * 1024 * 1024) {
+      //   alert('파일 크기는 5MB를 초과할 수 없습니다.');
+      //   return;
+      // }
+
+      setFileName(selectedFile.name);
+
+      const url = URL.createObjectURL(selectedFile);
       setFile(url);
     } else {
       setFileName('');

@@ -1,7 +1,7 @@
 'use client';
 
 import TodoCreateCheckModal from '@/modals/todoCreateCheckModal';
-import TodoCreatModal from '@/modals/todoCreateModal';
+import TodoCreateModal from '@/modals/todoCreateModal';
 import { useModalStore } from '@/provider/store-provider';
 
 export default function ModalArea() {
@@ -9,7 +9,7 @@ export default function ModalArea() {
 
   return (
     <>
-      {todoCreate && <TodoCreatModal />}
+      {todoCreate && <TodoCreateModal />}
       {todoCreateCheck && <TodoCreateCheckModal />}
     </>
   );
