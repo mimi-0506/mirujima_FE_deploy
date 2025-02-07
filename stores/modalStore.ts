@@ -14,8 +14,8 @@ export type ModalActions = {
 export type ModalStore = ModalState & ModalActions;
 
 const initModalState = {
-  todoCreate: true,
-  todoCreateCheck: true
+  todoCreate: false,
+  todoCreateCheck: false
 };
 
 export const defaultInitState: ModalState = {
