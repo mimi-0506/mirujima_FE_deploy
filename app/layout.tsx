@@ -1,9 +1,9 @@
 import localFont from 'next/font/local';
 
-import { InfoStoreProvider, ModalStoreProvider } from '@/provider/store-provider';
-import ReactQueryProvider from '../hooks/useReactQuery';
+import AllProviers from './AllProvieders';
 
 import type { Metadata } from 'next';
+
 import './globals.css';
 
 const pretendard = localFont({
@@ -25,14 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <InfoStoreProvider>
-      <ModalStoreProvider>
-        <html lang="ko">
-          <body className={`${pretendard.className} antialiased`}>
-            <ReactQueryProvider>{children}</ReactQueryProvider>
-          </body>
-        </html>
-      </ModalStoreProvider>
-    </InfoStoreProvider>
+    <html lang="ko">
+      <body className={`${pretendard.className} antialiased`}>
+        <AllProviers>{children}</AllProviers>
+      </body>
+    </html>
   );
 }
