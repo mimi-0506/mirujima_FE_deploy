@@ -1,27 +1,29 @@
-'use client';
-import { useModalStore } from '@/provider/store-provider';
+import CloseButton from './CloseButton';
+import GoalSelector from './GoalSelector';
+import Uploader from './Uploader';
 
 export default function TodoCreatModal() {
-  const { setTodoCreate } = useModalStore((state) => state);
+  const handleTodoCreate = () => {};
 
   return (
-    <div
+    <dialog
       id="modal"
-      className="absolute inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50"
-      onClick={() => {
-        setTodoCreate(false);
-      }}
+      className="absolute flex h-full w-full items-center justify-center bg-gray-800 bg-opacity-50"
     >
-      <div className="w-96 rounded-lg bg-white p-6">
-        <h2 className="mb-4 text-2xl font-semibold">모달 제목</h2>
-        <p className="mb-4 text-gray-700">여기 모달 내용을 작성하세요!</p>
-        <button
-          id="closeModal"
-          className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none"
-        >
-          닫기
-        </button>
+      <div className="relative min-h-[500px] min-w-[500px] rounded-lg bg-white">
+        <CloseButton />
+        <h2 className="mb-4 text-2xl font-semibold">할 일 생성</h2>
+
+        <form onSubmit={handleTodoCreate} className="flex flex-col">
+          <label>제목</label>
+          <input name="title" placeholder="할 일의 제목을 적어주세요" />
+
+          <Uploader />
+          <GoalSelector />
+
+          <input type="submit" />
+        </form>
       </div>
-    </div>
+    </dialog>
   );
 }
