@@ -8,6 +8,7 @@ interface InputFieldProps {
   register: UseFormRegisterReturn;
   type: string;
   errorMessage?: string;
+  className?: string;
 }
 
 export default function InputField({
@@ -15,7 +16,8 @@ export default function InputField({
   placeholder,
   register,
   type = 'text',
-  errorMessage
+  errorMessage,
+  className
 }: InputFieldProps) {
   return (
     <div className="flex flex-col">
@@ -25,7 +27,7 @@ export default function InputField({
         placeholder={placeholder}
         {...register}
         autoComplete="off"
-        className="rounded-md border bg-white px-3 py-2 focus:border-orange-400 focus:outline-none"
+        className={`rounded-md border px-3 py-2 focus:border-orange-400 focus:outline-none ${className}`}
       />
 
       <p className="min-h-[20px] text-sm text-red-500">{errorMessage}</p>
