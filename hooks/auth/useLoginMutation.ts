@@ -60,8 +60,10 @@ export const useLoginMutation = () => {
         setCookie('accessToken', accessToken, COOKIEOPTIONS);
         setCookie('refreshToken', refreshToken, COOKIEOPTIONS);
         setCookie('user', JSON.stringify(user), COOKIEOPTIONS);
-        toast.success('로그인 되었습니다!');
-        router.push('/signup');
+        toast.success('로그아웃 되었습니다!', { duration: 2000 });
+        setTimeout(() => {
+          router.push('/signup');
+        }, 500);
       }
     },
     onError: (error: unknown) => {

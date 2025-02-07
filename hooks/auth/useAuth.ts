@@ -28,7 +28,7 @@ export default function useAuth() {
   const handleLogout = () => {
     const cookiesToDelete = ['accessToken', 'refreshToken', 'user'];
     cookiesToDelete.forEach((cookie) => deleteCookie(cookie, { path: '/' }));
-    toast.success('로그아웃 되었습니다!', { duration: 3000 });
+    toast.success('로그아웃 되었습니다!', { duration: 2000 });
     logout();
     setTimeout(() => {
       router.push('/login');

@@ -14,7 +14,6 @@ export interface SignUpFormData {
 }
 
 const signUpUser = async (formData: SignUpFormData): Promise<void> => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
   try {
     await api.post('/4/user', formData);
   } catch (error) {
@@ -36,8 +35,10 @@ export const useSignUpMutation = () => {
     },
     onSuccess: () => {
       toast.dismiss('signup');
-      toast.success('회원가입 되었습니다!');
-      router.push('/login');
+      toast.success('회원가입 되었습니다!', { duration: 2000 });
+      setTimeout(() => {
+        router.push('/login');
+      }, 500);
     },
     onError: (error: unknown) => {
       toast.dismiss('signup');
