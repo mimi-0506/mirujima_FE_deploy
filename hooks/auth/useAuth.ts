@@ -25,8 +25,8 @@ export default function useAuth() {
   const isLoggedIn = id !== null;
 
   const handleLogout = () => {
-    deleteCookie('accessToken');
-
+    const cookiesToDelete = ['accessToken', 'refreshToken', 'user'];
+    cookiesToDelete.forEach((cookie) => deleteCookie(cookie, { path: '/' }));
     logout();
     router.push('/login');
   };

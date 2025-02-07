@@ -29,6 +29,7 @@ const COOKIEOPTIONS = {
 };
 
 const loginUser = async (formData: LoginFormData): Promise<LoginResponse> => {
+  console.log(' 로그인 요청 데이터:', formData);
   const response = await api.post<LoginResponse>('/4/auth/login', formData);
   return response.data;
 };

@@ -4,7 +4,6 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { setCookie } from 'cookies-next';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
@@ -39,8 +38,7 @@ export default function LoginPage() {
   const onSubmit = (data: LoginFormData) => {
     loginMutate(data, {
       onSuccess: (responseData) => {
-        const { accessToken, user } = responseData;
-        setCookie('accessToken', accessToken);
+        const { user } = responseData;
         setInfo({
           id: user.id,
           email: user.email,
