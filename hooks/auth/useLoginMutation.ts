@@ -12,15 +12,8 @@ interface LoginFormData {
 }
 
 const loginUser = async (formData: LoginFormData) => {
-  console.log('로그인 요청 시작:', formData);
-  try {
-    const response = await api.post('/4/auth/login', formData);
-    console.log('로그인 요청 성공:', response.data);
-    return response.data;
-  } catch (error) {
-    console.error('로그인 요청 실패:', error);
-    throw error;
-  }
+  const response = await api.post('/4/auth/login', formData);
+  return response.data;
 };
 
 export const useLoginMutation = () => {
