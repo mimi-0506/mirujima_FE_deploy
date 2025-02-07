@@ -9,7 +9,9 @@ import GoalSelector from './GoalSelector';
 import Uploader from './Uploader';
 
 export default function TodoCreateModal() {
-  const { setTodoCreate, setTodoCreateCheck } = useModalStore((state) => state);
+  const { setIsTodoCreateModalOpen, setIsTodoCreateCheckModalOpen } = useModalStore(
+    (state) => state
+  );
   const [allValid, setAllValid] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -30,8 +32,8 @@ export default function TodoCreateModal() {
       const formData = new FormData(formRef.current);
       const isFormFilled = Array.from(formData.values()).some((value) => value !== '');
 
-      if (isFormFilled) setTodoCreateCheck(true);
-      else setTodoCreate(false);
+      if (isFormFilled) setIsTodoCreateCheckModalOpen(true);
+      else setIsTodoCreateModalOpen(false);
     }
   };
 

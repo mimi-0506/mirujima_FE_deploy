@@ -5,12 +5,12 @@ import TodoCreateModal from '@/modals/todoCreateModal';
 import { useModalStore } from '@/provider/store-provider';
 
 export default function ModalArea() {
-  const { todoCreate, todoCreateCheck } = useModalStore((state) => state);
+  const { isTodoCreateModalOpen, isTodoCreateCheckModalOpen } = useModalStore((state) => state);
 
   return (
     <>
-      {todoCreate && <TodoCreateModal />}
-      {todoCreateCheck && <TodoCreateCheckModal />}
+      {isTodoCreateModalOpen && <TodoCreateModal />}
+      {isTodoCreateCheckModalOpen && <TodoCreateCheckModal />}
     </>
   );
 }

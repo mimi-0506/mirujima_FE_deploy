@@ -3,12 +3,12 @@
 import { useModalStore } from '@/provider/store-provider';
 
 export default function NewTodo() {
-  const { setTodoCreate } = useModalStore((state) => state);
+  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
   return (
     <>
       <button
         onClick={() => {
-          setTodoCreate(true);
+          setIsTodoCreateModalOpen(true);
         }}
       >
         새 할일

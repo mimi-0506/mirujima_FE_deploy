@@ -1,21 +1,21 @@
 import { createStore } from 'zustand/vanilla';
 
 export type ModalState = {
-  todoCreate: boolean;
-  todoCreateCheck: boolean;
+  isTodoCreateModalOpen: boolean;
+  isTodoCreateCheckModalOpen: boolean;
 };
 
 export type ModalActions = {
-  setTodoCreate: (now: boolean) => void;
-  setTodoCreateCheck: (now: boolean) => void;
+  setIsTodoCreateModalOpen: (now: boolean) => void;
+  setIsTodoCreateCheckModalOpen: (now: boolean) => void;
   allClose: () => void;
 };
 
 export type ModalStore = ModalState & ModalActions;
 
 const initModalState = {
-  todoCreate: false,
-  todoCreateCheck: false
+  isTodoCreateModalOpen: false,
+  isTodoCreateCheckModalOpen: false
 };
 
 export const defaultInitState: ModalState = {
@@ -25,8 +25,9 @@ export const defaultInitState: ModalState = {
 export const createModalStore = (initState: ModalState = defaultInitState) => {
   return createStore<ModalStore>()((set) => ({
     ...initState,
-    setTodoCreate: (now) => set((state) => ({ ...state, todoCreate: now })),
-    setTodoCreateCheck: (now) => set((state) => ({ ...state, todoCreateCheck: now })),
+    setIsTodoCreateModalOpen: (now) => set((state) => ({ ...state, isTodoCreateModalOpen: now })),
+    setIsTodoCreateCheckModalOpen: (now) =>
+      set((state) => ({ ...state, isTodoCreateCheckModalOpen: now })),
     allClose: () => set(() => ({ ...initModalState }))
   }));
 };
