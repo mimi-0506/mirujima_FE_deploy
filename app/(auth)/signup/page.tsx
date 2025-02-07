@@ -3,6 +3,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
@@ -41,7 +42,7 @@ export default function SignUpPage() {
   const onSubmit = (data: RegisterFormData) => {
     signUpMutate(data, {
       onError: (error) => {
-        console.error('회원가입 실패:', error);
+        toast.error('회원가입에 실패했습니다. 다시 시도해 주세요.');
       }
     });
   };
