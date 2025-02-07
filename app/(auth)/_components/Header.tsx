@@ -1,56 +1,11 @@
 'use client';
+import { useRouter } from 'next/navigation';
 
-import { useCallback, useEffect, useState } from 'react';
+import useAuth from '../../../hooks/auth/useAuth';
 
-import { deleteCookie, getCookie } from 'cookies-next';
-import { usePathname, useRouter } from 'next/navigation';
-
-interface User {
-  name: string;
-}
-
-const useAuth = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-
-  const checkAuth = useCallback(() => {
-    const token = getCookie('accessToken') as string | undefined;
-    const userCookie = getCookie('user') as string | undefined;
-
-    if (token && userCookie) {
-      try {
-        const parsedUser = JSON.parse(userCookie) as User;
-        setIsLoggedIn(true);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error('Error parsing user cookie:', error);
-        setIsLoggedIn(false);
-        setUser(null);
-      }
-    } else {
-      setIsLoggedIn(false);
-      setUser(null);
-    }
-  }, []);
-
-  return { isLoggedIn, user, checkAuth };
-};
-
-const Header = () => {
-  const { isLoggedIn, user, checkAuth } = useAuth();
+export default function Header() {
   const router = useRouter();
-  const pathname = usePathname();
-
-  useEffect(() => {
-    checkAuth();
-  }, [pathname, checkAuth]);
-
-  const handleLogout = () => {
-    deleteCookie('accessToken');
-    deleteCookie('user');
-    checkAuth();
-    router.push('/login');
-  };
+  const { isLoggedIn, user, handleLogout } = useAuth();
 
   return (
     <header className="bg-gray-100 shadow-md">
@@ -59,7 +14,7 @@ const Header = () => {
         <div>
           {isLoggedIn ? (
             <div className="flex gap-4">
-              <span>반갑습니다, {user?.name}님!</span>
+              <span>반갑습니다, {user.name}님!</span>
               <button className="text-red-500" onClick={handleLogout}>
                 로그아웃
               </button>
@@ -74,6 +29,4 @@ const Header = () => {
       </div>
     </header>
   );
-};
-
-export default Header;
+}

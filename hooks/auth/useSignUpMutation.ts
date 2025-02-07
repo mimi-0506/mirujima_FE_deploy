@@ -3,8 +3,6 @@ import { useRouter } from 'next/navigation';
 
 import api from '../../api/authApi';
 
-import type { AxiosError } from 'axios';
-
 interface SignUpFormData {
   name: string;
   email: string;
@@ -32,7 +30,7 @@ export const useSignUpMutation = () => {
       router.push('/login');
     },
 
-    onError: (error: AxiosError<{ message: string }>) => {
+    onError: (error: Error) => {
       console.error('회원가입 실패:', error);
     },
 

@@ -4,8 +4,6 @@ import { useRouter } from 'next/navigation';
 
 import api from '../../api/authApi';
 
-import type { AxiosError } from 'axios';
-
 interface LoginFormData {
   email: string;
   password: string;
@@ -13,7 +11,14 @@ interface LoginFormData {
 
 interface LoginResponse {
   accessToken: string;
-  user: { name: string };
+  refreshToken: string;
+  user: {
+    id: number;
+    email: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+  };
 }
 
 const COOKIEOPTIONS = {
@@ -24,29 +29,29 @@ const COOKIEOPTIONS = {
 };
 
 const loginUser = async (formData: LoginFormData): Promise<LoginResponse> => {
-  const response = await api.post('/4/auth/login', formData);
+  const response = await api.post<LoginResponse>('/4/auth/login', formData);
   return response.data;
 };
 
 export const useLoginMutation = () => {
   const router = useRouter();
 
-  return useMutation<LoginResponse, AxiosError<{ message: string }>, LoginFormData>({
+  return useMutation<LoginResponse, Error, LoginFormData>({
     mutationFn: loginUser,
 
-    onSuccess: (data: LoginResponse) => {
-      const { accessToken, user } = data;
+    onSuccess: (data) => {
+      const { accessToken, refreshToken, user } = data;
 
-      if (accessToken && user?.name) {
+      if (accessToken && user) {
         setCookie('accessToken', accessToken, COOKIEOPTIONS);
-        setCookie('user', JSON.stringify({ name: user.name }), COOKIEOPTIONS);
-
+        setCookie('refreshToken', refreshToken, COOKIEOPTIONS);
+        setCookie('user', JSON.stringify(user), COOKIEOPTIONS);
         router.push('/signup');
       }
     },
 
-    onError: (error: AxiosError<{ message: string }>) => {
-      console.error('로그인 실패:', error.response?.data?.message || '알 수 없는 오류');
+    onError: (error) => {
+      console.error('로그인 실패:', error || '알 수 없는 오류');
     }
   });
 };

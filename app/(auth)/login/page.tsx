@@ -4,9 +4,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { setCookie } from 'cookies-next';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
+
+import { useInfoStore } from '@/stores/infoStore';
 
 import { useLoginMutation } from '../../../hooks/auth/useLoginMutation';
 import Button from '../_components/Button';
@@ -30,11 +33,19 @@ export default function LoginPage() {
   });
 
   const { mutate: loginMutate, isError, error } = useLoginMutation();
+  const { setInfo } = useInfoStore();
   const router = useRouter();
 
   const onSubmit = (data: LoginFormData) => {
     loginMutate(data, {
-      onSuccess: () => {
+      onSuccess: (responseData) => {
+        const { accessToken, user } = responseData;
+        setCookie('accessToken', accessToken);
+        setInfo({
+          id: user.id,
+          email: user.email,
+          name: user.name
+        });
         router.refresh();
       }
     });
@@ -47,7 +58,7 @@ export default function LoginPage() {
 
         {isError && (
           <div className="mb-4 rounded bg-red-100 p-2 text-sm text-red-600">
-            {error?.response?.data?.message || '로그인 중 에러가 발생했습니다.'}
+            {typeof error === 'string' ? error : error?.message || '로그인 중 에러가 발생했습니다.'}
           </div>
         )}
 
