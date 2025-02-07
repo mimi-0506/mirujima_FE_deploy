@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import api from '../../api/authApi';
 
 import type { AxiosError } from 'axios';
-
 interface SignUpFormData {
   name: string;
   email: string;
@@ -27,7 +26,8 @@ export const useSignUpMutation = () => {
     },
 
     onSuccess: (data) => {
-      console.log('회원가입 성공:', data);
+      alert('회원가입 되었습니다.');
+      router.push('/login');
       router.push('/login');
     },
 
