@@ -1,31 +1,23 @@
 `use client`;
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 
-import { SMALL_MAX } from '@/constant/screen';
-import useResize from '@/hooks/useResize';
+import useIsSmall from '@/hooks/useIsSmall';
 
 export default function Goals() {
   const [goals, setGoals] = useState<string[]>([
     '자바스크립트로 웹 서비스 만들기',
     '디자인 시스템 강의 듣기'
   ]);
+  const { isSmall } = useIsSmall();
   const [input, setInput] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (input && inputRef.current) inputRef.current.focus();
   }, [input]);
-
-  const { screenSize } = useResize();
-  const [isSmall, setIsSmall] = useState<boolean>(true);
-
-  useLayoutEffect(() => {
-    if (screenSize <= SMALL_MAX) setIsSmall(true);
-    else setIsSmall(false);
-  }, [screenSize]);
 
   const handleInputEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && inputRef.current) {
