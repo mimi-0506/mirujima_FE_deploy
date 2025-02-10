@@ -25,12 +25,18 @@ body {
     @apply text-[32px] font-semibold leading-[41px];
   }
   h2 {
-    @apply text-[24px] font-semibold leading-[28px];
+    @apply text-[22px] font-semibold leading-[28px];
   }
   h3 {
     @apply text-[17px] font-semibold leading-[22px];
   }
   h4 {
     @apply text-[15px] font-medium leading-[20px];
+  }
+}
+
+@layer utilities {
+  .hover-animate {
+    @apply transition-colors duration-100 ease-in-out;
   }
 }

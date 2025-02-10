@@ -12,13 +12,15 @@
   margin-inline: auto;
 }
 
-.bn-container[data-custom-css] .bn-editor * {
-}
-
 .bn-editor {
   padding: 0;
 }
 
 .bn-inline-content:has(> .ProseMirror-trailingBreak:only-child)::before {
   font-size: 16px;
+}
+
+/* 참고 링크 추가 버튼 css */
+.bn-toolbar.bn-formatting-toolbar > button[data-custom-button='true'] {
+  padding: 0 7px;
 }

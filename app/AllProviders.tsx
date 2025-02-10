@@ -17,6 +17,7 @@ export default function AllProviders({
           <NavBar />
           {children}
           <Toaster />
+          <div id="modal-portal" />
         </ReactQueryProvider>
       </ModalStoreProvider>
     </InfoStoreProvider>

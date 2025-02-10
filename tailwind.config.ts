@@ -11,7 +11,11 @@ export default {
     extend: {
       colors: {
         background: 'var(--background)',
-        foreground: 'var(--foreground)'
+        foreground: 'var(--foreground)',
+        main: '#F86969',
+        solid: '#FFF0F0',
+        cGray: '#F6F6F6',
+        'gray-350': '#C0C0C0'
       }
     }
   },
