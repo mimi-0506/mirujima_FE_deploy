@@ -1,10 +1,12 @@
 import type { Dispatch, SetStateAction } from 'react';
 
+import Image from 'next/image';
 import Link from 'next/link';
 
-import Goals from './Goals';
 import Info from './Info';
-import Logo from '../../public/images/logo/mirujima-logo.svg';
+import Menus from './Menus';
+import LeftArrow from '../../public/icon/arrow-left-black.svg';
+import RightArrow from '../../public/icon/arrow-right-white.svg';
 
 export default function SmallNav({
   isOpen,
@@ -13,40 +15,48 @@ export default function SmallNav({
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  const MenuButton = () => {
+  const Inner = () => {
     return (
-      <button
-        onClick={() => {
-          setIsOpen((x) => !x);
-        }}
-      >
-        메뉴
-      </button>
+      <div className="absolute left-0 top-0 h-screen w-screen translate-x-0 transform flex-col bg-white p-[12px_16px] transition-all duration-300">
+        <div className="flex justify-between">
+          <Link href="/dashboard" className="block w-fit">
+            <Image src="/images/logo/mirujima-logo-full.png" width="120" height="20" alt="logo" />
+          </Link>
+          <button
+            onClick={() => {
+              setIsOpen((x) => !x);
+            }}
+          >
+            <LeftArrow />
+          </button>
+        </div>
+
+        <Info />
+
+        <Menus />
+      </div>
     );
   };
 
-  return isOpen ? (
-    <div className="absolute left-0 top-0 h-screen w-screen flex-col border border-black bg-white">
-      <div className="flex justify-between">
-        <Link href="/dashboard" className="block w-fit">
-          <Logo />
-        </Link>
-        <MenuButton />
+  return (
+    <>
+      <div className="absolute left-0 top-0 flex h-[48px] w-screen gap-[16px] bg-main p-[12px_16px] shadow-md">
+        <button
+          onClick={() => {
+            setIsOpen((x) => !x);
+          }}
+        >
+          <RightArrow />
+        </button>
       </div>
 
-      <Info />
-
-      <div className="flex justify-between">
-        <Link href="/dashboard">대시보드</Link>
+      <div
+        className={`absolute left-0 top-0 h-screen w-screen transform flex-col bg-white p-[12px_16px] transition-transform duration-300 ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <Inner />
       </div>
-      <Goals />
-    </div>
-  ) : (
-    <div className="absolute left-0 top-0 flex h-[30px] w-screen border border-black">
-      <MenuButton />
-      <Link href="/dashboard" className="block w-fit">
-        <Logo />
-      </Link>
-    </div>
+    </>
   );
 }

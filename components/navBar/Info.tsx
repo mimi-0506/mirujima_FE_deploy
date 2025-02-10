@@ -3,28 +3,34 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import useIsSmall from '@/hooks/useIsSmallScreen';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function Info() {
   const { id, email, name } = useInfoStore((state) => state);
-  const { isSmallScreen } = useIsSmall();
 
   return (
-    <div className="flex">
-      <div className="relative h-[50px] w-[50px]">
+    <div className="my-6 flex gap-[16px]">
+      <div className="relative flex h-[64px] w-[64px] items-center justify-center rounded-[12.8px] border border-gray-200">
         <Image
-          src={'https://i.pinimg.com/736x/c3/1f/51/c31f519a91cc2560c5d2d006913af4dc.jpg'}
-          fill
+          src={'/images/temp.png'} //임시파일. 토마토 분리되면 그걸로 교체
+          width={64}
+          height={64}
           alt={'profile image'}
         />
       </div>
       <div>
-        <div>{name}</div>
-        <div>{email}</div>
-        {!isSmallScreen && <Link href={'/logout'}> 로그아웃</Link>}
+        <div>{name || '김밀리'}</div>
+        <div className="text-gray400">{email || 'test@test.com'}</div>
+
+        <Link href={'/logout'} className="text-gray350">
+          로그아웃
+        </Link>
       </div>
-      {isSmallScreen && <Link href={'/logout'}> 로그아웃</Link>}
+      {/* {isSmallScreen && (
+        <Link href={'/logout'} className="text-gray350">
+          로그아웃
+        </Link>
+      )} */}
     </div>
   );
 }

@@ -1,7 +1,8 @@
+import Image from 'next/image';
+
 import NavBar from '@/components/navBar';
 
 import ModalArea from './ModalArea';
-import Logo from '../public/images/logo/mirujima-logo.svg';
 
 export default function Home() {
   return (
@@ -9,7 +10,7 @@ export default function Home() {
       <ModalArea />
       <div className="grid min-h-screen items-center justify-items-center">
         <NavBar />
-        <Logo />
+        <Image src="/images/logo/mirujima-logo-full.png" width="120" height="20" alt="logo" />
       </div>
     </>
   );

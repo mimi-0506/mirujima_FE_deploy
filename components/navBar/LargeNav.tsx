@@ -1,12 +1,15 @@
 'use client';
 import type { Dispatch, SetStateAction } from 'react';
 
+import Image from 'next/image';
 import Link from 'next/link';
 
-import Goals from './Goals';
 import Info from './Info';
+import Menus from './Menus';
 import NewTodo from './newTodo';
-import Logo from '../../public/images/logo/mirujima-logo.svg';
+import LeftArrow from '../../public/icon/arrow-left-black.svg';
+import RightArrow from '../../public/icon/arrow-right-white.svg';
+import DashboardIcon from '../../public/icon/dashboard-white.svg';
 
 export default function LargeNav({
   isOpen,
@@ -15,36 +18,51 @@ export default function LargeNav({
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  const MenuButton = () => {
-    return (
-      <button
-        onClick={() => {
-          setIsOpen((x) => !x);
-        }}
-      >
-        메뉴
-      </button>
-    );
-  };
-  return isOpen ? (
-    <div className="absolute left-0 flex h-screen w-[300px] flex-col border border-black">
-      <Link href="/dashboard" className="block w-fit">
-        <Logo />
-      </Link>
-      <MenuButton />
-      <Info />
-      <NewTodo />
-      <div>
-        <Link href="/dashboard">대시보드</Link>
-      </div>
-      <Goals />
-    </div>
-  ) : (
-    <div className="absolute left-0 flex h-screen w-[50px] flex-col border border-black">
-      <Link href="/dashboard" className="block w-fit">
-        <Logo />
-      </Link>
-      <MenuButton />
+  return (
+    <div
+      className={`absolute z-10 box-border flex h-screen w-[280px] px-4 pt-6 shadow-lg transition-all duration-300 ease-in-out ${
+        isOpen
+          ? 'left-0 flex-col bg-white'
+          : 'left-[-192px] transform flex-col items-end overflow-hidden bg-main px-4 pt-6 shadow-lg'
+      }`}
+    >
+      {isOpen ? (
+        <>
+          <div className="flex justify-between">
+            <Link href="/dashboard" className="block w-fit">
+              <Image src="/images/logo/mirujima-logo-full.png" width="111" height="20" alt="logo" />
+            </Link>
+            <button
+              onClick={() => {
+                setIsOpen((x) => !x);
+              }}
+            >
+              <LeftArrow />
+            </button>
+          </div>
+
+          <Info />
+
+          <NewTodo />
+
+          <Menus />
+        </>
+      ) : (
+        <>
+          <button
+            className="flex h-[56px] w-[56px] items-center justify-center"
+            onClick={() => {
+              setIsOpen((x) => !x);
+            }}
+          >
+            <RightArrow />
+          </button>
+
+          <Link href="/dashboard" className="flex h-[56px] w-[56px] items-center justify-center">
+            <DashboardIcon />
+          </Link>
+        </>
+      )}
     </div>
   );
 }
