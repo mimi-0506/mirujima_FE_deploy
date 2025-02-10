@@ -13,21 +13,26 @@ interface LoginFormData {
 }
 
 interface LoginResponse {
-  accessToken: string;
-  refreshToken: string;
-  user: {
-    id: number;
-    email: string;
-    name: string;
-    createdAt: string;
-    updatedAt: string;
+  success: boolean;
+  code: number;
+  message: string;
+  result: {
+    user: {
+      id: number;
+      username: string;
+      email: string;
+      createdAt: string;
+      updatedAt: string;
+    };
+    accessToken: string;
+    refreshToken: string;
+    expiredAt: string;
   };
 }
-
 const COOKIEOPTIONS = {
   maxAge: 60 * 60 * 24,
   path: '/',
-  secure: typeof window !== 'undefined' && window.location.protocol === 'https:',
+  // secure: typeof window !== 'undefined' && window.location.protocol === 'https:',
   sameSite: 'strict' as const
 };
 
@@ -54,13 +59,14 @@ export const useLoginMutation = () => {
     },
     onSuccess: (data) => {
       toast.dismiss('login');
-      const { accessToken, refreshToken, user } = data;
+      const { accessToken, refreshToken, user } = data.result;
 
       if (accessToken && user) {
         setCookie('accessToken', accessToken, COOKIEOPTIONS);
         setCookie('refreshToken', refreshToken, COOKIEOPTIONS);
         setCookie('user', JSON.stringify(user), COOKIEOPTIONS);
         toast.success('로그인 되었습니다!', { duration: 2000 });
+
         setTimeout(() => {
           router.push('/');
         }, 500);

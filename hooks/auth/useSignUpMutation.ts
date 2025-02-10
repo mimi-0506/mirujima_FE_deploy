@@ -7,10 +7,9 @@ import { useRouter } from 'next/navigation';
 import api from '../../api/authApi';
 
 export interface SignUpFormData {
-  name: string;
+  username: string;
   email: string;
   password: string;
-  confirmPassword: string;
 }
 
 const signUpUser = async (formData: SignUpFormData): Promise<void> => {

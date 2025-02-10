@@ -15,7 +15,7 @@ import InputField from '../_components/InputField';
 
 const registerSchema = z
   .object({
-    name: z.string().min(1, '이름을 입력해주세요.').max(10, '이름이 너무 깁니다.'),
+    username: z.string().min(1, '이름을 입력해주세요.').max(10, '이름이 너무 깁니다.'),
     email: z.string().email('올바른 이메일을 입력해주세요.'),
     password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.'),
     confirmPassword: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
@@ -56,9 +56,9 @@ export default function SignUpPage() {
           <InputField
             label="이름"
             placeholder="이름"
-            register={register('name')}
-            type="name"
-            errorMessage={errors.name?.message}
+            register={register('username')}
+            type="username"
+            errorMessage={errors.username?.message}
             className="bg-white autofill:bg-white"
           />
           <InputField
