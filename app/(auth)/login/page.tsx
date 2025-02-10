@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
@@ -56,9 +55,9 @@ export default function LoginPage() {
       : null;
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
-        <h1 className="mb-6 text-2xl font-bold">로그인</h1>
+    <div className="flex min-h-screen justify-center bg-white">
+      <div className="mt-[76px] min-h-[779px] w-[688px] rounded-[16px] border border-gray200 bg-white p-[40px] shadow-lg">
+        <h1 className="mb-[60px] text-2xl font-bold">로그인</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputField
@@ -75,17 +74,20 @@ export default function LoginPage() {
             type="password"
             errorMessage={errors.password?.message}
           />
-          {serverErrorMessage && <p className="text-sm text-red-500">{serverErrorMessage}</p>}
-          <Button type="submit">로그인</Button>
+          {serverErrorMessage && <p className="text-sm text-warning">{serverErrorMessage}</p>}
+          <Button type="submit" className="bg-main text-white">
+            로그인
+          </Button>
         </form>
 
-        <div className="mt-4 text-center">
-          <p className="text-gray-600">
-            계정이 없으신가요?
-            <Link href="/signup" className="ml-1">
-              회원가입
-            </Link>
-          </p>
+        <div className="mt-3 text-center">
+          <Button
+            type="button"
+            // onClick={() => router.push('/signup')}
+            className="border border-gray-300 bg-white text-gray500"
+          >
+            회원가입
+          </Button>
         </div>
       </div>
     </div>
