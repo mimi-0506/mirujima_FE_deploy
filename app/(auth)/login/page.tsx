@@ -56,25 +56,33 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen justify-center bg-white">
-      <div className="mt-[76px] min-h-[779px] w-[688px] rounded-[16px] border border-gray200 bg-white p-[40px] shadow-lg">
-        <h1 className="mb-[60px] text-2xl font-bold">로그인</h1>
+      <div className="mt-[76px] min-h-[779px] w-[688px] rounded-[16px] border-[1px] border-solid border-gray200 bg-white p-[40px] shadow">
+        <h1 className="mb-[60px] text-[32px] font-semibold leading-[41px]">로그인</h1>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
           <InputField
             label="이메일"
-            placeholder="이메일을 입력해주세요"
+            placeholder="이메일"
             register={register('email')}
             type="email"
             errorMessage={errors.email?.message}
           />
           <InputField
             label="비밀번호"
-            placeholder="비밀번호를 입력해주세요"
+            placeholder="비밀번호"
             register={register('password')}
             type="password"
             errorMessage={errors.password?.message}
           />
           {serverErrorMessage && <p className="text-sm text-warning">{serverErrorMessage}</p>}
+          <div className="mb-[60px] flex items-center justify-between px-2">
+            <p className="text-[14px] font-medium leading-[20px] text-gray350">
+              비밀번호를 잊으셨나요?
+            </p>
+            <button className="cursor-pointer border-none bg-transparent p-0 text-[14px] font-medium leading-[20px] text-main">
+              비밀번호 찾기
+            </button>
+          </div>
           <Button type="submit" className="bg-main text-white">
             로그인
           </Button>
@@ -83,7 +91,7 @@ export default function LoginPage() {
         <div className="mt-3 text-center">
           <Button
             type="button"
-            // onClick={() => router.push('/signup')}
+            onClick={() => router.push('/signup')}
             className="border border-gray-300 bg-white text-gray500"
           >
             회원가입

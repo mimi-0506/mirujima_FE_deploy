@@ -33,7 +33,7 @@ const COOKIEOPTIONS = {
 
 const loginUser = async (formData: LoginFormData): Promise<LoginResponse> => {
   try {
-    const response = await api.post<LoginResponse>('/4/auth/login', formData);
+    const response = await api.post<LoginResponse>('/auth/login', formData);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

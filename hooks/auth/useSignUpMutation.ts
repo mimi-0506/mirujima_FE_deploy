@@ -15,7 +15,7 @@ export interface SignUpFormData {
 
 const signUpUser = async (formData: SignUpFormData): Promise<void> => {
   try {
-    await api.post('/4/user', formData);
+    await api.post('/user', formData);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw error;

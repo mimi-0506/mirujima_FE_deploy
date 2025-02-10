@@ -21,13 +21,13 @@ export default function InputField({
 }: InputFieldProps) {
   return (
     <div className="flex flex-col">
-      {label && <label className="font-semibold text-gray500">{label}</label>}
+      {label && <label className="mb-4 font-semibold text-gray500">{label}</label>}
       <input
         type={type}
         placeholder={placeholder}
         {...register}
         autoComplete="off"
-        className={`mb-5 mt-4 rounded-lg border border-gray-200 px-[16px] py-[14px] focus:border-main focus:outline-none focus:ring-1 focus:ring-main ${className}`}
+        className={`rounded-lg border border-gray200 bg-white px-4 py-3.5 text-gray500 placeholder-gray350 shadow-sm placeholder:text-[16px] placeholder:font-semibold placeholder:leading-[22px] focus:border-main focus:outline-none ${className}`}
       />
 
       <p className="min-h-[20px] text-sm text-warning">{errorMessage}</p>
