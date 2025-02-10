@@ -1,3 +1,4 @@
+import { deleteCookie } from 'cookies-next';
 import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';
@@ -12,6 +13,12 @@ export function middleware(req: NextRequest) {
   }
 
   if (pathname === '/') return NextResponse.redirect(new URL('/dashboard', req.url));
+  if (pathname === '/logout') {
+    const cookiesToDelete = ['accessToken', 'refreshToken', 'user'];
+    cookiesToDelete.forEach((cookie) => deleteCookie(cookie, { path: '/' }));
+    //toast.success('로그아웃 되었습니다!', { duration: 2000 });
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
 
   //로그인 완성되면 주석 풀기
   //   if (accessToken) {
