@@ -1,12 +1,13 @@
 `use client`;
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import useIsSmall from '@/hooks/useIsSmallScreen';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function Info() {
-  const { id, email, name, logout } = useInfoStore((state) => state);
+  const { id, email, name } = useInfoStore((state) => state);
   const { isSmallScreen } = useIsSmall();
 
   return (
@@ -21,9 +22,9 @@ export default function Info() {
       <div>
         <div>{name}</div>
         <div>{email}</div>
-        {!isSmallScreen && <div onClick={logout}>로그아웃</div>}
+        {!isSmallScreen && <Link href={'/logout'}> 로그아웃</Link>}
       </div>
-      {isSmallScreen && <div onClick={logout}>로그아웃</div>}
+      {isSmallScreen && <Link href={'/logout'}> 로그아웃</Link>}
     </div>
   );
 }
