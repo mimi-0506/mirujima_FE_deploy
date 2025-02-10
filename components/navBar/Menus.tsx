@@ -65,7 +65,7 @@ export default function Menus() {
         </Link>
       </div>
 
-      <div className="box-border flex h-12 items-center gap-2 rounded-[8px] bg-cgray px-[21px] py-[17px] text-gray500">
+      <div className="box-border flex h-12 items-center gap-2 rounded-[8px] bg-Cgray px-[21px] py-[17px] text-gray500">
         <div className="flex gap-2">
           <FlagIcon />
           목표

@@ -15,7 +15,7 @@ export default {
         main: '#F86969',
         default: '#FBA5A5',
         solid: '#FFF0F0',
-        cgray: '#F6F6F6',
+        Cgray: '#F6F6F6',
         gray500: '#1C1616',
         gray400: '#575151',
         gray350: '#C0C0C0',
