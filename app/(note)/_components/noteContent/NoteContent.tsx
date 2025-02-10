@@ -111,7 +111,7 @@ export default function NoteContent({ todo }: Props) {
                 aria-label="노트 작성완료"
                 aria-disabled={!isValid}
                 disabled={!isValid}
-                className="h-[36px] w-[84px] rounded-xl bg-main text-[14px] font-semibold text-white disabled:bg-cGray disabled:text-gray-350"
+                className="disabled:bg-cGray disabled:text-gray-350 h-[36px] w-[84px] rounded-xl bg-main text-[14px] font-semibold text-white"
               >
                 작성 완료
               </button>

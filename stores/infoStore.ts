@@ -9,6 +9,7 @@ export type InfoState = {
 
 export type InfoActions = {
   setInfo: (newInfo: InfoState) => void;
+  logout: () => void;
 };
 
 export type InfoStore = InfoState & InfoActions;
@@ -22,10 +23,13 @@ export const defaultInitState: InfoState = {
 export const createInfoStore = (initState: InfoState = defaultInitState) => {
   return createStore<InfoStore>()((set) => ({
     ...initState,
-    setInfo: (newInfo) => set(() => ({ ...newInfo }))
+    setInfo: (newInfo) => set(() => ({ ...newInfo })),
+    logout: () => set(() => ({ ...defaultInitState }))
   }));
 };
+
 export const infoStore = createInfoStore();
+
 export function useInfoStore() {
   return useStore(infoStore);
 }

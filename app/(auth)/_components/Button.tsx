@@ -18,7 +18,7 @@ export default function Button({
     <button
       type={type}
       onClick={onClick}
-      className={`w-full rounded-md bg-orange-400 py-2 text-white ${className}`}
+      className={`h-[50px] w-full rounded-lg px-4 py-3 text-base font-semibold ${className}`}
     >
       {children}
     </button>

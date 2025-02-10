@@ -15,7 +15,7 @@ import InputField from '../_components/InputField';
 
 const registerSchema = z
   .object({
-    name: z.string().min(1, '이름을 입력해주세요.').max(10, '이름이 너무 깁니다.'),
+    username: z.string().min(1, '이름을 입력해주세요.').max(10, '이름이 너무 깁니다.'),
     email: z.string().email('올바른 이메일을 입력해주세요.'),
     password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.'),
     confirmPassword: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
@@ -48,22 +48,22 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <div className="flex justify-center bg-white">
       <Toaster position="top-center" />
-      <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
-        <h1 className="mb-6 text-2xl font-bold">회원가입</h1>{' '}
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="mt-[76px] w-[688px] rounded-[16px] border-[1px] border-solid border-gray200 bg-white p-[40px] pb-[40px] shadow">
+        <h1 className="mb-[60px] text-[34px] font-semibold leading-[41px]">회원가입</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
           <InputField
             label="이름"
-            placeholder="이름을 입력해주세요"
-            register={register('name')}
-            type="name"
-            errorMessage={errors.name?.message}
+            placeholder="이름"
+            register={register('username')}
+            type="text"
+            errorMessage={errors.username?.message}
             className="bg-white autofill:bg-white"
           />
           <InputField
             label="이메일"
-            placeholder="이메일을 입력해주세요"
+            placeholder="이메일"
             register={register('email')}
             type="email"
             errorMessage={errors.email?.message}
@@ -71,7 +71,7 @@ export default function SignUpPage() {
           />
           <InputField
             label="비밀번호"
-            placeholder="비밀번호를 입력해주세요"
+            placeholder="비밀번호"
             register={register('password')}
             type="password"
             errorMessage={errors.password?.message}
@@ -86,15 +86,17 @@ export default function SignUpPage() {
             className="!bg-white autofill:!bg-white"
           />
 
-          <Button type="submit">회원가입</Button>
+          <Button type="submit" className="mt-[60px] bg-main text-white">
+            회원가입
+          </Button>
         </form>
-        <div className="mt-4 text-center">
-          <p className="text-gray-600">
-            이미 계정이 있으신가요?
-            <Link href="/login" className="ml-1">
-              로그인
-            </Link>
+        <div className="mt-[60px] flex items-center justify-between px-2">
+          <p className="text-[14px] font-medium leading-[20px] text-gray350">
+            이미 계정이 있으신가요?{' '}
           </p>
+          <Link href="/login" className="text-[14px] font-medium leading-[20px] text-main">
+            로그인하기
+          </Link>
         </div>
       </div>
     </div>
