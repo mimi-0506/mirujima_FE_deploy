@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import Goals from './Goals';
 import Info from './Info';
-import Logo from '../../public/images/logo/mirujima-logo.svg';
+import Logo from '../../public/images/logo/mirujima-logo-full.svg';
 
 export default function SmallNav({
   isOpen,

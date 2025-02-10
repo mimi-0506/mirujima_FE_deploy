@@ -1,7 +1,7 @@
 import NavBar from '@/components/navBar';
 
 import ModalArea from './ModalArea';
-import Logo from '../public/images/logo/mirujima-logo.svg';
+import Logo from '../public/images/logo/mirujima-logo-full.svg';
 
 export default function Home() {
   return (
