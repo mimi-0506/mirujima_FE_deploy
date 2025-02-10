@@ -1,0 +1,26 @@
+.bn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: 550px;
+  padding-bottom: 40px;
+}
+
+.bn-formatting-toolbar {
+  margin-inline: auto;
+}
+
+.bn-editor {
+  padding: 0;
+}
+
+.bn-inline-content:has(> .ProseMirror-trailingBreak:only-child)::before {
+  font-size: 16px;
+}
+
+/* 참고 링크 추가 버튼 css */
+.bn-toolbar.bn-formatting-toolbar > button[data-custom-button='true'] {
+  padding: 0 7px;
+}
