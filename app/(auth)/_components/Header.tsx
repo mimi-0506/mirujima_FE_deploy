@@ -9,7 +9,7 @@ export default function Header() {
   const { isLoggedIn, user, handleLogout } = useAuth();
 
   return (
-    <header className="border border-gray200 bg-white shadow-md">
+    <header className="h-[74px] border border-gray200 bg-white shadow-md">
       <div className="mx-auto flex w-full items-center justify-between px-[316px]">
         <Image
           src="/images/logo/mirujima-logo-with-tmt.svg"
