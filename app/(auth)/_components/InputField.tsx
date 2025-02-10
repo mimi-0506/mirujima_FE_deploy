@@ -21,16 +21,22 @@ export default function InputField({
 }: InputFieldProps) {
   return (
     <div className="flex flex-col">
-      {label && <label className="font-semibold">{label}</label>}
+      {label && (
+        <label className="mb-4 text-[17px] font-semibold leading-[22px] text-gray500">
+          {label}
+        </label>
+      )}
       <input
         type={type}
         placeholder={placeholder}
         {...register}
         autoComplete="off"
-        className={`rounded-md border px-3 py-2 focus:border-orange-400 focus:outline-none ${className}`}
+        className={`rounded-lg border border-gray200 bg-white px-4 py-3 text-gray500 placeholder-gray350 placeholder:text-[16px] placeholder:font-semibold placeholder:leading-[22px] focus:border-main focus:outline-none ${className}`}
       />
 
-      <p className="min-h-[20px] text-sm text-red-500">{errorMessage}</p>
+      <p className="min-h-[20px] pl-[10px] pt-1 text-[12px] font-medium leading-[16px] text-warning">
+        {errorMessage}
+      </p>
     </div>
   );
 }

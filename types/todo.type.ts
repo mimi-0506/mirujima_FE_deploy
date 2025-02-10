@@ -1,8 +1,8 @@
 export type TodoResponseType = {
-  noteId: number;
+  noteId: number | null;
   done: boolean;
-  linkUrl: string;
-  fileUrl: string;
+  linkUrl: string | null;
+  fileUrl: string | null;
   title: string;
   id: number;
   goal: {

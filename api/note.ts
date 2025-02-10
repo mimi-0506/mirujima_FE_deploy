@@ -1,16 +1,17 @@
 import axios, { AxiosError } from 'axios';
-import { getCookie } from 'cookies-next';
 
 import { ERROR_CODE } from '@/constant/errorCode';
 
 import type { NoteDataType, NoteResponseType } from '@/types/note.type';
 
-const cookie = getCookie('accessToken');
+import { withToken } from '.';
 
 const noteApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-  headers: { Authorization: `Bearer ${cookie}` }
+  headers: { 'Content-Type': 'application/json' }
 });
+
+noteApi.interceptors.request.use(withToken);
 
 export const createNote = async (data: NoteDataType) => {
   try {
