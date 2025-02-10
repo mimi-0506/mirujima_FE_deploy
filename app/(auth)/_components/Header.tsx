@@ -1,5 +1,4 @@
 'use client';
-import { useEffect } from 'react';
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -9,9 +8,7 @@ import useAuth from '../../../hooks/auth/useAuth';
 export default function Header() {
   const router = useRouter();
   const { isLoggedIn, user, handleLogout } = useAuth();
-  useEffect(() => {
-    console.log('useAuth:', { isLoggedIn, user, handleLogout });
-  }, [isLoggedIn, user, handleLogout]);
+
   return (
     <header className="h-[74px] border border-gray200 bg-white shadow-md">
       <div className="mx-auto flex w-full items-center justify-between px-[316px]">

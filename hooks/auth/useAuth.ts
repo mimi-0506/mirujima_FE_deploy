@@ -9,7 +9,7 @@ import { useInfoStore } from '../../stores/infoStore';
 export default function useAuth() {
   const router = useRouter();
   const pathname = usePathname();
-  const { id, email, name, setInfo, logout } = useInfoStore();
+  const { id, email, name, logout } = useInfoStore();
 
   const checkAuth = useCallback(() => {
     const token = getCookie('accessToken');

@@ -6,6 +6,7 @@ import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 
 import api from '../../api/authApi';
+import { infoStore } from '../../stores/infoStore';
 
 interface LoginFormData {
   email: string;
@@ -29,10 +30,10 @@ interface LoginResponse {
     expiredAt: string;
   };
 }
+
 const COOKIEOPTIONS = {
-  maxAge: 60 * 60 * 24,
+  maxAge: 60 * 60 * 24, // 하루
   path: '/',
-  // secure: typeof window !== 'undefined' && window.location.protocol === 'https:',
   sameSite: 'strict' as const
 };
 
@@ -65,8 +66,14 @@ export const useLoginMutation = () => {
         setCookie('accessToken', accessToken, COOKIEOPTIONS);
         setCookie('refreshToken', refreshToken, COOKIEOPTIONS);
         setCookie('user', JSON.stringify(user), COOKIEOPTIONS);
-        toast.success('로그인 되었습니다!', { duration: 2000 });
 
+        infoStore.getState().setInfo({
+          id: user.id,
+          email: user.email,
+          name: user.username
+        });
+
+        toast.success('로그인 되었습니다!', { duration: 2000 });
         setTimeout(() => {
           router.push('/');
         }, 500);
@@ -76,6 +83,7 @@ export const useLoginMutation = () => {
       toast.dismiss('login');
       if (axios.isAxiosError(error)) {
         const errorMessage = error.response?.data?.message || '로그인 중 오류가 발생했습니다.';
+        toast.error(errorMessage);
       } else {
         toast.error('예기치 못한 오류가 발생했습니다.');
       }

@@ -27,7 +27,9 @@ export const createInfoStore = (initState: InfoState = defaultInitState) => {
     logout: () => set(() => ({ ...defaultInitState }))
   }));
 };
+
 export const infoStore = createInfoStore();
+
 export function useInfoStore() {
   return useStore(infoStore);
 }
