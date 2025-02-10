@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 
 export default function useResize() {
-  const [screenSize, setScreenSize] = useState<number>(0);
+  const [screenSize, setScreenSize] = useState<number>(1920);
 
   useEffect(() => {
     const handleResize = debounce(() => setScreenSize(window.innerWidth), 250);

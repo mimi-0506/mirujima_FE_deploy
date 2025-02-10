@@ -30,7 +30,7 @@ export default function LargeNav({
         <>
           <div className="flex justify-between">
             <Link href="/dashboard" className="block w-fit">
-              <Image src="/images/logo/mirujima-logo-full.png" width="120" height="20" alt="logo" />
+              <Image src="/images/logo/mirujima-logo-full.png" width="111" height="20" alt="logo" />
             </Link>
             <button
               onClick={() => {

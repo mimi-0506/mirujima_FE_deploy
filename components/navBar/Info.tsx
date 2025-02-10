@@ -15,7 +15,8 @@ export default function Info() {
       <div className="relative flex h-[64px] w-[64px] items-center justify-center rounded-[12.8px] border border-gray-200">
         <Image
           src={'/images/temp.png'} //임시파일. 토마토 분리되면 그걸로 교체
-          fill
+          width={64}
+          height={64}
           alt={'profile image'}
         />
       </div>
