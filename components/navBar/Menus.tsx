@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 
-import useIsSmall from '@/hooks/useIsSmallScreen';
-
 import AddIcon from '../../public/icon/add.svg';
 import DashboardIcon from '../../public/icon/dashboard-gray.svg';
 import FlagIcon from '../../public/icon/flag-black.svg';
@@ -23,7 +21,7 @@ export default function Menus() {
     '자바스크립트로 웹 서비스 만들기',
     '디자인 시스템 강의 듣기'
   ]);
-  const { isSmallScreen } = useIsSmall();
+
   const [input, setInput] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);

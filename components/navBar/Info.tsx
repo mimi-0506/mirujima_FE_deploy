@@ -3,12 +3,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import useIsSmall from '@/hooks/useIsSmallScreen';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function Info() {
   const { id, email, name } = useInfoStore((state) => state);
-  const { isSmallScreen } = useIsSmall();
 
   return (
     <div className="my-6 flex gap-[16px]">
