@@ -1,11 +1,12 @@
 'use client';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import useAuth from '../../../hooks/auth/useAuth';
 
 export default function Header() {
   const router = useRouter();
-  const { isLoggedIn, user, handleLogout } = useAuth();
+  const { isLoggedIn, user } = useAuth();
 
   return (
     <header className="bg-gray-100 shadow-md">
@@ -15,9 +16,7 @@ export default function Header() {
           {isLoggedIn ? (
             <div className="flex gap-4">
               <span>반갑습니다, {user.name}님!</span>
-              <button className="text-red-500" onClick={handleLogout}>
-                로그아웃
-              </button>
+              <Link href={'/logout'}> 로그아웃</Link>
             </div>
           ) : (
             <div className="flex gap-4">
