@@ -57,7 +57,7 @@ export default function SignUpPage() {
             label="이름"
             placeholder="이름"
             register={register('username')}
-            type="username"
+            type="text"
             errorMessage={errors.username?.message}
             className="bg-white autofill:bg-white"
           />
