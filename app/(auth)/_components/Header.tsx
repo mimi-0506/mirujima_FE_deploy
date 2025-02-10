@@ -16,7 +16,7 @@ export default function Header() {
           alt="미루지마 로고"
           height={19}
           width={108}
-          className="cursor-pointer"
+          className="h-auto w-[108px] cursor-pointer"
           onClick={() => router.push('/')}
         />
 

@@ -102,14 +102,26 @@ export default function LoginPage() {
               type="button"
               className="flex cursor-not-allowed items-center justify-center gap-2 border border-gray-300 bg-white px-4 py-2 text-gray500"
             >
-              <Image src="/images/sns/google-icon.svg" alt="구글 로고" width={24} height={24} />
+              <Image
+                src="/images/sns/google-icon.svg"
+                alt="구글 로고"
+                width={24}
+                height={24}
+                className="h-auto w-auto"
+              />
               <span className="text-[16px] font-semibold leading-[22px]">구글 계정으로 로그인</span>
             </Button>
             <Button
               type="button"
               className="flex cursor-not-allowed items-center justify-center gap-2 border border-gray-300 bg-white px-4 py-2 text-gray500"
             >
-              <Image src="/images/sns/kakao-icon.svg" alt="카카오 로고" width={24} height={24} />
+              <Image
+                src="/images/sns/kakao-icon.svg"
+                alt="카카오 로고"
+                width={24}
+                height={24}
+                className="h-auto w-auto"
+              />
               <span className="text-[16px] font-semibold leading-[22px]">
                 카카오 계정으로 로그인
               </span>
