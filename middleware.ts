@@ -1,4 +1,3 @@
-import { deleteCookie } from 'cookies-next';
 import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';
@@ -14,8 +13,11 @@ export function middleware(req: NextRequest) {
 
   if (pathname === '/') return NextResponse.redirect(new URL('/dashboard', req.url));
   if (pathname === '/logout') {
+    const response = NextResponse.redirect(new URL('/login', req.url));
     const cookiesToDelete = ['accessToken', 'refreshToken', 'user'];
-    cookiesToDelete.forEach((cookie) => deleteCookie(cookie, { path: '/' }));
+    cookiesToDelete.forEach((cookie) => {
+      response.cookies.delete(cookie);
+    });
     //클라이언트 라이브러리라 서버에서 작동 불가. 다른 방법 찾아봐야 할듯
     //toast.success('로그아웃 되었습니다!', { duration: 2000 });
     return NextResponse.redirect(new URL('/login', req.url));
