@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
@@ -39,12 +40,18 @@ export default function LoginPage() {
   const onSubmit = (data: LoginFormData) => {
     loginMutate(data, {
       onSuccess: (responseData) => {
-        const { user } = responseData;
+        if (!responseData.result || !responseData.result.user) {
+          toast.error('로그인 정보가 올바르지 않습니다.');
+          return;
+        }
+
+        const { user } = responseData.result;
         setInfo({
           id: user.id,
           email: user.email,
-          name: user.name
+          name: user.username
         });
+
         router.refresh();
       }
     });

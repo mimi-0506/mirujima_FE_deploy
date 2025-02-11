@@ -28,11 +28,11 @@ interface LoginResponse {
     accessToken: string;
     refreshToken: string;
     expiredAt: string;
-  };
+  } | null;
 }
 
 const COOKIEOPTIONS = {
-  maxAge: 60 * 60 * 24, // 하루
+  maxAge: 60 * 60 * 24,
   path: '/',
   sameSite: 'strict' as const
 };
@@ -60,6 +60,12 @@ export const useLoginMutation = () => {
     },
     onSuccess: (data) => {
       toast.dismiss('login');
+
+      if (!data.success || !data.result) {
+        toast.error(data.message || '로그인에 실패했습니다.');
+        return;
+      }
+
       const { accessToken, refreshToken, user } = data.result;
 
       if (accessToken && user) {
@@ -77,19 +83,17 @@ export const useLoginMutation = () => {
         setTimeout(() => {
           router.push('/');
         }, 500);
+      } else {
+        toast.error('로그인 정보가 누락되었습니다.');
       }
     },
     onError: (error: unknown) => {
       toast.dismiss('login');
+
       if (axios.isAxiosError(error)) {
         const errorMessage = error.response?.data?.message || '로그인 중 오류가 발생했습니다.';
         toast.error(errorMessage);
-      } else {
-        toast.error('예기치 못한 오류가 발생했습니다.');
       }
-    },
-    onSettled: () => {
-      toast.dismiss('login');
     }
   });
 };
