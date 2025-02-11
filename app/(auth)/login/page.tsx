@@ -39,19 +39,15 @@ export default function LoginPage() {
   const onSubmit = (data: LoginFormData) => {
     loginMutate(data, {
       onSuccess: (responseData) => {
-        // if (!responseData.result || !responseData.result.user) {
-        //   toast.error('로그인 정보가 올바르지 않습니다.');
-        //   return;
-        // }
-
-        const { user } = responseData.result;
-        setInfo({
-          id: user.id,
-          email: user.email,
-          name: user.username
-        });
-
-        router.refresh();
+        if (responseData.result && responseData.result.user) {
+          const { user } = responseData.result;
+          setInfo({
+            id: user.id,
+            email: user.email,
+            name: user.username
+          });
+          router.refresh();
+        }
       }
     });
   };
