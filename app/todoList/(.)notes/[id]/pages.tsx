@@ -1,1 +1,3 @@
-// 빈 페이지. children만 받아서 출력
+export default function NoteDetail() {
+  return <div>noteDetail</div>;
+}

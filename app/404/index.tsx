@@ -1,1 +1,3 @@
-// NotFound 페이지
+export default function NotFount() {
+  return <div>404</div>;
+}

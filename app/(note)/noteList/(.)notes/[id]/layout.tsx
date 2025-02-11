@@ -1,1 +1,5 @@
-// 오른쪽에서 튀어나오는 형태의 레이아웃
+import React from 'react';
+
+export default function NoteLayout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
+}

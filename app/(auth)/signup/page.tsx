@@ -43,7 +43,6 @@ export default function SignUpPage() {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      // 회원가입 전에 이메일 중복 여부 체크
       const emailExists = await checkEmailExists(data.email);
       if (emailExists) {
         setError('email', { message: '이미 존재하는 이메일입니다.' });
@@ -51,11 +50,12 @@ export default function SignUpPage() {
       }
 
       signUpMutate(data, {
-        onError: (error) => {
+        onError: () => {
           toast.error('회원가입에 실패했습니다. 다시 시도해 주세요.');
         }
       });
     } catch (error) {
+      console.error('회원가입 에러:', error);
       toast.error('이메일 중복 체크 중 오류가 발생했습니다.');
     }
   };
