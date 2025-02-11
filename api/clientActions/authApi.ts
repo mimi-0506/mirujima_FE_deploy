@@ -1,8 +1,21 @@
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL
-  // withCredentials: true
+import requestInterceptors from '../interceptors/requestInterceptors';
+import responseInterceptors from '../interceptors/responseInterceptors';
+
+const authApi = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  withCredentials: true
 });
 
-export default api;
+authApi.interceptors.request.use(
+  requestInterceptors.requestInterceptor,
+  requestInterceptors.requestInterceptorError
+);
+
+authApi.interceptors.response.use(
+  responseInterceptors.responseInterceptor,
+  responseInterceptors.responseInterceptorError
+);
+
+export default authApi;

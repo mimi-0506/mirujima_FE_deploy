@@ -1,11 +1,40 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import { setCookie } from 'cookies-next';
+
+import api from '@/api/clientActions/authApi';
+import { useInfoStore } from '@/stores/infoStore';
 
 export default function GoalDetailPage() {
+  const { name, restoreUser } = useInfoStore();
+
+  useEffect(() => {
+    restoreUser();
+  }, []);
+
+  const invalidateAccessToken = () => {
+    setCookie('accessToken', 'invalid-token', { path: '/' });
+    console.warn('🚨 accessToken이 강제로 무효화되었습니다.');
+  };
+
+  const fetchProtectedData = async () => {
+    try {
+      const response = await api.get('/user');
+      console.log('🔒 Protected API 데이터:', response.data);
+    } catch (error) {
+      console.error('❌ 보호된 API 호출 에러:', error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      <div className="mx-auto max-w-4xl">
+      <div className="ml-[400px] max-w-4xl">
+        <div className="mb-4 text-lg font-semibold text-gray-700">
+          {name ? `${name}님 안녕하세요!` : '로그인이 필요합니다.'}
+        </div>
+
         <div className="mb-4 rounded-lg bg-white p-6 shadow-md">
           <div className="flex items-center justify-between">
             <h1 className="flex items-center gap-2 text-lg font-semibold">
@@ -27,6 +56,20 @@ export default function GoalDetailPage() {
 
         <button className="flex w-full items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700">
           📂 노트 모아보기
+        </button>
+
+        <button
+          onClick={invalidateAccessToken}
+          className="mt-4 flex w-full items-center gap-2 rounded-lg bg-red-100 px-4 py-3 text-red-700"
+        >
+          ❌ accessToken 무효화 (Refresh 테스트)
+        </button>
+
+        <button
+          onClick={fetchProtectedData}
+          className="mt-4 flex w-full items-center gap-2 rounded-lg bg-green-100 px-4 py-3 text-green-700"
+        >
+          🔒 Protected API 호출 테스트
         </button>
 
         <div className="mt-6 grid grid-cols-2 gap-6">
