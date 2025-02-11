@@ -1,1 +1,3 @@
-// 오른쪽에서 튀어나오는 형태의 레이아웃
+export default function Layout() {
+  return <div></div>;
+}

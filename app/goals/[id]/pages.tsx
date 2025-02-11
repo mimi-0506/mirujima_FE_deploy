@@ -1,1 +1,3 @@
-// 목표 상세 페이지
+export default function GoalDetail() {
+  return <div></div>;
+}
