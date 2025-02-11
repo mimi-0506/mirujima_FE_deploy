@@ -6,7 +6,7 @@ interface InputFieldProps {
   label: string;
   placeholder: string;
   register: UseFormRegisterReturn;
-  type: string;
+  type?: string;
   errorMessage?: string;
   className?: string;
 }
@@ -31,11 +31,13 @@ export default function InputField({
         placeholder={placeholder}
         {...register}
         autoComplete="off"
-        className={`rounded-lg border border-gray200 bg-white px-4 py-3 text-gray500 placeholder-gray350 placeholder:text-[16px] placeholder:font-semibold placeholder:leading-[22px] focus:border-main focus:outline-none ${className}`}
+        className={`rounded-lg border bg-white px-4 py-3 font-semibold placeholder-gray350 placeholder:text-[16px] placeholder:font-semibold placeholder:leading-[22px] focus:outline-none ${errorMessage ? 'border-warning text-warning' : 'border-gray200 text-gray500'} ${className}`}
       />
-
-      <p className="min-h-[20px] pl-[10px] pt-1 text-[12px] font-medium leading-[16px] text-warning">
-        {errorMessage}
+      <p
+        className="min-h-[20px] pl-[10px] pt-1 text-[12px] font-medium leading-[16px] text-warning"
+        style={{ visibility: errorMessage ? 'visible' : 'hidden' }}
+      >
+        {errorMessage || ' '}
       </p>
     </div>
   );
