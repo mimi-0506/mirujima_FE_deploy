@@ -1,16 +1,14 @@
-export type TodoResponseType = {
-  noteId: number | null;
+import type { GoalType } from './goal.type';
+
+export type TodoType = {
+  goal: Pick<GoalType, 'id' | 'title'>;
+  noteId: number;
   done: boolean;
   linkUrl: string | null;
-  fileUrl: string | null;
+  filePath: string | null;
   title: string;
   id: number;
-  goal: {
-    id: number;
-    title: string;
-  };
   userId: number;
-  teamId: string;
-  updatedAt: string;
   createdAt: string;
+  updatedAt: string;
 };

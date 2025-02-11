@@ -5,20 +5,19 @@ import NoteContent from '../../_components/noteContent/NoteContent';
 export default async function CreateNote() {
   // 추후 todoId를 searchParams로 받아서 조회 예정
   const todo = {
-    noteId: 447,
-    done: false,
-    linkUrl: null,
-    fileUrl: null,
-    title: '노트 테스트',
-    id: 3625,
     goal: {
-      title: 'note test 2',
-      id: 1789
+      id: 1,
+      title: '노트를 위한 목표'
     },
-    userId: 270,
-    teamId: '4',
-    updatedAt: '2025-02-07T20:54:01.375Z',
-    createdAt: '2025-02-07T20:54:01.375Z'
+    noteId: 4,
+    done: false,
+    linkUrl: '',
+    filePath: '',
+    title: '노트를 위한 할 일 4',
+    id: 4,
+    userId: 5,
+    createdAt: '2025-02-10T17:07:40.175123',
+    updatedAt: '2025-02-10T17:07:40.175123'
   };
 
   // if (!todo) redirect('/');
