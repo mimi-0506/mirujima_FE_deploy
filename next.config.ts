@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
     forceSwcTransforms: true
+    // serverActions: {
+    //   allowedOrigins: [process.env.NEXT_PUBLIC_BASE_URL as string]
+    // }
   },
   reactStrictMode: false,
   webpack(config) {
@@ -14,7 +17,10 @@ const nextConfig: NextConfig = {
     return config;
   },
   images: {
-    domains: ['i.pinimg.com']
+    remotePatterns: [
+      { protocol: 'http', hostname: 'i.pinimg.com' },
+      { protocol: 'https', hostname: 'i.pinimg.com' }
+    ]
   }
 };
 

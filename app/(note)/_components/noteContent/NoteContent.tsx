@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { createNote } from '@/api/note';
+import { createNote } from '@/api/clientActions/note';
 import { CloseCircleIcon, EmbedIcon } from '@/components/icons';
 import { URL_REGEX } from '@/constant/regex';
 import { useModalStore } from '@/provider/store-provider';
@@ -19,11 +19,11 @@ import { Editor } from './editor/DynamicEditor';
 import UploadLinkModal from '../modals/uploadLinkModal/UploadLinkModal';
 
 import type { NoteInputData } from '@/schema/noteSchema';
-import type { NoteDataType } from '@/types/note.type';
-import type { TodoResponseType } from '@/types/todo.type';
+import type { CreateNoteType } from '@/types/note.type';
+import type { TodoType } from '@/types/todo.type';
 
 interface Props {
-  todo: TodoResponseType;
+  todo: TodoType;
 }
 
 export default function NoteContent({ todo }: Props) {
@@ -48,7 +48,7 @@ export default function NoteContent({ todo }: Props) {
   const onSubmit: SubmitHandler<NoteInputData> = async (data) => {
     const { title, content, linkUrl } = data;
 
-    const note: NoteDataType = {
+    const note: CreateNoteType = {
       todoId: todo.id,
       title,
       content: '링크 추가 테스트', // content text 제한이 있는듯?

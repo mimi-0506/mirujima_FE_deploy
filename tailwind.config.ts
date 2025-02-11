@@ -31,6 +31,9 @@ export default {
         label3: '#FFA26B',
         label4: '#0084F4',
         pressed: '#E45555'
+      },
+      screens: {
+        md: '744px'
       }
     }
   },

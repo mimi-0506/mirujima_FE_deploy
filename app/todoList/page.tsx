@@ -6,7 +6,7 @@ import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getCookie } from 'cookies-next';
 
-import { readTodoList } from '@/api/readTodoList';
+import { readTodoList } from '@/api/clientActions/readTodoList';
 
 import EmptyMessage from './_components/EmptyMessage';
 import TodoFilter from './_components/TodoFilter';

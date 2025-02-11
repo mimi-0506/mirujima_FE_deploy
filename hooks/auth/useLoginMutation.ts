@@ -5,8 +5,8 @@ import axios from 'axios';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 
-import api from '../../api/authApi';
-import { infoStore } from '../../stores/infoStore';
+import api from '@/api/clientActions/authApi';
+import { infoStore } from '@/stores/infoStore';
 
 interface LoginFormData {
   email: string;
