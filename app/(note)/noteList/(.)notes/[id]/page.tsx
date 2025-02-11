@@ -1,3 +1,1 @@
-export default function NotesPage({}) {
-  return <div></div>;
-}
+// 빈 페이지. children만 받아서 출력

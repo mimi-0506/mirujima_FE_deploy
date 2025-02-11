@@ -1,3 +1,1 @@
-export default function NotFound() {
-  return <div></div>;
-}
+// NotFound 페이지
