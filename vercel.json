@@ -1,0 +1,11 @@
+{
+    "build": {
+      "env": {
+        "HUSKY": "0"
+      }
+    },
+    "scripts": {
+      "postinstall": "husky install"
+    }
+  }
+  
