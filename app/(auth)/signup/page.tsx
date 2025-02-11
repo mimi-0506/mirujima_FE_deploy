@@ -9,7 +9,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { z } from 'zod';
 
-import { useSignUpMutation } from '../../../hooks/auth/useSignUpMutation';
+import { checkEmailExists, useSignUpMutation } from '@/hooks/auth/useSignUpMutation';
+
 import Button from '../_components/Button';
 import InputField from '../_components/InputField';
 
@@ -31,6 +32,7 @@ export default function SignUpPage() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors }
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -39,12 +41,23 @@ export default function SignUpPage() {
 
   const { mutate: signUpMutate } = useSignUpMutation();
 
-  const onSubmit = (data: RegisterFormData) => {
-    signUpMutate(data, {
-      onError: (error) => {
-        toast.error('회원가입에 실패했습니다. 다시 시도해 주세요.');
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      // 회원가입 전에 이메일 중복 여부 체크
+      const emailExists = await checkEmailExists(data.email);
+      if (emailExists) {
+        setError('email', { message: '이미 존재하는 이메일입니다.' });
+        return;
       }
-    });
+
+      signUpMutate(data, {
+        onError: (error) => {
+          toast.error('회원가입에 실패했습니다. 다시 시도해 주세요.');
+        }
+      });
+    } catch (error) {
+      toast.error('이메일 중복 체크 중 오류가 발생했습니다.');
+    }
   };
 
   return (
