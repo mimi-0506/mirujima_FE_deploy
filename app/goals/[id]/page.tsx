@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 
 import { setCookie } from 'cookies-next';
 
-import api from '@/api/authApi';
+import api from '@/api/clientActions/authApi';
 import { useInfoStore } from '@/stores/infoStore';
 
 export default function GoalDetailPage() {
@@ -14,13 +14,11 @@ export default function GoalDetailPage() {
     restoreUser();
   }, []);
 
-  // accessToken을 강제로 무효화하여 refreshToken 동작 테스트
   const invalidateAccessToken = () => {
     setCookie('accessToken', 'invalid-token', { path: '/' });
     console.warn('🚨 accessToken이 강제로 무효화되었습니다.');
   };
 
-  // 보호된 API 호출 함수
   const fetchProtectedData = async () => {
     try {
       const response = await api.get('/user');

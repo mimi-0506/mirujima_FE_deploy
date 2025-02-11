@@ -1,8 +1,7 @@
-// src/api/authApi.ts
 import axios from 'axios';
 
-import requestInterceptor from './interceptors/requestInterceptors';
-import responseInterceptor from './interceptors/responseInterceptors';
+import requestInterceptors from '../interceptors/requestInterceptors';
+import responseInterceptors from '../interceptors/responseInterceptors';
 
 const authApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -10,13 +9,13 @@ const authApi = axios.create({
 });
 
 authApi.interceptors.request.use(
-  requestInterceptor.requestInterceptor,
-  requestInterceptor.requestInterceptorError
+  requestInterceptors.requestInterceptor,
+  requestInterceptors.requestInterceptorError
 );
 
 authApi.interceptors.response.use(
-  responseInterceptor.responseInterceptor,
-  responseInterceptor.responseInterceptorError
+  responseInterceptors.responseInterceptor,
+  responseInterceptors.responseInterceptorError
 );
 
 export default authApi;
