@@ -9,7 +9,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { z } from 'zod';
 
-import { checkEmailExists, useSignUpMutation } from '../../../hooks/auth/useSignUpMutation';
+import { checkEmailExists, useSignUpMutation } from '@/hooks/auth/useSignUpMutation';
+
 import Button from '../_components/Button';
 import InputField from '../_components/InputField';
 
