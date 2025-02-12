@@ -16,6 +16,7 @@ import { useModalStore } from '@/provider/store-provider';
 import { noteSchema } from '@/schema/noteSchema';
 
 import { Editor } from './editor/DynamicEditor';
+import TitleInput from './titleInput/TitleInput';
 import UploadLinkModal from '../modals/uploadLinkModal/UploadLinkModal';
 
 import type { NoteInputData } from '@/schema/noteSchema';
@@ -35,6 +36,7 @@ export default function NoteContent({ todo }: Props) {
     handleSubmit,
     setValue,
     getValues,
+    control,
     formState: { isValid }
   } = useForm<NoteInputData>({
     resolver: zodResolver(noteSchema),
@@ -92,16 +94,16 @@ export default function NoteContent({ todo }: Props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center">
-        <div className="w-full max-w-[792px] py-[5px]">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex max-w-[1248px] flex-col items-center">
+        <div className="w-full py-[5px]">
           <div className="flex items-center justify-between py-[5px]">
-            <h2 className="text-base text-slate-900">노트 작성</h2>
+            <h2 className="text-base leading-[28px] text-gray500 md:text-[22px]">노트 작성</h2>
             <div className="flex gap-2">
               <button
                 type="button"
                 name="임시저장 버튼"
                 aria-label="노트 임시저장"
-                className="h-[36px] w-[84px] rounded-xl text-[14px] font-semibold text-main"
+                className="h-[50px] w-[88px] rounded-lg border border-gray200 bg-white text-[14px] font-semibold text-gray350"
               >
                 임시 저장
               </button>
@@ -111,49 +113,33 @@ export default function NoteContent({ todo }: Props) {
                 aria-label="노트 작성완료"
                 aria-disabled={!isValid}
                 disabled={!isValid}
-                className="disabled:bg-cGray disabled:text-gray-350 h-[36px] w-[84px] rounded-xl bg-main text-[14px] font-semibold text-white"
+                className="h-[50px] w-[88px] rounded-xl bg-solid text-[14px] font-semibold text-main disabled:bg-Cgray disabled:text-gray350"
               >
                 작성 완료
               </button>
             </div>
           </div>
-
-          <div className="flex items-center gap-2 py-[5px]">
-            <div className="h-6 w-6">
-              <Image
-                src={'/images/thumbnail/mirujima-thumbnail.svg'}
-                width={24}
-                height={24}
-                alt="미루지마 썸네일 이미지"
-              />
-            </div>
-            <h3 className="truncate text-slate-800">{todo.goal.title}</h3>
-          </div>
-          <div className="flex items-center gap-2 py-[5px]">
-            <div>
-              <button
-                type="button"
-                className="h-[20px] w-[37px] rounded bg-slate-100 px-[3px] py-[2px] text-[12px] font-medium text-slate-700"
-                disabled
-              >
-                To do
-              </button>
-            </div>
-            <h4 className="truncate text-slate-700">{todo.title}</h4>
-          </div>
         </div>
 
-        <div className="h-full w-full max-w-[792px] space-y-2 py-[5px]">
-          <div>
-            <input
-              type="text"
-              className="w-full border-y border-slate-200 py-2 text-base outline-none"
-              placeholder="노트의 제목을 입력해주세요"
-              {...register('title')}
-            />
+        <div className="w-full space-y-2 bg-white px-4 py-[5px]">
+          <div className="flex items-center gap-2 py-[5px]">
+            <div className="h-6 w-6">
+              <Image src={'/icon/work.svg'} width={24} height={24} alt="할 일 아이콘" />
+            </div>
+            <h3 className="truncate text-gray500">{todo.goal.title}</h3>
           </div>
+          <div className="flex items-center justify-between gap-2 py-[5px]">
+            <div className="flex items-center gap-2">
+              <div className="h-[20px] w-[37px] rounded bg-Cgray px-[3px] py-[2px] text-[12px] font-medium text-gray350">
+                <span>To do</span>
+              </div>
+              <h4 className="truncate text-gray400">{todo.title}</h4>
+            </div>
+            <span className="text-sm leading-[16px] text-gray400">{todo.goal.completionDate}</span>
+          </div>
+          <TitleInput register={register} control={control} />
           <div>
-            <p className="text-[12px] font-medium text-slate-800">
+            <p className="text-[12px] font-medium text-gray350">
               공백 포함 : 총 {0}자 | 공백제외 : 총 {0}자
             </p>
           </div>

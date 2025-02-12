@@ -7,15 +7,15 @@ export type TodoListType = {
 };
 
 export type TodoType = {
-  goal: Pick<GoalType, 'id' | 'title'>;
-  noteId: number | null;
-  done: boolean | null;
+  goal: Pick<GoalType, 'id' | 'title' | 'completionDate'>;
+  noteId: number;
+  done: boolean;
   linkUrl: string | null;
   filePath: string | null;
   title: string;
   id: number;
   userId: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   priority: number;
 };

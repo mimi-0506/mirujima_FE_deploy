@@ -13,15 +13,25 @@ export default async function NoteList() {
   const goal = mockList.notes[0].goalDto.title;
 
   return (
-    <main className="h-screen overflow-y-scroll bg-slate-100 px-4 py-[48px] md:pl-[104px] md:pt-0 lg:pl-[296px]">
-      <section className="max-w-[792px] space-y-[16px] md:pt-4">
-        <h2 className="sr-only md:not-sr-only">노트 모아보기</h2>
-        <div className="flex h-[52px] w-full gap-2 rounded-xl bg-white px-6 py-[14px]">
-          <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-main">
-            <Image src={'/icon/flag-white.svg'} width={14} height={14} alt="깃발" />
-          </div>
-          <h3 className="w-[calc(100%-32px)] truncate">{goal}</h3>
+    <main className="h-screen overflow-y-scroll bg-gray100 px-4 py-[48px] md:pl-[104px] md:pt-0 lg:pl-[296px]">
+      <section className="max-w-[1248px] space-y-[24px] md:pt-4">
+        <div className="flex h-[52px] w-full items-center gap-2 rounded-xl pt-[14px]">
+          <Image src={'/icon/work.svg'} width={24} height={24} alt="할 일 아이콘" />
+          <h2 className="w-full truncate text-gray500">{goal}</h2>
+          <button className="rounded-md bg-Cgray" aria-label="목표 옵션 더보기">
+            <Image src={'/icon/more.svg'} width={24} height={24} alt="더보기 아이콘" />
+          </button>
         </div>
+        <div>
+          <button
+            type="button"
+            disabled
+            className="h-[50px] w-[119px] rounded-lg bg-solid font-semibold text-main"
+          >
+            노트 모아보기
+          </button>
+        </div>
+
         <NoteCardList noteList={mockList} />
       </section>
     </main>
