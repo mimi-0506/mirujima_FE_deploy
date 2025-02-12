@@ -1,12 +1,8 @@
 'use client';
-
+import Image from 'next/image';
 import React, { useEffect } from 'react';
-
-import { setCookie } from 'cookies-next';
-
-import api from '@/api/clientActions/authApi';
 import { useInfoStore } from '@/stores/infoStore';
-
+import Button from '../_components/Button';
 export default function GoalDetailPage() {
   const { name, restoreUser } = useInfoStore();
 
@@ -14,93 +10,56 @@ export default function GoalDetailPage() {
     restoreUser();
   }, []);
 
-  const invalidateAccessToken = () => {
-    setCookie('accessToken', 'invalid-token', { path: '/' });
-    console.warn('🚨 accessToken이 강제로 무효화되었습니다.');
-  };
-
-  const fetchProtectedData = async () => {
-    try {
-      const response = await api.get('/user');
-      console.log('🔒 Protected API 데이터:', response.data);
-    } catch (error) {
-      console.error('❌ 보호된 API 호출 에러:', error);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <div className="ml-[400px] max-w-4xl">
-        <div className="mb-4 text-lg font-semibold text-gray-700">
-          {name ? `${name}님 안녕하세요!` : '로그인이 필요합니다.'}
-        </div>
-
-        <div className="mb-4 rounded-lg bg-white p-6 shadow-md">
-          <div className="flex items-center justify-between">
-            <h1 className="flex items-center gap-2 text-lg font-semibold">
-              <span className="rounded-full bg-black p-2 text-white">▶</span>
-              자바스크립트로 웹 서비스 만들기
-            </h1>
-            <div className="flex gap-2">
-              <button className="text-gray-600 hover:text-gray-900">수정하기</button>
-              <button className="text-red-500 hover:text-red-700">삭제하기</button>
-            </div>
+    <main className="flex h-screen justify-center overflow-y-scroll bg-gray100 px-4 py-[48px] md:pl-[104px] md:pt-0 lg:pl-[296px]">
+      <section className="flex w-full min-w-[262px] max-w-[1284px] flex-col gap-6 md:pt-4">
+        <h2 className="flex h-[28px] w-full items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Image
+              src="/icon/todo-list-black.svg"
+              alt="목표 아이콘"
+              height={24}
+              width={24}
+              className="h-[24px] w-[24px]"
+            />
+            자바스크립트로 웹 서비스 만들기
           </div>
-          <div className="mt-4">
-            <p className="text-sm text-gray-500">Progress</p>
-            <div className="mt-1 h-2 w-full rounded-full bg-gray-200">
-              <div className="h-2 rounded-full bg-blue-500" style={{ width: '50%' }}></div>
-            </div>
-          </div>
-        </div>
 
-        <button className="flex w-full items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700">
-          📂 노트 모아보기
-        </button>
+          <Image
+            src="/icon/kebab.svg"
+            alt="설정 아이콘"
+            height={24}
+            width={24}
+            className="h-[24px] w-[24px]"
+          />
+        </h2>
 
-        <button
-          onClick={invalidateAccessToken}
-          className="mt-4 flex w-full items-center gap-2 rounded-lg bg-red-100 px-4 py-3 text-red-700"
-        >
-          ❌ accessToken 무효화 (Refresh 테스트)
-        </button>
+        <Button>노트 모아보기</Button>
 
-        <button
-          onClick={fetchProtectedData}
-          className="mt-4 flex w-full items-center gap-2 rounded-lg bg-green-100 px-4 py-3 text-green-700"
-        >
-          🔒 Protected API 호출 테스트
-        </button>
+        <div className="flex rounded-[16px] border border-gray200 bg-white p-6 shadow-sm">
+          {/* To do 영역 */}
+          <div className="min-h-[214px] w-[576px] flex-1">
+            <p className="mb-2 text-[15px] font-medium leading-[20px] text-gray500">To do</p>
 
-        <div className="mt-6 grid grid-cols-2 gap-6">
-          <div className="rounded-lg bg-white p-6 shadow-md">
-            <div className="mb-4 flex justify-between">
-              <h2 className="text-lg font-semibold">To do</h2>
-              <button className="text-blue-500 hover:text-blue-700">+ 항목 추가</button>
-            </div>
-            <ul className="space-y-2">
-              {[...Array(5)].map((_, i) => (
-                <li key={i} className="flex items-center gap-2 text-gray-700">
-                  <input type="checkbox" className="h-4 w-4" />
-                  자바스크립트 기초 학습 {i + 1}일 차
-                  <span className="ml-auto text-gray-400">ⓘ</span>
-                </li>
-              ))}
+            <ul className="mt-2 space-y-2 text-gray350">
+              <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 목표가 없어요</li>
             </ul>
           </div>
 
-          <div className="rounded-lg bg-white p-6 shadow-md">
-            <h2 className="mb-4 text-lg font-semibold">Done</h2>
-            <ul className="space-y-2">
-              {[...Array(3)].map((_, i) => (
-                <li key={i} className="flex items-center gap-2 text-gray-500 line-through">
-                  ✅ 자바스크립트 기초 학습 {i + 6}일 차 완료
-                </li>
-              ))}
+          <div className="mx-6 flex translate-y-5 items-center justify-center">
+            <span className="min-h-[160px] w-px border-l border-dashed border-gray200"></span>
+          </div>
+
+          {/* Done 영역 */}
+          <div className="min-w-[262px] flex-1">
+            <p className="mb-2 text-[15px] font-medium leading-[20px] text-gray500">Done</p>
+
+            <ul className="mt-2 space-y-2 text-gray350">
+              <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 목표가 없어요</li>
             </ul>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
