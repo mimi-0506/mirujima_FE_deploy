@@ -1,10 +1,14 @@
 'use client';
-import Image from 'next/image';
 import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useInfoStore } from '@/stores/infoStore';
 import Button from '../_components/Button';
+import TaskList from '../_components/TaskList';
+
 export default function GoalDetailPage() {
   const { name, restoreUser } = useInfoStore();
+  const router = useRouter();
 
   useEffect(() => {
     restoreUser();
@@ -34,30 +38,16 @@ export default function GoalDetailPage() {
           />
         </h2>
 
-        <Button>노트 모아보기</Button>
+        <Button onClick={() => router.push('/noteList')}>노트 모아보기</Button>
 
         <div className="flex rounded-[16px] border border-gray200 bg-white p-6 shadow-sm">
-          {/* To do 영역 */}
-          <div className="min-h-[214px] w-[576px] flex-1">
-            <p className="mb-2 text-[15px] font-medium leading-[20px] text-gray500">To do</p>
-
-            <ul className="mt-2 space-y-2 text-gray350">
-              <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 목표가 없어요</li>
-            </ul>
-          </div>
+          <TaskList title="To do" tasks={[]} />
 
           <div className="mx-6 flex translate-y-5 items-center justify-center">
             <span className="min-h-[160px] w-px border-l border-dashed border-gray200"></span>
           </div>
 
-          {/* Done 영역 */}
-          <div className="min-w-[262px] flex-1">
-            <p className="mb-2 text-[15px] font-medium leading-[20px] text-gray500">Done</p>
-
-            <ul className="mt-2 space-y-2 text-gray350">
-              <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 목표가 없어요</li>
-            </ul>
-          </div>
+          <TaskList title="Done" tasks={[]} />
         </div>
       </section>
     </main>
