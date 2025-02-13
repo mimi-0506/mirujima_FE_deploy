@@ -43,8 +43,13 @@ export default function GoalDetailPage() {
   }
 
   if (isGoalDetailError || isTodoListError || isDoneListError) {
-    console.error(goalDetailError);
-    return <div>데이터 로딩 에러가 발생했습니다.</div>;
+    return (
+      <div className="text-red-500">
+        {isGoalDetailError ? '목표 정보를 불러오는데 실패했습니다.' : 
+         isTodoListError ? '할 일 목록을 불러오는데 실패했습니다.' :
+         '완료된 할 일 목록을 불러오는데 실패했습니다.'}
+      </div>
+    );
   }
 
   const goalTitle: string = goalData?.result?.title ?? '목표 제목이 없어요';
