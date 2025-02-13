@@ -8,7 +8,7 @@ import { apiWithServerToken } from '.';
 export const readNoteListFromServer = async ({
   goalId,
   lastSeenId,
-  pageSize
+  pageSize = 10
 }: ReadNoteListType) => {
   'use server';
   const query = `goalId=${goalId}&lastSeenId=${lastSeenId}&pageSize=${pageSize}`;
@@ -20,6 +20,7 @@ export const readNoteListFromServer = async ({
     if (error instanceof AxiosError) {
       // 추후 에러 처리 추가 예정
     }
-    return 'error';
+
+    throw error;
   }
 };

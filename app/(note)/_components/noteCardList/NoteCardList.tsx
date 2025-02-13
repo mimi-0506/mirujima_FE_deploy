@@ -2,6 +2,10 @@
 
 import React from 'react';
 
+import { useParams } from 'next/navigation';
+
+import useInfiniteNoteList from '@/hooks/note/useInfiniteNoteList';
+
 import NoteCard from '../noteCard/NoteCard';
 
 import type { NoteListType } from '@/types/note.type';
@@ -11,13 +15,16 @@ interface Props {
 }
 
 export default function NoteCardList({ noteList }: Props) {
-  console.log(noteList);
+  const params = useParams<{ goalId: string }>();
+
+  const { data, inViewRef } = useInfiniteNoteList(Number(params.goalId), noteList);
 
   return (
     <div className="space-y-[16px]">
-      {noteList.notes.map((note) => {
+      {data.map((note) => {
         return <NoteCard key={note.createdAt} note={note} />;
       })}
+      <div ref={inViewRef} />
     </div>
   );
 }

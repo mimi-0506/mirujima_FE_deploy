@@ -34,17 +34,17 @@ export const createNote = async (data: CreateNoteType) => {
 export const readNoteListFromClient = async ({
   goalId,
   lastSeenId,
-  pageSize
+  pageSize = 10
 }: ReadNoteListType) => {
   const query = `goalId=${goalId}&lastSeenId=${lastSeenId}&pageSize=${pageSize}`;
   try {
     const res = await apiWithClientToken.get<ApiResponse<NoteListType>>(`/notes?${query}`);
 
-    return res.data;
+    return res.data.result;
   } catch (error) {
     if (error instanceof AxiosError) {
       // 추후 에러 처리 추가 예정
     }
-    return 'error';
+    throw error;
   }
 };

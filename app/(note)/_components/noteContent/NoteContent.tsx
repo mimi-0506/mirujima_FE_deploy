@@ -163,6 +163,7 @@ export default function NoteContent({ todo }: Props) {
                 onClick={onDeleteLink}
                 aria-label="참고 링크 삭제"
                 name="링크 삭제 버튼"
+                className="group/circle"
               >
                 <CloseCircleIcon />
               </button>

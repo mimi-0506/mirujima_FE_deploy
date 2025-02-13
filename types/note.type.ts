@@ -21,7 +21,7 @@ export type NoteType = {
   createdAt: string;
   title: string;
   id: number;
-  goalDto: Pick<GoalType, 'id' | 'title'>;
+  goalDto: Pick<GoalType, 'id' | 'title' | 'completionDate'>;
   userId: number;
 };
 
@@ -34,5 +34,5 @@ export type NoteListType = {
 export type ReadNoteListType = {
   goalId: number;
   lastSeenId: number;
-  pageSize: number;
+  pageSize?: number;
 };

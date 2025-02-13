@@ -1,4 +1,3 @@
-// todoType.ts 파일의 Goal과 겹침
 export type GoalType = {
   id: number;
   userId: number;
