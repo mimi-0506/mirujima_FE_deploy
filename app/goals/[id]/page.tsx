@@ -44,26 +44,20 @@ export default function GoalDetailPage() {
 
   if (isGoalDetailError || isTodoListError || isDoneListError) {
     return (
-      <div className="text-red-500">
-        {isGoalDetailError ? '목표 정보를 불러오는데 실패했습니다.' : 
-         isTodoListError ? '할 일 목록을 불러오는데 실패했습니다.' :
-         '완료된 할 일 목록을 불러오는데 실패했습니다.'}
+      <div>
+        {isGoalDetailError
+          ? '목표 정보를 불러오는데 실패했습니다.'
+          : isTodoListError
+            ? '할 일 목록을 불러오는데 실패했습니다.'
+            : '완료된 할 일 목록을 불러오는데 실패했습니다.'}
       </div>
     );
   }
 
   const goalTitle: string = goalData?.result?.title ?? '목표 제목이 없어요';
 
-  const toDoTasks = (todoList ?? []).map((todo) => ({
-    ...todo,
-    createdAt: new Date(todo.createdAt),
-    updatedAt: new Date(todo.updatedAt)
-  }));
-  const doneTasks = (doneList ?? []).map((todo) => ({
-    ...todo,
-    createdAt: new Date(todo.createdAt),
-    updatedAt: new Date(todo.updatedAt)
-  }));
+  const toDoTasks = todoList ?? [];
+  const doneTasks = doneList ?? [];
 
   return (
     <main className="flex h-screen justify-center overflow-y-scroll bg-gray100 px-4 py-[48px] md:pl-[104px] md:pt-0 lg:pl-[296px]">
