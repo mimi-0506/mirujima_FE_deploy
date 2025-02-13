@@ -17,8 +17,10 @@
 // const requestInterceptorError = (error: any) => Promise.reject(error);
 
 // export default { requestInterceptor, requestInterceptorError };
-import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { getCookie, setCookie } from 'cookies-next';
+
+import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 const REFRESH_THRESHOLD_MINUTES = 50;
 
@@ -160,7 +162,4 @@ export function requestInterceptorError(error: AxiosError) {
   return Promise.reject(error);
 }
 
-export default {
-  requestInterceptor,
-  requestInterceptorError
-};
+export default { requestInterceptor, requestInterceptorError };

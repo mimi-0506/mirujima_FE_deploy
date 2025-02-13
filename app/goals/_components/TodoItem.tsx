@@ -1,31 +1,31 @@
+'use client';
+import { useQueryClient } from '@tanstack/react-query';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useDeleteTodoMutation } from '@/hooks/useDeleteTodoMutation';
-import { useUpdateTodoStatusMutation } from '@/hooks/useUpdateTodoStatusMutation';
+// import { useUpdateTodoStatusMutation } from '@/hooks/useUpdateTodoStatusMutation';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
 import FileIcon from '@/public/icon/file.svg';
 import FlagIcon from '@/public/icon/flag-gray.svg';
 import LinkIcon from '@/public/icon/link.svg';
 import NoteIcon from '@/public/icon/note.svg';
 import PenIcon from '@/public/icon/pen.svg';
-
 import KebabMenu from '../../../components/kebab/KebabMenu';
 import { CheckedIcon } from '../../todoList/_components/CheckedIcon';
-
 import type { TodoType } from '@/types/todo.type';
-import type { QueryClient } from '@tanstack/react-query';
 
 interface TodoItemProps {
   todo: TodoType;
-  queryClient: QueryClient;
 }
 
-export default function TodoItem({ todo, queryClient }: TodoItemProps) {
+export default function TodoItem({ todo }: TodoItemProps) {
+  const queryClient = useQueryClient();
   const mutation = useDeleteTodoMutation(queryClient);
-  const toggleMutation = useUpdateTodoStatusMutation(queryClient);
+  const { mutate: toggleTodo } = useCheckTodo(todo.id);
 
   const handleCheckbox = () => {
-    toggleMutation.mutate({ id: todo.id, done: !todo.done });
+    toggleTodo(todo.done ? false : true);
   };
+
   const handleDelete = () => {
     mutation.mutate(todo.id);
   };

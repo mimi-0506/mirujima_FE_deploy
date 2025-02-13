@@ -1,22 +1,22 @@
 'use client';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
+
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
+
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
 import { useInfoStore } from '@/stores/infoStore';
+
 import Button from '../_components/Button';
 import TaskList from '../_components/TaskList';
-import { QueryClient } from '@tanstack/react-query';
 
 export default function GoalDetailPage() {
-  const queryClient = useRef(new QueryClient()).current;
   const router = useRouter();
   const { restoreUser } = useInfoStore();
 
   const params = useParams();
   const goalId = Array.isArray(params.id) ? params.id[0] : params.id;
-  console.log('🔥 goalId:', goalId);
 
   const {
     data: goalData,
@@ -52,7 +52,6 @@ export default function GoalDetailPage() {
 
   const goalTitle: string = goalData?.result?.title ?? '목표 제목이 없어요';
 
-  // 날짜 문자열을 Date 객체로 변환
   const toDoTasks = (todoList ?? []).map((todo) => ({
     ...todo,
     createdAt: new Date(todo.createdAt),
@@ -63,6 +62,7 @@ export default function GoalDetailPage() {
     createdAt: new Date(todo.createdAt),
     updatedAt: new Date(todo.updatedAt)
   }));
+
   return (
     <main className="flex h-screen justify-center overflow-y-scroll bg-gray100 px-4 py-[48px] md:pl-[104px] md:pt-0 lg:pl-[296px]">
       <section className="flex w-full min-w-[262px] max-w-[1284px] flex-col gap-6 md:pt-4">
@@ -82,13 +82,13 @@ export default function GoalDetailPage() {
         <Button onClick={() => router.push('/noteList')}>노트 모아보기</Button>
 
         <div className="flex rounded-[16px] border border-gray200 bg-white p-6 shadow-sm">
-          <TaskList title="To do" tasks={toDoTasks} queryClient={queryClient} />
+          <TaskList title="To do" tasks={toDoTasks} />
 
           <div className="mx-6 flex translate-y-5 items-center justify-center">
             <span className="min-h-[160px] w-px border-l border-dashed border-gray200"></span>
           </div>
 
-          <TaskList title="Done" tasks={doneTasks} queryClient={queryClient} />
+          <TaskList title="Done" tasks={doneTasks} />
         </div>
       </section>
     </main>

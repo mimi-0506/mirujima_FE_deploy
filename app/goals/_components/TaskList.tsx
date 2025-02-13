@@ -1,15 +1,16 @@
+'use client';
 import React, { useEffect } from 'react';
+
 import TodoItem from './TodoItem';
+
 import type { TodoType } from '@/types/todo.type';
-import type { QueryClient } from '@tanstack/react-query';
 
 interface TaskListProps {
   title: string;
   tasks: TodoType[];
-  queryClient: QueryClient;
 }
 
-export default function TaskList({ title, tasks, queryClient }: TaskListProps) {
+export default function TaskList({ title, tasks }: TaskListProps) {
   useEffect(() => {
     console.log(title, tasks);
   }, [title, tasks]);
@@ -20,7 +21,7 @@ export default function TaskList({ title, tasks, queryClient }: TaskListProps) {
 
       <ul className="mt-2 space-y-2 text-gray350">
         {tasks.length > 0 ? (
-          tasks.map((task) => <TodoItem key={task.id} todo={task} queryClient={queryClient} />)
+          tasks.map((task) => <TodoItem key={task.id} todo={task} />)
         ) : (
           <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 할 일이 없어요</li>
         )}
