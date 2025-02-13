@@ -46,7 +46,7 @@ export default function Menus() {
   const NewGoalButton = () => {
     return (
       <button
-        className="flex h-[46px] w-full items-center justify-center gap-2 rounded-[8px] border-[1px] border-main text-main shadow-md transition-all duration-300 ease-in-out"
+        className="flex h-[46px] w-full items-center justify-center gap-2 rounded-[8px] border-[1px] border-main text-main transition-all duration-300 ease-in-out"
         onClick={() => setInput(true)}
       >
         <AddIcon />새 목표

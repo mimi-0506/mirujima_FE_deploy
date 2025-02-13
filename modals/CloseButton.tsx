@@ -1,11 +1,13 @@
+import X from '../public/icon/X.svg';
+
 export default function CloseButton({
   handleClose
 }: {
   handleClose: (event: React.MouseEvent) => void;
 }) {
   return (
-    <button onClick={handleClose} className="absolute right-0">
-      닫기
+    <button className="flex h-6 w-6 items-center justify-center" onClick={handleClose}>
+      <X />
     </button>
   );
 }
