@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { getCookie, setCookie } from 'cookies-next';
 
-import type { AxiosResponse } from 'axios';
 import authApi from '../clientActions/authApi';
+
+import type { AxiosResponse } from 'axios';
 
 const responseInterceptor = (response: AxiosResponse) => response;
 

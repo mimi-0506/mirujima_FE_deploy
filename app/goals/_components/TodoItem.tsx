@@ -1,14 +1,15 @@
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useDeleteTodoMutation } from '@/hooks/useDeleteTodoMutation';
 import { useUpdateTodoStatusMutation } from '@/hooks/useUpdateTodoStatusMutation';
+import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
 import FileIcon from '@/public/icon/file.svg';
 import FlagIcon from '@/public/icon/flag-gray.svg';
 import LinkIcon from '@/public/icon/link.svg';
 import NoteIcon from '@/public/icon/note.svg';
 import PenIcon from '@/public/icon/pen.svg';
 
-import { CheckedIcon } from '../../todoList/_components/CheckedIcon';
 import KebabMenu from '../../../components/kebab/KebabMenu';
+import { CheckedIcon } from '../../todoList/_components/CheckedIcon';
 
 import type { TodoType } from '@/types/todo.type';
 import type { QueryClient } from '@tanstack/react-query';
@@ -22,6 +23,9 @@ export default function TodoItem({ todo, queryClient }: TodoItemProps) {
   const mutation = useDeleteTodoMutation(queryClient);
   const toggleMutation = useUpdateTodoStatusMutation(queryClient);
 
+  const handleCheckbox = () => {
+    toggleMutation.mutate({ id: todo.id, done: !todo.done });
+  };
   const handleDelete = () => {
     mutation.mutate(todo.id);
   };
@@ -29,10 +33,6 @@ export default function TodoItem({ todo, queryClient }: TodoItemProps) {
   // TODO: 할 일 수정 모달 열림
   const handleOpenEditModal = () => {
     alert('수정하기');
-  };
-
-  const handleCheckbox = () => {
-    toggleMutation.mutate({ id: todo.id, done: !todo.done });
   };
 
   const className = PRIORITY_COLORS[todo.priority];
@@ -84,6 +84,7 @@ export default function TodoItem({ todo, queryClient }: TodoItemProps) {
         >
           {todo.priority}
         </span>
+
         {!todo.filePath && (
           <button className="hidden group-focus-within:block group-hover:block group-focus:block">
             <PenIcon />
