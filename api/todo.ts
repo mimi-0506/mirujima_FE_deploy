@@ -7,10 +7,12 @@ const TODO_SIZE = 40;
 
 export const readTodoList = async ({
   pageParam = 9999,
-  filter
+  filter,
+  pageSize = TODO_SIZE
 }: {
-  pageParam: number;
+  pageParam?: number;
   filter?: FilterType;
+  pageSize?: number;
 }): Promise<TodoListType> => {
   let doneParam; // 필터 값에 따라 'done' 파라미터 설정
 
@@ -18,7 +20,7 @@ export const readTodoList = async ({
   else if (filter === 'To do') doneParam = false;
 
   const response = await apiWithClientToken.get<{ result: TodoListType }>('/todos', {
-    params: { lastSeenId: pageParam, pageSize: TODO_SIZE, done: doneParam }
+    params: { lastSeenId: pageParam, pageSize: pageSize, done: doneParam }
   });
   return response.data.result;
 };

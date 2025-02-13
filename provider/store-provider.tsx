@@ -54,3 +54,29 @@ export const useModalStore = <T,>(selector: (store: ModalStore) => T): T => {
 
   return useStore(modalStoreContext, selector);
 };
+
+//-----------------------------
+
+export type TodoCreateModalStoreApi = ReturnType<typeof createModalStore>;
+
+export const TodoCreateModalStoreContext = createContext<ModalStoreApi | undefined>(undefined);
+
+export const TodoCreateModalStoreProvider = ({ children }: storeProviderProps) => {
+  const storeRef = useRef<ModalStoreApi>(null);
+  if (!storeRef.current) storeRef.current = createModalStore();
+
+  return (
+    <TodoCreateModalStoreContext.Provider value={storeRef.current}>
+      {children}
+    </TodoCreateModalStoreContext.Provider>
+  );
+};
+
+export const useTodoCreateModalStore = <T,>(selector: (store: ModalStore) => T): T => {
+  const todoCreatemodalStoreContext = useContext(TodoCreateModalStoreContext);
+
+  if (!todoCreatemodalStoreContext)
+    throw new Error(`useModalStore must be used within ModalStoreProvider`);
+
+  return useStore(todoCreatemodalStoreContext, selector);
+};

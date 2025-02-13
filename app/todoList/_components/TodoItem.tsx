@@ -40,7 +40,7 @@ export default function TodoItem({ todo, queryClient }: TodoItemProps) {
   return (
     <li className="group relative mb-3 flex justify-between">
       <div className="flex items-start gap-2 group-hover:text-[#F86969]">
-        <div className="relative flex cursor-pointer items-center">
+        <div className="relative mt-[3px] flex cursor-pointer items-center">
           <input
             type="checkbox"
             checked={todo.done ?? undefined}
@@ -53,10 +53,14 @@ export default function TodoItem({ todo, queryClient }: TodoItemProps) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <span className={todo.done ? 'line-through' : ''}>{todo.title}</span>
+          <span
+            className={`max-w-52 overflow-hidden truncate text-ellipsis whitespace-nowrap ${todo.done ? 'line-through' : ''}`}
+          >
+            {todo.title}
+          </span>
 
           {todo.goal?.id && (
-            <span className="flex items-center gap-1 text-[13px] text-[#C0C0C0]">
+            <span className="flex items-center gap-1 whitespace-nowrap text-[13px] text-[#C0C0C0]">
               <FlagIcon />
               {todo.goal.title}
             </span>
@@ -84,11 +88,13 @@ export default function TodoItem({ todo, queryClient }: TodoItemProps) {
         >
           {todo.priority}
         </span>
+
         {!todo.filePath && (
           <button className="hidden group-focus-within:block group-hover:block group-focus:block">
             <PenIcon />
           </button>
         )}
+
         <KebabMenu onEdit={handleOpenEditModal} onDelete={handleDelete} />
       </div>
     </li>

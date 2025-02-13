@@ -1,4 +1,9 @@
-// todoType.ts 파일의 Goal과 겹침
+export type GaolListType = {
+  lastSeenId: number;
+  totalCount: number;
+  goals: GoalType[];
+};
+
 export type GoalType = {
   id: number;
   userId: number;
