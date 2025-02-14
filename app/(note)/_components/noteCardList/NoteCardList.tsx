@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import useInfiniteNoteList from '@/hooks/note/useInfiniteNoteList';
 
@@ -16,8 +16,13 @@ interface Props {
 
 export default function NoteCardList({ noteList }: Props) {
   const params = useParams<{ goalId: string }>();
+  const router = useRouter();
 
   const { data, inViewRef } = useInfiniteNoteList(Number(params.goalId), noteList);
+
+  const onClickNote = (noteId: number) => {
+    router.push(`/notes`);
+  };
 
   return (
     <div className="space-y-[16px]">

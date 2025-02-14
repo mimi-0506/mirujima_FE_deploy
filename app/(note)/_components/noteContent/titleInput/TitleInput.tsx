@@ -9,7 +9,7 @@ interface Props {
   register: UseFormRegister<NoteInputData>;
   control: Control<NoteInputData>;
 }
-// default value 추가 예정
+
 export default function TitleInput({ register, control }: Props) {
   const titleValue = useWatch({ control, name: 'title' });
   return (
@@ -18,7 +18,7 @@ export default function TitleInput({ register, control }: Props) {
         type="text"
         id="note-title-input"
         maxLength={30}
-        className="w-full py-2 text-base font-semibold text-gray350 outline-none md:text-[22px]"
+        className="w-full py-2 text-base font-semibold outline-none placeholder:text-gray350 md:text-[22px]"
         placeholder="노트의 제목을 입력해주세요"
         {...register('title')}
       />

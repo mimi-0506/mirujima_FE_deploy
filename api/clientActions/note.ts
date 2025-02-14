@@ -3,7 +3,13 @@ import { AxiosError } from 'axios';
 import { ERROR_CODE } from '@/constant/errorCode';
 
 import type { ApiResponse } from '@/types/apiResponse.type';
-import type { CreateNoteType, NoteListType, NoteType, ReadNoteListType } from '@/types/note.type';
+import type {
+  CreateNoteType,
+  NoteListType,
+  NoteType,
+  ReadNoteListType,
+  UpdateNoteType
+} from '@/types/note.type';
 
 import { apiWithClientToken } from '.';
 
@@ -39,6 +45,26 @@ export const readNoteListFromClient = async ({
   const query = `goalId=${goalId}&lastSeenId=${lastSeenId}&pageSize=${pageSize}`;
   try {
     const res = await apiWithClientToken.get<ApiResponse<NoteListType>>(`/notes?${query}`);
+
+    if (res.data.result === null) throw new Error('데이터 없음');
+
+    return res.data.result;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      // 추후 에러 처리 추가 예정
+    }
+    throw error;
+  }
+};
+
+export const updateNote = async (noteId: number, data: UpdateNoteType) => {
+  const { title, content, linkUrl } = data;
+  try {
+    const res = await apiWithClientToken.patch<ApiResponse<NoteType>>(`/notes/${noteId}`, {
+      title,
+      content,
+      linkUrl
+    });
 
     return res.data.result;
   } catch (error) {

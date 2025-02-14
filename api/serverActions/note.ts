@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 
 import type { ApiResponse } from '@/types/apiResponse.type';
-import type { NoteListType, ReadNoteListType } from '@/types/note.type';
+import type { NoteListType, NoteType, ReadNoteListType } from '@/types/note.type';
 
 import { apiWithServerToken } from '.';
 
@@ -19,6 +19,20 @@ export const readNoteListFromServer = async ({
   } catch (error) {
     if (error instanceof AxiosError) {
       // 추후 에러 처리 추가 예정
+    }
+
+    throw error;
+  }
+};
+
+export const readNoteFromServer = async (noteId: number) => {
+  try {
+    const res = await apiWithServerToken.get<ApiResponse<NoteType>>(`/notes/${noteId}`);
+
+    return res.data.result;
+  } catch (error) {
+    if (error instanceof Error) {
+      // 추후 에러 처리 예정
     }
 
     throw error;

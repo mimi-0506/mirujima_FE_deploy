@@ -16,7 +16,7 @@ export interface NoteSearchParams extends SearchParams {
 export type NoteType = {
   todoDto: Pick<TodoType, 'done' | 'filePath' | 'linkUrl' | 'title' | 'id'>;
   content: string;
-  linkUrl: string | null;
+  linkUrl: string;
   updatedAt: string;
   createdAt: string;
   title: string;
@@ -36,3 +36,5 @@ export type ReadNoteListType = {
   lastSeenId: number;
   pageSize?: number;
 };
+
+export type UpdateNoteType = Pick<NoteType, 'title' | 'content' | 'linkUrl'>;
