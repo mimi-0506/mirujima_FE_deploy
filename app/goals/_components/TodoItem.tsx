@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
-import { useDeleteTodoMutation } from '@/hooks/useDeleteTodoMutation';
+import { useDeleteTodoItem } from '@/hooks/goalsDetail/useDeleteTodoItem';
 // import { useUpdateTodoStatusMutation } from '@/hooks/useUpdateTodoStatusMutation';
 import FileIcon from '@/public/icon/file.svg';
 import FlagIcon from '@/public/icon/flag-gray.svg';
@@ -23,7 +23,7 @@ interface TodoItemProps {
 
 export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const queryClient = useQueryClient();
-  const mutation = useDeleteTodoMutation(queryClient);
+  const mutation = useDeleteTodoItem();
   const { mutate: toggleTodo } = useCheckTodo();
 
   const handleCheckbox = () => {
