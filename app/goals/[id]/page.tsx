@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -15,9 +16,6 @@ export default function GoalDetailPage() {
   const params = useParams();
   const goalIdParam = Array.isArray(params.id) ? params.id[0] : params.id;
   const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
-
-  // 강제 리렌더링을 위한 상태
-  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     restoreUser();
@@ -60,8 +58,6 @@ export default function GoalDetailPage() {
         </h2>
 
         <Button onClick={() => router.push('/noteList')}>노트 모아보기</Button>
-
-        <Button onClick={() => setRefreshKey((prev) => prev + 1)}>새로고침</Button>
 
         <div className="flex rounded-[16px] border border-gray200 bg-white p-6 shadow-sm">
           <div className="h-[260px] flex-1 overflow-y-auto">
