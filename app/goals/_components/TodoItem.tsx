@@ -1,6 +1,5 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
-
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
 import { useDeleteTodoMutation } from '@/hooks/useDeleteTodoMutation';
