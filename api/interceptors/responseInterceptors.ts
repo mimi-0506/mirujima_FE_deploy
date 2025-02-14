@@ -1,5 +1,6 @@
-import axios from 'axios';
 import { getCookie, setCookie } from 'cookies-next';
+
+import authApi from '../clientActions/authApi';
 
 import type { AxiosResponse } from 'axios';
 
@@ -24,9 +25,7 @@ const responseInterceptorError = async (error: any) => {
 
       console.log('[Interceptor] 저장된 refresh token:', refreshToken);
 
-      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/refresh`, {
-        refreshToken
-      });
+      const { data } = await authApi.post('/auth/refresh', { refreshToken });
 
       console.log('[Interceptor] 서버 응답:', data);
 
@@ -41,7 +40,7 @@ const responseInterceptorError = async (error: any) => {
       console.log('[Interceptor] 쿠키에 저장된 access token:', getCookie('accessToken'));
 
       originalRequest.headers['Authorization'] = `Bearer ${data.result.accessToken}`;
-      return axios(originalRequest);
+      return authApi(originalRequest);
     } catch (refreshError) {
       console.error('[Interceptor] 토큰 갱신 실패:', refreshError);
       return Promise.reject(refreshError);
