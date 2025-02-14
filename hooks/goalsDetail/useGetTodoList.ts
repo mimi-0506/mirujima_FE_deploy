@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import authApi from '@/api/clientActions/authApi';
 import type { TodoType } from '@/types/todo.type';
