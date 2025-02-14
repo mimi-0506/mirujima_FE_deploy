@@ -10,7 +10,7 @@ import type { TodoType } from '@/types/todo.type';
 
 interface TaskListProps {
   title: string;
-  goalId: string;
+  goalId: number;
   done: boolean;
 }
 
@@ -36,7 +36,7 @@ export default function TaskList({ title, goalId, done }: TaskListProps) {
       <p className="mb-2 text-[15px] font-medium leading-[20px] text-gray500">{title}</p>
       <ul className="mt-2 space-y-2 text-gray350">
         {tasks.length > 0 ? (
-          tasks.map((task) => <TodoItem key={task.id} todo={task} />)
+          tasks.map((task) => <TodoItem key={task.id} todo={task} goalId={goalId} />)
         ) : (
           <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 할 일이 없어요</li>
         )}

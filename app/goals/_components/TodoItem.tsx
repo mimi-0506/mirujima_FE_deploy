@@ -18,33 +18,27 @@ import type { TodoType } from '@/types/todo.type';
 
 interface TodoItemProps {
   todo: TodoType;
+  goalId: number;
 }
 
-export default function TodoItem({ todo }: TodoItemProps) {
+export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const queryClient = useQueryClient();
   const mutation = useDeleteTodoMutation(queryClient);
-
   const { mutate: toggleTodo } = useCheckTodo();
 
   const handleCheckbox = () => {
-    if (todo.id === undefined) {
-      console.error('todo.id is undefined!');
-      return;
-    }
-
     toggleTodo({
       id: todo.id,
       done: !todo.done,
       title: todo.title,
-      priority: todo.priority
+      priority: todo.priority,
+      goalId
     });
   };
-
   const handleDelete = () => {
     mutation.mutate(todo.id);
   };
 
-  // TODO: 할 일 수정 모달 열림
   const handleOpenEditModal = () => {
     alert('수정하기');
   };

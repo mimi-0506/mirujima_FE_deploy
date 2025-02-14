@@ -16,7 +16,7 @@ interface TodoListResponse {
 }
 
 const fetchTodoListInfinite = async (
-  goalId: string,
+  goalId: number,
   done: boolean,
   lastSeenId: number = 9999,
   pageSize: number = 5
@@ -27,7 +27,7 @@ const fetchTodoListInfinite = async (
   return response.data.result;
 };
 
-export const useInfiniteTodoList = (goalId: string, done: boolean) => {
+export const useInfiniteTodoList = (goalId: number, done: boolean) => {
   return useInfiniteQuery({
     queryKey: ['todoList', goalId, done],
     queryFn: async ({ pageParam = 9999 }) => await fetchTodoListInfinite(goalId, done, pageParam),

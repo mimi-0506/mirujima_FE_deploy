@@ -1,6 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -13,19 +12,22 @@ import TaskList from '../_components/TaskList';
 export default function GoalDetailPage() {
   const router = useRouter();
   const { restoreUser } = useInfoStore();
-
   const params = useParams();
-  const goalId = Array.isArray(params.id) ? params.id[0] : params.id;
+  const goalIdParam = Array.isArray(params.id) ? params.id[0] : params.id;
+  const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
+
+  // 강제 리렌더링을 위한 상태
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     restoreUser();
   }, [restoreUser]);
-
+  const goalIdString = goalId ? goalId.toString() : '';
   const {
     data: goalData,
     isLoading: isGoalDetailLoading,
     isError: isGoalDetailError
-  } = useGetGoalDetail(goalId ?? '');
+  } = useGetGoalDetail(goalIdString);
 
   if (!goalId) {
     return <div>유효하지 않은 목표입니다.</div>;
@@ -58,6 +60,8 @@ export default function GoalDetailPage() {
         </h2>
 
         <Button onClick={() => router.push('/noteList')}>노트 모아보기</Button>
+
+        <Button onClick={() => setRefreshKey((prev) => prev + 1)}>새로고침</Button>
 
         <div className="flex rounded-[16px] border border-gray200 bg-white p-6 shadow-sm">
           <div className="h-[260px] flex-1 overflow-y-auto">
