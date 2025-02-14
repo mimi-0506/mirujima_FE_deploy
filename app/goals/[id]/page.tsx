@@ -1,9 +1,12 @@
 'use client';
 import React, { useEffect } from 'react';
+
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
+
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useInfoStore } from '@/stores/infoStore';
+
 import Button from '../_components/Button';
 import TaskList from '../_components/TaskList';
 

@@ -1,9 +1,12 @@
 'use client';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import TodoItem from './TodoItem';
-import type { TodoType } from '@/types/todo.type';
+
 import { useInfiniteTodoList } from '@/hooks/goalsDetail/useInfiniteTodoList';
+
+import TodoItem from './TodoItem';
+
+import type { TodoType } from '@/types/todo.type';
 
 interface TaskListProps {
   title: string;

@@ -1,5 +1,6 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
+
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
 import { useDeleteTodoMutation } from '@/hooks/useDeleteTodoMutation';
@@ -22,10 +23,21 @@ interface TodoItemProps {
 export default function TodoItem({ todo }: TodoItemProps) {
   const queryClient = useQueryClient();
   const mutation = useDeleteTodoMutation(queryClient);
-  const { mutate: toggleTodo } = useCheckTodo(todo.id);
+
+  const { mutate: toggleTodo } = useCheckTodo();
 
   const handleCheckbox = () => {
-    toggleTodo(todo.done ? false : true);
+    if (todo.id === undefined) {
+      console.error('todo.id is undefined!');
+      return;
+    }
+
+    toggleTodo({
+      id: todo.id,
+      done: !todo.done,
+      title: todo.title,
+      priority: todo.priority
+    });
   };
 
   const handleDelete = () => {
