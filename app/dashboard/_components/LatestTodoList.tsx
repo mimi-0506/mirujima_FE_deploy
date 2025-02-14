@@ -17,7 +17,11 @@ export default function LatestTodoList({ queryClient }: { queryClient: QueryClie
 
   const { data } = useQuery<TodoListType>({
     queryKey: ['todos', userId, isSmallScreen],
-    queryFn: () => readTodoList({ pageSize: isSmallScreen ? 3 : 4 })
+    queryFn: () => readTodoList({ pageSize: isSmallScreen ? 3 : 4 }),
+    select: (data) => ({
+      ...data,
+      todos: (data.todos ?? []).toReversed()
+    })
   });
 
   return (

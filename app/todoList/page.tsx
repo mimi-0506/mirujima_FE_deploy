@@ -34,7 +34,13 @@ export default function TodoListPage() {
     enabled: !!userId,
     retry: 0,
     placeholderData: (previousData) => previousData,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    select: (data) => ({
+      ...data,
+      pages: data.pages.flatMap((page) => ({
+        todos: (page.todos ?? []).toReversed()
+      }))
+    })
   });
 
   // 1. 필터링 (All, To do, Done)
