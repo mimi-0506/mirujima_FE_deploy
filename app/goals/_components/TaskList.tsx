@@ -16,7 +16,6 @@ interface TaskListProps {
 
 export default function TaskList({ title, goalId, done }: TaskListProps) {
   const { ref, inView } = useInView();
-
   const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteTodoList(goalId, done);
 

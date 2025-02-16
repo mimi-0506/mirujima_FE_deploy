@@ -1,28 +1,9 @@
-// import { getCookie } from 'cookies-next';
-
-// import type { InternalAxiosRequestConfig } from 'axios';
-
-// const requestInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-//   config.headers = config.headers || ({} as Record<string, string>);
-
-//   const accessToken = getCookie('accessToken');
-//   if (accessToken) {
-//     config.headers['Authorization'] = `Bearer ${accessToken}`;
-//   } else {
-//     console.warn('🚨 accessToken 없음 - 401/403 가능성 있음');
-//   }
-//   return config;
-// };
-
-// const requestInterceptorError = (error: any) => Promise.reject(error);
-
-// export default { requestInterceptor, requestInterceptorError };
 import axios from 'axios';
 import { getCookie, setCookie } from 'cookies-next';
 
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const REFRESH_THRESHOLD_MINUTES = 50;
+const REFRESH_THRESHOLD_MINUTES = 30;
 
 let isRefreshing = false;
 let refreshPromise: Promise<string> | null = null;
@@ -87,9 +68,6 @@ async function refreshAccessToken(): Promise<string> {
       setCookie('refreshToken', newRefreshToken);
     }
 
-    console.log(`[리프레시] 새 AccessToken: ${newAccessToken}`);
-    console.log(`[리프레시] 새 RefreshToken: ${newRefreshToken}`);
-
     refreshAttempts = 0;
 
     return newAccessToken;
@@ -127,8 +105,6 @@ export async function requestInterceptor(
       const expiresIn = decoded.exp - currentTime;
       const remainingMinutes = Math.floor(expiresIn / 60);
 
-      console.log(`[requestInterceptor] 토큰 남은 시간: ${remainingMinutes}분 (${expiresIn}초)`);
-
       if (expiresIn < REFRESH_THRESHOLD_MINUTES * 60) {
         console.warn('[requestInterceptor] 만료 임박 - refreshAccessToken 진행');
 
@@ -146,8 +122,6 @@ export async function requestInterceptor(
         if (refreshPromise) {
           tokenToUse = await refreshPromise;
         }
-      } else {
-        console.log('[requestInterceptor] 토큰 만료까지 충분한 시간 남음');
       }
     }
   } catch (error) {

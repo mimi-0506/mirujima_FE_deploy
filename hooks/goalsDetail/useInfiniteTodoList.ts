@@ -1,8 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+
 import authApi from '@/api/clientActions/authApi';
 
-import type { TodoType } from '@/types/todo.type';
 import type { ApiResponse } from '@/types/apiResponse.type';
+import type { TodoType } from '@/types/todo.type';
 
 export interface TodoListResult {
   lastSeenId: number;
@@ -30,7 +31,10 @@ export const useInfiniteTodoList = (goalId: number, done: boolean) => {
     queryKey: ['todoList', goalId, done],
     queryFn: async ({ pageParam = 9999 }) => fetchTodoListInfinite(goalId, done, pageParam),
     getNextPageParam: (lastPage) => {
-      return lastPage.todos.length > 0 ? lastPage.lastSeenId : undefined;
+      if (lastPage.todos.length === 0) {
+        return undefined;
+      }
+      return lastPage.lastSeenId;
     },
     enabled: !!goalId,
     initialPageParam: 9999
