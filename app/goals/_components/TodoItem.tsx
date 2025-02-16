@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
-import { useDeleteTodoMutation } from '@/hooks/useDeleteTodoMutation';
+import { useDeleteTodoItem } from '@/hooks/goalsDetail/useDeleteTodoItem';
 // import { useUpdateTodoStatusMutation } from '@/hooks/useUpdateTodoStatusMutation';
 import FileIcon from '@/public/icon/file.svg';
 import FlagIcon from '@/public/icon/flag-gray.svg';
@@ -18,22 +18,27 @@ import type { TodoType } from '@/types/todo.type';
 
 interface TodoItemProps {
   todo: TodoType;
+  goalId: number;
 }
 
-export default function TodoItem({ todo }: TodoItemProps) {
+export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const queryClient = useQueryClient();
-  const mutation = useDeleteTodoMutation(queryClient);
-  const { mutate: toggleTodo } = useCheckTodo(todo.id);
+  const mutation = useDeleteTodoItem();
+  const { mutate: toggleTodo } = useCheckTodo();
 
   const handleCheckbox = () => {
-    toggleTodo(todo.done ? false : true);
+    toggleTodo({
+      id: todo.id,
+      done: !todo.done,
+      title: todo.title,
+      priority: todo.priority,
+      goalId
+    });
   };
-
   const handleDelete = () => {
     mutation.mutate(todo.id);
   };
 
-  // TODO: 할 일 수정 모달 열림
   const handleOpenEditModal = () => {
     alert('수정하기');
   };

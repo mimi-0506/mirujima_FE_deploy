@@ -1,26 +1,54 @@
-// hooks/useCheckTodo.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import authApi from '@/api/clientActions/authApi';
 
-const checkTodo = async (id: number, done: boolean) => {
-  console.log('체크한 목표의 id:', id, '보내는 done:', done);
-  const response = await authApi.patch(`/todos/completion/${id}`, { done });
-  return response.data; // 서버 응답(JSON)
+const checkTodo = async ({
+  id,
+  done,
+  title,
+  priority
+}: {
+  id: number;
+  done: boolean;
+  title: string;
+  priority: number;
+}) => {
+  if (id === undefined) {
+    throw new Error('ToDo id가 없습니다.');
+  }
+  const response = await authApi.patch(`/todos/${id}`, {
+    done,
+    title,
+    priority
+  });
+  return response.data;
 };
 
-export const useCheckTodo = (id: number) => {
+export const useCheckTodo = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (done: boolean) => checkTodo(id, done),
-    onSuccess: (data) => {
-      console.log('Update successful:', data);
-      queryClient.invalidateQueries({ queryKey: ['todos'] });
+    mutationFn: ({
+      id,
+      done,
+      title,
+      priority,
+      goalId
+    }: {
+      id: number;
+      done: boolean;
+      title: string;
+      priority: number;
+      goalId: number;
+    }) => checkTodo({ id, done, title, priority }),
+
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['todoList', variables.goalId, false] });
+      queryClient.invalidateQueries({ queryKey: ['todoList', variables.goalId, true] });
     },
+
     onError: (error: any) => {
-      const backendError = error.response?.data?.message || 'An error occurred.';
-      console.log('Update failed:', backendError);
+      console.error('업데이트 실패:', error.response?.data?.message || 'Unknown error occurred.');
     }
   });
 };
