@@ -9,8 +9,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
-import { useInfoStore } from '@/stores/infoStore';
-
 import { useLoginMutation } from '../../../hooks/auth/useLoginMutation';
 import Button from '../_components/Button';
 import InputField from '../_components/InputField';
@@ -33,23 +31,11 @@ export default function LoginPage() {
   });
 
   const { mutate: loginMutate, isError, error } = useLoginMutation();
-  const { setInfo } = useInfoStore();
+
   const router = useRouter();
 
   const onSubmit = (data: LoginFormData) => {
-    loginMutate(data, {
-      onSuccess: (responseData) => {
-        if (responseData.result && responseData.result.user) {
-          const { user } = responseData.result;
-          setInfo({
-            id: user.id,
-            email: user.email,
-            name: user.username
-          });
-          router.refresh();
-        }
-      }
-    });
+    loginMutate(data);
   };
 
   const serverErrorMessage =

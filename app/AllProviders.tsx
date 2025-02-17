@@ -1,6 +1,5 @@
 import { Toaster } from 'react-hot-toast';
 
-import NavBar from '@/components/navBar';
 import { InfoStoreProvider, ModalStoreProvider } from '@/provider/store-provider';
 
 import ModalArea from './ModalArea';
@@ -15,7 +14,6 @@ export default function AllProviders({
     <InfoStoreProvider>
       <ModalStoreProvider>
         <ReactQueryProvider>
-          <NavBar />
           {children}
           <ModalArea />
           <Toaster />

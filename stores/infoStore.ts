@@ -1,4 +1,3 @@
-import { useStore } from 'zustand';
 import { createStore } from 'zustand/vanilla';
 
 export type InfoState = {
@@ -40,9 +39,3 @@ export const createInfoStore = (initState: InfoState = defaultInitState) => {
     }
   }));
 };
-
-export const infoStore = createInfoStore();
-
-export function useInfoStore() {
-  return useStore(infoStore);
-}

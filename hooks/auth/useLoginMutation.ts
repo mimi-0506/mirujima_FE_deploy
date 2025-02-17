@@ -6,7 +6,7 @@ import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 
 import api from '@/api/clientActions/authApi';
-import { infoStore } from '@/stores/infoStore';
+import { useInfoStore } from '@/provider/store-provider';
 
 interface LoginFormData {
   email: string;
@@ -52,6 +52,7 @@ const loginUser = async (formData: LoginFormData): Promise<LoginResponse> => {
 
 export const useLoginMutation = () => {
   const router = useRouter();
+  const { setInfo } = useInfoStore((state) => state);
 
   return useMutation({
     mutationFn: loginUser,
@@ -73,16 +74,14 @@ export const useLoginMutation = () => {
         setCookie('refreshToken', refreshToken, COOKIEOPTIONS);
         setCookie('user', JSON.stringify(user), COOKIEOPTIONS);
 
-        infoStore.getState().setInfo({
+        setInfo({
           id: user.id,
           email: user.email,
           name: user.username
         });
 
         toast.success('로그인 되었습니다!', { duration: 2000 });
-        setTimeout(() => {
-          router.push('/');
-        }, 500);
+        router.push('/dashboard');
       } else {
         toast.error('로그인 정보가 누락되었습니다.');
       }
