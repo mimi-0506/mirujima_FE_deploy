@@ -3,7 +3,7 @@ import { useInView } from 'react-intersection-observer';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { readNoteListFromClient } from '@/api/clientActions/note';
+import { readNoteListFromClient } from '@/apis/clientActions/note';
 
 import type { NoteListType } from '@/types/note.type';
 

@@ -3,8 +3,8 @@ import React from 'react';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 
-import { readGoalFromServer } from '@/api/serverActions/goal';
-import { readNoteListFromServer } from '@/api/serverActions/note';
+import { readGoalFromServer } from '@/apis/serverActions/goal';
+import { readNoteListFromServer } from '@/apis/serverActions/note';
 
 import NoteCardList from '../../_components/noteCardList/NoteCardList';
 

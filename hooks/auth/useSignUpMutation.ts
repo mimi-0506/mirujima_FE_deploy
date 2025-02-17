@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-import api from '@/api/clientActions/authApi';
+import api from '@/apis/clientActions/authApi';
 
 export interface SignUpFormData {
   username: string;
