@@ -26,7 +26,7 @@ export default function Menus() {
   };
 
   useEffect(() => {
-    console.log('data', data, data?.pages.length);
+    console.log('data', data, data?.pages?.length);
   }, [data]);
 
   return (
@@ -57,7 +57,7 @@ export default function Menus() {
 
         {isLoading || isFetchingNextPage
           ? 'Loading...'
-          : data?.pages[0].data.length > 7 && ( //현재 크기에 7개부터 스크롤 생김. 임의의 숫자..
+          : data?.pages[0]?.data?.length > 7 && ( //현재 크기에 7개부터 스크롤 생김. 임의의 숫자..
               <div ref={ref} className="relative bottom-0 h-[1px] w-full border border-black" />
             )}
       </ul>

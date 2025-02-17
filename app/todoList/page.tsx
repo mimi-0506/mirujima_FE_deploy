@@ -30,7 +30,7 @@ export default function TodoListPage() {
     queryKey: ['todos', userId, filter],
     queryFn: ({ pageParam = 9999 }) => readTodoList({ pageParam, filter }),
     initialPageParam: 9999,
-    getNextPageParam: (lastPage) => (lastPage.todos.length > 0 ? lastPage.lastSeenId : null),
+    getNextPageParam: (lastPage) => (lastPage.remainingCount > 0 ? lastPage.lastSeenId : null),
     enabled: !!userId,
     retry: 0,
     placeholderData: (previousData) => previousData,

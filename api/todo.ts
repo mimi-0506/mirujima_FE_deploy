@@ -22,6 +22,9 @@ export const readTodoList = async ({
   const response = await apiWithClientToken.get<{ result: TodoListType }>('/todos', {
     params: { lastSeenId: pageParam, pageSize, done: doneParam }
   });
+
+  if (response.data.result === null) throw new Error('read todo list error');
+
   return response.data.result;
 };
 
