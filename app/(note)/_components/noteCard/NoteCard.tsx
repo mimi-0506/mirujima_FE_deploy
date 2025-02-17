@@ -4,15 +4,23 @@ import React from 'react';
 
 import Image from 'next/image';
 
+import KebabMenu from '@/components/kebab/KebabMenu';
+
 import type { NoteType } from '@/types/note.type';
 
 interface Props {
   note: NoteType;
+  onClickNote: () => void;
+  onClickEdit: () => void;
+  onClickDelete: () => void;
 }
 
-export default function NoteCard({ note }: Props) {
+export default function NoteCard({ note, onClickEdit, onClickDelete, onClickNote }: Props) {
   return (
-    <article className="hover-animate space-y-[12px] rounded-2xl border border-gray200 bg-white p-6 hover:border-main hover:drop-shadow-note">
+    <article
+      onClick={onClickNote}
+      className="hover-animate cursor-pointer space-y-[12px] rounded-2xl border border-gray200 bg-white p-6 hover:border-main hover:drop-shadow-note"
+    >
       <div className="flex items-center">
         <div className="flex w-full items-center gap-1">
           <Image
@@ -27,9 +35,10 @@ export default function NoteCard({ note }: Props) {
           </h3>
         </div>
 
-        <button className="rounded-md bg-Cgray" aria-label="노트 옵션 더보기">
+        <KebabMenu size={24} onEdit={onClickEdit} onDelete={onClickDelete} />
+        {/* <button className="rounded-md bg-Cgray" aria-label="노트 옵션 더보기">
           <Image src={'/icon/more.svg'} width={24} height={24} alt="더보기 아이콘" className="" />
-        </button>
+        </button> */}
       </div>
 
       <div className="flex items-center gap-3 text-slate-700">

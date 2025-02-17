@@ -7,7 +7,7 @@ import { readNoteListFromClient } from '@/api/clientActions/note';
 
 import type { NoteListType } from '@/types/note.type';
 
-const noteKey = {
+export const noteKey = {
   detail: ['note', 'detail'],
   list: ['note', 'list']
 };
@@ -18,7 +18,7 @@ const useInfiniteNoteList = (goalId: number, initialData: NoteListType) => {
     queryFn: ({ pageParam }) => readNoteListFromClient({ goalId, lastSeenId: pageParam }),
     initialPageParam: 9999,
     initialData: { pages: [initialData], pageParams: [] },
-    getNextPageParam: (lastPage) => (lastPage.totalCount > 10 ? lastPage.lastSeenId : undefined),
+    getNextPageParam: (lastPage) => (lastPage.remainingCount > 0 ? lastPage.lastSeenId : undefined),
     select: (qData) => qData.pages.flatMap((page) => page.notes.toReversed())
   });
 

@@ -62,6 +62,7 @@ export default function NoteContent({ todo, note }: Props) {
           linkUrl: linkUrl || ''
         };
         const res = await updateNote(note.id, newNote);
+        toast.success('노트 수정 완료!');
       } else {
         const note: CreateNoteType = {
           todoId: todo.id,
@@ -71,6 +72,7 @@ export default function NoteContent({ todo, note }: Props) {
         };
 
         const res = await createNote(note);
+        toast.success('노트 생성 완료!');
       }
     } catch (error) {
       console.error(error);

@@ -1,10 +1,12 @@
+'use server';
+
 import axios from 'axios';
 import { getCookie, setCookie } from 'cookies-next/server';
 import { cookies } from 'next/headers';
 
 import type { AxiosResponse } from 'axios';
 
-export const defaultResponseSuccessInterceptor = (response: AxiosResponse) => response;
+export const defaultResponseSuccessInterceptor = async (response: AxiosResponse) => response;
 
 export const retryRequestWhenAccessTokenIsExpire = async (error: any) => {
   const originalRequest = error.config;

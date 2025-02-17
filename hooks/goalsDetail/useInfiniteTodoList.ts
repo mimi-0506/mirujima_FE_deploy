@@ -23,6 +23,8 @@ const fetchTodoListInfinite = async (
     params: { goalId, done, lastSeenId, pageSize }
   });
 
+  if (response.data.result === null) throw new Error('infinte todo list error');
+
   return response.data.result;
 };
 

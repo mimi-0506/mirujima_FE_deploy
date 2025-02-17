@@ -27,7 +27,7 @@ export type NoteType = {
 
 export type NoteListType = {
   lastSeenId: number;
-  totalCount: number;
+  remainingCount: number;
   notes: NoteType[];
 };
 
