@@ -57,7 +57,7 @@ export default function GoalDetailPage() {
         </div>
       </h2>
 
-      <Button onClick={() => router.push('/noteList')}>노트 모아보기</Button>
+      <Button onClick={() => router.push(`/noteList/${goalId}`)}>노트 모아보기</Button>
 
       <div className="flex rounded-[16px] border border-gray200 bg-white p-6 shadow-sm">
         <div className="h-[260px] flex-1 overflow-y-auto">
