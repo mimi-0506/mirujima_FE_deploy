@@ -26,7 +26,7 @@ export default function Menus() {
   };
 
   useEffect(() => {
-    console.log('data', data, data?.pages.length);
+    console.log('data', data, data?.pages?.length);
   }, [data]);
 
   return (
