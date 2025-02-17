@@ -9,7 +9,12 @@ import { useInfoStore } from '@/provider/store-provider';
 export default function useGetGoalList() {
   const { id } = useInfoStore((state) => state);
 
-  const { data, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
+  const {
+    data = { pages: [] },
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading
+  } = useInfiniteQuery({
     queryKey: ['goals', id],
     queryFn: async ({ pageParam }) => {
       if (!id) return { data: [] };
