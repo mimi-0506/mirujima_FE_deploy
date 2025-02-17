@@ -5,7 +5,7 @@ import axios from 'axios';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 
-import api from '@/api/clientActions/authApi';
+import api from '@/apis/clientActions/authApi';
 import { useInfoStore } from '@/provider/store-provider';
 
 interface LoginFormData {

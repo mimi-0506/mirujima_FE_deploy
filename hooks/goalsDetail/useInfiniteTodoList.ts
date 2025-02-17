@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import authApi from '@/api/clientActions/authApi';
+import authApi from '@/apis/clientActions/authApi';
 
 import type { ApiResponse } from '@/types/apiResponse.type';
 import type { TodoType } from '@/types/todo.type';

@@ -2,8 +2,8 @@ import React from 'react';
 
 import { redirect } from 'next/navigation';
 
-import { readNoteFromServer } from '@/api/serverActions/note';
-import { readTodoFromServer } from '@/api/serverActions/todo';
+import { readNoteFromServer } from '@/apis/serverActions/note';
+import { readTodoFromServer } from '@/apis/serverActions/todo';
 
 import NoteContent from '../../_components/noteContent/NoteContent';
 

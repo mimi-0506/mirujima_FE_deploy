@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import authApi from '@/api/clientActions/authApi';
+import authApi from '@/apis/clientActions/authApi';
 
 const deleteTodoItem = async (todoId: number): Promise<void> => {
   await authApi.delete(`/todos/${todoId}`);
