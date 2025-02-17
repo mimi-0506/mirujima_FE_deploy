@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 
 import { useMutation } from '@tanstack/react-query';
 
-import { deleteTodoItem } from '@/apis/todo';
+import { deleteTodoItem } from '@/api/todo';
 
 import type { QueryClient } from '@tanstack/react-query';
 

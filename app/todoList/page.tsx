@@ -5,7 +5,7 @@ import { useInView } from 'react-intersection-observer';
 
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
-import { readTodoList } from '@/apis/todo';
+import { readTodoList } from '@/api/todo';
 import { useInfoStore } from '@/provider/store-provider';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
 import TodoListIcon from '@/public/icon/todo-list-black.svg';

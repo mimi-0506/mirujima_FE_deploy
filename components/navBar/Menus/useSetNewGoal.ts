@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { apiWithClientToken } from '@/apis/clientActions';
+import { apiWithClientToken } from '@/api/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function useSetNewGoal() {
