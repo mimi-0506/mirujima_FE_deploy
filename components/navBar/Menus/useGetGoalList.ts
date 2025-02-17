@@ -3,7 +3,7 @@ import { useInView } from 'react-intersection-observer';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { apiWithClientToken } from '@/api/clientActions';
+import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function useGetGoalList() {

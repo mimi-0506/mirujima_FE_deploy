@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { readGoalList } from '@/api/clientActions/goal';
+import { readGoalList } from '@/apis/clientActions/goal';
 import { useInfoStore } from '@/provider/store-provider';
 import { getUpcomingDates } from '@/utils/dateUtils';
 
