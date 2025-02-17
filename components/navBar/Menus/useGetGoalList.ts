@@ -15,7 +15,7 @@ export default function useGetGoalList() {
     isFetchingNextPage,
     isLoading
   } = useInfiniteQuery({
-    queryKey: ['goals', id],
+    queryKey: ['goalList', id],
     queryFn: async ({ pageParam }) => {
       if (!id) return { data: [] };
       return await getGoalList(pageParam);
