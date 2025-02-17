@@ -5,14 +5,14 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
-import { useInfoStore } from '@/stores/infoStore';
+import { useInfoStore } from '@/provider/store-provider';
 
 import Button from '../_components/Button';
 import TaskList from '../_components/TaskList';
 
 export default function GoalDetailPage() {
   const router = useRouter();
-  const { restoreUser } = useInfoStore();
+  const { restoreUser } = useInfoStore((state) => state);
   const params = useParams();
   const goalIdParam = Array.isArray(params.id) ? params.id[0] : params.id;
   const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
