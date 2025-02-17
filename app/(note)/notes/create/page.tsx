@@ -1,32 +1,32 @@
 import React from 'react';
 
+import { redirect } from 'next/navigation';
+
+import { readNoteFromServer } from '@/api/serverActions/note';
+import { readTodoFromServer } from '@/api/serverActions/todo';
+
 import NoteContent from '../../_components/noteContent/NoteContent';
 
-export default async function CreateNote() {
-  // 추후 todoId를 searchParams로 받아서 조회 예정
-  const todo = {
-    noteId: 447,
-    done: false,
-    linkUrl: null,
-    fileUrl: null,
-    title: '노트 테스트',
-    id: 3625,
-    goal: {
-      title: 'note test 2',
-      id: 1789
-    },
-    userId: 270,
-    teamId: '4',
-    updatedAt: '2025-02-07T20:54:01.375Z',
-    createdAt: '2025-02-07T20:54:01.375Z'
-  };
+import type { NoteType } from '@/types/note.type';
 
-  // if (!todo) redirect('/');
-  // if (todo.noteId === null) note가 있을 때
+interface Props {
+  searchParams: Promise<{ todoId: string }>;
+}
+
+export default async function CreateNote({ searchParams }: Props) {
+  const { todoId } = await searchParams;
+
+  let note: NoteType | null = null;
+
+  const todo = await readTodoFromServer(Number(todoId));
+  if (!todo) redirect('/'); // todoId가 잘못됐을 때 처리
+
+  // 기존에 작성한 노트가 있을 때
+  if (todo.noteId) note = await readNoteFromServer(todo.noteId);
 
   return (
-    <main className="min-h-screen px-4">
-      <NoteContent todo={todo} />
+    <main className="h-screen overflow-y-scroll bg-gray100 px-4 pt-[48px] md:pl-[104px] md:pt-0 lg:pl-[296px]">
+      <NoteContent todo={todo} note={note} />
     </main>
   );
 }

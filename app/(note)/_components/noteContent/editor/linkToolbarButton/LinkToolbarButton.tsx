@@ -5,13 +5,16 @@ import React from 'react';
 import { useComponentsContext } from '@blocknote/react';
 
 import { LinkIcon } from '@/components/icons';
+import { useModalStore } from '@/provider/store-provider';
 
-interface Props {
-  onClick: () => void;
-}
+export default function LinkToolbarButton() {
+  const setNoteLinkModalOpen = useModalStore((store) => store.setNoteLinkModalOpen);
 
-export default function LinkToolbarButton({ onClick }: Props) {
   const Components = useComponentsContext()!;
+
+  const onClick = () => {
+    setNoteLinkModalOpen(true);
+  };
 
   return (
     <Components.FormattingToolbar.Button mainTooltip={''} onClick={onClick} data-custom-button>

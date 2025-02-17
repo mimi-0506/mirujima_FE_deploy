@@ -1,5 +1,7 @@
 import localFont from 'next/font/local';
 
+import NavBar from '@/components/navBar';
+
 import AllProviders from './AllProviders';
 
 import type { Metadata } from 'next';
@@ -27,7 +29,12 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.className} antialiased`}>
-        <AllProviders>{children}</AllProviders>
+        <AllProviders>
+          <NavBar />
+          <div className="flex h-screen w-screen justify-center overflow-hidden bg-gray100">
+            <main className="w-min-1/2"> {children}</main>
+          </div>
+        </AllProviders>
       </body>
     </html>
   );

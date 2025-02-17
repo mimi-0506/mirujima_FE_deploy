@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from 'react';
 
-import { SMALL_MAX } from '@/constant/screen';
+import { SMALL_MAX } from '@/constant/numbers';
 
 import useResize from './useResize';
 

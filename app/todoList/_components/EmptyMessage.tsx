@@ -1,11 +1,11 @@
 import { EMPTY_MESSAGES } from '@/constant/emtymessage';
 
 import type { FilterType } from './TodoFilter';
-import type { Todo } from '@/types/todoTypes';
+import type { TodoType } from '@/types/todo.type';
 
 interface EmptyMessageProps {
   filter: FilterType;
-  filteredTodos: Todo[];
+  filteredTodos: TodoType[];
 }
 
 export default function EmptyMessage({ filter, filteredTodos }: EmptyMessageProps) {
