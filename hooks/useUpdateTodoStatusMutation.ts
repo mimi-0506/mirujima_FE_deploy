@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { updateTodoStatus } from '../api/todo';
+import { updateTodoStatus } from '../apis/todo';
 
 import type { QueryClient } from '@tanstack/react-query';
 
