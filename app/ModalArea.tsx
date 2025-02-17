@@ -9,7 +9,7 @@ export default function ModalArea() {
 
   return (
     <>
-      {isTodoCreateModalOpen && <TodoCreateModal />}
+      {isTodoCreateModalOpen && <TodoCreateModal todoId={null} />}
       {isTodoCreateCheckModalOpen && <TodoCreateCheckModal />}
     </>
   );
