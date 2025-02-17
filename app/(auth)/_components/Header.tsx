@@ -12,7 +12,7 @@ export default function Header() {
     <header className="h-[74px] border border-gray200 bg-white shadow-md">
       <div className="mx-auto flex w-full items-center justify-between px-[316px]">
         <Image
-          src="/images/logo/mirujima-logo-with-tmt.svg"
+          src="/images/logo/mirujima-logo-full.png"
           alt="미루지마 로고"
           height={19}
           width={108}

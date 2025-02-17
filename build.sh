@@ -1,5 +1,5 @@
 #!/bin/sh
 cd ../
 mkdir output
-cp -R ./[team-repo-name]/* ./output
-cp -R ./output ./[team-repo-name]/
+cp -R ./FESI-7-4/* ./output
+cp -R ./output ./FESI-7-4/
