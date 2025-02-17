@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import authApi from '@/api/clientActions/authApi';
+import authApi from '@/apis/clientActions/authApi';
 
 const checkTodo = async ({
   id,

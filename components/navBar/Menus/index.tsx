@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect } from 'react';
 
 import Link from 'next/link';
 
-import { apiWithClientToken } from '@/api/clientActions';
+import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
 import NewGoalButton from './NewGoalButton';

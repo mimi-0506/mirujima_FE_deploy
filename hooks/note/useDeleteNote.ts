@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { deleteNote } from '@/api/clientActions/note';
+import { deleteNote } from '@/apis/clientActions/note';
 
 import { noteKey } from './useInfiniteNoteList';
 
