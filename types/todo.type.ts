@@ -2,7 +2,7 @@ import type { GoalType } from './goal.type';
 
 export type TodoListType = {
   lastSeenId: number;
-  totalCount: number;
+  remainingCount: number;
   todos: TodoType[];
 };
 
