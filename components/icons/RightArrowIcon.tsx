@@ -6,9 +6,9 @@ export const RightArrowIcon = ({ size = 24, width, height, ...props }: IconSvgPr
       <path
         d="M6.75 13.5L11.25 9L6.75 4.5"
         stroke="#F86969"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

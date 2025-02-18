@@ -1,14 +1,13 @@
 'use client';
-import React, { useEffect } from 'react';
-
-import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-
+import GoalIcon from '@/public/icon/todo-list-black.svg';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useInfoStore } from '@/provider/store-provider';
-
+import GoalDeleteConfirmModal from '@/components/modal/GoalDeleteConfirmModal';
 import Button from '../_components/Button';
 import TaskList from '../_components/TaskList';
+import KebabForGoal from '@/components/kebab/KebabForGoal';
 
 export default function GoalDetailPage() {
   const router = useRouter();
@@ -16,6 +15,26 @@ export default function GoalDetailPage() {
   const params = useParams();
   const goalIdParam = Array.isArray(params.id) ? params.id[0] : params.id;
   const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const handleEdit = () => {
+    console.log('수정하기 버튼 클릭됨');
+  };
+
+  const handleDelete = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirm = () => {
+    console.log('삭제 확인: 모달에서 삭제 실행');
+    setIsDeleteModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    console.log('삭제 취소: 모달 닫힘');
+    setIsDeleteModalOpen(false);
+  };
 
   useEffect(() => {
     restoreUser();
@@ -46,15 +65,13 @@ export default function GoalDetailPage() {
     <section className="flex min-h-[262px] w-full max-w-[1284px] flex-col gap-6 md:pt-4">
       <h2 className="flex h-[28px] w-full items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <Image
-            src="/icon/todo-list-black.svg"
-            alt="목표 아이콘"
-            height={24}
-            width={24}
-            className="h-[24px] w-[24px]"
-          />
+          <GoalIcon />
           {goalTitle}
         </div>
+        <KebabForGoal size={24} onEdit={handleEdit} onDelete={handleDelete} />{' '}
+        {isDeleteModalOpen && (
+          <GoalDeleteConfirmModal onConfirm={handleConfirm} onCancel={handleCancel} />
+        )}
       </h2>
 
       <Button onClick={() => router.push(`/noteList/${goalId}`)}>노트 모아보기</Button>
