@@ -2,15 +2,15 @@
 import React, { useEffect, useState } from 'react';
 
 import { useParams, useRouter } from 'next/navigation';
-import { useModalStore } from '@/provider/store-provider';
+
 import KebabForGoal from '@/components/kebab/KebabForGoal';
 import GoalDeleteConfirmModal from '@/components/modal/GoalDeleteConfirmModal';
 import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
 import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
+import { useModalStore } from '@/provider/store-provider';
 import { useInfoStore } from '@/provider/store-provider';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
-
 import Button from '../_components/Button';
 import TaskList from '../_components/TaskList';
 
@@ -27,7 +27,7 @@ export default function GoalDetailPage() {
   const { mutate: deleteGoalMutate } = useDeleteGoal();
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(goalTitle);
-  const isDeleteModalOpen = useModalStore((state) => state.isGoalDeleteModalOpen);
+  // const isDeleteModalOpen = useModalStore((state) => state.isGoalDeleteModalOpen);
   const setGoalDeleteModalOpen = useModalStore((state) => state.setGoalDeleteModalOpen);
   useEffect(() => {
     restoreUser();
@@ -70,13 +70,17 @@ export default function GoalDetailPage() {
   };
 
   const handleDelete = () => {
-    setGoalDeleteModalOpen(true);
+    setGoalDeleteModalOpen(true, {
+      onConfirm: handleConfirm,
+      onCancel: handleCancel
+    });
   };
 
   const handleConfirm = () => {
     if (!goalId) return;
     deleteGoalMutate(goalId, {
       onSuccess: () => {
+        // 삭제 후 모달 닫기
         setGoalDeleteModalOpen(false);
         router.push('/dashboard');
       }
@@ -110,9 +114,6 @@ export default function GoalDetailPage() {
           )}
         </div>
         <KebabForGoal size={24} onEdit={handleEdit} onDelete={handleDelete} />
-        {isDeleteModalOpen && (
-          <GoalDeleteConfirmModal onConfirm={handleConfirm} onCancel={handleCancel} />
-        )}
       </h2>
 
       <Button onClick={() => router.push(`/noteList/${goalId}`)}>노트 모아보기</Button>
