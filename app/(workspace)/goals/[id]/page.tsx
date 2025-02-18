@@ -1,6 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+
 import { useParams, useRouter } from 'next/navigation';
+
 import KebabForGoal from '@/components/kebab/KebabForGoal';
 import GoalDeleteConfirmModal from '@/components/modal/GoalDeleteConfirmModal';
 import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
@@ -8,6 +10,7 @@ import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useInfoStore } from '@/provider/store-provider';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
+
 import Button from '../_components/Button';
 import TaskList from '../_components/TaskList';
 
@@ -43,7 +46,11 @@ export default function GoalDetailPage() {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && goalId) {
       e.preventDefault();
-      const newTitle = editedTitle;
+      const newTitle = editedTitle.trim();
+      if (newTitle === '') {
+        setEditedTitle(goalTitle);
+        return;
+      }
 
       updateGoalTitle(
         {
