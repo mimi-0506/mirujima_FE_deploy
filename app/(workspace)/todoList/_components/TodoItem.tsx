@@ -1,3 +1,4 @@
+import KebabMenu from '@/components/kebab/KebabMenu';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useDeleteTodoMutation } from '@/hooks/useDeleteTodoMutation';
 import { useUpdateTodoStatusMutation } from '@/hooks/useUpdateTodoStatusMutation';
@@ -8,7 +9,6 @@ import NoteIcon from '@/public/icon/note.svg';
 import PenIcon from '@/public/icon/pen.svg';
 
 import { CheckedIcon } from './CheckedIcon';
-import KebabMenu from '../../../components/kebab/KebabMenu';
 
 import type { TodoType } from '@/types/todo.type';
 import type { QueryClient } from '@tanstack/react-query';
