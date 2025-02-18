@@ -1,8 +1,8 @@
 'use client';
 
+import GoalDeleteConfirmModal from '@/components/modal/GoalDeleteConfirmModal';
 import TodoCreateCheckModal from '@/modals/todoCreateCheckModal';
 import TodoCreateModal from '@/modals/todoCreateModal';
-import GoalDeleteConfirmModal from '@/components/modal/GoalDeleteConfirmModal';
 import { useModalStore } from '@/provider/store-provider';
 
 export default function ModalArea() {
