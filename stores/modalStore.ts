@@ -22,6 +22,7 @@ export type ModalState = {
   isTodoCreateModalOpen: boolean;
   isTodoCreateCheckModalOpen: boolean;
   isNoteLinkModalOpen: boolean;
+  isGoalDeleteModalOpen: boolean;
 };
 
 export type ModalActions = {
@@ -30,6 +31,7 @@ export type ModalActions = {
   resetTodoCreateModal: () => void;
   setIsTodoCreateCheckModalOpen: (now: boolean) => void;
   setNoteLinkModalOpen: (now: boolean) => void;
+  setGoalDeleteModalOpen: (now: boolean) => void;
 };
 
 export type ModalStore = ModalState & ModalActions;
@@ -51,7 +53,8 @@ const initModalState = {
 
   isTodoCreateModalOpen: false,
   isTodoCreateCheckModalOpen: false,
-  isNoteLinkModalOpen: false
+  isNoteLinkModalOpen: false,
+  isGoalDeleteModalOpen: false
 };
 
 export const defaultInitState: ModalState = {
@@ -70,6 +73,7 @@ export const createModalStore = (initState: ModalState = defaultInitState) => {
       set((state) => ({ ...state, isTodoCreateCheckModalOpen: now })),
     setNoteLinkModalOpen: (now) => {
       set((state) => ({ ...state, isNoteLinkModalOpen: now }));
-    }
+    },
+    setGoalDeleteModalOpen: (now) => set((state) => ({ ...state, isGoalDeleteModalOpen: now }))
   }));
 };

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useParams, useRouter } from 'next/navigation';
-
+import { useModalStore } from '@/provider/store-provider';
 import KebabForGoal from '@/components/kebab/KebabForGoal';
 import GoalDeleteConfirmModal from '@/components/modal/GoalDeleteConfirmModal';
 import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
@@ -27,8 +27,8 @@ export default function GoalDetailPage() {
   const { mutate: deleteGoalMutate } = useDeleteGoal();
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(goalTitle);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
+  const isDeleteModalOpen = useModalStore((state) => state.isGoalDeleteModalOpen);
+  const setGoalDeleteModalOpen = useModalStore((state) => state.setGoalDeleteModalOpen);
   useEffect(() => {
     restoreUser();
   }, [restoreUser]);
@@ -70,21 +70,21 @@ export default function GoalDetailPage() {
   };
 
   const handleDelete = () => {
-    setIsDeleteModalOpen(true);
+    setGoalDeleteModalOpen(true);
   };
 
   const handleConfirm = () => {
     if (!goalId) return;
     deleteGoalMutate(goalId, {
       onSuccess: () => {
-        setIsDeleteModalOpen(false);
+        setGoalDeleteModalOpen(false);
         router.push('/dashboard');
       }
     });
   };
 
   const handleCancel = () => {
-    setIsDeleteModalOpen(false);
+    setGoalDeleteModalOpen(false);
   };
 
   if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
