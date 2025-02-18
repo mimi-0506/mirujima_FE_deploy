@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
-
+import PinkNoteIcon from '@/public/icon/note-pink.svg';
+import RightArrowIcon from '@/public/icon/arrow-right-red.svg';
 interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
@@ -18,9 +19,14 @@ export default function Button({
     <button
       type={type}
       onClick={onClick}
-      className={`h-[50px] w-[119px] rounded-lg bg-Cgray px-4 py-3 text-base font-semibold text-gray350 ${className}`}
+      className={`flex h-[60px] w-full items-center justify-between rounded-xl bg-solid px-6 font-semibold text-main ${className} `}
     >
-      {children}
+      <div className="flex items-center gap-2">
+        <PinkNoteIcon />
+        <span className="text-[16px] leading-[22px]">{children}</span>
+      </div>
+
+      <RightArrowIcon />
     </button>
   );
 }
