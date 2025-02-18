@@ -77,7 +77,6 @@ export default function GoalDetailPage() {
   if (isLoading) return <div>로딩 중...</div>;
   if (isError || !goalData) return <div>목표 정보를 불러오는데 실패했습니다.</div>;
   return (
-    // <main className="flex h-screen justify-center bg-gray100 px-4 py-[48px] md:pl-[104px] md:pt-0 lg:pl-[296px]">
     <section className="flex min-h-[262px] w-full max-w-[1284px] flex-col gap-6 md:pt-4">
       <h2 className="flex h-[28px] w-full items-center justify-between gap-2">
         <div className="flex items-center gap-2">
