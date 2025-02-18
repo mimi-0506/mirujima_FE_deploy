@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import authApi from '@/apis/clientActions/authApi';
+
 import type { GoalType } from '@/types/goal.type';
 interface UpdateGoalVariables {
   goalId: number;

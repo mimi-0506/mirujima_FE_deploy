@@ -1,8 +1,7 @@
 'use client';
 import React from 'react';
-
-import { PinkNoteIcon } from '@/components/icons/PinkNoteIcon';
-import { RightArrowIcon } from '@/components/icons/RightArrowIcon';
+import PinkNoteIcon from '@/public/icon/note-pink.svg';
+import RightArrowIcon from '@/public/icon/arrow-right-red.svg';
 interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
