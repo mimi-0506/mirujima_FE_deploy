@@ -1,13 +1,17 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import GoalIcon from '@/public/icon/todo-list-black.svg';
-import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
-import { useInfoStore } from '@/provider/store-provider';
+
+import KebabForGoal from '@/components/kebab/KebabForGoal';
 import GoalDeleteConfirmModal from '@/components/modal/GoalDeleteConfirmModal';
+import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
+import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
+import { useInfoStore } from '@/provider/store-provider';
+import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
+import GoalIcon from '@/public/icon/todo-list-black.svg';
+
 import Button from '../_components/Button';
 import TaskList from '../_components/TaskList';
-import KebabForGoal from '@/components/kebab/KebabForGoal';
 
 export default function GoalDetailPage() {
   const router = useRouter();
@@ -15,60 +19,83 @@ export default function GoalDetailPage() {
   const params = useParams();
   const goalIdParam = Array.isArray(params.id) ? params.id[0] : params.id;
   const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const goalIdString = goalId ? goalId.toString() : '';
+  const { data: goalData, isLoading, isError } = useGetGoalDetail(goalIdString);
+  const goalTitle: string = goalData?.result?.title ?? '목표 제목이 없어요';
+  const { mutate: updateGoalTitle } = useUpdateGoalTitle();
+  const { mutate: deleteGoalMutate } = useDeleteGoal();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(goalTitle);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-  const handleEdit = () => {
-    console.log('수정하기 버튼 클릭됨');
-  };
-
-  const handleDelete = () => {
-    setIsDeleteModalOpen(true);
-  };
-
-  const handleConfirm = () => {
-    console.log('삭제 확인: 모달에서 삭제 실행');
-    setIsDeleteModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    console.log('삭제 취소: 모달 닫힘');
-    setIsDeleteModalOpen(false);
-  };
 
   useEffect(() => {
     restoreUser();
   }, [restoreUser]);
-  const goalIdString = goalId ? goalId.toString() : '';
-  const {
-    data: goalData,
-    isLoading: isGoalDetailLoading,
-    isError: isGoalDetailError
-  } = useGetGoalDetail(goalIdString);
 
-  if (!goalId) {
-    return <div>유효하지 않은 목표입니다.</div>;
-  }
+  useEffect(() => {
+    if (!isEditing) {
+      setEditedTitle(goalTitle);
+    }
+  }, [goalTitle, isEditing]);
 
-  if (isGoalDetailLoading) {
-    return <div>로딩 중...</div>;
-  }
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
 
-  if (isGoalDetailError || !goalData) {
-    return <div>목표 정보를 불러오는데 실패했습니다.</div>;
-  }
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && goalId) {
+      updateGoalTitle(
+        { goalId, title: editedTitle },
+        {
+          onSuccess: (data) => {
+            setEditedTitle(data.result.title);
+            setIsEditing(false);
+          }
+        }
+      );
+    }
+  };
 
-  const goalTitle: string = goalData?.result?.title ?? '목표 제목이 없어요';
+  // 삭제 관련
+  const handleDelete = () => {
+    setIsDeleteModalOpen(true);
+  };
+  const handleConfirm = () => {
+    if (!goalId) return;
+    deleteGoalMutate(goalId, {
+      onSuccess: () => {
+        setIsDeleteModalOpen(false);
+        router.push('/dashboard');
+      }
+    });
+  };
+  const handleCancel = () => {
+    setIsDeleteModalOpen(false);
+  };
 
+  if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
+  if (isLoading) return <div>로딩 중...</div>;
+  if (isError || !goalData) return <div>목표 정보를 불러오는데 실패했습니다.</div>;
   return (
     // <main className="flex h-screen justify-center bg-gray100 px-4 py-[48px] md:pl-[104px] md:pt-0 lg:pl-[296px]">
     <section className="flex min-h-[262px] w-full max-w-[1284px] flex-col gap-6 md:pt-4">
       <h2 className="flex h-[28px] w-full items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <GoalIcon />
-          {goalTitle}
+          {isEditing ? (
+            <input
+              type="text"
+              value={editedTitle}
+              onChange={(e) => setEditedTitle(e.target.value)}
+              onKeyDown={handleKeyDown}
+              autoFocus
+              className="border-b border-gray200 text-lg font-bold outline-none"
+            />
+          ) : (
+            <span className="text-lg font-bold">{editedTitle}</span>
+          )}
         </div>
-        <KebabForGoal size={24} onEdit={handleEdit} onDelete={handleDelete} />{' '}
+        <KebabForGoal size={24} onEdit={handleEdit} onDelete={handleDelete} />
         {isDeleteModalOpen && (
           <GoalDeleteConfirmModal onConfirm={handleConfirm} onCancel={handleCancel} />
         )}
@@ -90,6 +117,5 @@ export default function GoalDetailPage() {
         </div>
       </div>
     </section>
-    // </main>
   );
 }

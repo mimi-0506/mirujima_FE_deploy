@@ -23,7 +23,7 @@ export default function GoalDeleteConfirmModal({
           <button onClick={onCancel} className="rounded bg-gray-300 px-4 py-2">
             취소
           </button>
-          <button onClick={onConfirm} className="bg-warn rounded px-4 py-2 text-white">
+          <button onClick={onConfirm} className="rounded bg-main px-4 py-2 text-white">
             삭제
           </button>
         </div>
