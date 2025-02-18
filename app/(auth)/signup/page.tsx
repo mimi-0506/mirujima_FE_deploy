@@ -101,10 +101,13 @@ export default function SignUpPage() {
         </Button>
       </form>
       <div className="mt-[60px] flex items-center justify-between px-2">
-        <p className="text-[14px] font-medium leading-[20px] text-gray350">
+        <p className="text-[12px] font-medium leading-[16px] text-gray350 md:text-[14px] md:leading-[20px]">
           이미 계정이 있으신가요?{' '}
         </p>
-        <Link href="/login" className="text-[14px] font-medium leading-[20px] text-main">
+        <Link
+          href="/login"
+          className="text-[12px] font-medium leading-[16px] text-main md:text-[14px] md:leading-[20px]"
+        >
           로그인하기
         </Link>
       </div>
