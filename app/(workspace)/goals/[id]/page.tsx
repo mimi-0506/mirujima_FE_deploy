@@ -1,15 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-
 import KebabForGoal from '@/components/kebab/KebabForGoal';
 import GoalDeleteConfirmModal from '@/components/modal/GoalDeleteConfirmModal';
-import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
-import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
-import { useInfoStore } from '@/provider/store-provider';
 import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
+import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
+import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
+import { useInfoStore } from '@/provider/store-provider';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
-
 import Button from '../_components/Button';
 import TaskList from '../_components/TaskList';
 
@@ -44,22 +42,30 @@ export default function GoalDetailPage() {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && goalId) {
+      e.preventDefault();
+      const newTitle = editedTitle;
+
       updateGoalTitle(
-        { goalId, title: editedTitle },
         {
-          onSuccess: (data) => {
-            setEditedTitle(data.result.title);
+          goalId,
+          title: newTitle
+        },
+        {
+          onSuccess: () => {
             setIsEditing(false);
+          },
+          onError: () => {
+            setEditedTitle(goalTitle);
           }
         }
       );
     }
   };
 
-  // 삭제 관련
   const handleDelete = () => {
     setIsDeleteModalOpen(true);
   };
+
   const handleConfirm = () => {
     if (!goalId) return;
     deleteGoalMutate(goalId, {
@@ -69,6 +75,7 @@ export default function GoalDetailPage() {
       }
     });
   };
+
   const handleCancel = () => {
     setIsDeleteModalOpen(false);
   };
@@ -76,6 +83,7 @@ export default function GoalDetailPage() {
   if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
   if (isLoading) return <div>로딩 중...</div>;
   if (isError || !goalData) return <div>목표 정보를 불러오는데 실패했습니다.</div>;
+
   return (
     <section className="flex min-h-[262px] w-full max-w-[1284px] flex-col gap-6 md:pt-4">
       <h2 className="flex h-[28px] w-full items-center justify-between gap-2">

@@ -38,12 +38,29 @@ export function useUpdateGoalTitle() {
 
   return useMutation({
     mutationFn: (variables: UpdateGoalVariables) => changeGoalTitle(variables),
+    onMutate: async (variables) => {
+      const queryKey = ['goalDetail', variables.goalId.toString()];
+      await queryClient.cancelQueries({ queryKey });
+      const previousData = queryClient.getQueryData(queryKey);
 
-    onSuccess: (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['goalDetail', variables.goalId] });
+      queryClient.setQueryData(queryKey, (old: any) => ({
+        ...old,
+        result: {
+          ...old?.result,
+          title: variables.title
+        }
+      }));
+
+      return { previousData };
     },
-    onError: (error) => {
+    onError: (error, variables, context) => {
+      queryClient.setQueryData(['goalDetail', variables.goalId.toString()], context?.previousData);
       console.error('목표 수정 실패', error);
+    },
+    onSettled: (_, __, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ['goalDetail', variables.goalId.toString()]
+      });
     }
   });
 }
