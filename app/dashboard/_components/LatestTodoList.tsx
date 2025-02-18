@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 import { readTodoList } from '@/apis/todo';
-import TodoItem from '@/app/todoList/_components/TodoItem';
+import TodoItem from '@/app/(workspace)/todoList/_components/TodoItem';
 import { EMPTY_MESSAGES } from '@/constant/emtymessage';
 import useIsSmall from '@/hooks/useIsSmallScreen';
 import { useInfoStore } from '@/provider/store-provider';

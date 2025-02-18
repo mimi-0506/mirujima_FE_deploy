@@ -1,6 +1,7 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
 
+import KebabMenu from '@/components/kebab/KebabMenu';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
 import { useDeleteTodoItem } from '@/hooks/goalsDetail/useDeleteTodoItem';
@@ -11,7 +12,6 @@ import LinkIcon from '@/public/icon/link.svg';
 import NoteIcon from '@/public/icon/note.svg';
 import PenIcon from '@/public/icon/pen.svg';
 
-import KebabMenu from '../../../components/kebab/KebabMenu';
 import { CheckedIcon } from '../../todoList/_components/CheckedIcon';
 
 import type { TodoType } from '@/types/todo.type';

@@ -44,79 +44,75 @@ export default function LoginPage() {
       : null;
 
   return (
-    <div className="flex justify-center bg-white">
-      <div className="mt-[76px] w-[688px] rounded-[16px] border-[1px] border-solid border-gray200 bg-white p-[40px] pb-[40px] shadow">
-        <h1 className="mb-[60px] text-[34px] font-semibold leading-[41px]">로그인</h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
-          <InputField
-            label="이메일"
-            placeholder="이메일"
-            register={register('email')}
-            type="email"
-            errorMessage={errors.email?.message}
-          />
-          <InputField
-            label="비밀번호"
-            placeholder="비밀번호"
-            register={register('password')}
-            type="password"
-            errorMessage={errors.password?.message}
-          />
-          {serverErrorMessage && <p className="text-sm text-warning">{serverErrorMessage}</p>}
-          <div className="mb-[60px] hidden items-center justify-between px-2">
-            <p className="text-[14px] font-medium leading-[20px] text-gray350">
-              비밀번호를 잊으셨나요?
-            </p>
-            <button className="cursor-not-allowed border-none bg-transparent p-0 text-[14px] font-medium leading-[20px] text-main">
-              비밀번호 찾기
-            </button>
-          </div>
-          <Button type="submit" className="bg-main text-white">
-            로그인
+    <>
+      <h1 className="mb-[60px] text-[34px] font-semibold leading-[41px]">로그인</h1>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
+        <InputField
+          label="이메일"
+          placeholder="이메일"
+          register={register('email')}
+          type="email"
+          errorMessage={errors.email?.message}
+        />
+        <InputField
+          label="비밀번호"
+          placeholder="비밀번호"
+          register={register('password')}
+          type="password"
+          errorMessage={errors.password?.message}
+        />
+        {serverErrorMessage && <p className="text-sm text-warning">{serverErrorMessage}</p>}
+        <div className="mb-[60px] hidden items-center justify-between px-2">
+          <p className="text-[14px] font-medium leading-[20px] text-gray350">
+            비밀번호를 잊으셨나요?
+          </p>
+          <button className="cursor-not-allowed border-none bg-transparent p-0 text-[14px] font-medium leading-[20px] text-main">
+            비밀번호 찾기
+          </button>
+        </div>
+        <Button type="submit" className="bg-main text-white">
+          로그인
+        </Button>
+        <Button
+          type="button"
+          onClick={() => router.push('/signup')}
+          className="mt-3 border border-gray-300 bg-white text-gray500"
+        >
+          회원가입
+        </Button>
+      </form>
+
+      <div className="mt-[40px] hidden gap-4">
+        <label className="font-semibold text-gray500">간편 로그인</label>
+        <div className="flex flex-col gap-3">
+          <Button
+            type="button"
+            className="flex cursor-not-allowed items-center justify-center gap-2 border border-gray-300 bg-white px-4 py-2 text-gray500"
+          >
+            <Image
+              src="/images/sns/google-icon.svg"
+              alt="구글 로고"
+              width={24}
+              height={24}
+              className="h-auto w-auto"
+            />
+            <span className="text-[16px] font-semibold leading-[22px]">구글 계정으로 로그인</span>
           </Button>
           <Button
             type="button"
-            onClick={() => router.push('/signup')}
-            className="mt-3 border border-gray-300 bg-white text-gray500"
+            className="flex cursor-not-allowed items-center justify-center gap-2 border border-gray-300 bg-white px-4 py-2 text-gray500"
           >
-            회원가입
+            <Image
+              src="/images/sns/kakao-icon.svg"
+              alt="카카오 로고"
+              width={24}
+              height={24}
+              className="h-auto w-auto"
+            />
+            <span className="text-[16px] font-semibold leading-[22px]">카카오 계정으로 로그인</span>
           </Button>
-        </form>
-
-        <div className="mt-[40px] hidden gap-4">
-          <label className="font-semibold text-gray500">간편 로그인</label>
-          <div className="flex flex-col gap-3">
-            <Button
-              type="button"
-              className="flex cursor-not-allowed items-center justify-center gap-2 border border-gray-300 bg-white px-4 py-2 text-gray500"
-            >
-              <Image
-                src="/images/sns/google-icon.svg"
-                alt="구글 로고"
-                width={24}
-                height={24}
-                className="h-auto w-auto"
-              />
-              <span className="text-[16px] font-semibold leading-[22px]">구글 계정으로 로그인</span>
-            </Button>
-            <Button
-              type="button"
-              className="flex cursor-not-allowed items-center justify-center gap-2 border border-gray-300 bg-white px-4 py-2 text-gray500"
-            >
-              <Image
-                src="/images/sns/kakao-icon.svg"
-                alt="카카오 로고"
-                width={24}
-                height={24}
-                className="h-auto w-auto"
-              />
-              <span className="text-[16px] font-semibold leading-[22px]">
-                카카오 계정으로 로그인
-              </span>
-            </Button>
-          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
