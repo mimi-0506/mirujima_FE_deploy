@@ -6,13 +6,14 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { createNote, updateNote } from '@/apis/clientActions/note';
-import { CloseCircleIcon, EmbedIcon } from '@/components/icons';
+import { CloseCircleIcon } from '@/components/icons';
 import { URL_REGEX } from '@/constant/regex';
 import { useModalStore } from '@/provider/store-provider';
+import EmbedLinkIcon from '@/public/icon/embed-link.svg';
+import TodoIcon from '@/public/icon/work.svg';
 import { noteSchema } from '@/schema/noteSchema';
 
 import { Editor } from './editor/DynamicEditor';
@@ -105,7 +106,7 @@ export default function NoteContent({ todo, note }: Props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex max-w-[1248px] flex-col items-center">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center">
         <div className="w-full py-[5px]">
           <div className="flex items-center justify-between py-[5px]">
             <h2 className="text-base leading-[28px] text-gray500 md:text-[22px]">노트 작성</h2>
@@ -135,7 +136,7 @@ export default function NoteContent({ todo, note }: Props) {
         <div className="w-full space-y-2 bg-white px-4 py-[5px]">
           <div className="flex items-center gap-2 py-[5px]">
             <div className="h-6 w-6">
-              <Image src={'/icon/work.svg'} width={24} height={24} alt="할 일 아이콘" />
+              <TodoIcon />
             </div>
             <h3 className="truncate text-gray500">{todo.goal.title}</h3>
           </div>
@@ -149,40 +150,40 @@ export default function NoteContent({ todo, note }: Props) {
             <span className="text-sm leading-[16px] text-gray400">{todo.goal.completionDate}</span>
           </div>
           <TitleInput register={register} control={control} />
-          <div>
+          <div className="space-y-2 py-[40px]">
             <p className="text-[12px] font-medium text-gray350">
               공백 포함 : 총 {0}자 | 공백제외 : 총 {0}자
             </p>
+
+            {linkUrl && (
+              <div className="flex w-full justify-between gap-2 rounded-[20px] bg-Cgray px-4 py-3">
+                <Link
+                  href={linkUrl || ''}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="참고 링크 열기"
+                  className="flex w-[calc(100%-24px)] items-center gap-2 truncate text-slate-800"
+                >
+                  <span>
+                    <EmbedLinkIcon />
+                  </span>
+                  {linkUrl}
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={onDeleteLink}
+                  aria-label="참고 링크 삭제"
+                  name="링크 삭제 버튼"
+                  className="group/circle"
+                >
+                  <CloseCircleIcon />
+                </button>
+              </div>
+            )}
+
+            <Editor register={register} setValue={setValue} defaultContent={note?.content} />
           </div>
-          {/* <input {...register('linkUrl')} aria-hidden="true" className="hidden" /> */}
-          {linkUrl && (
-            <div className="flex h-[32px] w-full justify-between gap-2 rounded-[20px] bg-slate-200 px-[6px] py-1">
-              <Link
-                href={linkUrl || ''}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="참고 링크 열기"
-                className="flex w-[calc(100%-24px)] gap-2 truncate text-slate-800"
-              >
-                <span>
-                  <EmbedIcon />
-                </span>
-                {linkUrl}
-              </Link>
-
-              <button
-                type="button"
-                onClick={onDeleteLink}
-                aria-label="참고 링크 삭제"
-                name="링크 삭제 버튼"
-                className="group/circle"
-              >
-                <CloseCircleIcon />
-              </button>
-            </div>
-          )}
-
-          <Editor register={register} setValue={setValue} defaultContent={note?.content} />
         </div>
       </form>
 

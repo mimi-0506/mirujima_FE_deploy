@@ -13,14 +13,13 @@ interface Props {
 function UploadLinkModal({ defaultValue, onSubmit, linkInputRef }: Props) {
   return (
     <ModalLayout title="링크 업로드">
-      <div className="mb-[40px] mt-6 space-y-[12px]">
-        <p className="font-semibold text-slate-800">링크</p>
+      <div className="mb-[26px] mt-6 space-y-[12px]">
         <input
           ref={linkInputRef}
           defaultValue={defaultValue}
           onKeyDown={(e) => e.key === 'Enter' && onSubmit()}
           aria-label="링크 URL 입력"
-          placeholder="링크를 입력해주세요"
+          placeholder="링크를 첨부해주세요"
           className="w-full rounded-lg border border-[#F2EFEF] px-4 py-[10px] outline-none"
         />
       </div>

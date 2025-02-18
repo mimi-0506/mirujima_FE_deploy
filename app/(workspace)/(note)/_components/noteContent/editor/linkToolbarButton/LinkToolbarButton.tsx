@@ -4,8 +4,8 @@ import React from 'react';
 
 import { useComponentsContext } from '@blocknote/react';
 
-import { LinkIcon } from '@/components/icons';
 import { useModalStore } from '@/provider/store-provider';
+import EmbedLinkIcon from '@/public/icon/embed-link.svg';
 
 export default function LinkToolbarButton() {
   const setNoteLinkModalOpen = useModalStore((store) => store.setNoteLinkModalOpen);
@@ -18,7 +18,7 @@ export default function LinkToolbarButton() {
 
   return (
     <Components.FormattingToolbar.Button mainTooltip={''} onClick={onClick} data-custom-button>
-      <LinkIcon size={16} />
+      <EmbedLinkIcon />
     </Components.FormattingToolbar.Button>
   );
 }

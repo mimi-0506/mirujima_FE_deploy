@@ -31,6 +31,7 @@ interface Props {
   register: UseFormRegister<NoteInputData>;
   setValue: UseFormSetValue<NoteInputData>;
 }
+
 export default function Editor({ register, setValue, defaultContent }: Props) {
   const [initialContent, setInitialContent] = React.useState<
     PartialBlock[] | undefined | 'loading'

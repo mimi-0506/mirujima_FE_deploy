@@ -25,8 +25,8 @@ export default async function CreateNote({ searchParams }: Props) {
   if (todo.noteId) note = await readNoteFromServer(todo.noteId);
 
   return (
-    <main className="h-screen overflow-y-scroll bg-gray100 px-4 pt-[48px] md:pl-[104px] md:pt-0 lg:pl-[296px]">
+    <>
       <NoteContent todo={todo} note={note} />
-    </main>
+    </>
   );
 }

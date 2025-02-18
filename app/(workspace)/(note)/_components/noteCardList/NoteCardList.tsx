@@ -7,7 +7,7 @@ import { useParams, useRouter } from 'next/navigation';
 import useDeleteNote from '@/hooks/note/useDeleteNote';
 import useInfiniteNoteList from '@/hooks/note/useInfiniteNoteList';
 
-import NoteCard from '../noteCard/NoteCard';
+import NoteCard from './noteCard/NoteCard';
 
 import type { NoteListType } from '@/types/note.type';
 
@@ -23,9 +23,8 @@ export default function NoteCardList({ noteList }: Props) {
 
   const { mutate } = useDeleteNote(Number(goalId));
 
-  const onClickNote = () => {
-    console.log('in');
-    // router.push(`/notes`);
+  const onClickNote = (id: number) => {
+    router.push(`/notes/${id}`, { scroll: false });
   };
 
   const onClickEdit = (todoId: number) => {
@@ -37,7 +36,7 @@ export default function NoteCardList({ noteList }: Props) {
   };
 
   return (
-    <div className="space-y-[16px]">
+    <div className="space-y-2">
       {data.map((note) => {
         return (
           <NoteCard

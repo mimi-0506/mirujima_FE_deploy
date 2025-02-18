@@ -31,7 +31,7 @@ export default function ModalLayout({ title, onClose, children }: Props) {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black/50"
+          className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/50"
         >
           <dialog open className="w-10/12 max-w-[520px] rounded-xl bg-white p-6">
             <div className="flex justify-between">

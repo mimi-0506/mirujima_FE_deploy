@@ -3,14 +3,15 @@ import React from 'react';
 import { redirect } from 'next/navigation';
 
 import { readNoteFromServer } from '@/apis/serverActions/note';
+import ReadOnlyNoteContent from '@/app/(workspace)/(note)/_components/readOnlyNoteContent/ReadOnlyNoteContent';
 
-import ReadOnlyNoteContent from '../../_components/readOnlyNoteContent/ReadOnlyNoteContent';
+import NoteLayoutModal from './modal';
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-export default async function NoteDetail({ params }: Props) {
+export default async function NoteDetailModal({ params }: Props) {
   const id = (await params).id;
 
   const note = await readNoteFromServer(Number(id));
@@ -18,8 +19,8 @@ export default async function NoteDetail({ params }: Props) {
   if (!note) redirect('/');
 
   return (
-    <div className="min-h-[calc(100vh-132px)] bg-white px-4 pt-4 md:min-h-[calc(100vh-162px)]">
+    <NoteLayoutModal>
       <ReadOnlyNoteContent note={note} />
-    </div>
+    </NoteLayoutModal>
   );
 }
