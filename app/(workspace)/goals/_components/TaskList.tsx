@@ -31,7 +31,7 @@ export default function TaskList({ title, goalId, done }: TaskListProps) {
   if (isError) return <div>에러가 발생했어요.</div>;
 
   return (
-    <div className="flex-1 overflow-y-auto">
+    <div className="flex-1 overflow-y-auto bg-warning">
       <p className="mb-2 text-[15px] font-medium leading-[20px] text-gray500">{title}</p>
       <ul className="mt-2 space-y-2 text-gray350">
         {tasks.length > 0 ? (

@@ -1,7 +1,8 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
 
-import KebabMenu from '@/components/kebab/KebabMenu';
+// import KebabMenu from '@/components/kebab/KebabMenu';
+import KebabForGoal from '@/components/kebab/KebabForGoal';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
 import { useDeleteTodoItem } from '@/hooks/goalsDetail/useDeleteTodoItem';
@@ -98,7 +99,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
           </button>
         )}
         <div className="hidden group-hover:block group-focus:block">
-          <KebabMenu size={18} onEdit={handleOpenEditModal} onDelete={handleDelete} />
+          <KebabForGoal size={18} onEdit={handleOpenEditModal} onDelete={handleDelete} />
         </div>
       </div>
     </li>

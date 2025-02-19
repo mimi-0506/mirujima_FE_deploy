@@ -131,17 +131,17 @@ export default function GoalDetailPage() {
           <TaskList title="Done" goalId={goalId} done={true} />
         </div>
       </div> */}
-      <div className="desktop:flex-row flex flex-col rounded-[16px] border border-gray200 bg-white p-6 shadow-sm">
+      <div className="flex flex-col rounded-[16px] border border-gray200 bg-white p-6 shadow-sm desktop:flex-row">
         {/* To do 리스트 (모바일·태블릿·데스크탑 모두 높이 260 유지) */}
         <div className="h-[260px] flex-1 overflow-y-auto">
           <TaskList title="To do" goalId={goalId} done={false} />
         </div>
 
         {/* 모바일·태블릿에서만 보이는 가로선 (lg 이상에서는 숨김) */}
-        <hr className="desktop:hidden my-4 hidden border-t border-dashed border-gray200" />
+        <hr className="my-4 hidden border-t border-dashed border-gray200 desktop:hidden" />
 
         {/* 데스크탑에서만 보이는 세로선 (lg 이상) */}
-        <div className="desktop:flex mx-6 my-4 hidden translate-y-5 items-center justify-center">
+        <div className="mx-6 my-4 hidden translate-y-5 items-center justify-center desktop:flex">
           <span className="min-h-[160px] w-px border-l border-dashed border-gray200"></span>
         </div>
 
