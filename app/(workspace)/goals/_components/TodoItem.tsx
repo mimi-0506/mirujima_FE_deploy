@@ -1,5 +1,6 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
+
 import KebabMenu from '@/components/kebab/KebabMenu';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
@@ -44,7 +45,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const className = PRIORITY_COLORS[todo.priority];
 
   return (
-    <li className="group relative mb-3 flex justify-between">
+    <li className="group relative mb-3 flex justify-between last:pb-[47px]">
       <div className="flex items-start gap-2 group-hover:text-[#F86969]">
         <div className="relative flex cursor-pointer items-center">
           <input
