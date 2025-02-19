@@ -45,7 +45,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   return (
     <li className="group relative mb-3 flex items-center justify-between last:pb-[47px]">
       <div className="flex min-w-0 flex-1 items-baseline gap-2 text-gray500 group-hover:text-main">
-        <div className="relative flex translate-y-[5px] cursor-pointer items-center">
+        <div className="relative flex translate-y-[4px] cursor-pointer items-center">
           <input
             type="checkbox"
             checked={todo.done ?? undefined}
@@ -66,7 +66,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
           )}
         </div>
       </div>
-      <div className="relative flex shrink-0 items-start gap-1">
+      <div className="relative flex shrink-0 translate-y-[-11px] items-start gap-1">
         {todo.filePath && (
           <span>
             <FileIcon width={18} height={18} />
@@ -84,7 +84,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
         )}
 
         <span
-          className={`${className} rounded-full border p-1 px-3 py-0.5 text-[11px] leading-tight`}
+          className={`${className} rounded-full border p-1 px-3 py-0.5 text-[10px] leading-tight`}
         >
           {todo.priority}
         </span>
