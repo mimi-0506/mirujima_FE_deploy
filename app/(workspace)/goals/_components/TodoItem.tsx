@@ -83,7 +83,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
         )}
         {todo.noteId && (
           <span>
-            <NoteIcon />
+            <NoteIcon width={18} height={18} />
           </span>
         )}
 

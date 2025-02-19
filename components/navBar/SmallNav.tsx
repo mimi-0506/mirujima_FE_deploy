@@ -17,7 +17,7 @@ export default function SmallNav({
 }) {
   const Inner = () => {
     return (
-      <div className="absolute left-0 top-0 h-screen w-screen translate-x-0 transform flex-col bg-white p-[12px_16px] transition-all duration-300">
+      <div className="absolute left-0 top-0 z-10 h-screen w-screen translate-x-0 transform flex-col bg-white p-[12px_16px] transition-all duration-300">
         <div className="flex justify-between">
           <Link href="/dashboard" className="block w-fit">
             <Image src="/images/logo/mirujima-logo-full.png" width="120" height="20" alt="logo" />
@@ -40,7 +40,7 @@ export default function SmallNav({
 
   return (
     <>
-      <div className="absolute left-0 top-0 flex h-[48px] w-screen gap-[16px] bg-main p-[12px_16px] shadow-md">
+      <div className="absolute left-0 top-0 z-10 flex h-[48px] w-screen gap-[16px] bg-main p-[12px_16px] shadow-md">
         <button
           onClick={() => {
             setIsOpen((x) => !x);
@@ -51,7 +51,7 @@ export default function SmallNav({
       </div>
 
       <div
-        className={`absolute left-0 top-0 h-screen w-screen transform flex-col bg-white p-[12px_16px] transition-transform duration-300 ${
+        className={`absolute left-0 top-0 z-10 h-screen w-screen transform flex-col bg-white p-[12px_16px] transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
