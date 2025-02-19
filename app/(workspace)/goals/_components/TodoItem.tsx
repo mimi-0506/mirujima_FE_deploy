@@ -1,7 +1,5 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
-
-// import KebabMenu from '@/components/kebab/KebabMenu';
 import KebabForGoal from '@/components/kebab/KebabForGoal';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
@@ -27,11 +25,10 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const { mutate: toggleTodo } = useCheckTodo();
 
   const handleCheckbox = () => {
+    // 기존 todo 객체를 복사하고 done 값만 토글
+    const updatedTodo = { ...todo, done: !todo.done };
     toggleTodo({
-      id: todo.id,
-      done: !todo.done,
-      title: todo.title,
-      priority: todo.priority,
+      todo: updatedTodo,
       goalId
     });
   };
