@@ -1,5 +1,6 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
+
 import KebabForGoal from '@/components/kebab/KebabForGoal';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
@@ -25,7 +26,6 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const { mutate: toggleTodo } = useCheckTodo();
 
   const handleCheckbox = () => {
-    // 기존 todo 객체를 복사하고 done 값만 토글
     const updatedTodo = { ...todo, done: !todo.done };
     toggleTodo({
       todo: updatedTodo,
@@ -43,8 +43,10 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const className = PRIORITY_COLORS[todo.priority];
 
   return (
-    <li className="group relative mb-3 flex justify-between last:pb-[47px]">
-      <div className="flex min-w-0 flex-row items-baseline gap-2 group-hover:text-main">
+    <li className="group relative mb-3 flex items-center justify-between last:pb-[47px]">
+      {/* 왼쪽 영역 */}
+      <div className="flex min-w-0 flex-1 items-baseline gap-2 group-hover:text-main">
+        {/* 체크박스 */}
         <div className="relative flex translate-y-[5px] cursor-pointer items-center">
           <input
             type="checkbox"
@@ -57,6 +59,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
           </span>
         </div>
 
+        {/* 텍스트(제목, 목표) 영역 */}
         <div className="flex min-w-0 flex-col gap-1">
           <span
             className={`overflow-hidden text-ellipsis whitespace-nowrap ${
@@ -65,7 +68,6 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
           >
             {todo.title}
           </span>
-
           {todo.goal?.id && (
             <span className="flex items-center gap-1 text-[13px] text-gray350">
               <FlagIcon />
@@ -77,7 +79,8 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
         </div>
       </div>
 
-      <div className="relative flex items-start gap-1">
+      {/* 오른쪽 영역 */}
+      <div className="relative flex shrink-0 items-start gap-1">
         {todo.filePath && (
           <span>
             <FileIcon width={18} height={18} />
@@ -99,8 +102,9 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
         >
           {todo.priority}
         </span>
+
         {!todo.noteId && (
-          <button className="hidden group-focus-within:block group-hover:block group-focus:block">
+          <button className="hidden group-hover:block group-focus:block">
             <PenIcon />
           </button>
         )}

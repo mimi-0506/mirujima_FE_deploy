@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import authApi from '@/apis/clientActions/authApi';
+
 import type { TodoType } from '@/types/todo.type';
 
 const checkTodo = async ({ todo }: { todo: TodoType }) => {
