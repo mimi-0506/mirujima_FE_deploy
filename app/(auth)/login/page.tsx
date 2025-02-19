@@ -45,7 +45,9 @@ export default function LoginPage() {
 
   return (
     <>
-      <h1 className="mb-[60px] text-[34px] font-semibold leading-[41px]">로그인</h1>
+      <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] md:text-[34px] md:leading-[41px]">
+        로그인
+      </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
         <InputField
           label="이메일"
@@ -62,6 +64,7 @@ export default function LoginPage() {
           errorMessage={errors.password?.message}
         />
         {serverErrorMessage && <p className="text-sm text-warning">{serverErrorMessage}</p>}
+
         <div className="mb-[60px] hidden items-center justify-between px-2">
           <p className="text-[14px] font-medium leading-[20px] text-gray350">
             비밀번호를 잊으셨나요?
@@ -70,6 +73,7 @@ export default function LoginPage() {
             비밀번호 찾기
           </button>
         </div>
+
         <Button type="submit" className="bg-main text-white">
           로그인
         </Button>
@@ -81,7 +85,6 @@ export default function LoginPage() {
           회원가입
         </Button>
       </form>
-
       <div className="mt-[40px] hidden gap-4">
         <label className="font-semibold text-gray500">간편 로그인</label>
         <div className="flex flex-col gap-3">

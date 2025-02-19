@@ -61,7 +61,9 @@ export default function SignUpPage() {
 
   return (
     <>
-      <h1 className="mb-[60px] text-[34px] font-semibold leading-[41px]">회원가입</h1>
+      <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] md:text-[34px] md:leading-[41px]">
+        회원가입
+      </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
         <InputField
           label="이름"
@@ -101,10 +103,13 @@ export default function SignUpPage() {
         </Button>
       </form>
       <div className="mt-[60px] flex items-center justify-between px-2">
-        <p className="text-[14px] font-medium leading-[20px] text-gray350">
+        <p className="text-[12px] font-medium leading-[16px] text-gray350 md:text-[14px] md:leading-[20px]">
           이미 계정이 있으신가요?{' '}
         </p>
-        <Link href="/login" className="text-[14px] font-medium leading-[20px] text-main">
+        <Link
+          href="/login"
+          className="text-[12px] font-medium leading-[16px] text-main md:text-[14px] md:leading-[20px]"
+        >
           로그인하기
         </Link>
       </div>
