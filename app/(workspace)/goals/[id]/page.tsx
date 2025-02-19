@@ -97,9 +97,10 @@ export default function GoalDetailPage() {
 
   return (
     <section className="flex min-h-[262px] w-full max-w-[1284px] flex-col gap-6 md:pt-4">
-      <h2 className="flex h-[28px] w-full items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <GoalIcon />
+      <h2 className="flex w-full items-center gap-2">
+        <GoalIcon className="flex-shrink-0" />
+
+        <div className="min-w-0 flex-1">
           {isEditing ? (
             <input
               type="text"
@@ -107,45 +108,36 @@ export default function GoalDetailPage() {
               onChange={(e) => setEditedTitle(e.target.value)}
               onKeyDown={handleKeyDown}
               autoFocus
-              className="border-b border-gray200 text-lg font-bold outline-none"
+              className="w-full overflow-hidden text-ellipsis whitespace-nowrap border-b border-gray200 text-lg font-bold outline-none"
             />
           ) : (
-            <span className="text-lg font-bold">{editedTitle}</span>
+            <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold">
+              {editedTitle}
+            </span>
           )}
         </div>
-        <KebabForGoal size={24} onEdit={handleEdit} onDelete={handleDelete} />
+
+        {/* 오른쪽 케밥 메뉴: 줄어들지 않도록 flex-shrink-0 */}
+        <KebabForGoal
+          className="flex-shrink-0"
+          size={24}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
       </h2>
 
       <Button onClick={() => router.push(`/noteList/${goalId}`)}>노트 모아보기</Button>
-      {/* 
-      <div className="flex rounded-[16px] border border-gray200 bg-white p-6 shadow-sm">
-        <div className="h-[260px] flex-1 overflow-y-auto">
+      <div className="desktop:flex-row flex flex-col rounded-[16px] border border-gray200 bg-white p-6 shadow-sm">
+        <div className="flex-1 overflow-y-auto">
           <TaskList title="To do" goalId={goalId} done={false} />
         </div>
 
-        <div className="mx-6 flex translate-y-5 items-center justify-center">
+        <hr className="desktop:hidden my-4 border-t border-dashed border-gray200" />
+
+        <div className="desktop:flex mx-6 my-4 hidden translate-y-5 items-center justify-center">
           <span className="min-h-[160px] w-px border-l border-dashed border-gray200"></span>
         </div>
 
-        <div className="h-[260px] flex-1 overflow-y-auto">
-          <TaskList title="Done" goalId={goalId} done={true} />
-        </div>
-      </div> */}
-      <div className="flex flex-col rounded-[16px] border border-gray200 bg-white p-6 shadow-sm desktop:flex-row">
-        {/* To do 리스트 (모바일·태블릿·데스크탑 모두 높이 260 유지) */}
-        <div className="h-[260px] flex-1 overflow-y-auto">
-          <TaskList title="To do" goalId={goalId} done={false} />
-        </div>
-
-        {/* 모바일·태블릿에서만 보이는 가로선 (lg 이상에서는 숨김) */}
-        <hr className="my-4 hidden border-t border-dashed border-gray200 desktop:hidden" />
-
-        {/* 데스크탑에서만 보이는 세로선 (lg 이상) */}
-        <div className="mx-6 my-4 hidden translate-y-5 items-center justify-center desktop:flex">
-          <span className="min-h-[160px] w-px border-l border-dashed border-gray200"></span>
-        </div>
-
-        {/* Done 리스트 (모바일·태블릿·데스크탑 모두 높이 260 유지) */}
         <div className="h-[260px] flex-1 overflow-y-auto">
           <TaskList title="Done" goalId={goalId} done={true} />
         </div>

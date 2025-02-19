@@ -8,6 +8,7 @@ interface KebabMenuProps {
   size: number;
   onEdit: () => void;
   onDelete: () => void;
+  className?: string;
 }
 
 const KEBAB_MENU_TEXT = {
@@ -15,7 +16,7 @@ const KEBAB_MENU_TEXT = {
   delete: '삭제하기'
 };
 
-export default function KebabForGoal({ size, onEdit, onDelete }: KebabMenuProps) {
+export default function KebabForGoal({ size, onEdit, onDelete, className }: KebabMenuProps) {
   const [isKebabOpen, setIsKebabOpen] = useState(false);
 
   const toggleMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -24,7 +25,7 @@ export default function KebabForGoal({ size, onEdit, onDelete }: KebabMenuProps)
   };
 
   return (
-    <div className="relative">
+    <div className={`relative ${className ?? ''}`}>
       <button
         onClick={toggleMenu}
         onBlur={() => setIsKebabOpen(false)}
