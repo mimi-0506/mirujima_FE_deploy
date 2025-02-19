@@ -108,12 +108,10 @@ export default function GoalDetailPage() {
               onChange={(e) => setEditedTitle(e.target.value)}
               onKeyDown={handleKeyDown}
               autoFocus
-              className="w-full overflow-hidden text-ellipsis whitespace-nowrap border-b border-gray200 text-lg font-bold outline-none"
+              className="w-full truncate border-b border-gray200 text-lg font-bold outline-none"
             />
           ) : (
-            <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold">
-              {editedTitle}
-            </span>
+            <span className="block w-full truncate text-lg font-bold">{editedTitle}</span>
           )}
         </div>
 
@@ -127,18 +125,18 @@ export default function GoalDetailPage() {
       </h2>
 
       <Button onClick={() => router.push(`/noteList/${goalId}`)}>노트 모아보기</Button>
-      <div className="flex flex-col rounded-[16px] border border-gray200 bg-white p-6 shadow-sm desktop:flex-row">
+      <div className="desktop:flex-row flex flex-col rounded-2xl border border-gray200 bg-white p-6 shadow-sm">
         <div className="flex-1 overflow-y-auto">
           <TaskList title="To do" goalId={goalId} done={false} />
         </div>
 
-        <hr className="my-4 border-t border-dashed border-gray200 desktop:hidden" />
+        <hr className="desktop:hidden my-4 border-t border-dashed border-gray200" />
 
-        <div className="mx-6 my-4 hidden translate-y-5 items-center justify-center desktop:flex">
+        <div className="desktop:flex mx-6 my-4 hidden translate-y-5 items-center justify-center">
           <span className="min-h-[160px] w-px border-l border-dashed border-gray200"></span>
         </div>
 
-        <div className="h-[260px] flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto">
           <TaskList title="Done" goalId={goalId} done={true} />
         </div>
       </div>

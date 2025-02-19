@@ -44,9 +44,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
 
   return (
     <li className="group relative mb-3 flex items-center justify-between last:pb-[47px]">
-      {/* 왼쪽 영역 */}
-      <div className="flex min-w-0 flex-1 items-baseline gap-2 group-hover:text-main">
-        {/* 체크박스 */}
+      <div className="flex min-w-0 flex-1 items-baseline gap-2 text-gray500 group-hover:text-main">
         <div className="relative flex translate-y-[5px] cursor-pointer items-center">
           <input
             type="checkbox"
@@ -58,28 +56,16 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
             <CheckedIcon />
           </span>
         </div>
-
-        {/* 텍스트(제목, 목표) 영역 */}
         <div className="flex min-w-0 flex-col gap-1">
-          <span
-            className={`overflow-hidden text-ellipsis whitespace-nowrap ${
-              todo.done ? 'line-through' : ''
-            }`}
-          >
-            {todo.title}
-          </span>
+          <span className={`truncate ${todo.done ? 'line-through' : ''}`}>{todo.title}</span>
           {todo.goal?.id && (
             <span className="flex items-center gap-1 text-[13px] text-gray350">
               <FlagIcon />
-              <span className="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
-                {todo.goal.title}
-              </span>
+              <span className="min-w-0 flex-1 truncate">{todo.goal.title}</span>
             </span>
           )}
         </div>
       </div>
-
-      {/* 오른쪽 영역 */}
       <div className="relative flex shrink-0 items-start gap-1">
         {todo.filePath && (
           <span>
