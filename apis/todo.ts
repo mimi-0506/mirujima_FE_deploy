@@ -1,6 +1,6 @@
 import { apiWithClientToken } from './clientActions/index';
 
-import type { FilterType } from '@/app/todoList/_components/TodoFilter';
+import type { FilterType } from '@/app/(workspace)/todoList/_components/TodoFilter';
 import type { TodoListType } from '@/types/todo.type';
 
 const TODO_SIZE = 40;
@@ -14,7 +14,7 @@ export const readTodoList = async ({
   filter?: FilterType;
   pageSize?: number;
 }): Promise<TodoListType> => {
-  let doneParam; // 필터 값에 따라 'done' 파라미터 설정
+  let doneParam;
 
   if (filter === 'Done') doneParam = true;
   else if (filter === 'To do') doneParam = false;

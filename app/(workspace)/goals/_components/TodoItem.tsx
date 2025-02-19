@@ -1,15 +1,13 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
-
 import KebabMenu from '@/components/kebab/KebabMenu';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
 import { useDeleteTodoItem } from '@/hooks/goalsDetail/useDeleteTodoItem';
-// import { useUpdateTodoStatusMutation } from '@/hooks/useUpdateTodoStatusMutation';
 import FileIcon from '@/public/icon/file.svg';
 import FlagIcon from '@/public/icon/flag-gray.svg';
 import LinkIcon from '@/public/icon/link.svg';
-import NoteIcon from '@/public/icon/note.svg';
+import NoteIcon from '@/public/icon/note-s.svg';
 import PenIcon from '@/public/icon/pen.svg';
 
 import { CheckedIcon } from '../../todoList/_components/CheckedIcon';
@@ -74,12 +72,12 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
       <div className="relative flex items-start gap-1">
         {todo.filePath && (
           <span>
-            <FileIcon />
+            <FileIcon width={18} height={18} />
           </span>
         )}
         {todo.linkUrl && (
           <span>
-            <LinkIcon />
+            <LinkIcon width={18} height={18} />
           </span>
         )}
         {todo.noteId && (
@@ -87,13 +85,13 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
             <NoteIcon />
           </span>
         )}
+
         <span
           className={`${className} rounded-full border p-1 px-3 py-0.5 text-[11px] leading-tight`}
         >
           {todo.priority}
         </span>
-
-        {!todo.filePath && (
+        {!todo.noteId && (
           <button className="hidden group-focus-within:block group-hover:block group-focus:block">
             <PenIcon />
           </button>

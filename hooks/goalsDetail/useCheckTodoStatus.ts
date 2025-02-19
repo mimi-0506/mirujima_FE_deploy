@@ -21,6 +21,7 @@ const checkTodo = async ({
     title,
     priority
   });
+
   return response.data;
 };
 
