@@ -47,7 +47,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
 
   return (
     <li className="group relative mb-3 flex justify-between last:pb-[47px]">
-      <div className="flex items-start gap-2 group-hover:text-main">
+      <div className="flex min-w-0 items-start gap-2 group-hover:text-main">
         <div className="relative flex cursor-pointer items-center">
           <input
             type="checkbox"
@@ -60,17 +60,26 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
           </span>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <span className={todo.done ? 'line-through' : ''}>{todo.title}</span>
+        <div className="flex min-w-0 flex-col gap-1">
+          <span
+            className={`overflow-hidden text-ellipsis whitespace-nowrap ${
+              todo.done ? 'line-through' : ''
+            }`}
+          >
+            {todo.title}
+          </span>
 
           {todo.goal?.id && (
             <span className="flex items-center gap-1 text-[13px] text-gray350">
               <FlagIcon />
-              {todo.goal.title}
+              <span className="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                {todo.goal.title}
+              </span>
             </span>
           )}
         </div>
       </div>
+
       <div className="relative flex items-start gap-1">
         {todo.filePath && (
           <span>
