@@ -61,7 +61,9 @@ export default function SignUpPage() {
 
   return (
     <>
-      <h1 className="mb-[60px] text-[34px] font-semibold leading-[41px]">회원가입</h1>
+      <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] md:text-[34px] md:leading-[41px]">
+        회원가입
+      </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
         <InputField
           label="이름"
