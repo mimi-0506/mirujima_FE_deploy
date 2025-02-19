@@ -47,13 +47,13 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
 
   return (
     <li className="group relative mb-3 flex justify-between last:pb-[47px]">
-      <div className="flex items-start gap-2 group-hover:text-[#F86969]">
+      <div className="flex items-start gap-2 group-hover:text-main">
         <div className="relative flex cursor-pointer items-center">
           <input
             type="checkbox"
             checked={todo.done ?? undefined}
             onChange={handleCheckbox}
-            className="peer h-5 w-5 cursor-pointer appearance-none rounded-[6px] border border-slate-300 object-contain transition-all checked:border-[#F86969] checked:bg-[#F86969]"
+            className="peer h-5 w-5 cursor-pointer appearance-none rounded-[6px] border border-gray200 object-contain transition-all checked:border-main checked:bg-main"
           />
           <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform opacity-0 peer-checked:opacity-100">
             <CheckedIcon />
@@ -64,7 +64,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
           <span className={todo.done ? 'line-through' : ''}>{todo.title}</span>
 
           {todo.goal?.id && (
-            <span className="flex items-center gap-1 text-[13px] text-[#C0C0C0]">
+            <span className="flex items-center gap-1 text-[13px] text-gray350">
               <FlagIcon />
               {todo.goal.title}
             </span>
