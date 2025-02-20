@@ -21,7 +21,7 @@ export default function ReadOnlyNoteContent({ note }: Props) {
       <div className="w-full bg-white">
         <div className="flex items-center gap-2">
           <div className="h-6 w-6">
-            <TodoIcon />
+            <TodoIcon width="24" height="24" />
           </div>
           <h2 className="truncate text-[17px] leading-[22px] text-gray500">{note.goalDto.title}</h2>
         </div>

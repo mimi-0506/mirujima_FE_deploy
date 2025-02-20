@@ -16,6 +16,7 @@ export default {
         default: '#FBA5A5',
         solid: '#FFF0F0',
         Cgray: '#F6F6F6',
+        gray900: '#1A1A1C',
         gray500: '#1C1616',
         gray400: '#575151',
         gray350: '#C0C0C0',
@@ -38,6 +39,12 @@ export default {
       },
       dropShadow: {
         note: '0 0 20px rgba(0,0,0,0.04)'
+      },
+      fontSize: {
+        head3: ['17px', { lineHeight: '22px', fontWeight: 600 }],
+        button1: ['16px', { lineHeight: '22px', fontWeight: 600 }],
+        button2: ['14px', { lineHeight: '16px', fontWeight: 500 }],
+        body1: ['15px', { lineHeight: '20px', fontWeight: 500 }]
       }
     }
   },

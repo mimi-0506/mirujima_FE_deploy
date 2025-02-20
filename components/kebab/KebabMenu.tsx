@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 
-import KebabIcon from '../icons/KebabIcon';
+import KebabFocusIcon from '@/public/icon/kebab-focus.svg';
+import KebabIcon from '@/public/icon/kebab.svg';
 
 interface KebabMenuProps {
   size: number;
@@ -39,7 +40,11 @@ export default function KebabMenu({
         className="group/more"
         aria-label="옵션 더보기"
       >
-        <KebabIcon size={size} />
+        {isKebabOpen ? (
+          <KebabFocusIcon width={size} height={size} />
+        ) : (
+          <KebabIcon width={size} height={size} />
+        )}
       </button>
       {isKebabOpen && (
         <div className="absolute right-0 top-full z-10" onMouseDown={(e) => e.preventDefault()}>

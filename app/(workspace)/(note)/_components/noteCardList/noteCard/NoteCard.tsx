@@ -23,7 +23,7 @@ export default function NoteCard({ note, onClickEdit, onClickDelete, onClickNote
       <div className="flex items-center">
         <div className="flex w-full items-center gap-1">
           <div className="h-8 w-8">
-            <NoteIcon />
+            <NoteIcon width="32" height="32" />
           </div>
 
           <h3 className="w-full truncate text-[17px] font-semibold leading-[22px] text-gray500">

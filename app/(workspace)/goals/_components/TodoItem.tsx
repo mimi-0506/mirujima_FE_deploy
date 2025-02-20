@@ -8,7 +8,7 @@ import { useDeleteTodoItem } from '@/hooks/goalsDetail/useDeleteTodoItem';
 import FileIcon from '@/public/icon/file.svg';
 import FlagIcon from '@/public/icon/flag-gray.svg';
 import LinkIcon from '@/public/icon/link.svg';
-import NoteIcon from '@/public/icon/note-s.svg';
+import NoteIcon from '@/public/icon/note.svg';
 import PenIcon from '@/public/icon/pen.svg';
 
 import { CheckedIcon } from '../../todoList/_components/CheckedIcon';

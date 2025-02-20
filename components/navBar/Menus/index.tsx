@@ -15,7 +15,7 @@ export default function Menus() {
   const { ref, data, isLoading, isFetchingNextPage } = useInfinityGoalList();
 
   useLayoutEffect(() => {
-    console.log('id', id);
+    // console.log('id', id);
     if (!id) getInfo();
   }, [id]);
 
@@ -26,21 +26,21 @@ export default function Menus() {
   };
 
   useEffect(() => {
-    console.log('data', data, data?.pages?.length);
+    // console.log('data', data, data?.pages?.length);
   }, [data]);
 
   return (
     <div className="mt-8">
       <div className="box-border flex h-12 items-center gap-2 rounded-[8px] bg-white px-[21px] py-[17px] text-gray350">
         <Link href="/dashboard" className="flex gap-2">
-          <DashboardIcon />
+          <DashboardIcon width="24" height="24" />
           대시보드
         </Link>
       </div>
 
       <div className="box-border flex h-12 items-center gap-2 rounded-[8px] bg-Cgray px-[21px] py-[17px] text-gray500">
         <div className="flex gap-2">
-          <FlagIcon />
+          <FlagIcon width="24" height="24" />
           목표
         </div>
       </div>

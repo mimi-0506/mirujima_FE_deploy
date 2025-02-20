@@ -59,7 +59,7 @@ export default function LargeNav({
           </button>
 
           <Link href="/dashboard" className="flex h-[56px] w-[56px] items-center justify-center">
-            <DashboardIcon />
+            <DashboardIcon width="24" height="24" />
           </Link>
         </>
       )}
