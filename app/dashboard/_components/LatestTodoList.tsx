@@ -4,15 +4,14 @@ import Link from 'next/link';
 import { readTodoList } from '@/apis/todo';
 import TodoItem from '@/app/(workspace)/todoList/_components/TodoItem';
 import { EMPTY_MESSAGES } from '@/constant/emtymessage';
-import useIsSmall from '@/hooks/useIsSmallScreen';
+import useIsSmallScreen from '@/hooks/nav/useIsSmallScreen';
 import { useInfoStore } from '@/provider/store-provider';
 import ArrowRightIcon from '@/public/icon/arrow-right-red.svg';
 
 import type { TodoListType } from '@/types/todo.type';
-import type { QueryClient } from '@tanstack/react-query';
 
-export default function LatestTodoList({ queryClient }: { queryClient: QueryClient }) {
-  const { isSmallScreen } = useIsSmall();
+export default function LatestTodoList() {
+  const { isSmallScreen } = useIsSmallScreen();
   const { id: userId } = useInfoStore((state) => state);
 
   const { data } = useQuery<TodoListType>({
@@ -25,7 +24,7 @@ export default function LatestTodoList({ queryClient }: { queryClient: QueryClie
   });
 
   return (
-    <div className="rounded-container flex min-h-[250px] flex-col">
+    <div className="rounded-container flex flex-col desktop:min-h-[250px]">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
         <h3 className="h3">최근 등록한 일</h3>
         <Link href="/todoList" className="flex items-center gap-1 text-main">
@@ -33,16 +32,15 @@ export default function LatestTodoList({ queryClient }: { queryClient: QueryClie
           <ArrowRightIcon />
         </Link>
       </div>
-
       {data?.todos ? (
         <ul className="pointer-events-none">
           {data.todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} queryClient={queryClient} />
+            <TodoItem key={todo.id} todo={todo} />
           ))}
         </ul>
       ) : (
         <div className="m-auto text-center">{EMPTY_MESSAGES.None}</div>
-      )}
+      )}{' '}
     </div>
   );
 }

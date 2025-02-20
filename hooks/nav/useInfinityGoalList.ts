@@ -3,11 +3,13 @@ import { useInView } from 'react-intersection-observer';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
-export default function useGetGoalList() {
+import useGetGoalList from '../useGetGoalList';
+
+export default function useInfinityGoalList() {
   const { id } = useInfoStore((state) => state);
+  const { getGoalList } = useGetGoalList();
 
   const {
     data = { pages: [] },
@@ -31,22 +33,6 @@ export default function useGetGoalList() {
   });
 
   const [ref, inView] = useInView();
-
-  const getGoalList = async (pageParam: number): Promise<any> => {
-    const { data } = await apiWithClientToken.get('/goals', {
-      params: { lastSeenId: pageParam * 1000, pageSize: 10 }
-    });
-
-    const returnData = {
-      data: data.result.goals,
-      pagenation: {
-        nextPage: pageParam + 1
-      }
-    };
-    console.log(pageParam, '페이지 호출', returnData);
-
-    return returnData;
-  };
 
   useEffect(() => {
     if (inView && !isFetchingNextPage) {

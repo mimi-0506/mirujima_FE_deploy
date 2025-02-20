@@ -4,7 +4,7 @@ import { SMALL_MAX } from '@/constant/numbers';
 
 import useResize from './useResize';
 
-export default function useIsSmall() {
+export default function useIsSmallScreen() {
   const { screenSize } = useResize();
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(true);
 

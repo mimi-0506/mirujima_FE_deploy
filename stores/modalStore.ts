@@ -1,5 +1,6 @@
 import { createStore } from 'zustand/vanilla';
 
+
 export type createModalType = {
   title: string;
   done: boolean;
@@ -29,7 +30,6 @@ export type DeleteModalProps = {
 };
 
 export type ModalState = {
-  todoCreateModal: createModalType;
   isTodoCreateModalOpen: boolean;
   isTodoCreateCheckModalOpen: boolean;
   isNoteLinkModalOpen: boolean;
@@ -40,9 +40,7 @@ export type ModalState = {
 };
 
 export type ModalActions = {
-  setTodoCreateModal: (now: createModalType) => void;
   setIsTodoCreateModalOpen: (now: boolean) => void;
-  resetTodoCreateModal: () => void;
   setIsTodoCreateCheckModalOpen: (now: boolean) => void;
   setNoteLinkModalOpen: (now: boolean) => void;
   setGoalDeleteModalOpen: (isOpen: boolean, props?: DeleteModalProps) => void;
@@ -51,20 +49,7 @@ export type ModalActions = {
 
 export type ModalStore = ModalState & ModalActions;
 
-const initTodoCreateModal = {
-  title: '',
-  done: false,
-  linkUrl: '',
-  filePath: '',
-  goal: {
-    id: 0,
-    title: ''
-  },
-  priority: 0
-};
-
 const initModalState = {
-  todoCreateModal: initTodoCreateModal,
   isTodoCreateModalOpen: false,
   isTodoCreateCheckModalOpen: false,
   isNoteLinkModalOpen: false,
@@ -81,11 +66,9 @@ export const defaultInitState: ModalState = {
 export const createModalStore = (initState: ModalState = defaultInitState) => {
   return createStore<ModalStore>()((set) => ({
     ...initState,
-    setTodoCreateModal: (now) => set((state) => ({ ...state, todoCreateModal: now })),
-    resetTodoCreateModal: () =>
-      set((state) => ({ ...state, todoCreateModal: { ...initTodoCreateModal } })),
 
     setIsTodoCreateModalOpen: (now) => set((state) => ({ ...state, isTodoCreateModalOpen: now })),
+
     setIsTodoCreateCheckModalOpen: (now) =>
       set((state) => ({ ...state, isTodoCreateCheckModalOpen: now })),
     setNoteLinkModalOpen: (now) => {

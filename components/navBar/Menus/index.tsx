@@ -3,16 +3,16 @@ import { useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 
 import { apiWithClientToken } from '@/apis/clientActions';
+import useInfinityGoalList from '@/hooks/nav/useInfinityGoalList';
 import { useInfoStore } from '@/provider/store-provider';
 
 import NewGoalButton from './NewGoalButton';
-import useGetGoalList from './useGetGoalList';
 import DashboardIcon from '../../../public/icon/dashboard-gray.svg';
 import FlagIcon from '../../../public/icon/flag-black.svg';
 
 export default function Menus() {
   const { id, setInfo } = useInfoStore((state) => state);
-  const { ref, data, isLoading, isFetchingNextPage } = useGetGoalList();
+  const { ref, data, isLoading, isFetchingNextPage } = useInfinityGoalList();
 
   useLayoutEffect(() => {
     console.log('id', id);
@@ -45,8 +45,8 @@ export default function Menus() {
         </div>
       </div>
       <ul className="scrollbar-thin relative mb-10 mt-4 max-h-[272px] min-h-[100px] list-inside gap-2 overflow-y-auto [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar]:w-1">
-        {data?.pages.map((page: any) => {
-          return page.data.map((goal: any, index: number) => {
+        {data?.pages?.map((page: any) => {
+          return page?.data?.map((goal: any, index: number) => {
             return (
               <li key={goal.id} className="p-2">
                 <Link href={'/'}>• {goal.title}</Link>

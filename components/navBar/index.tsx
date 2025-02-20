@@ -4,7 +4,7 @@ import { useLayoutEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { LARGE_MIN, SMALL_MAX } from '@/constant/numbers';
-import useResize from '@/hooks/useResize';
+import useResize from '@/hooks/nav/useResize';
 
 import LargeNav from './LargeNav';
 import MediumNav from './MediumNav';
