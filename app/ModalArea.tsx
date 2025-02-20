@@ -26,13 +26,13 @@ export default function ModalArea() {
           onCancel={goalDeleteModalProps.onCancel}
         />
       )}
-      {isGoalEditModalOpen && goalEditModalProps && (
+      {isGoalEditModalOpen && goalEditModalProps ? (
         <GoalEditModal
           onConfirm={goalEditModalProps.onConfirm}
           onCancel={goalEditModalProps.onCancel}
           initialValue={goalEditModalProps.initialValue}
         />
-      )}
+      ) : null}
     </>
   );
 }
