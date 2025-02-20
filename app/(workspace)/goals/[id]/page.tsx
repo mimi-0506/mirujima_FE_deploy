@@ -80,7 +80,6 @@ export default function GoalDetailPage() {
     if (!goalId) return;
     deleteGoalMutate(goalId, {
       onSuccess: () => {
-        // 삭제 후 모달 닫기
         setGoalDeleteModalOpen(false);
         router.push('/dashboard');
       }
@@ -125,14 +124,14 @@ export default function GoalDetailPage() {
       </h2>
 
       <Button onClick={() => router.push(`/noteList/${goalId}`)}>노트 모아보기</Button>
-      <div className="flex flex-col rounded-2xl border border-gray200 bg-white p-6 shadow-sm desktop:flex-row">
+      <div className="desktop:flex-row flex flex-col rounded-2xl border border-gray200 bg-white p-6 shadow-sm">
         <div className="flex-1 overflow-y-auto">
           <TaskList title="To do" goalId={goalId} done={false} />
         </div>
 
-        <hr className="my-4 border-t border-dashed border-gray200 desktop:hidden" />
+        <hr className="desktop:hidden my-4 border-t border-dashed border-gray200" />
 
-        <div className="mx-6 my-4 hidden translate-y-5 items-center justify-center desktop:flex">
+        <div className="desktop:flex mx-6 my-4 hidden translate-y-5 items-center justify-center">
           <span className="min-h-[160px] w-px border-l border-dashed border-gray200"></span>
         </div>
 
