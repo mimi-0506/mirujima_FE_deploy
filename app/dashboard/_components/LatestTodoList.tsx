@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { readTodoList } from '@/apis/todo';
 import TodoItem from '@/app/(workspace)/todoList/_components/TodoItem';
 import { EMPTY_MESSAGES } from '@/constant/emtymessage';
-import useIsSmall from '@/hooks/useIsSmallScreen';
+import useIsSmallScreen from '@/hooks/nav/useIsSmallScreen';
 import { useInfoStore } from '@/provider/store-provider';
 import ArrowRightIcon from '@/public/icon/arrow-right-red.svg';
 
@@ -12,7 +12,7 @@ import type { TodoListType } from '@/types/todo.type';
 import type { QueryClient } from '@tanstack/react-query';
 
 export default function LatestTodoList({ queryClient }: { queryClient: QueryClient }) {
-  const { isSmallScreen } = useIsSmall();
+  const { isSmallScreen } = useIsSmallScreen();
   const { id: userId } = useInfoStore((state) => state);
 
   const { data } = useQuery<TodoListType>({
@@ -33,7 +33,6 @@ export default function LatestTodoList({ queryClient }: { queryClient: QueryClie
           <ArrowRightIcon />
         </Link>
       </div>
-
       {data?.todos ? (
         <ul className="pointer-events-none">
           {data.todos.map((todo) => (
@@ -42,7 +41,7 @@ export default function LatestTodoList({ queryClient }: { queryClient: QueryClie
         </ul>
       ) : (
         <div className="m-auto text-center">{EMPTY_MESSAGES.None}</div>
-      )}
+      )}{' '}
     </div>
   );
 }

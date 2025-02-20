@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,6 +8,8 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
+
+import { useInfoStore } from '@/provider/store-provider';
 
 import { useLoginMutation } from '../../../hooks/auth/useLoginMutation';
 import Button from '../_components/Button';
@@ -21,6 +23,7 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const { logout } = useInfoStore((state) => state);
   const {
     register,
     handleSubmit,
@@ -29,6 +32,10 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
     mode: 'onSubmit'
   });
+
+  useEffect(() => {
+    logout();
+  }, []);
 
   const { mutate: loginMutate, isError, error } = useLoginMutation();
 

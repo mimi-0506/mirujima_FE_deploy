@@ -1,32 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { FILE_SIZE_5MB } from '@/constant/numbers';
-import { useModalStore } from '@/provider/store-provider';
+import { useTodoCreateModalStore } from '@/provider/store-provider';
 
 import AddIcon from '../../public/icon/add-gray.svg';
 
 export default function Uploader() {
   const fileRef = useRef<HTMLInputElement>(null);
-  const { todoCreateModal, setTodoCreateModal } = useModalStore((state) => state);
-
+  const { fileName, linkUrl, setCreatedTodoState } = useTodoCreateModalStore((state) => state);
   const [selectedOption, setSelectedOption] = useState<'file' | 'link'>('file');
-  const [fileName, setFileName] = useState('');
-  const [file, setFile] = useState('');
-  const [link, setLink] = useState('');
-
-  useEffect(() => {
-    if (todoCreateModal.filePath) {
-      setFile(todoCreateModal.filePath);
-      setFileName(todoCreateModal.filePath.split('/').pop() || '');
-    }
-
-    if (todoCreateModal.linkUrl !== '') setLink(todoCreateModal.linkUrl);
-  }, [todoCreateModal]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (file) URL.revokeObjectURL(file); // 이전에 생성된 URL 해제
-
     const selectedFile = e.target.files ? e.target.files[0] : null;
 
     if (selectedFile) {
@@ -35,14 +20,8 @@ export default function Uploader() {
         return;
       }
 
-      setFileName(selectedFile.name);
-
-      const url = URL.createObjectURL(selectedFile);
-      setFile(url);
-    } else {
-      setFileName('');
-      setFile('');
-    }
+      setCreatedTodoState({ fileName: selectedFile.name });
+    } else setCreatedTodoState({ fileName: '' });
   };
 
   const handleLinkPaste = async () => {
@@ -52,7 +31,7 @@ export default function Uploader() {
     try {
       const url = new URL(nowLink);
       if (['http:', 'https:'].includes(url.protocol)) {
-        setLink(nowLink);
+        setCreatedTodoState({ linkUrl: nowLink });
       } else toast.error('올바른 주소가 아닙니다!');
     } catch {
       toast.error('주소만 입력 가능합니다!');
@@ -62,7 +41,7 @@ export default function Uploader() {
   const RadioButton = ({ use, text }: { use: 'file' | 'link'; text: string }) => {
     return (
       <label
-        className={`flex h-[50px] w-[232px] cursor-pointer items-center justify-center rounded-lg text-center ${
+        className={`flex h-[50px] w-1/2 cursor-pointer items-center justify-center rounded-lg text-center ${
           selectedOption === use
             ? 'bg-solid text-main'
             : 'border border-gray200 bg-white text-gray350'
@@ -89,10 +68,16 @@ export default function Uploader() {
         <RadioButton use="link" text="링크 첨부" />
       </div>
 
-      <div className="mt-2 flex h-[180px] w-full items-center justify-center rounded-lg bg-Cgray text-gray350">
+      <div className="mt-2 flex h-[9vw] w-full items-center justify-center rounded-lg bg-Cgray text-gray350">
         {selectedOption === 'file' && (
           <>
-            <input type="file" ref={fileRef} onChange={handleFileChange} className="hidden" />
+            <input
+              type="file"
+              name="file"
+              ref={fileRef}
+              onChange={handleFileChange}
+              className="hidden"
+            />
             {fileName === '' ? (
               <button
                 className="flex gap-2"
@@ -110,8 +95,7 @@ export default function Uploader() {
                 }}
                 className="hover:cursor-pointer"
               >
-                {fileName && <p className="mt-2 text-gray-600">{fileName}</p>}
-                <input value={file} name="fileUrl" className="hidden" readOnly />
+                <p className="mt-2 text-gray-600">{fileName.split('/').at(-1)}</p>
               </div>
             )}
           </>
@@ -119,10 +103,10 @@ export default function Uploader() {
 
         {selectedOption === 'link' && (
           <>
-            <input value={link} name="linkUrl" readOnly className="hidden" />
+            <input value={linkUrl} name="linkUrl" readOnly className="hidden" />
 
             <button type="button" onClick={handleLinkPaste}>
-              {link === '' ? '링크를 첨부해주세요' : link}
+              {linkUrl === '' || linkUrl === null ? '링크를 첨부해주세요' : linkUrl}
             </button>
           </>
         )}

@@ -6,7 +6,7 @@ import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 import { readTodoList } from '@/apis/todo';
-import { useInfoStore } from '@/provider/store-provider';
+import { useInfoStore, useModalStore } from '@/provider/store-provider';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
 import TodoListIcon from '@/public/icon/todo-list-black.svg';
 
@@ -19,6 +19,7 @@ import type { FilterType } from './_components/TodoFilter';
 import type { QueryClient } from '@tanstack/react-query';
 
 export default function TodoListPage() {
+  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
   const queryClient: QueryClient = useQueryClient();
   const { id: userId } = useInfoStore((state) => state);
   const [filter, setFilter] = useState<FilterType>('All');
@@ -81,7 +82,9 @@ export default function TodoListPage() {
         </h2>
         {/* TODO: 할 일 추가 모달 생성 */}
         <button
-          onClick={() => alert('할 일 추가 모달')}
+          onClick={() => {
+            setIsTodoCreateModalOpen(true);
+          }}
           className="flex items-center text-[#F86969]"
         >
           <PlusIcon /> 할일 추가

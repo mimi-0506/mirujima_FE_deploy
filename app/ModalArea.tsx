@@ -15,7 +15,7 @@ export default function ModalArea() {
 
   return (
     <>
-      {isTodoCreateModalOpen && <TodoCreateModal todoId={null} />}
+      {isTodoCreateModalOpen && <TodoCreateModal />}
       {isTodoCreateCheckModalOpen && <TodoCreateCheckModal />}
       {isGoalDeleteModalOpen && goalDeleteModalProps && (
         <GoalDeleteConfirmModal
