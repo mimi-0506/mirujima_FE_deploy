@@ -1,3 +1,5 @@
+import { useQueryClient } from '@tanstack/react-query';
+
 import KebabMenu from '@/components/kebab/KebabMenu';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useDeleteTodoMutation } from '@/hooks/useDeleteTodoMutation';
@@ -12,14 +14,13 @@ import PenIcon from '@/public/icon/pen.svg';
 import { CheckedIcon } from './CheckedIcon';
 
 import type { TodoType } from '@/types/todo.type';
-import type { QueryClient } from '@tanstack/react-query';
 
 interface TodoItemProps {
   todo: TodoType;
-  queryClient: QueryClient;
 }
 
-export default function TodoItem({ todo, queryClient }: TodoItemProps) {
+export default function TodoItem({ todo }: TodoItemProps) {
+  const queryClient = useQueryClient();
   const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
   const { setCreatedTodoState } = useTodoCreateModalStore((state) => state);
 

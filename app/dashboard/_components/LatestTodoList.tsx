@@ -9,9 +9,8 @@ import { useInfoStore } from '@/provider/store-provider';
 import ArrowRightIcon from '@/public/icon/arrow-right-red.svg';
 
 import type { TodoListType } from '@/types/todo.type';
-import type { QueryClient } from '@tanstack/react-query';
 
-export default function LatestTodoList({ queryClient }: { queryClient: QueryClient }) {
+export default function LatestTodoList() {
   const { isSmallScreen } = useIsSmallScreen();
   const { id: userId } = useInfoStore((state) => state);
 
@@ -25,7 +24,7 @@ export default function LatestTodoList({ queryClient }: { queryClient: QueryClie
   });
 
   return (
-    <div className="rounded-container flex min-h-[250px] flex-col">
+    <div className="rounded-container flex flex-col desktop:min-h-[250px]">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
         <h3 className="h3">최근 등록한 일</h3>
         <Link href="/todoList" className="flex items-center gap-1 text-main">
@@ -36,7 +35,7 @@ export default function LatestTodoList({ queryClient }: { queryClient: QueryClie
       {data?.todos ? (
         <ul className="pointer-events-none">
           {data.todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} queryClient={queryClient} />
+            <TodoItem key={todo.id} todo={todo} />
           ))}
         </ul>
       ) : (

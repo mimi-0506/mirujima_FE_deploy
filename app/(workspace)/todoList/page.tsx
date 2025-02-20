@@ -100,7 +100,7 @@ export default function TodoListPage() {
           {!isLoading || !isFetching ? (
             <ul>
               {filteredTodos?.map((todo) => {
-                return <TodoItem key={todo.id} todo={todo} queryClient={queryClient} />;
+                return <TodoItem key={todo.id} todo={todo} />;
               })}
             </ul>
           ) : (
