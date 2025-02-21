@@ -14,7 +14,6 @@ import TodoListIcon from '@/public/icon/todo-list-black.svg';
 import EmptyMessage from './_components/EmptyMessage';
 import PriorityFilter from './_components/PriorityFilter';
 import TodoFilter from './_components/TodoFilter';
-// import TodoItem from './_components/TodoItem';
 
 import type { FilterType } from './_components/TodoFilter';
 import type { QueryClient } from '@tanstack/react-query';
