@@ -30,16 +30,18 @@ export default function TaskList({ title, goalId, done }: TaskListProps) {
   if (isError) return <div>에러가 발생했어요.</div>;
 
   return (
-    <div className="h-[260px]">
-      <h2 className="mb-2 text-[15px] font-medium leading-[20px] text-gray500">{title}</h2>
+    <div className="h-[260px] overflow-y-auto">
+      <h2 className="sticky top-0 z-10 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
+        {title}
+      </h2>
       <ul className="mt-2 space-y-2 text-gray350">
         {tasks.length > 0 ? (
           tasks.map((task) => <TodoItem key={task.id} todo={task} goalId={goalId} />)
         ) : (
           <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 할 일이 없어요</li>
         )}
+        <div ref={ref} />
       </ul>
-      <div ref={ref} />
     </div>
   );
 }

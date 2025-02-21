@@ -32,18 +32,28 @@ export default function GoalItem({ goalId, title }: GoalItemProps) {
   }
 
   const todos: TodoType[] = data.result.todos;
-  const todoList = todos.filter((todo) => !todo.isDone);
-  const doneList = todos.filter((todo) => todo.isDone);
+  const todoList = todos?.filter((todo) => !todo.done);
+  const doneList = todos?.filter((todo) => todo.done);
 
   return (
-    <div className="rounded-container w-full p-4">
+    <div className="rounded-container w-full p-6">
       <h3 className="text-lg font-bold">{title}</h3>
+      <div className="my-6 h-2 w-full bg-slate-200"></div>
+      <div className="mt-3 flex flex-col border-none desktop:flex-row">
+        <div className="flex-1 overflow-y-auto">
+          <TaskList title="To do" goalId={goalId} done={false} />
+        </div>
 
-      {/* 미완료 목록 */}
-      <TaskList title="To do" goalId={goalId} done={false} tasks={todoList} />
+        <hr className="my-4 border-t border-dashed border-gray200 desktop:hidden" />
 
-      {/* 완료 목록 */}
-      <TaskList title="Done" goalId={goalId} done={true} tasks={doneList} />
+        <div className="mx-6 my-4 hidden translate-y-5 items-center justify-center desktop:flex">
+          <span className="min-h-[160px] w-px border-l border-dashed border-gray200"></span>
+        </div>
+
+        <div className="flex-1 overflow-y-auto">
+          <TaskList title="Done" goalId={goalId} done={true} />
+        </div>
+      </div>
     </div>
   );
 }
