@@ -6,6 +6,7 @@ import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 import { readTodoList } from '@/apis/todo';
+import TodoItem from '@/components/TodoItem/TodoItem';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
 import TodoListIcon from '@/public/icon/todo-list-black.svg';
@@ -14,7 +15,6 @@ import EmptyMessage from './_components/EmptyMessage';
 import PriorityFilter from './_components/PriorityFilter';
 import TodoFilter from './_components/TodoFilter';
 // import TodoItem from './_components/TodoItem';
-import TodoItem from '@/components/TodoItem/TodoItem';
 
 import type { FilterType } from './_components/TodoFilter';
 import type { QueryClient } from '@tanstack/react-query';

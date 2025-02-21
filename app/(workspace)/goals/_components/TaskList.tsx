@@ -2,9 +2,8 @@
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { useInfiniteTodoList } from '@/hooks/goalsDetail/useInfiniteTodoList';
-
 import TodoItem from '@/components/TodoItem/TodoItem';
+import { useInfiniteTodoList } from '@/hooks/goalsDetail/useInfiniteTodoList';
 
 import type { TodoType } from '@/types/todo.type';
 

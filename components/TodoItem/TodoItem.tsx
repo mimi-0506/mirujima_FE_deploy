@@ -9,7 +9,7 @@ import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provide
 import FileIcon from '@/public/icon/file.svg';
 import FlagIcon from '@/public/icon/flag-gray.svg';
 import LinkIcon from '@/public/icon/link.svg';
-import NoteIcon from '@/public/icon/note.svg';
+import NoteIcon from '@/public/icon/note-s.svg';
 import PenIcon from '@/public/icon/pen.svg';
 
 import { CheckedIcon } from '../../app/(workspace)/todoList/_components/CheckedIcon';
@@ -98,7 +98,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
 
         {!todo.noteId && (
           <button className="hidden group-hover:block group-focus:block">
-            <PenIcon />
+            <PenIcon width={18} height={18} />
           </button>
         )}
         <div className="hidden group-hover:block group-focus:block">
