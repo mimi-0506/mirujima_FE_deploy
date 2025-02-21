@@ -1,6 +1,5 @@
 import { createStore } from 'zustand/vanilla';
 
-
 export type createModalType = {
   title: string;
   done: boolean;
@@ -41,10 +40,6 @@ export type ModalState = {
   confirmTempNoteModalProps?: ConfirmTempNoteModalProps;
   noteLinkModalProps?: NoteLinkModalProps;
 };
-export type DeleteModalProps = {
-  onConfirm: () => void;
-  onCancel: () => void;
-};
 
 type ConfirmTempNoteModalProps = {
   tempNoteTitle: string | undefined;
@@ -78,7 +73,7 @@ const initModalState = {
 
   isGoalEditModalOpen: false,
   goalDeleteModalProps: undefined,
-  goalEditModalProps: undefined
+  goalEditModalProps: undefined,
   confirmTempNoteModalProps: undefined,
   noteLinkModalProps: undefined
 };

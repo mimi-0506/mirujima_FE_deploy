@@ -1,4 +1,4 @@
-import { Bar, BarChart, ResponsiveContainer, XAxis } from 'recharts';
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
 import useIsSmallScreen from '@/hooks/nav/useIsSmallScreen';
 
@@ -35,6 +35,8 @@ export default function Chart({ data }: { data: ChartDataType[] }) {
         </defs>
 
         <XAxis dataKey="day" scale="point" axisLine={false} tickLine={false} orientation="top" />
+
+        <YAxis domain={[0, 100]} hide />
 
         <Bar
           dataKey="percentage"
