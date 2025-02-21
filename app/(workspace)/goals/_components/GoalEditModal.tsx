@@ -30,8 +30,6 @@ export default function GoalEditModal({
 
   const handleClose = () => {
     onCancel();
-    const dialog = document.getElementById('modal') as HTMLDialogElement | null;
-    dialog?.close();
   };
 
   return (
