@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 
 import { useInfiniteTodoList } from '@/hooks/goalsDetail/useInfiniteTodoList';
 
-import TodoItem from './TodoItem';
+import TodoItem from '@/components/TodoItem/TodoItem';
 
 import type { TodoType } from '@/types/todo.type';
 

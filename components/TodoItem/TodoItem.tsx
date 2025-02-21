@@ -5,13 +5,14 @@ import KebabForGoal from '@/components/kebab/KebabForGoal';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
 import { useDeleteTodoItem } from '@/hooks/goalsDetail/useDeleteTodoItem';
+import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 import FileIcon from '@/public/icon/file.svg';
 import FlagIcon from '@/public/icon/flag-gray.svg';
 import LinkIcon from '@/public/icon/link.svg';
 import NoteIcon from '@/public/icon/note.svg';
 import PenIcon from '@/public/icon/pen.svg';
 
-import { CheckedIcon } from '../../todoList/_components/CheckedIcon';
+import { CheckedIcon } from '../../app/(workspace)/todoList/_components/CheckedIcon';
 
 import type { TodoType } from '@/types/todo.type';
 
@@ -22,6 +23,8 @@ interface TodoItemProps {
 
 export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const queryClient = useQueryClient();
+  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
+  const { setCreatedTodoState } = useTodoCreateModalStore((state) => state);
   const mutation = useDeleteTodoItem();
   const { mutate: toggleTodo } = useCheckTodo();
 
@@ -29,15 +32,19 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
     const updatedTodo = { ...todo, done: !todo.done };
     toggleTodo({
       todo: updatedTodo,
-      goalId
+      goalId: todo.goal.id
     });
   };
   const handleDelete = () => {
     mutation.mutate(todo.id);
   };
+  const handleOpenEditModal = (todo: any) => {
+    setCreatedTodoState({
+      ...todo,
+      fileName: todo.filePath
+    });
 
-  const handleOpenEditModal = () => {
-    alert('수정하기');
+    setIsTodoCreateModalOpen(true);
   };
 
   const className = PRIORITY_COLORS[todo.priority];
@@ -95,7 +102,13 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
           </button>
         )}
         <div className="hidden group-hover:block group-focus:block">
-          <KebabForGoal size={18} onEdit={handleOpenEditModal} onDelete={handleDelete} />
+          <KebabForGoal
+            size={18}
+            onEdit={() => {
+              handleOpenEditModal(todo);
+            }}
+            onDelete={handleDelete}
+          />
         </div>
       </div>
     </li>

@@ -13,7 +13,8 @@ import TodoListIcon from '@/public/icon/todo-list-black.svg';
 import EmptyMessage from './_components/EmptyMessage';
 import PriorityFilter from './_components/PriorityFilter';
 import TodoFilter from './_components/TodoFilter';
-import TodoItem from './_components/TodoItem';
+// import TodoItem from './_components/TodoItem';
+import TodoItem from '@/components/TodoItem/TodoItem';
 
 import type { FilterType } from './_components/TodoFilter';
 import type { QueryClient } from '@tanstack/react-query';
@@ -100,7 +101,7 @@ export default function TodoListPage() {
           {!isLoading || !isFetching ? (
             <ul>
               {filteredTodos?.map((todo) => {
-                return <TodoItem key={todo.id} todo={todo} />;
+                return <TodoItem key={todo.id} todo={todo} goalId={todo.goal.id} />;
               })}
             </ul>
           ) : (
