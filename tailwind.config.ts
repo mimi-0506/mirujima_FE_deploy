@@ -16,6 +16,7 @@ export default {
         default: '#FBA5A5',
         solid: '#FFF0F0',
         Cgray: '#F6F6F6',
+        Gray500: '#AAABB3',
         gray900: '#1A1A1C',
         gray500: '#1C1616',
         gray400: '#575151',

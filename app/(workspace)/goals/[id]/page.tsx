@@ -29,6 +29,7 @@ export default function GoalDetailPage() {
   const [editedTitle, setEditedTitle] = useState(goalTitle);
   // const isDeleteModalOpen = useModalStore((state) => state.isGoalDeleteModalOpen);
   const setGoalDeleteModalOpen = useModalStore((state) => state.setGoalDeleteModalOpen);
+  const setGoalEditModalOpen = useModalStore((state) => state.setGoalEditModalOpen);
   useEffect(() => {
     restoreUser();
   }, [restoreUser]);
@@ -40,33 +41,42 @@ export default function GoalDetailPage() {
   }, [goalTitle, isEditing]);
 
   const handleEdit = () => {
-    setIsEditing(true);
+    setGoalEditModalOpen(true, {
+      onConfirm: handleEditConfirm,
+      onCancel: handleEditCancel,
+      initialValue: goalTitle
+    });
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && goalId) {
-      e.preventDefault();
-      const newTitle = editedTitle.trim();
-      if (newTitle === '') {
-        setEditedTitle(goalTitle);
-        return;
-      }
+  const handleEditConfirm = (newTitle: string) => {
+    if (!goalId) return;
 
-      updateGoalTitle(
-        {
-          goalId,
-          title: newTitle
-        },
-        {
-          onSuccess: () => {
-            setIsEditing(false);
-          },
-          onError: () => {
-            setEditedTitle(goalTitle);
-          }
-        }
-      );
+    const trimmedTitle = newTitle.trim();
+    if (trimmedTitle === '') {
+      setEditedTitle(goalTitle);
+      return;
     }
+
+    updateGoalTitle(
+      {
+        goalId,
+        title: trimmedTitle
+      },
+      {
+        onSuccess: () => {
+          setGoalEditModalOpen(false);
+          setEditedTitle(trimmedTitle);
+        },
+        onError: () => {
+          setEditedTitle(goalTitle);
+        }
+      }
+    );
+  };
+
+  const handleEditCancel = () => {
+    setGoalEditModalOpen(false);
+    setEditedTitle(goalTitle);
   };
 
   const handleDelete = () => {
@@ -80,7 +90,6 @@ export default function GoalDetailPage() {
     if (!goalId) return;
     deleteGoalMutate(goalId, {
       onSuccess: () => {
-        // 삭제 후 모달 닫기
         setGoalDeleteModalOpen(false);
         router.push('/dashboard');
       }
@@ -106,7 +115,6 @@ export default function GoalDetailPage() {
               type="text"
               value={editedTitle}
               onChange={(e) => setEditedTitle(e.target.value)}
-              onKeyDown={handleKeyDown}
               autoFocus
               className="w-full truncate border-b border-gray200 text-lg font-bold outline-none"
             />
