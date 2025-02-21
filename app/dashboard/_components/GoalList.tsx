@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import FlagBlackIcon from '@/public/icon/flag-black.svg';
-import TaskList from '@/components/TaskList/TaskList';
 import useGetGoalList from '@/hooks/useGetGoalList';
-import { GoalListType, GoalType } from '@/types/goal.type';
+import FlagBlackIcon from '@/public/icon/flag-black.svg';
+import GoalItem from './GoalItem';
+import type { GoalListType, GoalType } from '@/types/goal.type';
 
 type GoalListResponse = {
   success: boolean;
@@ -19,12 +19,8 @@ export default function GoalList() {
     async function fetchGoals() {
       try {
         const response = (await getGoalList()) as GoalListResponse;
-
         const goalsFromApi = response.result.goals;
         setGoals(goalsFromApi);
-
-        console.log('전체 응답:', response);
-        console.log('goals 배열:', goalsFromApi);
       } catch (error) {
         console.error('Failed to fetch goals:', error);
       }
@@ -41,12 +37,7 @@ export default function GoalList() {
       </h2>
       <section className="flex flex-col gap-4">
         {goals.length > 0 ? (
-          goals.map((goal) => (
-            <div key={goal.id} className="rounded-container w-full">
-              <h3>{goal.title}</h3>
-              {/* <TaskList done={} title={goal.title} goalId={goal.id} /> */}
-            </div>
-          ))
+          goals.map((goal) => <GoalItem key={goal.id} goalId={goal.id} title={goal.title} />)
         ) : (
           <div>Loading...</div>
         )}
