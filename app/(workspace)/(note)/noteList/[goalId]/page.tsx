@@ -28,7 +28,7 @@ export default async function NoteList({ params }: Props) {
     <section className="max-w-[1248px] space-y-[24px]">
       <div className="flex w-full items-center gap-2 rounded-xl">
         <div className="h-6 w-6">
-          <TodoIcon />
+          <TodoIcon width="24" height="24" />
         </div>
         <h2 className="w-full items-center truncate text-gray500">{goal.title}</h2>
         <EditGoal goalId={goal.id} />

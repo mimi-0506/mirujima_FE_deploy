@@ -80,17 +80,17 @@ export default function TodoItem({ todo }: TodoItemProps) {
       <div className="relative flex items-start gap-1">
         {todo.filePath && (
           <span>
-            <FileIcon />
+            <FileIcon width={18} height={18} />
           </span>
         )}
         {todo.linkUrl && (
           <span>
-            <LinkIcon />
+            <LinkIcon width={18} height={18} />
           </span>
         )}
         {todo.noteId && (
           <span>
-            <NoteIcon />
+            <NoteIcon width={18} height={18} />
           </span>
         )}
         <span

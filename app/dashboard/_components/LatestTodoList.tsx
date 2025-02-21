@@ -29,7 +29,7 @@ export default function LatestTodoList() {
         <h3 className="h3">최근 등록한 일</h3>
         <Link href="/todoList" className="flex items-center gap-1 text-main">
           모두 보기
-          <ArrowRightIcon />
+          <ArrowRightIcon width={18} height={18} />
         </Link>
       </div>
       {data?.todos ? (

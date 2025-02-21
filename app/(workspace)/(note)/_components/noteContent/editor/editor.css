@@ -1,39 +1,28 @@
+/* 노트 컨테이너 */
 .bn-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 8px;
-  width: 100%;
-  min-height: calc(100vh - 396px);
-  padding-bottom: 16px;
+  @apply flex min-h-[calc(100vh-423px)] w-full flex-col justify-between gap-2 pb-4 desktop:min-h-[calc(100vh-419px)];
 }
 
-@media (min-width: 744px) {
-  .bn-container {
-    min-height: calc(100vh - 360px);
-  }
-}
-
+/* 에디터 툴바 */
 .bn-formatting-toolbar {
-  margin-inline: auto;
+  @apply mx-auto;
 }
 
 .bn-editor {
-  padding: 0;
+  @apply p-0;
 }
 
 /* 노트 작성 placeholder */
 .bn-inline-content:has(> .ProseMirror-trailingBreak:only-child)::before {
-  font-size: 16px;
-  font-style: normal;
+  @apply text-base font-normal;
 }
 
 /* 텍스트 스타일 버튼 */
 .bn-toolbar.bn-formatting-toolbar > button[data-variant='subtle'] {
-  padding: 0 2px;
+  @apply px-[2px];
 }
 
 /* 참고 링크 추가 버튼 css */
 .bn-toolbar.bn-formatting-toolbar > button[data-custom-button='true'] {
-  padding: 0 7px;
+  @apply px-[7px];
 }
