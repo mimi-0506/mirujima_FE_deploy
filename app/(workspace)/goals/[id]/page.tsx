@@ -12,7 +12,7 @@ import { useInfoStore } from '@/provider/store-provider';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
 
 import Button from '../_components/Button';
-import TaskList from '../_components/TaskList';
+import TaskList from '@/components/TaskList/TaskList';
 
 export default function GoalDetailPage() {
   const router = useRouter();
