@@ -28,6 +28,7 @@ export default function ModalArea() {
       )}
       {isGoalEditModalOpen && goalEditModalProps ? (
         <GoalEditModal
+          isOpen={isGoalEditModalOpen}
           onConfirm={goalEditModalProps.onConfirm}
           onCancel={goalEditModalProps.onCancel}
           initialValue={goalEditModalProps.initialValue}
