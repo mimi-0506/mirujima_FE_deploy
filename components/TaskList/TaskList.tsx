@@ -30,7 +30,7 @@ export default function TaskList({ title, goalId, done }: TaskListProps) {
   if (isError) return <div>에러가 발생했어요.</div>;
 
   return (
-    <div className="h-[260px] overflow-y-auto">
+    <div className="scrollbar-thin h-[260px] overflow-y-auto pr-5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray200 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar]:w-1">
       <h2 className="sticky top-0 z-10 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
         {title}
       </h2>
