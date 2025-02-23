@@ -85,12 +85,12 @@ export default function TodoListPage() {
           onClick={() => {
             setIsTodoCreateModalOpen(true);
           }}
-          className="flex items-center text-[#F86969]"
+          className="flex items-center text-main"
         >
           <PlusIcon /> 할일 추가
         </button>
       </div>
-      <div className="border=[#F2EFEF] mt-6 rounded-xl border bg-white p-6 text-black">
+      <div className="mt-6 rounded-xl border border-gray200 bg-white p-6 text-black">
         <div className="flex justify-between">
           <TodoFilter filter={filter} setFilter={setFilter} />
           <PriorityFilter setPriority={setPriority} />

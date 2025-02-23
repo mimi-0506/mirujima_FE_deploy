@@ -74,21 +74,23 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
         </div>
       </div>
       <div className="relative mb-6 flex shrink-0 items-start gap-1">
-        {todo.filePath && (
-          <span>
-            <FileIcon width={18} height={18} />
-          </span>
-        )}
-        {todo.linkUrl && (
-          <span>
-            <LinkIcon width={18} height={18} />
-          </span>
-        )}
-        {todo.noteId && (
-          <span>
-            <NoteIcon width={18} height={18} />
-          </span>
-        )}
+        <div className="flex flex-row gap-1 py-[1px]">
+          {todo.filePath && (
+            <span>
+              <FileIcon width={18} height={18} />
+            </span>
+          )}
+          {todo.linkUrl && (
+            <span>
+              <LinkIcon width={18} height={18} />
+            </span>
+          )}
+          {todo.noteId && (
+            <span>
+              <NoteIcon width={18} height={18} />
+            </span>
+          )}
+        </div>
 
         <span
           className={`${className} rounded-full border p-1 px-3 py-0.5 text-[11px] leading-tight`}
