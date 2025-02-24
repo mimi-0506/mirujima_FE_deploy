@@ -1,12 +1,10 @@
 import LatestTodoList from './LatestTodoList';
 import UpcomingGoals from './UpcomingGoals';
 
-import type { QueryClient } from '@tanstack/react-query';
-
-export default function RightSidebar({ queryClient }: { queryClient: QueryClient }) {
+export default function RightSidebar() {
   return (
-    <div className="flex flex-col gap-y-4">
-      <LatestTodoList queryClient={queryClient} />
+    <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 desktop:grid-cols-1">
+      <LatestTodoList />
       <UpcomingGoals />
     </div>
   );

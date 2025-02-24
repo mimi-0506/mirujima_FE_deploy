@@ -39,6 +39,9 @@ body {
   .hover-animate {
     @apply transition-colors duration-100 ease-in-out;
   }
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
 }
 
 @layer components {

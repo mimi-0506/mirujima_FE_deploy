@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -61,57 +60,59 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex justify-center bg-white">
-      <Toaster position="top-center" />
-      <div className="mt-[76px] w-[688px] rounded-[16px] border-[1px] border-solid border-gray200 bg-white p-[40px] pb-[40px] shadow">
-        <h1 className="mb-[60px] text-[34px] font-semibold leading-[41px]">회원가입</h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
-          <InputField
-            label="이름"
-            placeholder="이름"
-            register={register('username')}
-            type="text"
-            errorMessage={errors.username?.message}
-            className="bg-white autofill:bg-white"
-          />
-          <InputField
-            label="이메일"
-            placeholder="이메일"
-            register={register('email')}
-            type="email"
-            errorMessage={errors.email?.message}
-            className="!bg-white autofill:!bg-white"
-          />
-          <InputField
-            label="비밀번호"
-            placeholder="비밀번호"
-            register={register('password')}
-            type="password"
-            errorMessage={errors.password?.message}
-            className="!bg-white autofill:!bg-white"
-          />
-          <InputField
-            label="비밀번호 확인"
-            placeholder="비밀번호를 한 번 더 입력해주세요"
-            register={register('confirmPassword')}
-            type="password"
-            errorMessage={errors.confirmPassword?.message}
-            className="!bg-white autofill:!bg-white"
-          />
+    <>
+      <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] md:text-[34px] md:leading-[41px]">
+        회원가입
+      </h1>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
+        <InputField
+          label="이름"
+          placeholder="이름"
+          register={register('username')}
+          type="text"
+          errorMessage={errors.username?.message}
+          className="bg-white autofill:bg-white"
+        />
+        <InputField
+          label="이메일"
+          placeholder="이메일"
+          register={register('email')}
+          type="email"
+          errorMessage={errors.email?.message}
+          className="!bg-white autofill:!bg-white"
+        />
+        <InputField
+          label="비밀번호"
+          placeholder="비밀번호"
+          register={register('password')}
+          type="password"
+          errorMessage={errors.password?.message}
+          className="!bg-white autofill:!bg-white"
+        />
+        <InputField
+          label="비밀번호 확인"
+          placeholder="비밀번호를 한 번 더 입력해주세요"
+          register={register('confirmPassword')}
+          type="password"
+          errorMessage={errors.confirmPassword?.message}
+          className="!bg-white autofill:!bg-white"
+        />
 
-          <Button type="submit" className="mt-[60px] bg-main text-white">
-            회원가입
-          </Button>
-        </form>
-        <div className="mt-[60px] flex items-center justify-between px-2">
-          <p className="text-[14px] font-medium leading-[20px] text-gray350">
-            이미 계정이 있으신가요?{' '}
-          </p>
-          <Link href="/login" className="text-[14px] font-medium leading-[20px] text-main">
-            로그인하기
-          </Link>
-        </div>
+        <Button type="submit" className="mt-[60px] bg-main text-white">
+          회원가입
+        </Button>
+      </form>
+      <div className="mt-[60px] flex items-center justify-between px-2">
+        <p className="text-[12px] font-medium leading-[16px] text-gray350 md:text-[14px] md:leading-[20px]">
+          이미 계정이 있으신가요?{' '}
+        </p>
+        <Link
+          href="/login"
+          className="text-[12px] font-medium leading-[16px] text-main md:text-[14px] md:leading-[20px]"
+        >
+          로그인하기
+        </Link>
       </div>
-    </div>
+    </>
   );
 }

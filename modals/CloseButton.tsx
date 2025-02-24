@@ -7,7 +7,7 @@ export default function CloseButton({
 }) {
   return (
     <button className="flex h-6 w-6 items-center justify-center" onClick={handleClose}>
-      <X />
+      <X width="24" height="24" />
     </button>
   );
 }

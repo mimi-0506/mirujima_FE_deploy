@@ -1,6 +1,5 @@
 import type { GoalType } from './goal.type';
 import type { TodoType } from './todo.type';
-import type { SearchParams } from 'next/dist/server/request/search-params';
 
 export type CreateNoteType = {
   todoId: number;
@@ -8,10 +7,6 @@ export type CreateNoteType = {
   content: string;
   linkUrl?: string;
 };
-
-export interface NoteSearchParams extends SearchParams {
-  todoId: string;
-}
 
 export type NoteType = {
   todoDto: Pick<TodoType, 'done' | 'filePath' | 'linkUrl' | 'title' | 'id'>;
@@ -38,3 +33,18 @@ export type ReadNoteListType = {
 };
 
 export type UpdateNoteType = Pick<NoteType, 'title' | 'content' | 'linkUrl'>;
+
+export type NoteContentTextLength = {
+  textLength: number;
+  trimTextLength: number;
+};
+
+export type TempNoteType = {
+  todoId: number;
+  noteTitle: string;
+  content: string;
+};
+
+export type TempNoteContentType = {
+  [goalId: number]: TempNoteType[];
+};

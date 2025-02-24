@@ -31,9 +31,7 @@ export default function RootLayout({
       <body className={`${pretendard.className} antialiased`}>
         <AllProviders>
           <NavBar />
-          <div className="flex h-screen w-screen justify-center overflow-hidden bg-gray100">
-            <main className="w-min-1/2"> {children}</main>
-          </div>
+          <main className="h-screen w-screen overflow-hidden bg-white">{children}</main>
         </AllProviders>
       </body>
     </html>
