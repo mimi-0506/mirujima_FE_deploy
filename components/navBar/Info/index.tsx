@@ -1,12 +1,14 @@
 import toast from 'react-hot-toast';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { useInfoStore } from '@/provider/store-provider';
 
+import ProfileImage from './ProfileImage';
+
 export default function Info() {
-  const { id, email, name } = useInfoStore((state) => state);
+  const { email, name } = useInfoStore((state) => state);
+
   const router = useRouter();
 
   const handleLogoutClick = () => {
@@ -17,12 +19,7 @@ export default function Info() {
   return (
     <div className="my-6 flex gap-[16px]">
       <div className="relative flex h-[64px] w-[64px] items-center justify-center rounded-[12.8px] border border-gray-200">
-        <Image
-          src={'/images/temp.png'} //임시파일. 토마토 분리되면 그걸로 교체
-          width={64}
-          height={64}
-          alt={'profile image'}
-        />
+        <ProfileImage />
       </div>
       <div>
         <div>{name}</div>

@@ -8,25 +8,18 @@ import type { GoalType } from './type';
 
 export default function GoalSelector() {
   const [goalList, setGoalList] = useState<GoalType[]>([]);
-  const { getGoalList } = useGetGoalList();
+  const { data } = useGetGoalList();
   const { goal, setCreatedTodoState } = useTodoCreateModalStore((state) => state);
   const [selectedGoal, setSelectedGoal] = useState<GoalType | null>(goal);
 
   //수정시 초기값 가져오기용 세팅
   useEffect(() => {
     if (goal?.id !== selectedGoal?.id) setSelectedGoal(goal);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goal]);
 
   useLayoutEffect(() => {
-    get();
-  }, []);
-
-  const get = async () => {
-    const data = await getGoalList();
-
-    setGoalList(data.result.goals);
-  };
+    if (data?.result?.goals) setGoalList(data.result.goals);
+  }, [data]);
 
   const handleSelecteGoalChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const nowGoal = goalList.find((item) => item.id === parseInt(event.target.value));

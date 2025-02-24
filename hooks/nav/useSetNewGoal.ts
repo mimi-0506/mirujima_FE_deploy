@@ -24,8 +24,8 @@ export default function useSetNewGoal() {
     onSuccess: () => {
       console.log('onsuccess');
 
-      queryClient.invalidateQueries({ queryKey: ['goals', id] });
-      queryClient.refetchQueries({ queryKey: ['goals', id] });
+      queryClient.invalidateQueries({ queryKey: ['goalList', id] });
+      queryClient.refetchQueries({ queryKey: ['goalList', id] });
 
       toast('등록되었습니다.');
     },

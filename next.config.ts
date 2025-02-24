@@ -41,10 +41,7 @@ const nextConfig: NextConfig = {
     return config;
   },
   images: {
-    remotePatterns: [
-      { protocol: 'http', hostname: 'i.pinimg.com' },
-      { protocol: 'https', hostname: 'i.pinimg.com' }
-    ]
+    remotePatterns: [{ protocol: 'https', hostname: process.env.NEXT_PUBLIC_S3_BUCKET_HOST }]
   },
 
   // ✅ rewrites 추가

@@ -46,6 +46,28 @@ export default {
         button1: ['16px', { lineHeight: '22px', fontWeight: 600 }],
         button2: ['14px', { lineHeight: '16px', fontWeight: 500 }],
         body1: ['15px', { lineHeight: '20px', fontWeight: 500 }]
+      },
+      animation: {
+        tomatofill: 'tomatofill 2s infinite ease-in-out',
+        tomatogradation: 'tomatogradation 2s infinite'
+      },
+      keyframes: {
+        tomatofill: {
+          '0%': { height: '0%' },
+          '50%': { height: '100%' },
+          '100%': { height: '0%' }
+        },
+        tomatogradation: {
+          '0%': {
+            backgroundColor: 'transparent'
+          },
+          '50%': {
+            backgroundColor: '#F86969'
+          },
+          '100%': {
+            backgroundColor: 'transparent'
+          }
+        }
       }
     }
   },

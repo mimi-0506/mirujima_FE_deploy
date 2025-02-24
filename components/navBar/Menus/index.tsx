@@ -1,33 +1,32 @@
-import { useEffect, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
 import Link from 'next/link';
 
 import { apiWithClientToken } from '@/apis/clientActions';
-import useInfinityGoalList from '@/hooks/nav/useInfinityGoalList';
 import { useInfoStore } from '@/provider/store-provider';
 
-import NewGoalButton from './NewGoalButton';
+import GoalList from './GoalList';
 import DashboardIcon from '../../../public/icon/dashboard-gray.svg';
-import FlagIcon from '../../../public/icon/flag-black.svg';
+import NoteListIcon from '../../../public/icon/nav-note-list.svg';
+import TodoListIcon from '../../../public/icon/nav-todo-list.svg';
 
 export default function Menus() {
   const { id, setInfo } = useInfoStore((state) => state);
-  const { ref, data, isLoading, isFetchingNextPage } = useInfinityGoalList();
 
   useLayoutEffect(() => {
-    // console.log('id', id);
     if (!id) getInfo();
   }, [id]);
 
   const getInfo = async () => {
     const { data } = await apiWithClientToken.get('/user');
 
-    setInfo({ id: data.id, email: data.email, name: data.userName });
+    setInfo({
+      id: data.id,
+      email: data.email,
+      name: data.username,
+      profileImage: data.profileImagePath
+    });
   };
-
-  useEffect(() => {
-    // console.log('data', data, data?.pages?.length);
-  }, [data]);
 
   return (
     <div className="mt-8">
@@ -38,30 +37,16 @@ export default function Menus() {
         </Link>
       </div>
 
-      <div className="box-border flex h-12 items-center gap-2 rounded-[8px] bg-Cgray px-[21px] py-[17px] text-gray500">
-        <div className="flex gap-2">
-          <FlagIcon width="24" height="24" />
-          목표
-        </div>
+      <div className="flex flex-col gap-[17px] px-[21px] py-[17px] text-gray400">
+        <Link href="/todoList" className="flex items-center gap-[6px]">
+          <TodoListIcon /> <p>할 일 모아보기</p>
+        </Link>
+        <Link href="/noteList" className="flex items-center gap-[6px]">
+          <NoteListIcon /> <p>노트 모아보기</p>
+        </Link>
       </div>
-      <ul className="scrollbar-thin relative mb-10 mt-4 max-h-[272px] min-h-[100px] list-inside gap-2 overflow-y-auto [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar]:w-1">
-        {data?.pages?.map((page: any) => {
-          return page?.data?.map((goal: any, index: number) => {
-            return (
-              <li key={goal.id} className="p-2">
-                <Link href={'/'}>• {goal.title}</Link>
-              </li>
-            );
-          });
-        })}
 
-        {isLoading || isFetchingNextPage
-          ? 'Loading...'
-          : data?.pages[0]?.data?.length > 7 && ( //현재 크기에 7개부터 스크롤 생김. 임의의 숫자..
-              <div ref={ref} className="relative bottom-0 h-[1px] w-full border border-black" />
-            )}
-      </ul>
-      <NewGoalButton />
+      <GoalList />
     </div>
   );
 }
