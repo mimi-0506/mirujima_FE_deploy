@@ -12,9 +12,9 @@ interface Props {
 }
 
 export default function ReadOnlyEditor({ defaultContent }: Props) {
-  const [initialContent, setInitialContent] = React.useState<PartialBlock[] | null | 'loading'>(
-    'loading'
-  );
+  const [initialContent, setInitialContent] = React.useState<
+    PartialBlock[] | undefined | 'loading'
+  >('loading');
 
   const locale = locales['ko'];
 
