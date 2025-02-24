@@ -3,7 +3,10 @@
 import React from 'react';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
+import KebabMenu from '@/components/kebab/KebabMenu';
+import useDeleteNote from '@/hooks/note/useDeleteNote';
 import EmbedLinkIcon from '@/public/icon/embed-link.svg';
 import TodoIcon from '@/public/icon/work.svg';
 
@@ -16,6 +19,17 @@ interface Props {
 }
 
 export default function ReadOnlyNoteContent({ note }: Props) {
+  const router = useRouter();
+
+  const { mutate } = useDeleteNote(note.goalDto.id);
+
+  const onEdit = () => {
+    router.push(`/notes/create/${note.todoDto.id}`);
+  };
+  const onDelete = () => {
+    mutate(note.id);
+  };
+
   return (
     <section className="bg-white">
       <div className="w-full bg-white">
@@ -36,8 +50,9 @@ export default function ReadOnlyNoteContent({ note }: Props) {
           <span className="text-sm leading-[16px] text-gray400">{note.goalDto.completionDate}</span>
         </div>
 
-        <div className="mt-6 flex items-center gap-[10px] border-y border-gray200 px-4 py-4">
+        <div className="mt-6 flex gap-[10px] border-y border-gray200 px-4 py-4">
           <h3 className="w-full text-[22px] font-semibold leading-[28px]">{note.title}</h3>
+          <KebabMenu onEdit={onEdit} onDelete={onDelete} size={24} />
         </div>
 
         <div className="space-y-2 px-4 py-[40px]">
