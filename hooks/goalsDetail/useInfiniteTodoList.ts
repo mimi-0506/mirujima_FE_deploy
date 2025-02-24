@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import authApi from '@/apis/clientActions/authApi';
+import { useInfoStore } from '@/provider/store-provider';
 
 import type { ApiResponse } from '@/types/apiResponse.type';
 import type { TodoType } from '@/types/todo.type';
@@ -29,8 +30,9 @@ const fetchTodoListInfinite = async (
 };
 
 export const useInfiniteTodoList = (goalId: number, done: boolean) => {
+  const { userId } = useInfoStore((state) => state);
   return useInfiniteQuery({
-    queryKey: ['todoList', goalId, done],
+    queryKey: ['allTodos', userId],
     queryFn: async ({ pageParam = 9999 }) => fetchTodoListInfinite(goalId, done, pageParam),
     getNextPageParam: (lastPage) => {
       if (lastPage.todos.length === 0) {
