@@ -5,16 +5,16 @@ import { redirect } from 'next/navigation';
 import { readNoteFromServer } from '@/apis/serverActions/note';
 import { readTodoFromServer } from '@/apis/serverActions/todo';
 
-import NoteContent from '../../_components/noteContent/NoteContent';
+import NoteContent from '../../../_components/noteContent/NoteContent';
 
 import type { NoteType } from '@/types/note.type';
 
 interface Props {
-  searchParams: Promise<{ todoId: string }>;
+  params: Promise<{ todoId: string }>;
 }
 
-export default async function CreateNote({ searchParams }: Props) {
-  const { todoId } = await searchParams;
+export default async function CreateNote({ params }: Props) {
+  const { todoId } = await params;
 
   let note: NoteType | null = null;
 

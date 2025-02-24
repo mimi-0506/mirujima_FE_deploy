@@ -9,7 +9,7 @@ import type { NoteType } from '@/types/note.type';
 
 interface Props {
   note: NoteType;
-  onClickNote: (id: number) => void;
+  onClickNote: () => void;
   onClickEdit: () => void;
   onClickDelete: () => void;
 }
@@ -17,7 +17,7 @@ interface Props {
 export default function NoteCard({ note, onClickEdit, onClickDelete, onClickNote }: Props) {
   return (
     <article
-      onClick={() => onClickNote(note.id)}
+      onClick={onClickNote}
       className="hover-animate cursor-pointer space-y-[12px] rounded-2xl border border-gray200 bg-white p-6 hover:border-main hover:drop-shadow-note"
     >
       <div className="flex items-center">
