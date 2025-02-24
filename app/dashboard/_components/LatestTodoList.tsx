@@ -35,7 +35,7 @@ export default function LatestTodoList() {
       {data?.todos ? (
         <ul className="pointer-events-none">
           {data.todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} goalId={todo.goal.id} />
+            <TodoItem key={todo.id} todo={todo} goalId={todo?.goal?.id} />
           ))}
         </ul>
       ) : (
