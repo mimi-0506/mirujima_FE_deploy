@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
+
 import useGetGoalList from '@/hooks/useGetGoalList';
 import FlagBlackIcon from '@/public/icon/flag-black.svg';
+
 import GoalItem from './GoalItem';
+
 import type { GoalListType, GoalType } from '@/types/goal.type';
 
 type GoalListResponse = {

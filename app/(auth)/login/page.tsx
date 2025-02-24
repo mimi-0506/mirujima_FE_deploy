@@ -2,15 +2,17 @@
 
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useGoogleLogin } from '@react-oauth/google';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
-import KaKaoIcon from '@/public/images/sns/kakao-icon.svg';
-import GoogleIcon from '@/public/images/sns/google-icon.svg';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
+
+import getGoogleLoginUrl from '@/utils/getGoogleLoginUrl';
 import { useInfoStore } from '@/provider/store-provider';
-import { useLoginMutation } from '../../../hooks/auth/useLoginMutation';
+import GoogleIcon from '@/public/images/sns/google-icon.svg';
+import KaKaoIcon from '@/public/images/sns/kakao-icon.svg';
+
+import { useLoginMutation } from '@/hooks/auth/useLoginMutation';
 import Button from '../_components/Button';
 import InputField from '../_components/InputField';
 
@@ -37,7 +39,6 @@ export default function LoginPage() {
   }, []);
 
   const { mutate: loginMutate, isError, error } = useLoginMutation();
-
   const router = useRouter();
 
   const onSubmit = (data: LoginFormData) => {
@@ -48,13 +49,15 @@ export default function LoginPage() {
     isError && axios.isAxiosError(error) && error.response?.data?.message
       ? error.response.data.message
       : null;
-  const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse)
-  });
+
+  const handleGoogleLogin = () => {
+    window.location.href = getGoogleLoginUrl();
+  };
+
   return (
     <>
       <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] md:text-[34px] md:leading-[41px]">
-        로그인{' '}
+        로그인
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
         <InputField
@@ -73,15 +76,6 @@ export default function LoginPage() {
         />
         {serverErrorMessage && <p className="text-sm text-warning">{serverErrorMessage}</p>}
 
-        <div className="mb-[60px] hidden items-center justify-between px-2">
-          <p className="text-[14px] font-medium leading-[20px] text-gray350">
-            비밀번호를 잊으셨나요?
-          </p>
-          <button className="cursor-not-allowed border-none bg-transparent p-0 text-[14px] font-medium leading-[20px] text-main">
-            비밀번호 찾기
-          </button>
-        </div>
-
         <Button type="submit" className="bg-main text-white">
           로그인
         </Button>
@@ -93,11 +87,12 @@ export default function LoginPage() {
           회원가입
         </Button>
       </form>
+
       <div className="mt-[40px] gap-4">
         <label className="font-semibold text-gray500">간편 로그인</label>
         <div className="flex flex-col gap-3">
           <Button
-            onClick={() => login()}
+            onClick={handleGoogleLogin}
             type="button"
             className="flex items-center justify-center gap-2 border border-gray-300 bg-white px-4 py-2 text-gray500"
           >
