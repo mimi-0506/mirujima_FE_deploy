@@ -21,6 +21,8 @@ import _ from 'lodash';
 
 import { convertDataForEditor } from '@/utils/note/convertDataForEditor';
 
+import LinkToolbarButton from './linkToolbarButton/LinkToolbarButton';
+
 import type { NoteInputData } from '@/schema/noteSchema';
 import type { PartialBlock } from '@blocknote/core';
 
@@ -95,7 +97,7 @@ export default function Editor({ register, setValue, defaultContent, handleLinkM
 
           <ColorStyleButton key={'colorStyleButton'} />
 
-          {/* <LinkToolbarButton key={'customButton'} handleLinkModal={handleLinkModal} /> */}
+          <LinkToolbarButton key={'customButton'} handleLinkModal={handleLinkModal} />
         </FormattingToolbar>
       </BlockNoteView>
     </>
