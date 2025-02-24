@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-
 import { useParams, useRouter } from 'next/navigation';
 
 import KebabForGoal from '@/components/kebab/KebabForGoal';
@@ -29,6 +28,7 @@ export default function GoalDetailPage() {
 
   const setGoalDeleteModalOpen = useModalStore((state) => state.setGoalDeleteModalOpen);
   const setGoalEditModalOpen = useModalStore((state) => state.setGoalEditModalOpen);
+
   useEffect(() => {
     restoreUser();
   }, [restoreUser]);
@@ -99,12 +99,16 @@ export default function GoalDetailPage() {
     setGoalDeleteModalOpen(false);
   };
 
+  // 탭 상태: 'todo' | 'done'
+  const [activeTab, setActiveTab] = useState<'todo' | 'done'>('todo');
+
   if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
   if (isLoading) return <div>로딩중</div>;
   if (isError || !goalData) return <div>목표 정보를 불러오는데 실패했습니다.</div>;
 
   return (
     <section className="flex min-h-[262px] w-full max-w-[1284px] flex-col gap-6 md:pt-4">
+      {/* 목표 타이틀 영역 */}
       <h2 className="flex w-full items-center gap-2">
         <GoalIcon className="flex-shrink-0" />
 
@@ -122,7 +126,6 @@ export default function GoalDetailPage() {
           )}
         </div>
 
-        {/* 오른쪽 케밥 메뉴: 줄어들지 않도록 flex-shrink-0 */}
         <KebabForGoal
           className="flex-shrink-0"
           size={24}
@@ -131,15 +134,55 @@ export default function GoalDetailPage() {
         />
       </h2>
 
+      {/* 노트 모아보기 버튼 */}
       <Button onClick={() => router.push(`/noteList/${goalId}`)}>노트 모아보기</Button>
-      <div className="flex flex-col rounded-2xl border border-gray200 bg-white p-6 shadow-sm desktop:flex-row">
+
+      {/*
+        1) 모바일/태블릿(= md 이하)에서는 탭 UI로 전환
+        2) 데스크톱(= md 이상)에서는 기존 2열 레이아웃 유지
+      */}
+
+      {/* 모바일/태블릿 전용 탭 메뉴 */}
+      <div className="block md:hidden">
+        <div className="flex justify-center space-x-4">
+          <button
+            className={`border-b-2 px-4 py-2 ${
+              activeTab === 'todo' ? 'border-main' : 'border-transparent'
+            }`}
+            onClick={() => setActiveTab('todo')}
+          >
+            To do
+          </button>
+          <button
+            className={`border-b-2 px-4 py-2 ${
+              activeTab === 'done' ? 'border-main' : 'border-transparent'
+            }`}
+            onClick={() => setActiveTab('done')}
+          >
+            Done
+          </button>
+        </div>
+
+        {activeTab === 'todo' && (
+          <div className="mt-4">
+            <TaskList title="To do" goalId={goalId} done={false} />
+          </div>
+        )}
+        {activeTab === 'done' && (
+          <div className="mt-4">
+            <TaskList title="Done" goalId={goalId} done={true} />
+          </div>
+        )}
+      </div>
+
+      <div className="hidden flex-col rounded-2xl border border-gray200 bg-white p-6 shadow-sm md:flex md:flex-row">
         <div className="flex-1 overflow-y-auto">
           <TaskList title="To do" goalId={goalId} done={false} />
         </div>
 
-        <hr className="my-4 border-t border-dashed border-gray200 desktop:hidden" />
+        <hr className="my-4 border-t border-dashed border-gray200 md:hidden" />
 
-        <div className="mx-6 my-4 hidden translate-y-5 items-center justify-center desktop:flex">
+        <div className="mx-6 my-4 hidden translate-y-5 items-center justify-center md:flex">
           <span className="min-h-[160px] w-px border-l border-dashed border-gray200"></span>
         </div>
 
