@@ -27,6 +27,7 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors }
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -62,6 +63,7 @@ export default function LoginPage() {
           register={register('email')}
           type="email"
           errorMessage={errors.email?.message}
+          triggerValidation={() => trigger('email')}
         />
         <InputField
           label="비밀번호"
@@ -69,6 +71,7 @@ export default function LoginPage() {
           register={register('password')}
           type="password"
           errorMessage={errors.password?.message}
+          triggerValidation={() => trigger('password')}
         />
         {serverErrorMessage && <p className="text-sm text-warning">{serverErrorMessage}</p>}
 
