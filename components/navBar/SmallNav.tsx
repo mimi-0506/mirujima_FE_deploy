@@ -25,7 +25,7 @@ export default function SmallNav({
 
   return (
     <>
-      <div className="item-center absolute left-0 top-0 flex h-[48px] w-screen gap-[16px] bg-main p-[12px_16px] text-white shadow-md">
+      <div className="item-center absolute left-0 top-0 z-20 flex h-[48px] w-screen gap-[16px] bg-main p-[12px_16px] text-white shadow-md">
         <button
           onClick={() => {
             setIsOpen((x) => !x);
@@ -37,7 +37,7 @@ export default function SmallNav({
       </div>
 
       <div
-        className={`absolute left-0 top-0 z-10 h-screen w-screen transform flex-col bg-white p-[12px_16px] transition-transform duration-300 ${
+        className={`absolute left-0 top-0 z-10 z-20 h-screen w-screen transform flex-col bg-white p-[12px_16px] transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
