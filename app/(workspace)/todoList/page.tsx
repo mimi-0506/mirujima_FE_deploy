@@ -21,15 +21,15 @@ import type { QueryClient } from '@tanstack/react-query';
 export default function TodoListPage() {
   const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
   const queryClient: QueryClient = useQueryClient();
-  const { id: userId } = useInfoStore((state) => state);
+  const { userId } = useInfoStore((state) => state);
   const [filter, setFilter] = useState<FilterType>('All');
   const [priority, setPriority] = useState<'all' | number>('all');
 
   const { ref, inView } = useInView();
 
   const { data, isLoading, isFetching, fetchNextPage, refetch } = useInfiniteQuery({
-    queryKey: ['todos', userId, filter],
-    queryFn: ({ pageParam = 9999 }) => readTodoList({ pageParam, filter }),
+    queryKey: ['allTodos', userId],
+    queryFn: ({ pageParam = 9999 }) => readTodoList({ pageParam }),
     initialPageParam: 9999,
     getNextPageParam: (lastPage) => (lastPage.remainingCount > 0 ? lastPage.lastSeenId : null),
     enabled: !!userId,
@@ -62,10 +62,10 @@ export default function TodoListPage() {
 
   useEffect(() => {
     if (filter) {
-      queryClient.invalidateQueries({ queryKey: ['todos', filter] });
-      refetch();
+      queryClient.invalidateQueries({ queryKey: ['allTodos', userId] });
+      queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
     }
-  }, [filter, queryClient, refetch]);
+  }, [filter]);
 
   useEffect(() => {
     if (inView) {
