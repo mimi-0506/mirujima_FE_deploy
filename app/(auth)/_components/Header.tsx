@@ -14,7 +14,7 @@ export default function Header() {
           height={19}
           width={108}
           className="h-auto w-[108px] cursor-pointer"
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/login')}
         />
 
         <div className="flex items-center">
