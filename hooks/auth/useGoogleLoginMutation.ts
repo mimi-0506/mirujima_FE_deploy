@@ -1,5 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { setCookie } from 'cookies-next';
 

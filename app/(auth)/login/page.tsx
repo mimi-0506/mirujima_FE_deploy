@@ -2,17 +2,18 @@
 
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
-import getGoogleLoginUrl from '@/utils/getGoogleLoginUrl';
+import { useLoginMutation } from '@/hooks/auth/useLoginMutation';
 import { useInfoStore } from '@/provider/store-provider';
 import GoogleIcon from '@/public/images/sns/google-icon.svg';
 import KaKaoIcon from '@/public/images/sns/kakao-icon.svg';
+import getGoogleLoginUrl from '@/utils/getGoogleLoginUrl';
 
-import { useLoginMutation } from '@/hooks/auth/useLoginMutation';
 import Button from '../_components/Button';
 import InputField from '../_components/InputField';
 

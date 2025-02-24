@@ -1,7 +1,9 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+
+import { useRouter, useSearchParams } from 'next/navigation';
+
 import { useGoogleLoginMutation } from '@/hooks/auth/useGoogleLoginMutation';
 
 export default function GoogleCallbackPage() {
