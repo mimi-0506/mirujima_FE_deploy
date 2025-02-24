@@ -11,13 +11,13 @@ export const readTodoList = async ({
   pageParam?: number;
   pageSize?: number;
 }): Promise<TodoListType> => {
-  const response = await apiWithClientToken.get<{ result: TodoListType }>('/todos', {
+  const response = await apiWithClientToken.get('/todos', {
     params: { lastSeenId: pageParam, pageSize }
   });
 
   if (response.data.result === null) throw new Error('read todo list error');
 
-  return response.data.result;
+  return response.data.result.todos.reverse();
 };
 
 export const deleteTodoItem = async (id: number) => {

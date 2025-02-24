@@ -18,7 +18,7 @@ import type { TodoType } from '@/types/todo.type';
 
 interface TodoItemProps {
   todo: TodoType;
-  goalId: number;
+  goalId?: number;
 }
 
 export default function TodoItem({ todo, goalId }: TodoItemProps) {
