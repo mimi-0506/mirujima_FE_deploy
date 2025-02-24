@@ -36,20 +36,19 @@ export default function WeeklyChart() {
     setProgressData(completionRate);
   };
 
-  const { data: todoData } = useQuery({
+  const { data } = useQuery({
     queryKey: ['allTodos', userId],
     queryFn: () => readTodoList({}),
     retry: 0
   });
 
   useEffect(() => {
-    if (todoData) {
-      //필터링 로직 추가 필요
+    if (Array.isArray(data)) {
       setTimeout(() => {
-        setChartData(getWeeklyCompletionData(todoData.todos));
+        setChartData(getWeeklyCompletionData(data));
       }, 300);
     }
-  }, [todoData]);
+  }, [data]);
 
   return (
     <div className="rounded-container">
