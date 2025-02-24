@@ -34,7 +34,7 @@ export const useInfiniteTodoList = (goalId: number, done: boolean) => {
     queryFn: async ({ pageParam = 9999 }) => fetchTodoListInfinite(goalId, done, pageParam),
     getNextPageParam: (lastPage) => {
       if (lastPage.todos.length === 0) {
-        return undefined;
+        return null;
       }
       return lastPage.lastSeenId;
     },

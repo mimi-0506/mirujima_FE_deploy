@@ -39,7 +39,7 @@ export default function Editor({ register, setValue, defaultContent, handleLinkM
   const locale = locales['ko'];
 
   const editor = React.useMemo(() => {
-    if (initialContent === 'loading') return undefined;
+    if (initialContent === 'loading') return null;
 
     return BlockNoteEditor.create({
       ...locale,
@@ -53,7 +53,7 @@ export default function Editor({ register, setValue, defaultContent, handleLinkM
 
   React.useEffect(() => {
     convertDataForEditor(defaultContent).then((content) => {
-      setInitialContent(content);
+      if (content !== null) setInitialContent(content);
     });
   }, [defaultContent]);
 
