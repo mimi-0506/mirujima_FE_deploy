@@ -32,7 +32,7 @@ export default function UpcomingGoals() {
             >
               <div className="mr-4 flex flex-col border-r border-dashed border-gray200 pr-4 text-center font-medium">
                 <span>{date}</span>
-                <span>{day}요일</span>
+                <span className="text-nowrap">{day}요일</span>
               </div>
               <div className="flex flex-col gap-y-1 text-[13px]">
                 {isLoading ? (
