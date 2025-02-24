@@ -51,7 +51,7 @@ export function useUpdateGoalTitle() {
       return { previousData };
     },
     onError: (error, { goalId }, context) => {
-      queryClient.setQueryData(['goalDetail', goalId], context?.previousData);
+      queryClient.setQueryData(['goal', goalId, userId], context?.previousData);
       console.error('목표 수정 실패', error);
     },
     onSettled: (_, __, { goalId }) => {
