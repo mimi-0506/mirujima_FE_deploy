@@ -1,3 +1,5 @@
+'use client';
+
 import { endOfWeek, isWithinInterval, parseISO, startOfWeek } from 'date-fns';
 
 import { WEEK_DAYS } from '@/constant/date';
