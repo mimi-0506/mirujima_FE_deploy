@@ -1,4 +1,4 @@
-import type { GaolListType } from '@/types/goal.type';
+import type { GoalListType } from '@/types/goal.type';
 
 import { apiWithClientToken } from '.';
 
@@ -8,9 +8,9 @@ export const readGoalList = async ({
 }: {
   pageParam?: number;
   pageSize?: number;
-}): Promise<GaolListType> => {
+}): Promise<GoalListType> => {
   const response = await apiWithClientToken.get<{
-    result: GaolListType;
+    result: GoalListType;
   }>('/goals', {
     params: { lastSeenId: pageParam, pageSize }
   });
