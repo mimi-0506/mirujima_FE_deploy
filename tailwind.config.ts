@@ -45,7 +45,8 @@ export default {
         head3: ['17px', { lineHeight: '22px', fontWeight: 600 }],
         button1: ['16px', { lineHeight: '22px', fontWeight: 600 }],
         button2: ['14px', { lineHeight: '16px', fontWeight: 500 }],
-        body1: ['15px', { lineHeight: '20px', fontWeight: 500 }]
+        body1: ['15px', { lineHeight: '20px', fontWeight: 500 }],
+        body2: ['13px', { lineHeight: '18px', fontWeight: 400 }]
       },
       animation: {
         tomatofill: 'tomatofill 2s infinite ease-in-out',
