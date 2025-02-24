@@ -17,3 +17,28 @@ export const getUpcomingDates = (days: number) => {
 
   return upcomingDates;
 };
+
+export const getFormattedTime = () => {
+  const now = new Date();
+
+  // 연도 4자리
+  const year = now.getFullYear();
+
+  // 월(2자리)
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+
+  // 일(2자리)
+  const day = now.getDate().toString().padStart(2, '0');
+
+  // 시간(2자리)
+  const hours = now.getHours().toString().padStart(2, '0');
+
+  // 분(2자리)
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+
+  // 초(2자리)
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+
+  // 최종 포맷
+  return `${year}${month}${day}${hours}${minutes}${seconds}`;
+};

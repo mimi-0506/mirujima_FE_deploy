@@ -1,25 +1,22 @@
 import { useEffect, useState } from 'react';
 import type { ChangeEvent } from 'react';
 
-import { useModalStore } from '@/provider/store-provider';
+import { useTodoCreateModalStore } from '@/provider/store-provider';
 
 const PRIORITY = [1, 2, 3, 4];
 
 export default function PrioritySelector() {
-  const { todoCreateModal, setTodoCreateModal } = useModalStore((state) => state);
-  const [selectedPriority, setSelectedPriority] = useState<number | string>(
-    todoCreateModal.priority
-  );
+  const { priority, setCreatedTodoState } = useTodoCreateModalStore((state) => state);
+  const [selectedPriority, setSelectedPriority] = useState<number | string>(priority);
 
   useEffect(() => {
-    if (todoCreateModal.priority !== selectedPriority)
-      setSelectedPriority(todoCreateModal.priority);
+    if (priority !== selectedPriority) setSelectedPriority(priority);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todoCreateModal]);
+  }, [priority]);
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedPriority(event.target.value);
-    setTodoCreateModal({ ...todoCreateModal, priority: parseInt(event.target.value) });
+    setCreatedTodoState({ priority: parseInt(event.target.value) });
   };
 
   return (
@@ -27,7 +24,7 @@ export default function PrioritySelector() {
       <label htmlFor="Priority-select">우선순위</label>
       <select
         id="Priority-select"
-        className={`mt-4 rounded-lg border border-gray-200 px-4 py-[14px] ${selectedPriority === 0 ? 'text-gray350' : 'text-gray500'} `}
+        className={`mt-4 rounded-lg border border-gray-200 px-4 py-[0.7vw] ${selectedPriority === 0 ? 'text-gray350' : 'text-gray500'} `}
         name="priority"
         onChange={handleChange}
         value={selectedPriority}

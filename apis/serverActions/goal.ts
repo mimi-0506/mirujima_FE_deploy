@@ -13,7 +13,7 @@ export const readGoalFromServer = async (goalId: string) => {
 
     const res = await apiWithServerToken.get<ApiResponse<GoalType>>(`/goals/${goalId}`);
 
-    return res.data;
+    return res.data.result;
   } catch (error) {
     if (error instanceof AxiosError) {
       // 추후 에러 처리 추가 예정

@@ -2,12 +2,15 @@
 
 import { useState } from 'react';
 
-import Image from 'next/image';
+import KebabFocusIcon from '@/public/icon/kebab-focus.svg';
+import KebabIcon from '@/public/icon/kebab.svg';
 
 interface KebabMenuProps {
   size: number;
   onEdit: () => void;
   onDelete: () => void;
+  editText?: string;
+  deleteText?: string;
 }
 
 const KEBAB_MENU_TEXT = {
@@ -15,7 +18,13 @@ const KEBAB_MENU_TEXT = {
   delete: '삭제하기'
 };
 
-export default function KebabMenu({ size, onEdit, onDelete }: KebabMenuProps) {
+export default function KebabMenu({
+  size,
+  onEdit,
+  onDelete,
+  editText = KEBAB_MENU_TEXT.edit,
+  deleteText = KEBAB_MENU_TEXT.delete
+}: KebabMenuProps) {
   const [isKebabOpen, setIsKebabOpen] = useState(false);
 
   const toggleMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -24,26 +33,37 @@ export default function KebabMenu({ size, onEdit, onDelete }: KebabMenuProps) {
   };
 
   return (
-    <div className="relative">
-      <button
-        onClick={toggleMenu}
-        onBlur={() => setIsKebabOpen(false)}
-        className="rounded-md bg-Cgray"
-        aria-label="노트 옵션 더보기"
-      >
-        <Image src={'/icon/more.svg'} width={size} height={size} alt="더보기 아이콘" className="" />
+    <div className="flex-center relative">
+      <button onClick={toggleMenu} onBlur={() => setIsKebabOpen(false)} aria-label="옵션 더보기">
+        {isKebabOpen ? (
+          <KebabFocusIcon width={size} height={size} />
+        ) : (
+          <KebabIcon width={size} height={size} />
+        )}
       </button>
       {isKebabOpen && (
         <div className="absolute right-0 top-full z-10" onMouseDown={(e) => e.preventDefault()}>
           <ul className="relative overflow-hidden rounded-xl bg-white shadow-md">
             <li className="text-nowrap hover:bg-gray-100">
-              <button className="px-4 pb-[6px] pt-2" onClick={onEdit}>
-                {KEBAB_MENU_TEXT.edit}
+              <button
+                className="px-4 pb-[6px] pt-2"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit();
+                }}
+              >
+                {editText}
               </button>
             </li>
             <li className="text-nowrap hover:bg-gray-100">
-              <button className="px-4 pb-[6px] pt-2" onClick={onDelete}>
-                {KEBAB_MENU_TEXT.delete}
+              <button
+                className="px-4 pb-[6px] pt-2"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete();
+                }}
+              >
+                {deleteText}
               </button>
             </li>
           </ul>

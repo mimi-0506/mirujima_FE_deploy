@@ -6,6 +6,10 @@ import { useStore } from 'zustand';
 
 import { createInfoStore, type InfoStore } from '@/stores/infoStore';
 import { createModalStore, type ModalStore } from '@/stores/modalStore';
+import {
+  createTodoCreateModalStore,
+  type TodoCreateModalStore
+} from '@/stores/todoCreateModalStore';
 
 export interface storeProviderProps {
   children: ReactNode;
@@ -57,13 +61,15 @@ export const useModalStore = <T,>(selector: (store: ModalStore) => T): T => {
 
 //-----------------------------
 
-export type TodoCreateModalStoreApi = ReturnType<typeof createModalStore>;
+export type TodoCreateModalStoreApi = ReturnType<typeof createTodoCreateModalStore>;
 
-export const TodoCreateModalStoreContext = createContext<ModalStoreApi | undefined>(undefined);
+export const TodoCreateModalStoreContext = createContext<TodoCreateModalStoreApi | undefined>(
+  undefined
+);
 
 export const TodoCreateModalStoreProvider = ({ children }: storeProviderProps) => {
-  const storeRef = useRef<ModalStoreApi>(null);
-  if (!storeRef.current) storeRef.current = createModalStore();
+  const storeRef = useRef<TodoCreateModalStoreApi>(null);
+  if (!storeRef.current) storeRef.current = createTodoCreateModalStore();
 
   return (
     <TodoCreateModalStoreContext.Provider value={storeRef.current}>
@@ -72,7 +78,7 @@ export const TodoCreateModalStoreProvider = ({ children }: storeProviderProps) =
   );
 };
 
-export const useTodoCreateModalStore = <T,>(selector: (store: ModalStore) => T): T => {
+export const useTodoCreateModalStore = <T,>(selector: (store: TodoCreateModalStore) => T): T => {
   const todoCreatemodalStoreContext = useContext(TodoCreateModalStoreContext);
 
   if (!todoCreatemodalStoreContext)

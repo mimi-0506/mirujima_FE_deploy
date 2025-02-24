@@ -1,20 +1,21 @@
-import { useModalStore } from '@/provider/store-provider';
+import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 
 import CloseButton from '../CloseButton';
 import Overlay from '../Overlay';
 
 export default function TodoCreateCheckModal() {
-  const { setIsTodoCreateModalOpen, setIsTodoCreateCheckModalOpen, resetTodoCreateModal } =
-    useModalStore((state) => state);
-
+  const { setIsTodoCreateModalOpen, setIsTodoCreateCheckModalOpen } = useModalStore(
+    (state) => state
+  );
+  const { resetTodoCreateModal } = useTodoCreateModalStore((state) => state);
   const handleClose = () => {
     setIsTodoCreateCheckModalOpen(false);
   };
 
   const handleCloseAll = () => {
+    resetTodoCreateModal();
     setIsTodoCreateCheckModalOpen(false);
     setIsTodoCreateModalOpen(false);
-    resetTodoCreateModal();
   };
 
   return (
