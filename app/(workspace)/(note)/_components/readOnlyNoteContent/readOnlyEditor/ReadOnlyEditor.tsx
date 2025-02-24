@@ -20,15 +20,16 @@ export default function ReadOnlyEditor({ defaultContent }: Props) {
 
   const editor = React.useMemo(() => {
     if (initialContent === 'loading') return null;
-
-    return BlockNoteEditor.create({
-      ...locale,
-      placeholders: {
-        ...locale.placeholders,
-        default: '이 곳을 클릭해 노트 작성을 시작해주세요'
-      },
-      initialContent
-    });
+    if (initialContent !== null) {
+      return BlockNoteEditor.create({
+        ...locale,
+        placeholders: {
+          ...locale.placeholders,
+          default: '이 곳을 클릭해 노트 작성을 시작해주세요'
+        },
+        initialContent
+      });
+    }
   }, [initialContent]);
 
   React.useEffect(() => {
