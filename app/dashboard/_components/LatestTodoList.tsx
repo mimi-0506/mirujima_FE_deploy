@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 import { readTodoList } from '@/apis/todo';
-import TodoItem from '@/app/(workspace)/todoList/_components/TodoItem';
+import TodoItem from '@/components/TodoItem/TodoItem';
 import { EMPTY_MESSAGES } from '@/constant/emtymessage';
 import useIsSmallScreen from '@/hooks/nav/useIsSmallScreen';
 import { useInfoStore } from '@/provider/store-provider';
@@ -35,7 +35,7 @@ export default function LatestTodoList() {
       {data?.todos ? (
         <ul className="pointer-events-none">
           {data.todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} />
+            <TodoItem key={todo.id} todo={todo} goalId={todo.goal.id} />
           ))}
         </ul>
       ) : (

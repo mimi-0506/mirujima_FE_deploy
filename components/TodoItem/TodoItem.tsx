@@ -5,13 +5,14 @@ import KebabForGoal from '@/components/kebab/KebabForGoal';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
 import { useDeleteTodoItem } from '@/hooks/goalsDetail/useDeleteTodoItem';
+import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 import FileIcon from '@/public/icon/file.svg';
 import FlagIcon from '@/public/icon/flag-gray.svg';
 import LinkIcon from '@/public/icon/link.svg';
-import NoteIcon from '@/public/icon/note.svg';
+import NoteIcon from '@/public/icon/note-s.svg';
 import PenIcon from '@/public/icon/pen.svg';
 
-import { CheckedIcon } from '../../todoList/_components/CheckedIcon';
+import { CheckedIcon } from '../../app/(workspace)/todoList/_components/CheckedIcon';
 
 import type { TodoType } from '@/types/todo.type';
 
@@ -22,6 +23,8 @@ interface TodoItemProps {
 
 export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const queryClient = useQueryClient();
+  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
+  const { setCreatedTodoState } = useTodoCreateModalStore((state) => state);
   const mutation = useDeleteTodoItem();
   const { mutate: toggleTodo } = useCheckTodo();
 
@@ -29,15 +32,19 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
     const updatedTodo = { ...todo, done: !todo.done };
     toggleTodo({
       todo: updatedTodo,
-      goalId
+      goalId: todo.goal.id
     });
   };
   const handleDelete = () => {
     mutation.mutate(todo.id);
   };
+  const handleOpenEditModal = (todo: any) => {
+    setCreatedTodoState({
+      ...todo,
+      fileName: todo.filePath
+    });
 
-  const handleOpenEditModal = () => {
-    alert('수정하기');
+    setIsTodoCreateModalOpen(true);
   };
 
   const className = PRIORITY_COLORS[todo.priority];
@@ -67,21 +74,23 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
         </div>
       </div>
       <div className="relative mb-6 flex shrink-0 items-start gap-1">
-        {todo.filePath && (
-          <span>
-            <FileIcon width={18} height={18} />
-          </span>
-        )}
-        {todo.linkUrl && (
-          <span>
-            <LinkIcon width={18} height={18} />
-          </span>
-        )}
-        {todo.noteId && (
-          <span>
-            <NoteIcon width={18} height={18} />
-          </span>
-        )}
+        <div className="flex flex-row gap-1 py-[1px]">
+          {todo.filePath && (
+            <span>
+              <FileIcon width={18} height={18} />
+            </span>
+          )}
+          {todo.linkUrl && (
+            <span>
+              <LinkIcon width={18} height={18} />
+            </span>
+          )}
+          {todo.noteId && (
+            <span>
+              <NoteIcon width={18} height={18} />
+            </span>
+          )}
+        </div>
 
         <span
           className={`${className} rounded-full border p-1 px-3 py-0.5 text-[11px] leading-tight`}
@@ -91,11 +100,17 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
 
         {!todo.noteId && (
           <button className="hidden group-hover:block group-focus:block">
-            <PenIcon />
+            <PenIcon width={18} height={18} />
           </button>
         )}
         <div className="hidden group-hover:block group-focus:block">
-          <KebabForGoal size={18} onEdit={handleOpenEditModal} onDelete={handleDelete} />
+          <KebabForGoal
+            size={18}
+            onEdit={() => {
+              handleOpenEditModal(todo);
+            }}
+            onDelete={handleDelete}
+          />
         </div>
       </div>
     </li>

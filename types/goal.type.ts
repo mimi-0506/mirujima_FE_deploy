@@ -1,4 +1,4 @@
-export type GaolListType = {
+export type GoalListType = {
   lastSeenId: number;
   totalCount: number;
   goals: GoalType[];

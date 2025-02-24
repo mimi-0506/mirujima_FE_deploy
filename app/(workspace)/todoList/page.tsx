@@ -6,6 +6,7 @@ import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 import { readTodoList } from '@/apis/todo';
+import TodoItem from '@/components/TodoItem/TodoItem';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
 import TodoListIcon from '@/public/icon/todo-list-black.svg';
@@ -13,7 +14,6 @@ import TodoListIcon from '@/public/icon/todo-list-black.svg';
 import EmptyMessage from './_components/EmptyMessage';
 import PriorityFilter from './_components/PriorityFilter';
 import TodoFilter from './_components/TodoFilter';
-import TodoItem from './_components/TodoItem';
 
 import type { FilterType } from './_components/TodoFilter';
 import type { QueryClient } from '@tanstack/react-query';
@@ -85,12 +85,12 @@ export default function TodoListPage() {
           onClick={() => {
             setIsTodoCreateModalOpen(true);
           }}
-          className="flex items-center text-[#F86969]"
+          className="flex items-center text-main"
         >
           <PlusIcon /> 할일 추가
         </button>
       </div>
-      <div className="border=[#F2EFEF] mt-6 rounded-xl border bg-white p-6 text-black">
+      <div className="mt-6 rounded-xl border border-gray200 bg-white p-6 text-black">
         <div className="flex justify-between">
           <TodoFilter filter={filter} setFilter={setFilter} />
           <PriorityFilter setPriority={setPriority} />
@@ -100,7 +100,7 @@ export default function TodoListPage() {
           {!isLoading || !isFetching ? (
             <ul>
               {filteredTodos?.map((todo) => {
-                return <TodoItem key={todo.id} todo={todo} />;
+                return <TodoItem key={todo.id} todo={todo} goalId={todo.goal.id} />;
               })}
             </ul>
           ) : (

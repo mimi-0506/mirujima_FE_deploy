@@ -95,7 +95,7 @@ export default function Uploader() {
                 }}
                 className="hover:cursor-pointer"
               >
-                <p className="mt-2 text-gray-600">{fileName.split('/').at(-1)}</p>
+                <p className="mt-2 text-gray-600">{fileName?.split('/').at(-1)}</p>
               </div>
             )}
           </>
