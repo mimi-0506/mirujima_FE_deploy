@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import authApi from '@/apis/clientActions/authApi';
+import { useInfoStore } from '@/provider/store-provider';
 
 import type { GoalType } from '@/types/goal.type';
 interface UpdateGoalVariables {
@@ -29,12 +30,13 @@ const changeGoalTitle = async ({
 };
 
 export function useUpdateGoalTitle() {
+  const { userId } = useInfoStore((state) => state);
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (variables: UpdateGoalVariables) => changeGoalTitle(variables),
-    onMutate: async (variables) => {
-      const queryKey = ['goalDetail', variables.goalId.toString()];
+    onMutate: async ({ goalId, title }) => {
+      const queryKey = ['goal', goalId, userId];
       await queryClient.cancelQueries({ queryKey });
       const previousData = queryClient.getQueryData(queryKey);
 
@@ -42,19 +44,19 @@ export function useUpdateGoalTitle() {
         ...old,
         result: {
           ...old?.result,
-          title: variables.title
+          title: title
         }
       }));
 
       return { previousData };
     },
-    onError: (error, variables, context) => {
-      queryClient.setQueryData(['goalDetail', variables.goalId.toString()], context?.previousData);
+    onError: (error, { goalId }, context) => {
+      queryClient.setQueryData(['goal', goalId, userId], context?.previousData);
       console.error('목표 수정 실패', error);
     },
-    onSettled: (_, __, variables) => {
+    onSettled: (_, __, { goalId }) => {
       queryClient.invalidateQueries({
-        queryKey: ['goalDetail', variables.goalId.toString()]
+        queryKey: ['goal', goalId, userId]
       });
     }
   });
