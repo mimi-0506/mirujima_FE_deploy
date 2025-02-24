@@ -11,7 +11,6 @@ import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useModalStore } from '@/provider/store-provider';
 import { useInfoStore } from '@/provider/store-provider';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
-
 import Button from '../_components/Button';
 
 export default function GoalDetailPage() {
@@ -27,7 +26,7 @@ export default function GoalDetailPage() {
   const { mutate: deleteGoalMutate } = useDeleteGoal();
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(goalTitle);
-  // const isDeleteModalOpen = useModalStore((state) => state.isGoalDeleteModalOpen);
+
   const setGoalDeleteModalOpen = useModalStore((state) => state.setGoalDeleteModalOpen);
   const setGoalEditModalOpen = useModalStore((state) => state.setGoalEditModalOpen);
   useEffect(() => {
@@ -101,7 +100,7 @@ export default function GoalDetailPage() {
   };
 
   if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) return <div>로딩중</div>;
   if (isError || !goalData) return <div>목표 정보를 불러오는데 실패했습니다.</div>;
 
   return (

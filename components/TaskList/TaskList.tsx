@@ -1,7 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
-
+import React from 'react';
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { useInfiniteTodoList } from '@/hooks/goalsDetail/useInfiniteTodoList';
 
@@ -14,15 +12,7 @@ interface TaskListProps {
 }
 
 export default function TaskList({ title, goalId, done }: TaskListProps) {
-  const { ref, inView } = useInView();
-  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteTodoList(goalId, done);
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  const { data, isLoading, isError } = useInfiniteTodoList(goalId, done);
 
   const tasks: TodoType[] = data?.pages.flatMap((page) => page.todos) ?? [];
 
@@ -40,7 +30,6 @@ export default function TaskList({ title, goalId, done }: TaskListProps) {
         ) : (
           <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 할 일이 없어요</li>
         )}
-        <div ref={ref} />
       </ul>
     </div>
   );
