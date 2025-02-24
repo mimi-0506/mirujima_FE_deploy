@@ -19,7 +19,7 @@ export default function ReadOnlyEditor({ defaultContent }: Props) {
   const locale = locales['ko'];
 
   const editor = React.useMemo(() => {
-    if (initialContent === 'loading') return null;
+    if (initialContent === 'loading') return undefined;
 
     return BlockNoteEditor.create({
       ...locale,

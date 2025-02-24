@@ -1,7 +1,7 @@
 import type { PartialBlock } from '@blocknote/core';
 
 export const convertDataForEditor = async (defaultContent: string | undefined) => {
-  if (!defaultContent) return null;
+  if (!defaultContent) return undefined;
 
   const parsedValue = JSON.parse(defaultContent) as PartialBlock[];
 
