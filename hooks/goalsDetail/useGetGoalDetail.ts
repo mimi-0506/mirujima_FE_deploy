@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import authApi from '@/apis/clientActions/authApi';
+import { useInfoStore } from '@/provider/store-provider';
 
 import type { TodoType } from '@/types/todo.type';
 
@@ -21,8 +22,9 @@ const fetchGoalDetail = async (goalId: string): Promise<GoalDetailResponse> => {
 };
 
 export const useGetGoalDetail = (goalId?: string) => {
+  const { userId } = useInfoStore((state) => state);
   const query = useQuery<GoalDetailResponse>({
-    queryKey: ['goalDetail', goalId],
+    queryKey: ['goal', goalId, userId],
     queryFn: () => fetchGoalDetail(goalId as string),
     enabled: !!goalId
   });

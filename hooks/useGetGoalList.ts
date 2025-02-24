@@ -4,7 +4,7 @@ import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function useGetGoalList() {
-  const { id } = useInfoStore((state) => state);
+  const { userId } = useInfoStore((state) => state);
 
   const fetchGoalList = async () => {
     const { data } = await apiWithClientToken.get('/goals', {
@@ -15,9 +15,10 @@ export default function useGetGoalList() {
   };
 
   const { data, isFetching, isLoading } = useQuery({
-    queryKey: ['goalList', id],
+    queryKey: ['goals', userId],
     queryFn: fetchGoalList,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    retry: 0
   });
 
   return { data, isFetching, isLoading };
