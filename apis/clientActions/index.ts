@@ -19,8 +19,8 @@ export const apiWithClientToken = axios.create({
 });
 
 const tokenExpireCheck = (config: any) => {
-  if (config.data.code === 401) {
-    console.log('토큰만료 ');
+  if (config.data.code !== 200) {
+    console.log('토큰이상');
     window.location.href = '/logout';
   }
   return config;
