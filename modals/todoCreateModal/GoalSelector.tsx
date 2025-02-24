@@ -18,7 +18,7 @@ export default function GoalSelector() {
   }, [goal]);
 
   useLayoutEffect(() => {
-    if (data?.result?.goals) setGoalList(data.result.goals);
+    if (Array.isArray(data)) setGoalList(data);
   }, [data]);
 
   const handleSelecteGoalChange = (event: ChangeEvent<HTMLSelectElement>) => {
