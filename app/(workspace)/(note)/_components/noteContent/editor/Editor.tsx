@@ -32,9 +32,9 @@ interface Props {
 }
 
 export default function Editor({ register, setValue, defaultContent, handleLinkModal }: Props) {
-  const [initialContent, setInitialContent] = React.useState<
-    PartialBlock[] | undefined | 'loading'
-  >('loading');
+  const [initialContent, setInitialContent] = React.useState<PartialBlock[] | null | 'loading'>(
+    'loading'
+  );
 
   const locale = locales['ko'];
 
