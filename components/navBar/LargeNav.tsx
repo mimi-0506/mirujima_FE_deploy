@@ -20,7 +20,7 @@ export default function LargeNav({
 }) {
   return (
     <div
-      className={`z-20 box-border flex h-screen w-[280px] px-4 pt-6 shadow-lg transition-all duration-300 ease-in-out ${
+      className={`absolute z-20 box-border flex h-screen w-[280px] px-4 pt-6 shadow-lg transition-all duration-300 ease-in-out ${
         isOpen
           ? 'left-0 flex-col bg-white'
           : 'left-[-192px] transform flex-col items-end overflow-hidden bg-main px-4 pt-6 shadow-lg'
