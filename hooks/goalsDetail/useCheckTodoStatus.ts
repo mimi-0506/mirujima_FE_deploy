@@ -23,12 +23,12 @@ export const useCheckTodo = () => {
     mutationFn: async ({ todo, goalId }: { todo: TodoType; goalId: number }) => {
       return checkTodo({ todo });
     },
-
     onSuccess: (_, { goalId }) => {
-      queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId] });
-      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId] });
-
-
+      // done=false와 done=true 쿼리 모두 무효화 및 재요청
+      queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, false] });
+      queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, true] });
+      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, false] });
+      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, true] });
     },
     onError: (error: any) => {
       console.error('업데이트 실패:', error.response?.data?.message || 'Unknown error occurred.');
