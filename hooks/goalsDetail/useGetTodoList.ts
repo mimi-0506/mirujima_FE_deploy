@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import authApi from '@/apis/clientActions/authApi';
+import { useInfoStore } from '@/provider/store-provider';
 
 import type { TodoType } from '@/types/todo.type';
 
@@ -28,8 +29,9 @@ const fetchTodoList = async (
 };
 
 export const useGetTodoList = (goalId?: string, done = false) => {
+  const { userId } = useInfoStore((state) => state);
   const query = useQuery<TodoType[]>({
-    queryKey: ['todoList', goalId, done],
+    queryKey: ['todos', goalId, userId],
     queryFn: () => fetchTodoList(goalId as string, done),
     enabled: !!goalId
   });

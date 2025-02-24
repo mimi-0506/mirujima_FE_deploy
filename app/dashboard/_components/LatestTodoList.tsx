@@ -4,19 +4,17 @@ import Link from 'next/link';
 import { readTodoList } from '@/apis/todo';
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { EMPTY_MESSAGES } from '@/constant/emtymessage';
-import useIsSmallScreen from '@/hooks/nav/useIsSmallScreen';
 import { useInfoStore } from '@/provider/store-provider';
 import ArrowRightIcon from '@/public/icon/arrow-right-red.svg';
 
 import type { TodoListType } from '@/types/todo.type';
 
 export default function LatestTodoList() {
-  const { isSmallScreen } = useIsSmallScreen();
-  const { id: userId } = useInfoStore((state) => state);
+  const { userId } = useInfoStore((state) => state);
 
   const { data } = useQuery<TodoListType>({
-    queryKey: ['todos', userId, isSmallScreen],
-    queryFn: () => readTodoList({ pageSize: isSmallScreen ? 3 : 4 }),
+    queryKey: ['allTodos', userId],
+    queryFn: () => readTodoList({ pageSize: 4 }),
     select: (data) => ({
       ...data,
       todos: (data.todos ?? []).toReversed()

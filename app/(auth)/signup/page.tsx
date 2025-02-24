@@ -32,6 +32,7 @@ export default function SignUpPage() {
     register,
     handleSubmit,
     setError,
+    trigger,
     formState: { errors }
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -72,6 +73,7 @@ export default function SignUpPage() {
           type="text"
           errorMessage={errors.username?.message}
           className="bg-white autofill:bg-white"
+          triggerValidation={() => trigger('username')}
         />
         <InputField
           label="이메일"
@@ -80,6 +82,7 @@ export default function SignUpPage() {
           type="email"
           errorMessage={errors.email?.message}
           className="!bg-white autofill:!bg-white"
+          triggerValidation={() => trigger('email')}
         />
         <InputField
           label="비밀번호"
@@ -88,6 +91,7 @@ export default function SignUpPage() {
           type="password"
           errorMessage={errors.password?.message}
           className="!bg-white autofill:!bg-white"
+          triggerValidation={() => trigger('password')}
         />
         <InputField
           label="비밀번호 확인"
@@ -96,6 +100,7 @@ export default function SignUpPage() {
           type="password"
           errorMessage={errors.confirmPassword?.message}
           className="!bg-white autofill:!bg-white"
+          triggerValidation={() => trigger('confirmPassword')}
         />
 
         <Button type="submit" className="mt-[60px] bg-main text-white">
