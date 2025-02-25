@@ -43,9 +43,9 @@ export default function WeeklyChart() {
   });
 
   useEffect(() => {
-    if (Array.isArray(data)) {
+    if (data?.todos) {
       setTimeout(() => {
-        setChartData(getWeeklyCompletionData(data));
+        setChartData(getWeeklyCompletionData(data.todos));
       }, 300);
     }
   }, [data]);

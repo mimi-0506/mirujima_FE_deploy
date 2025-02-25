@@ -31,9 +31,9 @@ export default function LatestTodoList() {
 
       {isLoading ? (
         <SpinIcon />
-      ) : Array.isArray(data) && data.length > 0 ? (
+      ) : data?.todos ? (
         <ul className="pointer-events-none">
-          {data.map((todo: TodoType) => (
+          {data.todos.map((todo: TodoType) => (
             <TodoItem key={todo.id} todo={todo} />
           ))}
         </ul>
