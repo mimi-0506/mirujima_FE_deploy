@@ -52,7 +52,10 @@ export default function GoalItem({ goalId, title }: GoalItemProps) {
       <div className="my-6 h-2 w-full bg-gray200"></div>
       <div className="mt-3 flex flex-col border-none desktop:flex-row">
         <div className="flex-1 overflow-y-auto">
-          <TaskList title="To do" goalId={goalId} done={false} />
+          <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
+            To do
+          </h2>
+          <TaskList goalId={goalId} done={false} />
         </div>
 
         <hr className="my-4 border-t border-dashed border-gray200 desktop:hidden" />
@@ -62,7 +65,10 @@ export default function GoalItem({ goalId, title }: GoalItemProps) {
         </div>
 
         <div className="flex-1 overflow-y-auto">
-          <TaskList title="Done" goalId={goalId} done={true} />
+          <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
+            Done
+          </h2>
+          <TaskList goalId={goalId} done={true} />
         </div>
       </div>
     </div>

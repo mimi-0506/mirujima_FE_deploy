@@ -174,11 +174,12 @@ export default function GoalDetailPage() {
         <div
           className={`flex-1 overflow-y-auto p-4 desktop:p-0 ${activeTab === 'todo' ? 'block' : 'hidden desktop:block'}`}
         >
-          <TaskList
-            title={isMounted && window.innerWidth >= 1280 ? 'To do' : ''}
-            goalId={goalId}
-            done={false}
-          />
+          {isMounted && window.innerWidth >= 1280 && (
+            <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
+              To do
+            </h2>
+          )}
+          <TaskList goalId={goalId} done={false} />
         </div>
 
         <div className="mx-6 my-4 hidden translate-y-5 items-center justify-center desktop:flex">
@@ -188,11 +189,12 @@ export default function GoalDetailPage() {
         <div
           className={`flex-1 overflow-y-auto p-4 desktop:p-0 ${activeTab === 'done' ? 'block' : 'hidden desktop:block'}`}
         >
-          <TaskList
-            title={isMounted && window.innerWidth >= 1280 ? 'Done' : ''}
-            goalId={goalId}
-            done={true}
-          />
+          {isMounted && window.innerWidth >= 1280 && (
+            <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
+              Done
+            </h2>
+          )}
+          <TaskList goalId={goalId} done={true} />
         </div>
       </div>
     </section>
