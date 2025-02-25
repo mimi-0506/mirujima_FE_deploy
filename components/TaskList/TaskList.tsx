@@ -8,7 +8,6 @@ import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
 import type { TodoType } from '@/types/todo.type';
 
 interface TaskListProps {
-  title: string;
   goalId: number;
   done: boolean;
   tasks?: TodoType[];
@@ -17,7 +16,6 @@ interface TaskListProps {
 }
 
 export default function TaskList({
-  title,
   goalId,
   done,
   tasks: propTasks,
@@ -45,15 +43,12 @@ export default function TaskList({
 
   return (
     <div className="scrollbar-thin h-[260px] overflow-y-auto pr-5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray200 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar]:w-1">
-      <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
-        {title}
-      </h2>
       <ul className="mt-2 space-y-2 text-gray350">
         {loading && !showEmptyMessage && <div>로딩 중...</div>}
         {showEmptyMessage || !tasks || tasks.length === 0 ? (
           <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 할 일이 없어요</li>
         ) : (
-          tasks?.map((task) => <TodoItem key={task.id} todo={task} goalId={goalId} />)
+          tasks.map((task) => <TodoItem key={task.id} todo={task} goalId={goalId} />)
         )}
       </ul>
     </div>
