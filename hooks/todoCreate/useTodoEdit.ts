@@ -3,10 +3,11 @@ import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { apiWithClientToken } from '@/apis/clientActions';
-import { useInfoStore, useModalStore } from '@/provider/store-provider';
+import { useInfoStore, useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 
-export default function useTodoEdit(todoId?: number) {
+export default function useTodoEdit() {
   const userId = useInfoStore((state) => state.userId);
+  const id = useTodoCreateModalStore((state) => state.id);
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const queryClient = useQueryClient();
 
@@ -23,7 +24,7 @@ export default function useTodoEdit(todoId?: number) {
       linkUrl: formData?.linkUrl,
       priority: formData.priority
     };
-    const { data } = await apiWithClientToken.patch(`/todos/${todoId}`, body);
+    const { data } = await apiWithClientToken.patch(`/todos/${id}`, body);
 
     if (data.code === 200) todoEditSueccess();
     else todoEditFail();

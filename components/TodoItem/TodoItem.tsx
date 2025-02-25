@@ -44,9 +44,11 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
     mutation.mutate(todo.id);
   };
   const handleOpenEditModal = (todo: any) => {
+    console.log(todo);
     setCreatedTodoState({
       ...todo,
-      fileName: todo.filePath
+      fileName: todo.filePath,
+      isEdit: true
     });
 
     setIsTodoCreateModalOpen(true);

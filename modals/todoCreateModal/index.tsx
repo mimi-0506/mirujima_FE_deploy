@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import useIsSmallScreen from '@/hooks/nav/useIsSmallScreen';
-import { useModalStore } from '@/provider/store-provider';
+import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 
 import CloseButton from '../CloseButton';
 import DoneChecker from './DoneChecker';
@@ -15,23 +15,27 @@ import Uploader from './Uploader';
 const compareArrayWithObject = (arr: [string, any][], obj: { [key: string]: any }): boolean => {
   return arr.some(([key, value]) => {
     if (!(key in obj)) return false;
-    if (key === 'goal') return String(obj[key]?.id) !== String(value);
+    if (key === 'goal') return String(obj[key].id) !== String(value);
     else return String(obj[key]) !== String(value);
   });
 };
 
 export default function TodoCreateModal() {
-  const { setIsTodoCreateModalOpen, setIsTodoCreateCheckModalOpen } = useModalStore(
-    (state) => state
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
+  const setIsTodoCreateCheckModalOpen = useModalStore(
+    (state) => state.setIsTodoCreateCheckModalOpen
   );
+  const resetTodoCreateModal = useTodoCreateModalStore((state) => state.resetTodoCreateModal);
+  const isEdit = useTodoCreateModalStore((state) => state.isEdit);
 
-  const [isEdit, setIsEdit] = useState<any>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const { isSmallScreen } = useIsSmallScreen();
 
   useEffect(() => {
-    console.log('isEdit', isEdit);
-  }, [isEdit]);
+    return () => {
+      resetTodoCreateModal();
+    };
+  }, []);
 
   const handleClose = () => {
     if (formRef.current) {
@@ -39,11 +43,11 @@ export default function TodoCreateModal() {
 
       let isChanged = false;
 
-      if (isEdit) isChanged = compareArrayWithObject(Array.from(formData.entries()), isEdit);
-      else
-        isChanged = Array.from(formData.values()).some((value) =>
-          value instanceof File ? value.size > 0 : value !== ''
-        );
+      // if (isEdit) isChanged = compareArrayWithObject(Array.from(formData.entries()), ;
+      // else
+      isChanged = Array.from(formData.values()).some((value) =>
+        value instanceof File ? value.size > 0 : value !== ''
+      );
 
       if (isChanged) {
         setIsTodoCreateCheckModalOpen(true);
