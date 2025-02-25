@@ -29,7 +29,7 @@ const fetchTodoList = async (
 };
 
 export const useGetTodoList = (goalId?: number | null | undefined, done = false) => {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
   const query = useQuery<TodoType[]>({
     queryKey: ['todos', goalId, userId, done],
     queryFn: () => fetchTodoList(goalId, done),

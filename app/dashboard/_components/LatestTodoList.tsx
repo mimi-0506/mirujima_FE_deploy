@@ -10,7 +10,7 @@ import ArrowRightIcon from '@/public/icon/arrow-right-red.svg';
 import type { TodoListType } from '@/types/todo.type';
 
 export default function LatestTodoList() {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
 
   const { data } = useQuery<TodoListType>({
     queryKey: ['allTodos', userId],

@@ -11,7 +11,7 @@ import NoteListIcon from '../../../public/icon/nav-note-list.svg';
 import TodoListIcon from '../../../public/icon/nav-todo-list.svg';
 
 export default function Menus() {
-  const { userId, setInfo } = useInfoStore((state) => state);
+  const setInfo = useInfoStore((state) => state.setInfo);
 
   useLayoutEffect(() => {
     getInfo();

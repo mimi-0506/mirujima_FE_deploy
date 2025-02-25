@@ -42,6 +42,7 @@ export default function NoteContent({ todo, note }: Props) {
   const setNoteLinkModalOpen = useModalStore((store) => store.setNoteLinkModalOpen);
   const { onSaveTempToStorage, deleteTempNote, hasTempedNote, setHasTempedNote, tempedNote } =
     useTempNote(todo.goal.id, todo.id);
+  const isEmbedContentOpen = useModalStore((state) => state.isEmbedContentOpen);
 
   const {
     register,
@@ -78,7 +79,6 @@ export default function NoteContent({ todo, note }: Props) {
           content,
           linkUrl: linkUrl || ''
         };
-
         const res = await createNote(note);
         toast.success('노트 생성 완료!');
       }
@@ -106,7 +106,7 @@ export default function NoteContent({ todo, note }: Props) {
       return;
     }
 
-    setLinkUrl(linkUrl);
+    setLinkUrl(decodeURI(linkUrl));
     setNoteLinkModalOpen(false);
   };
 
@@ -140,7 +140,10 @@ export default function NoteContent({ todo, note }: Props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center space-y-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={`flex flex-col items-center space-y-6 ${isEmbedContentOpen ? 'w-full desktop:w-[500px]' : 'w-full'}`}
+      >
         <ButtonArea isEdit={isEdit} isValid={isValid} onSaveTempNote={onSaveTempNote} />
         {hasTempedNote && (
           <TempNote
@@ -153,7 +156,7 @@ export default function NoteContent({ todo, note }: Props) {
           <GoalAndTodoInfo
             goalTitle={todo.goal.title}
             todoTitle={todo.title}
-            todoCompletaionDate={todo.completionDate}
+            todoCompletionDate={todo.completionDate}
           />
           <div className="space-y-[40px]">
             <TitleInput register={register} control={control} />
@@ -167,6 +170,7 @@ export default function NoteContent({ todo, note }: Props) {
                 setValue={setValue}
                 defaultContent={defaultNoteContent}
                 handleLinkModal={handleLinkModal}
+                isEditable={true}
               />
             </div>
           </div>

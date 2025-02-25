@@ -19,9 +19,10 @@ import type { FilterType } from './_components/TodoFilter';
 import type { QueryClient } from '@tanstack/react-query';
 
 export default function TodoListPage() {
-  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
+
   const queryClient: QueryClient = useQueryClient();
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
   const [filter, setFilter] = useState<FilterType>('All');
   const [priority, setPriority] = useState<'all' | number>('all');
 

@@ -1,26 +1,30 @@
 import toast from 'react-hot-toast';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { usePathname } from 'next/navigation';
 
 import { apiWithClientToken } from '@/apis/clientActions';
-import { useInfoStore, useModalStore } from '@/provider/store-provider';
+import { useInfoStore, useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 
-export default function useTodoEdit(todoId?: number) {
-  const { userId } = useInfoStore((state) => state);
-  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
-  const pathname = usePathname();
+export default function useTodoEdit() {
+  const userId = useInfoStore((state) => state.userId);
+  const id = useTodoCreateModalStore((state) => state.id);
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const queryClient = useQueryClient();
 
-  const setTodoEdit = async (formData: { [k: string]: FormDataEntryValue }, savedPath?: string) => {
-    const { data } = await apiWithClientToken.patch(`/todos/${todoId}`, {
+  const setTodoEdit = async (
+    formData: { [k: string]: FormDataEntryValue },
+    fileName: string,
+    savedPath?: string
+  ) => {
+    const body = {
       goalId: formData.goal,
       title: formData.title,
+      orgFileName: fileName,
       filePath: savedPath || '',
       linkUrl: formData?.linkUrl,
-      priority: formData.priority,
-      done: Boolean(formData?.done)
-    });
+      priority: formData.priority
+    };
+    const { data } = await apiWithClientToken.patch(`/todos/${id}`, body);
 
     if (data.code === 200) todoEditSueccess();
     else todoEditFail();

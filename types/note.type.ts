@@ -9,7 +9,7 @@ export type CreateNoteType = {
 };
 
 export type NoteType = {
-  todoDto: Pick<TodoType, 'done' | 'filePath' | 'linkUrl' | 'title' | 'id'>;
+  todoDto: Pick<TodoType, 'done' | 'filePath' | 'linkUrl' | 'title' | 'id' | 'completionDate'>;
   content: string;
   linkUrl: string;
   updatedAt: string;

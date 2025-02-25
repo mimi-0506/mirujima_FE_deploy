@@ -6,7 +6,7 @@ import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function useSetNewGoal() {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
 
   const queryClient = useQueryClient();
 

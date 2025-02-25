@@ -19,7 +19,7 @@ export default async function NoteList({ params }: Props) {
   const { goalId } = await params;
 
   const goal = await readGoalFromServer(goalId);
-  if (!goal) redirect('/'); // goalId가 잘못됐을 때 처리
+  if (!goal) redirect('/dashboard'); // goalId가 잘못됐을 때 처리
 
   const defaultNoteListArgs = { goalId: Number(goalId), lastSeenId: 9999, pageSize: 10 };
   const noteList = await readNoteListFromServer(defaultNoteListArgs);

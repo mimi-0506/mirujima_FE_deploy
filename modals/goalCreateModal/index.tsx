@@ -9,7 +9,7 @@ import CloseButton from '../CloseButton';
 import Overlay from '../Overlay';
 
 export default function GoalCreateModal() {
-  const { setIsGoalCreateModalOpen } = useModalStore((state) => state);
+  const setIsGoalCreateModalOpen = useModalStore((state) => state.setIsGoalCreateModalOpen);
   const { mutateAsync } = useSetNewGoal();
   const [valid, setValid] = useState(false);
 
