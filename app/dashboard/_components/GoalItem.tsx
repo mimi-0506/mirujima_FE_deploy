@@ -3,7 +3,6 @@
 import TaskList from '@/components/TaskList/TaskList';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useModalStore } from '@/provider/store-provider';
-import PlusIcon from '@/public/icon/plus-border-none.svg';
 
 import type { TodoType } from '@/types/todo.type';
 
@@ -39,14 +38,6 @@ export default function GoalItem({ goalId, title }: GoalItemProps) {
     <div className="rounded-container w-full p-6">
       <div className="flex justify-between">
         <h3 className="truncate text-lg font-bold">{title}</h3>
-        <button
-          onClick={() => {
-            setIsTodoCreateModalOpen(true);
-          }}
-          className="flex flex-shrink-0 items-center pl-1 text-main"
-        >
-          <PlusIcon /> 할일 추가
-        </button>
       </div>
 
       <div className="my-6 h-2 w-full bg-gray200"></div>
