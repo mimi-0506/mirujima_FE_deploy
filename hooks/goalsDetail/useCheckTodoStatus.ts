@@ -28,6 +28,7 @@ export const useCheckTodo = () => {
       queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, true] });
       queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, false] });
       queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, true] });
+      queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
     },
     onError: (error: any) => {
       console.error('업데이트 실패:', error.response?.data?.message || 'Unknown error occurred.');
