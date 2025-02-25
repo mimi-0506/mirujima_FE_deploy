@@ -1,6 +1,8 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { useParams, useRouter } from 'next/navigation';
+
 import KebabForGoal from '@/components/kebab/KebabForGoal';
 import TaskList from '@/components/TaskList/TaskList';
 import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
@@ -10,6 +12,7 @@ import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
 import { useModalStore } from '@/provider/store-provider';
 import { useInfoStore } from '@/provider/store-provider';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
+
 import Button from '../_components/Button';
 
 export default function GoalDetailPage() {
@@ -49,28 +52,6 @@ export default function GoalDetailPage() {
       setEditedTitle(goalTitle);
     }
   }, [goalTitle, isEditing]);
-
-  // 데이터 추적을 위한 useEffect
-  useEffect(() => {
-    console.log('Goal ID:', goalId);
-    console.log('todosTodo:', todosTodo);
-    console.log('todosDone:', todosDone);
-    console.log(
-      'Loading states - todosTodo:',
-      isLoadingTodosTodo,
-      'todosDone:',
-      isLoadingTodosDone
-    );
-    console.log('Error states - todosTodo:', isErrorTodosTodo, 'todosDone:', isErrorTodosDone);
-  }, [
-    todosTodo,
-    todosDone,
-    isLoadingTodosTodo,
-    isLoadingTodosDone,
-    isErrorTodosTodo,
-    isErrorTodosDone,
-    goalId
-  ]);
 
   if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
   if (isLoading) return <div>로딩 중...</div>;

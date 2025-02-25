@@ -2,9 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import TodoItem from '@/components/TodoItem/TodoItem';
-import type { TodoType } from '@/types/todo.type';
 import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
-
+import type { TodoType } from '@/types/todo.type';
 
 interface TaskListProps {
   title: string;
@@ -40,12 +39,6 @@ export default function TaskList({
 
     return () => clearTimeout(timer);
   }, [loading]);
-
-  // 데이터 추적을 위한 추가 로깅
-  useEffect(() => {
-    console.log(`TaskList - ${title} (done: ${done}) - Tasks:`, tasks);
-    console.log(`TaskList - ${title} (done: ${done}) - Loading:`, loading, 'Error:', error);
-  }, [tasks, loading, error, title, done]);
 
   if (error) return <div>에러가 발생했어요.</div>;
 

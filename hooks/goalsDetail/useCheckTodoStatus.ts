@@ -24,7 +24,6 @@ export const useCheckTodo = () => {
       return checkTodo({ todo });
     },
     onSuccess: (_, { goalId }) => {
-      // done=false와 done=true 쿼리 모두 무효화 및 재요청
       queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, false] });
       queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, true] });
       queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, false] });
