@@ -17,7 +17,7 @@ interface TodoListResponse {
 }
 
 const fetchTodoList = async (
-  goalId: string,
+  goalId: number | undefined | null,
   done = false,
   lastSeenId = 9999,
   pageSize = 5
@@ -28,13 +28,12 @@ const fetchTodoList = async (
   return response.data.result.todos;
 };
 
-export const useGetTodoList = (goalId?: string, done = false) => {
+export const useGetTodoList = (goalId?: number | null | undefined, done = false) => {
   const { userId } = useInfoStore((state) => state);
   const query = useQuery<TodoType[]>({
-    queryKey: ['todos', goalId, userId],
-    queryFn: () => fetchTodoList(goalId as string, done),
+    queryKey: ['todos', goalId, userId, done],
+    queryFn: () => fetchTodoList(goalId, done),
     enabled: !!goalId
   });
-
   return query;
 };
