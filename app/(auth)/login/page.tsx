@@ -37,6 +37,7 @@ export default function LoginPage() {
   useEffect(() => {
     setIsLoading(false);
     logout();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { mutate: loginMutate, isError, error } = useLoginMutation();
