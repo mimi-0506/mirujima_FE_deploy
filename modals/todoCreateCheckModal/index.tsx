@@ -29,7 +29,7 @@ export default function TodoCreateCheckModal() {
           <br />
           작성된 내용이 모두 삭제됩니다.
         </p>
-        <div className="gap=[6px] flex w-full items-center justify-center">
+        <div className="flex w-full items-center justify-center gap-[8px]">
           <button
             onClick={handleClose}
             className="flex h-[48px] w-[120px] items-center justify-center rounded-xl border border-main text-main"

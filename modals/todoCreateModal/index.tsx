@@ -25,7 +25,7 @@ export default function TodoCreateModal() {
     (state) => state
   );
   const createdTodo = useTodoCreateModalStore((state) => state);
-  const { title, resetTodoCreateModal } = createdTodo;
+  const { title, resetTodoCreateModal } = useTodoCreateModalStore((state) => state);
   const [isEdit, setIsEdit] = useState<any>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const { isSmallScreen } = useIsSmallScreen();
@@ -37,6 +37,12 @@ export default function TodoCreateModal() {
   useEffect(() => {
     console.log('isEdit', isEdit);
   }, [isEdit]);
+
+  useEffect(() => {
+    return () => {
+      resetTodoCreateModal();
+    };
+  }, []);
 
   const handleClose = () => {
     if (formRef.current) {
