@@ -43,10 +43,10 @@ export default function KebabMenu({
       </button>
       {isKebabOpen && (
         <div className="absolute right-0 top-full z-10" onMouseDown={(e) => e.preventDefault()}>
-          <ul className="relative overflow-hidden rounded-xl bg-white shadow-md">
+          <ul className="shadow-note relative overflow-hidden rounded-xl border border-gray200 bg-white text-body2 text-gray500">
             <li className="text-nowrap hover:bg-gray-100">
               <button
-                className="px-4 pb-[6px] pt-2"
+                className="flex-center w-full px-3 py-2"
                 onClick={(e) => {
                   e.stopPropagation();
                   onEdit();
@@ -57,7 +57,7 @@ export default function KebabMenu({
             </li>
             <li className="text-nowrap hover:bg-gray-100">
               <button
-                className="px-4 pb-[6px] pt-2"
+                className="flex-center w-full px-3 py-2"
                 onClick={(e) => {
                   e.stopPropagation();
                   onDelete();

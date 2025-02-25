@@ -15,7 +15,7 @@ export type TodoType = {
   title: string;
   id: number;
   userId: number;
-  completionDate: string;
+  completionDate: string | null;
   createdAt: string;
   updatedAt: string;
   priority: number;

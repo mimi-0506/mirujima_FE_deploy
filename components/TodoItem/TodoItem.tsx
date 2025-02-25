@@ -29,10 +29,16 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const { mutate: toggleTodo } = useCheckTodo();
 
   const handleCheckbox = () => {
-    const updatedTodo = { ...todo, done: !todo.done };
+    const isDone = !todo.done;
+    const updatedTodo = {
+      ...todo,
+      done: isDone,
+      completionDate: isDone ? new Date().toISOString() : null
+    };
+
     toggleTodo({
       todo: updatedTodo,
-      goalId: todo.goal.id
+      goalId: todo?.goal?.id
     });
   };
   const handleDelete = () => {

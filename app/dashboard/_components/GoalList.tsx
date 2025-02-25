@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
+
 import useGetGoalList from '@/hooks/useGetGoalList';
 import FlagBlackIcon from '@/public/icon/flag-black.svg';
+
 import GoalItem from './GoalItem';
+
 import type { GoalListType, GoalType } from '@/types/goal.type';
 
 type GoalListResponse = {
@@ -12,22 +15,20 @@ type GoalListResponse = {
 };
 
 export default function GoalList() {
-  const { getGoalList } = useGetGoalList();
+  const { data } = useGetGoalList();
   const [goals, setGoals] = useState<GoalType[]>([]);
 
   useEffect(() => {
     async function fetchGoals() {
       try {
-        const response = (await getGoalList()) as GoalListResponse;
-        const goalsFromApi = response.result.goals;
-        setGoals(goalsFromApi);
+        if (Array.isArray(data)) setGoals(data);
       } catch (error) {
         console.error('Failed to fetch goals:', error);
       }
     }
 
     fetchGoals();
-  }, [getGoalList]);
+  }, [data]);
 
   return (
     <div className="mt-4 md:mt-8">

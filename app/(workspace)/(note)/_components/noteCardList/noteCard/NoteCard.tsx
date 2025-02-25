@@ -21,7 +21,7 @@ export default function NoteCard({ note, onClickEdit, onClickDelete, onClickNote
       className="hover-animate cursor-pointer space-y-[12px] rounded-2xl border border-gray200 bg-white p-6 hover:border-main hover:drop-shadow-note"
     >
       <div className="flex items-center">
-        <div className="flex w-full items-center gap-1">
+        <div className="flex w-[calc(100%-24px)] items-center gap-1">
           <div className="h-8 w-8">
             <NoteIcon width="32" height="32" />
           </div>
@@ -41,10 +41,12 @@ export default function NoteCard({ note, onClickEdit, onClickDelete, onClickNote
       </div>
 
       <div className="flex items-center gap-3 text-slate-700">
-        <div className="h-[18px] w-[40px] rounded bg-Cgray px-[6px] pb-[2px] pt-[3px] text-[11px] font-medium text-gray350">
+        <div className="h-[18px] rounded bg-Cgray px-[6px] pb-[2px] pt-[3px] text-[11px] font-medium text-gray350">
           <span>To do</span>
         </div>
-        <h4 className="text-[15px] leading-[20px]">{note.todoDto.title}</h4>
+        <h4 className="w-[calc(100%-55px)] truncate text-[15px] leading-[20px]">
+          {note.todoDto.title}
+        </h4>
       </div>
     </article>
   );

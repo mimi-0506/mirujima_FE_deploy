@@ -7,6 +7,7 @@ import TaskList from '@/components/TaskList/TaskList';
 import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
 import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
+import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
 import { useModalStore } from '@/provider/store-provider';
 import { useInfoStore } from '@/provider/store-provider';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
@@ -19,13 +20,24 @@ export default function GoalDetailPage() {
   const goalIdParam = Array.isArray(params.id) ? params.id[0] : params.id;
   const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
   const goalIdString = goalId ? goalId.toString() : '';
+
   const { data: goalData, isLoading, isError } = useGetGoalDetail(goalIdString);
-  const goalTitle: string = goalData?.result?.title ?? '목표 제목이 없어요';
+  const {
+    data: todosTodo,
+    isLoading: isLoadingTodosTodo,
+    isError: isErrorTodosTodo
+  } = useGetTodoList(goalId, false);
+  const {
+    data: todosDone,
+    isLoading: isLoadingTodosDone,
+    isError: isErrorTodosDone
+  } = useGetTodoList(goalId, true);
+
+  const goalTitle = goalData?.result?.title ?? '목표 제목이 없어요';
   const { mutate: updateGoalTitle } = useUpdateGoalTitle();
   const { mutate: deleteGoalMutate } = useDeleteGoal();
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(goalTitle);
-
   const setGoalDeleteModalOpen = useModalStore((state) => state.setGoalDeleteModalOpen);
   const setGoalEditModalOpen = useModalStore((state) => state.setGoalEditModalOpen);
 
@@ -39,69 +51,6 @@ export default function GoalDetailPage() {
     }
   }, [goalTitle, isEditing]);
 
-  const handleEdit = () => {
-    setGoalEditModalOpen(true, {
-      onConfirm: handleEditConfirm,
-      onCancel: handleEditCancel,
-      initialValue: goalTitle
-    });
-  };
-
-  const handleEditConfirm = (newTitle: string) => {
-    if (!goalId) return;
-
-    const trimmedTitle = newTitle.trim();
-    if (trimmedTitle === '') {
-      setEditedTitle(goalTitle);
-      return;
-    }
-
-    updateGoalTitle(
-      {
-        goalId,
-        title: trimmedTitle
-      },
-      {
-        onSuccess: () => {
-          setGoalEditModalOpen(false);
-          setEditedTitle(trimmedTitle);
-        },
-        onError: () => {
-          setEditedTitle(goalTitle);
-        }
-      }
-    );
-  };
-
-  const handleEditCancel = () => {
-    setGoalEditModalOpen(false);
-    setEditedTitle(goalTitle);
-  };
-
-  const handleDelete = () => {
-    setGoalDeleteModalOpen(true, {
-      onConfirm: handleConfirm,
-      onCancel: handleCancel
-    });
-  };
-
-  const handleConfirm = () => {
-    if (!goalId) return;
-    deleteGoalMutate(goalId, {
-      onSuccess: () => {
-        setGoalDeleteModalOpen(false);
-        router.push('/dashboard');
-      }
-    });
-  };
-
-  const handleCancel = () => {
-    setGoalDeleteModalOpen(false);
-  };
-
-  // 탭 상태: 'todo' | 'done'
-  const [activeTab, setActiveTab] = useState<'todo' | 'done'>('todo');
-
   if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
   if (isLoading) return <div>로딩중</div>;
   if (isError || !goalData) return <div>목표 정보를 불러오는데 실패했습니다.</div>;
@@ -111,7 +60,6 @@ export default function GoalDetailPage() {
       {/* 목표 타이틀 영역 */}
       <h2 className="flex w-full items-center gap-2">
         <GoalIcon className="flex-shrink-0" />
-
         <div className="min-w-0 flex-1">
           {isEditing ? (
             <input
@@ -125,57 +73,56 @@ export default function GoalDetailPage() {
             <span className="block w-full truncate text-lg font-bold">{editedTitle}</span>
           )}
         </div>
-
         <KebabForGoal
           className="flex-shrink-0"
           size={24}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
+          onEdit={() => {
+            setGoalEditModalOpen(true, {
+              onConfirm: (newTitle) => {
+                if (!goalId) return;
+                const trimmedTitle = newTitle.trim();
+                if (trimmedTitle === '') {
+                  setEditedTitle(goalTitle);
+                  return;
+                }
+                updateGoalTitle(
+                  { goalId, title: trimmedTitle },
+                  {
+                    onSuccess: () => {
+                      setGoalEditModalOpen(false);
+                      setEditedTitle(trimmedTitle);
+                    },
+                    onError: () => setEditedTitle(goalTitle)
+                  }
+                );
+              },
+              onCancel: () => {
+                setGoalEditModalOpen(false);
+                setEditedTitle(goalTitle);
+              },
+              initialValue: goalTitle
+            });
+          }}
+          onDelete={() => {
+            setGoalDeleteModalOpen(true, {
+              onConfirm: () => {
+                if (!goalId) return;
+                deleteGoalMutate(goalId, {
+                  onSuccess: () => {
+                    setGoalDeleteModalOpen(false);
+                    router.push('/dashboard');
+                  }
+                });
+              },
+              onCancel: () => setGoalDeleteModalOpen(false)
+            });
+          }}
         />
       </h2>
 
-      {/* 노트 모아보기 버튼 */}
       <Button onClick={() => router.push(`/noteList/${goalId}`)}>노트 모아보기</Button>
 
-      {/*
-        1) 모바일/태블릿(= md 이하)에서는 탭 UI로 전환
-        2) 데스크톱(= md 이상)에서는 기존 2열 레이아웃 유지
-      */}
-
-      {/* 모바일/태블릿 전용 탭 메뉴 */}
-      <div className="block md:hidden">
-        <div className="flex justify-center space-x-4">
-          <button
-            className={`border-b-2 px-4 py-2 ${
-              activeTab === 'todo' ? 'border-main' : 'border-transparent'
-            }`}
-            onClick={() => setActiveTab('todo')}
-          >
-            To do
-          </button>
-          <button
-            className={`border-b-2 px-4 py-2 ${
-              activeTab === 'done' ? 'border-main' : 'border-transparent'
-            }`}
-            onClick={() => setActiveTab('done')}
-          >
-            Done
-          </button>
-        </div>
-
-        {activeTab === 'todo' && (
-          <div className="mt-4">
-            <TaskList title="To do" goalId={goalId} done={false} />
-          </div>
-        )}
-        {activeTab === 'done' && (
-          <div className="mt-4">
-            <TaskList title="Done" goalId={goalId} done={true} />
-          </div>
-        )}
-      </div>
-
-      <div className="hidden flex-col rounded-2xl border border-gray200 bg-white p-6 shadow-sm md:flex md:flex-row">
+      <div className="flex flex-col rounded-2xl border border-gray200 bg-white p-6 shadow-sm desktop:flex-row">
         <div className="flex-1 overflow-y-auto">
           <TaskList title="To do" goalId={goalId} done={false} />
         </div>

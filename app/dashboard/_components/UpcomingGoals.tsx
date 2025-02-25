@@ -1,23 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
-
-import { readGoalList } from '@/apis/clientActions/goal';
-import { useInfoStore } from '@/provider/store-provider';
+import useGetGoalList from '@/hooks/useGetGoalList';
 import { getUpcomingDates } from '@/utils/dateUtils';
 
 export default function UpcomingGoals() {
-  const { id: userId } = useInfoStore((state) => state);
-
-  const { data } = useQuery({
-    queryKey: ['goals', userId],
-    queryFn: () => readGoalList({ pageParam: 9999 }),
-    enabled: !!userId,
-    retry: 0
-  });
+  const { data } = useGetGoalList();
 
   // 오늘, 내일, 모레 목표 필터링
   const upcomingGoals = getUpcomingDates(3).map(({ date, day }) => {
     const filteredGoals =
-      data?.goals?.filter((goal) => new Date(goal.completionDate).getDate() === date) || [];
+      data?.goals?.filter((goal: any) => new Date(goal.completionDate).getDate() === date) || [];
 
     return { date, day, goals: filteredGoals };
   });
@@ -43,7 +33,7 @@ export default function UpcomingGoals() {
               </div>
               <div className="flex flex-col gap-y-1 text-[13px]">
                 {goals.length > 0 ? (
-                  goals.map((goal) => <span key={goal.id}>{goal.title}</span>)
+                  goals.map((goal: any) => <span key={goal.id}>{goal.title}</span>)
                 ) : (
                   <span className="text-gray350">등록된 일정이 없습니다</span>
                 )}
