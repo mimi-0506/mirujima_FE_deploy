@@ -1,11 +1,10 @@
 'use client';
-import React, { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
+import React, { useState, useEffect } from 'react';
 
 import TodoItem from '@/components/TodoItem/TodoItem';
-import { useInfiniteTodoList } from '@/hooks/goalsDetail/useInfiniteTodoList';
 
 import type { TodoType } from '@/types/todo.type';
+import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 
 interface TaskListProps {
   title: string;
@@ -14,20 +13,22 @@ interface TaskListProps {
 }
 
 export default function TaskList({ title, goalId, done }: TaskListProps) {
-  const { ref, inView } = useInView();
-  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteTodoList(goalId, done);
+  const { data, isLoading, isError } = useGetGoalDetail(String(goalId));
+  const [showEmptyMessage, setShowEmptyMessage] = useState(false);
 
   useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+    const timer = setTimeout(() => {
+      if (isLoading) {
+        setShowEmptyMessage(true);
+      }
+    }, 3000); // 3초 후 실행
 
-  const tasks: TodoType[] = data?.pages.flatMap((page) => page.todos) ?? [];
+    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+  }, [isLoading]);
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (isError) return <div>에러가 발생했어요.</div>;
+  if (isError || !data?.success) return <div>에러가 발생했어요.</div>;
+
+  const tasks: TodoType[] = data?.result?.todos?.filter((task) => task.done === done) ?? [];
 
   return (
     <div className="scrollbar-thin h-[260px] overflow-y-auto pr-5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray200 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar]:w-1">
@@ -35,12 +36,12 @@ export default function TaskList({ title, goalId, done }: TaskListProps) {
         {title}
       </h2>
       <ul className="mt-2 space-y-2 text-gray350">
-        {tasks.length > 0 ? (
-          tasks.map((task) => <TodoItem key={task.id} todo={task} goalId={goalId} />)
-        ) : (
+        {isLoading && !showEmptyMessage && <div>로딩 중...</div>}
+        {showEmptyMessage || tasks.length === 0 ? (
           <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 할 일이 없어요</li>
+        ) : (
+          tasks.map((task) => <TodoItem key={task.id} todo={task} goalId={goalId} />)
         )}
-        <div ref={ref} />
       </ul>
     </div>
   );

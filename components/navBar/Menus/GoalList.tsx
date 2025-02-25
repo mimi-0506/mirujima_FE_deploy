@@ -49,6 +49,7 @@ export default function GoalList() {
             return (
               <li key={goal.id} className="p-2">
                 <div
+                  className="cursor-pointer"
                   onClick={() => {
                     handleLinkClick(`/goals/${goal.id}`);
                   }}

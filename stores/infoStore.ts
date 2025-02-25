@@ -1,7 +1,7 @@
 import { createStore } from 'zustand/vanilla';
 
 export type InfoState = {
-  id: number | null;
+  userId: number | null;
   email: string | null;
   name: string | null;
   profileImage: string | null;
@@ -16,7 +16,7 @@ export type InfoActions = {
 export type InfoStore = InfoState & InfoActions;
 
 export const defaultInitState: InfoState = {
-  id: null,
+  userId: null,
   email: null,
   name: null,
   profileImage: null
@@ -33,7 +33,7 @@ export const createInfoStore = (initState: InfoState = defaultInitState) => {
       if (userCookie) {
         const userData = JSON.parse(decodeURIComponent(userCookie.split('=')[1]));
         set(() => ({
-          id: userData.id,
+          userId: userData.id,
           email: userData.email,
           name: userData.username,
           profileImage: userData.profileImagePath
