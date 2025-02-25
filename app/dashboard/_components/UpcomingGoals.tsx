@@ -33,7 +33,7 @@ export default function UpcomingGoals() {
               </div>
               <div className="flex flex-col gap-y-1 text-[13px]">
                 {goals.length > 0 ? (
-                  goals.map((goal) => <span key={goal.id}>{goal.title}</span>)
+                  goals.map((goal: any) => <span key={goal.id}>{goal.title}</span>)
                 ) : (
                   <span className="text-gray350">등록된 일정이 없습니다</span>
                 )}

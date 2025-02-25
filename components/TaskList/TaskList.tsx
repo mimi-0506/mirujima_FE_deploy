@@ -1,10 +1,10 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import TodoItem from '@/components/TodoItem/TodoItem';
+import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 
 import type { TodoType } from '@/types/todo.type';
-import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 
 interface TaskListProps {
   title: string;
