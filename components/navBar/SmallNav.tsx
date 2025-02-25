@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 
 import Info from './Info';
 import Menus from './Menus';
+import NewTodo from './newTodo';
 import LeftArrow from '../../public/icon/arrow-left-black.svg';
 import RightArrow from '../../public/icon/arrow-right-white.svg';
 
@@ -37,7 +38,7 @@ export default function SmallNav({
       </div>
 
       <div
-        className={`absolute left-0 top-0 z-10 z-20 h-screen w-screen transform flex-col bg-white p-[12px_16px] transition-transform duration-300 ${
+        className={`absolute left-0 top-0 z-20 h-screen w-screen transform flex-col bg-white p-[12px_16px] transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -56,7 +57,7 @@ export default function SmallNav({
           </div>
 
           <Info />
-
+          <NewTodo />
           <Menus />
         </div>
       </div>

@@ -37,6 +37,7 @@ export default function NoteCardList({ noteList }: Props) {
 
   return (
     <div className="space-y-2">
+      {data.length === 0 && <div className="flex-center h-[300px] w-full">데이터 없음</div>}
       {data.map((note) => {
         return (
           <NoteCard

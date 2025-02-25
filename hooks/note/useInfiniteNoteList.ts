@@ -4,17 +4,14 @@ import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { readNoteListFromClient } from '@/apis/clientActions/note';
+import { useInfoStore } from '@/provider/store-provider';
 
 import type { NoteListType } from '@/types/note.type';
 
-export const noteKey = {
-  detail: ['note', 'detail'],
-  list: ['note', 'list']
-};
-
 const useInfiniteNoteList = (goalId: number, initialData: NoteListType) => {
+  const { userId } = useInfoStore((state) => state);
   const { data, isFetching, fetchNextPage, refetch } = useInfiniteQuery({
-    queryKey: [...noteKey.list, goalId],
+    queryKey: ['notes', goalId, userId],
     queryFn: ({ pageParam }) => readNoteListFromClient({ goalId, lastSeenId: pageParam }),
     initialPageParam: 9999,
     initialData: { pages: [initialData], pageParams: [] },

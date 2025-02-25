@@ -20,6 +20,7 @@ export const getWeeklyCompletionCounts = (todos: TodoType[]) => {
   };
 
   todos.forEach((todo) => {
+    if (!todo.completionDate) return;
     const completionDate = parseISO(todo.completionDate);
 
     if (isWithinInterval(completionDate, { start: startOfThisWeek, end: endOfThisWeek })) {

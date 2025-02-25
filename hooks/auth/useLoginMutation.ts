@@ -75,7 +75,7 @@ export const useLoginMutation = () => {
         setCookie('user', JSON.stringify(user), COOKIEOPTIONS);
 
         setInfo({
-          id: user.id,
+          userId: user.id,
           email: user.email,
           name: user.username
         });

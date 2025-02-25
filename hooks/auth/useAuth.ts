@@ -4,12 +4,12 @@ import { useInfoStore } from '@/provider/store-provider';
 
 export default function useAuth() {
   const router = useRouter();
-  const { id, email, name, logout } = useInfoStore((state) => state);
+  const { userId, email, name, logout } = useInfoStore((state) => state);
 
-  const isLoggedIn = id !== null;
+  const isLoggedIn = userId !== null;
 
   return {
     isLoggedIn,
-    user: { id, email, name }
+    user: { userId, email, name }
   };
 }

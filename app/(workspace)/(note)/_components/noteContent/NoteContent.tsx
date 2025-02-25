@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 
 import { createNote, updateNote } from '@/apis/clientActions/note';
 import { URL_REGEX } from '@/constant/regex';
@@ -36,6 +37,7 @@ export default function NoteContent({ todo, note }: Props) {
   const [linkUrl, setLinkUrl] = React.useState(note?.linkUrl);
   const [defaultNoteContent, setDefaultNoteContent] = React.useState(note?.content);
   const linkInputRef = React.useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const setNoteLinkModalOpen = useModalStore((store) => store.setNoteLinkModalOpen);
   const { onSaveTempToStorage, deleteTempNote, hasTempedNote, setHasTempedNote, tempedNote } =
@@ -82,6 +84,7 @@ export default function NoteContent({ todo, note }: Props) {
       }
       // 노트 작성/수정 시 임시 저장 노트 삭제
       deleteTempNote();
+      router.push('/dashboard');
     } catch (error) {
       console.error(error);
     }

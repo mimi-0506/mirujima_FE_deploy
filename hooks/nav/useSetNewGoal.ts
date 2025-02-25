@@ -6,14 +6,14 @@ import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function useSetNewGoal() {
-  const { id } = useInfoStore((state) => state);
+  const { userId } = useInfoStore((state) => state);
 
   const queryClient = useQueryClient();
 
-  const postNewGoal = async (nowGoal: string) => {
-    console.log('postNewGoal', nowGoal);
+  const postNewGoal = async ({ nowGoal, endDate }: { nowGoal: string; endDate: string }) => {
     const response = await apiWithClientToken.post('/goals', {
-      title: nowGoal
+      title: nowGoal,
+      completionDate: endDate
     });
 
     return response;
@@ -24,8 +24,8 @@ export default function useSetNewGoal() {
     onSuccess: () => {
       console.log('onsuccess');
 
-      queryClient.invalidateQueries({ queryKey: ['goalList', id] });
-      queryClient.refetchQueries({ queryKey: ['goalList', id] });
+      queryClient.invalidateQueries({ queryKey: ['goals', userId] });
+      queryClient.refetchQueries({ queryKey: ['goals', userId] });
 
       toast('등록되었습니다.');
     },

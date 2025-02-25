@@ -11,17 +11,18 @@ import NoteListIcon from '../../../public/icon/nav-note-list.svg';
 import TodoListIcon from '../../../public/icon/nav-todo-list.svg';
 
 export default function Menus() {
-  const { id, setInfo } = useInfoStore((state) => state);
+  const { userId, setInfo } = useInfoStore((state) => state);
 
   useLayoutEffect(() => {
-    if (!id) getInfo();
-  }, [id]);
+    getInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getInfo = async () => {
     const { data } = await apiWithClientToken.get('/user');
 
     setInfo({
-      id: data.id,
+      userId: data.id,
       email: data.email,
       name: data.username,
       profileImage: data.profileImagePath
