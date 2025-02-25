@@ -65,6 +65,7 @@ export default function TodoListPage() {
       queryClient.invalidateQueries({ queryKey: ['allTodos', userId] });
       queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   useEffect(() => {

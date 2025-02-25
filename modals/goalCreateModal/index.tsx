@@ -17,7 +17,7 @@ export default function GoalCreateModal() {
   const dateRef = useRef<HTMLInputElement>(null);
 
   const handleValidCheck = useCallback(
-    debounce((e) => {
+    debounce((e: React.ChangeEvent<HTMLInputElement>) => {
       setValid(e.target.value.trim() !== '');
     }, 50),
     []
@@ -33,11 +33,11 @@ export default function GoalCreateModal() {
     }
   };
 
-  const handleClose = (e) => {
+  const handleClose = () => {
     setIsGoalCreateModalOpen(false);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') handleGoalCreat();
   };
 
