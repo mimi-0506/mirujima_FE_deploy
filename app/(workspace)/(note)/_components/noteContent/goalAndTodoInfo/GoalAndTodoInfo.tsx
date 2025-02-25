@@ -5,7 +5,7 @@ import GoalIcon from '@/public/icon/work.svg';
 interface Props {
   goalTitle: string;
   todoTitle: string;
-  todoCompletaionDate: string;
+  todoCompletaionDate: string | null;
 }
 
 export default function GoalAndTodoInfo({ goalTitle, todoTitle, todoCompletaionDate }: Props) {
