@@ -22,6 +22,7 @@ export default function GoalList() {
 
   useEffect(() => {
     setIsLoading(isPending);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPending]);
 
   const handleLinkClick = (href: string) => {
@@ -49,6 +50,7 @@ export default function GoalList() {
             return (
               <li key={goal.id} className="p-2">
                 <div
+                  className="cursor-pointer"
                   onClick={() => {
                     handleLinkClick(`/goals/${goal.id}`);
                   }}

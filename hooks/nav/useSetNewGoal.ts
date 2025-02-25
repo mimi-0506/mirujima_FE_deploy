@@ -10,10 +10,10 @@ export default function useSetNewGoal() {
 
   const queryClient = useQueryClient();
 
-  const postNewGoal = async (nowGoal: string) => {
-    console.log('postNewGoal', nowGoal);
+  const postNewGoal = async ({ nowGoal, endDate }: { nowGoal: string; endDate: string }) => {
     const response = await apiWithClientToken.post('/goals', {
-      title: nowGoal
+      title: nowGoal,
+      completionDate: endDate
     });
 
     return response;

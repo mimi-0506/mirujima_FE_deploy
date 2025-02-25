@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
-import { useInfoStore } from '@/provider/store-provider';
+import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 import { useLoginMutation } from '../../../hooks/auth/useLoginMutation';
 import Button from '../_components/Button';
@@ -33,9 +33,12 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
     mode: 'onSubmit'
   });
+  const { setIsLoading } = useModalStore((state) => state);
 
   useEffect(() => {
+    setIsLoading(false);
     logout();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { mutate: loginMutate, isError, error } = useLoginMutation();
