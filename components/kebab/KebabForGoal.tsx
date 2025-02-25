@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import Image from 'next/image';
+import KebabFocusIcon from '@/public/icon/kebab-focus.svg';
+import KebabIcon from '@/public/icon/kebab.svg';
 
 interface KebabMenuProps {
   size: number;
@@ -34,7 +35,11 @@ export default function KebabForGoal({ size, onEdit, onDelete, className }: Keba
   return (
     <div className={`relative ${className ?? ''}`}>
       <button onClick={toggleMenu} className="rounded-md bg-Cgray" aria-label="목표 수정 및 삭제">
-        <Image src={'/icon/more.svg'} width={size} height={size} alt="더보기 아이콘" />
+        {isKebabOpen ? (
+          <KebabFocusIcon width={size} height={size} />
+        ) : (
+          <KebabIcon width={size} height={size} />
+        )}
       </button>
       {isKebabOpen &&
         typeof document !== 'undefined' &&
