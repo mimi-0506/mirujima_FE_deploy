@@ -1,5 +1,6 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import KebabForGoal from '@/components/kebab/KebabForGoal';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
@@ -22,6 +23,7 @@ interface TodoItemProps {
 }
 
 export default function TodoItem({ todo, goalId }: TodoItemProps) {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
   const { setCreatedTodoState } = useTodoCreateModalStore((state) => state);
@@ -41,16 +43,21 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
       goalId: todo?.goal?.id
     });
   };
+
   const handleDelete = () => {
     mutation.mutate(todo.id);
   };
+
   const handleOpenEditModal = (todo: any) => {
     setCreatedTodoState({
       ...todo,
       fileName: todo.filePath
     });
-
     setIsTodoCreateModalOpen(true);
+  };
+
+  const handlePenIconClick = () => {
+    router.push(`/notes/create/${todo.id}`);
   };
 
   const className = PRIORITY_COLORS[todo.priority];
@@ -105,7 +112,10 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
         </span>
 
         {!todo.noteId && (
-          <button className="hidden group-hover:block group-focus:block">
+          <button
+            onClick={handlePenIconClick}
+            className="hidden group-hover:block group-focus:block"
+          >
             <PenIcon width={18} height={18} />
           </button>
         )}
