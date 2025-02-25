@@ -14,8 +14,9 @@ export default function Menus() {
   const { userId, setInfo } = useInfoStore((state) => state);
 
   useLayoutEffect(() => {
-    if (!userId) getInfo();
-  }, [userId]);
+    getInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getInfo = async () => {
     const { data } = await apiWithClientToken.get('/user');
