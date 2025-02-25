@@ -7,6 +7,7 @@ import { fileDownload, fileUpload } from '@/apis/clientActions/s3';
 import { FILE_SIZE_5MB } from '@/constant/numbers';
 import useProfileImageEdit from '@/hooks/nav/useProfileImageEdit';
 import { useInfoStore } from '@/provider/store-provider';
+import LoadingIcon from '@/public/icon/spin.svg';
 
 import PhotoAddIcon from '../../../public/icon/photo-add.svg';
 
@@ -15,12 +16,14 @@ export default function ProfileImage() {
   const { mutateAsync } = useProfileImageEdit();
   const fileRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (profileImage) getProfileImage(profileImage);
   }, [profileImage]);
 
   const getProfileImage = async (profileImage: string) => {
+    setIsLoading(true);
     const signedUrl = await fileDownload(profileImage);
 
     const response = await fetch(signedUrl);
@@ -33,6 +36,7 @@ export default function ProfileImage() {
       if (prevUrl) URL.revokeObjectURL(prevUrl);
       return url;
     });
+    setIsLoading(false);
   };
 
   const handleProfileChange = () => {
@@ -48,11 +52,19 @@ export default function ProfileImage() {
         return;
       }
 
-      const profileImagePath = await fileUpload(selectedFile, selectedFile.name); //1.이미지 업로드
-      await mutateAsync({ orgFileName: selectedFile.name, profileImagePath }); // 2.기존 정보 수정
+      setIsLoading(true);
 
-      setInfo({ profileImage: profileImagePath });
-      getProfileImage(profileImagePath);
+      try {
+        const profileImagePath = await fileUpload(selectedFile, selectedFile.name); //1.이미지 업로드
+        await mutateAsync({ orgFileName: selectedFile.name, profileImagePath }); // 2.기존 정보 수정
+
+        setInfo({ profileImage: profileImagePath });
+        getProfileImage(profileImagePath);
+      } catch (error) {
+        toast.error('파일 업로드 중 오류가 발생했습니다.');
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -65,6 +77,8 @@ export default function ProfileImage() {
         accept="image/*"
         className="hidden"
       />
+
+      {isLoading && <LoadingIcon />}
 
       <Image
         src={imageUrl || '/images/logo/mirujima-logo-tomato.png'}
