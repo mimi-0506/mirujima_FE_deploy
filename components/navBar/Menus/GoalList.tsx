@@ -48,11 +48,11 @@ export default function GoalList() {
         {isFetching || isLoading ? (
           <LoadingIcon className="aspect-auto w-[100px]" />
         ) : (
-          goals.map((goal: any) => {
+          goals?.map((goal: any) => {
             return (
               <li key={goal.id} className="p-2">
                 <div
-                  className="cursor-pointer"
+                  className="w-[inherit] max-w-[100vw] cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap"
                   onClick={() => {
                     handleLinkClick(`/goals/${goal.id}`);
                   }}

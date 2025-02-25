@@ -40,7 +40,7 @@ export default function MediumNav({
         </button>
       </div>
 
-      <div className={isOpen ? '' : 'absolute left-[-10vw]'}>
+      <div className={isOpen ? '' : 'absolute left-[-15vw] w-[inherit]'}>
         <Info />
         <NewTodo />
         <Menus />
