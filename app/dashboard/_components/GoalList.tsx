@@ -38,7 +38,7 @@ export default function GoalList() {
       </h2>
       <section className="flex flex-col gap-4">
         {goals.length > 0 ? (
-          goals.map((goal) => <GoalItem key={goal.id} goalId={goal.id} title={goal.title} />)
+          goals?.map((goal) => <GoalItem key={goal.id} goalId={goal.id} title={goal.title} />)
         ) : (
           <div>Loading...</div>
         )}
