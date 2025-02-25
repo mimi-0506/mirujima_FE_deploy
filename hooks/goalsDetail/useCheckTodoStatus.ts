@@ -16,7 +16,7 @@ const checkTodo = async ({ todo }: { todo: TodoType }) => {
   return response.data;
 };
 export const useCheckTodo = () => {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
 
   return useMutation({
