@@ -14,7 +14,7 @@ export default function SubmitButton({
   formRef: RefObject<HTMLFormElement | null>;
   isEdit: any;
 }) {
-  const { fileName } = useTodoCreateModalStore((state) => state);
+  const fileName = useTodoCreateModalStore((state) => state.fileName);
   const { setTodoCreate } = useTodoCreate();
   const { setTodoEdit } = useTodoEdit(isEdit?.id);
   const { allValid } = useTodoCreateValidCheck();

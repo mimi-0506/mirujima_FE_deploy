@@ -1,7 +1,7 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import useIsSmallScreen from '@/hooks/nav/useIsSmallScreen';
-import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
+import { useModalStore } from '@/provider/store-provider';
 
 import CloseButton from '../CloseButton';
 import DoneChecker from './DoneChecker';
@@ -24,25 +24,14 @@ export default function TodoCreateModal() {
   const { setIsTodoCreateModalOpen, setIsTodoCreateCheckModalOpen } = useModalStore(
     (state) => state
   );
-  const createdTodo = useTodoCreateModalStore((state) => state);
-  const { title, resetTodoCreateModal } = useTodoCreateModalStore((state) => state);
+
   const [isEdit, setIsEdit] = useState<any>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const { isSmallScreen } = useIsSmallScreen();
 
-  useLayoutEffect(() => {
-    if (title) setIsEdit({ ...createdTodo });
-  }, []);
-
   useEffect(() => {
     console.log('isEdit', isEdit);
   }, [isEdit]);
-
-  useEffect(() => {
-    return () => {
-      resetTodoCreateModal();
-    };
-  }, []);
 
   const handleClose = () => {
     if (formRef.current) {

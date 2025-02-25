@@ -1,5 +1,4 @@
 'use client';
-import { useQueryClient } from '@tanstack/react-query';
 
 import KebabForGoal from '@/components/kebab/KebabForGoal';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
@@ -22,9 +21,9 @@ interface TodoItemProps {
 }
 
 export default function TodoItem({ todo, goalId }: TodoItemProps) {
-  const queryClient = useQueryClient();
-  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
-  const { setCreatedTodoState } = useTodoCreateModalStore((state) => state);
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
+  const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
+
   const mutation = useDeleteTodoItem();
   const { mutate: toggleTodo } = useCheckTodo();
 

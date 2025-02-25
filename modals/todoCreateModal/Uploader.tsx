@@ -8,7 +8,10 @@ import AddIcon from '../../public/icon/add-gray.svg';
 
 export default function Uploader() {
   const fileRef = useRef<HTMLInputElement>(null);
-  const { fileName, linkUrl, setCreatedTodoState } = useTodoCreateModalStore((state) => state);
+  const fileName = useTodoCreateModalStore((state) => state.fileName);
+  const linkUrl = useTodoCreateModalStore((state) => state.linkUrl);
+  const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
+
   const [selectedOption, setSelectedOption] = useState<'file' | 'link'>('file');
 
   useEffect;

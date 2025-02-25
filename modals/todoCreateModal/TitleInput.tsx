@@ -3,7 +3,8 @@ import { debounce } from 'lodash';
 import { useTodoCreateModalStore } from '@/provider/store-provider';
 
 export default function TitleInput() {
-  const { title, setCreatedTodoState } = useTodoCreateModalStore((state) => state);
+  const title = useTodoCreateModalStore((state) => state.title);
+  const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
 
   const handleInputChange = debounce((e) => {
     setCreatedTodoState({ title: e.target.value });

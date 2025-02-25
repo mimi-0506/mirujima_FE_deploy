@@ -6,8 +6,8 @@ import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 export default function useTodoCreate() {
-  const { userId } = useInfoStore((state) => state);
-  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const queryClient = useQueryClient();
 
   const setTodoCreate = async (

@@ -6,8 +6,8 @@ import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 export default function useTodoEdit(todoId?: number) {
-  const { userId } = useInfoStore((state) => state);
-  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const queryClient = useQueryClient();
 
   const setTodoEdit = async (
@@ -16,7 +16,6 @@ export default function useTodoEdit(todoId?: number) {
     savedPath?: string
   ) => {
     const body = {
-      done: Boolean(formData?.done),
       goalId: formData.goal,
       title: formData.title,
       orgFileName: fileName,
@@ -24,7 +23,6 @@ export default function useTodoEdit(todoId?: number) {
       linkUrl: formData?.linkUrl,
       priority: formData.priority
     };
-
     const { data } = await apiWithClientToken.patch(`/todos/${todoId}`, body);
 
     if (data.code === 200) todoEditSueccess();
