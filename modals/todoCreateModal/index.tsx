@@ -12,13 +12,13 @@ import SubmitButton from './SubmitButton';
 import TitleInput from './TitleInput';
 import Uploader from './Uploader';
 
-const compareArrayWithObject = (arr: [string, any][], obj: { [key: string]: any }): boolean => {
-  return arr.some(([key, value]) => {
-    if (!(key in obj)) return false;
-    if (key === 'goal') return String(obj[key].id) !== String(value);
-    else return String(obj[key]) !== String(value);
-  });
-};
+// const compareArrayWithObject = (arr: [string, any][], obj: { [key: string]: any }): boolean => {
+//   return arr.some(([key, value]) => {
+//     if (!(key in obj)) return false;
+//     if (key === 'goal') return String(obj[key].id) !== String(value);
+//     else return String(obj[key]) !== String(value);
+//   });
+// };
 
 export default function TodoCreateModal() {
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
@@ -75,7 +75,7 @@ export default function TodoCreateModal() {
           <Uploader />
           <PrioritySelector />
           <GoalSelector />
-          <SubmitButton formRef={formRef} isEdit={isEdit} />
+          <SubmitButton formRef={formRef} />
         </form>
       </div>
     </Overlay>
