@@ -6,7 +6,7 @@ import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function useSetNewGoal() {
-  const { id } = useInfoStore((state) => state);
+  const { userId } = useInfoStore((state) => state);
 
   const queryClient = useQueryClient();
 
@@ -24,8 +24,8 @@ export default function useSetNewGoal() {
     onSuccess: () => {
       console.log('onsuccess');
 
-      queryClient.invalidateQueries({ queryKey: ['goalList', id] });
-      queryClient.refetchQueries({ queryKey: ['goalList', id] });
+      queryClient.invalidateQueries({ queryKey: ['goals', userId] });
+      queryClient.refetchQueries({ queryKey: ['goals', userId] });
 
       toast('등록되었습니다.');
     },
