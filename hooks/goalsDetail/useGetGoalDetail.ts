@@ -18,6 +18,7 @@ interface GoalDetailResponse {
 
 const fetchGoalDetail = async (goalId: string): Promise<GoalDetailResponse> => {
   const response = await authApi.get<GoalDetailResponse>(`/goals/${goalId}`);
+  console.log('eee', response.data);
   return response.data;
 };
 

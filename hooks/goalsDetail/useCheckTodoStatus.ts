@@ -9,10 +9,12 @@ const checkTodo = async ({ todo }: { todo: TodoType }) => {
   if (!todo.id) {
     throw new Error('ToDo id가 없습니다.');
   }
-  const response = await authApi.patch(`/todos/${todo.id}`, todo);
+  const response = await authApi.patch(`/todos/completion/${todo.id}`, {
+    done: todo.done,
+    completionDate: todo.completionDate ?? null
+  });
   return response.data;
 };
-
 export const useCheckTodo = () => {
   const { userId } = useInfoStore((state) => state);
   const queryClient = useQueryClient();
@@ -22,9 +24,10 @@ export const useCheckTodo = () => {
       return checkTodo({ todo });
     },
     onSuccess: (_, { goalId }) => {
-      queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId] });
-      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId] });
-      // queryClient.invalidateQueries({ queryKey: ['todos', goalId, true] }); false, true가 뭐가 다를까요..??
+      queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, false] });
+      queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, true] });
+      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, false] });
+      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, true] });
     },
     onError: (error: any) => {
       console.error('업데이트 실패:', error.response?.data?.message || 'Unknown error occurred.');

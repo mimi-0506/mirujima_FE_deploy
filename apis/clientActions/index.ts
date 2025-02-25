@@ -22,8 +22,7 @@ export const apiWithClientToken = axios.create({
 
 // 정상 응답 처리
 const tokenExpireCheck = (response: AxiosResponse) => {
-  console.log('response');
-  if (response.data.code !== 200) {
+  if (response.status !== 200) {
     console.log('토큰 이상');
     window.location.href = '/logout';
   }
