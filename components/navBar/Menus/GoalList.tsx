@@ -22,6 +22,7 @@ export default function GoalList() {
 
   useEffect(() => {
     setIsLoading(isPending);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPending]);
 
   const handleLinkClick = (href: string) => {

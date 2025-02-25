@@ -29,12 +29,14 @@ export default function ReadOnlyEditor({ defaultContent }: Props) {
       },
       initialContent
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialContent]);
 
   React.useEffect(() => {
     convertDataForEditor(defaultContent).then((content) => {
       setInitialContent(content);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!editor) return null;

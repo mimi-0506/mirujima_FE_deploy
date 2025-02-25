@@ -15,6 +15,7 @@ export default function Menus() {
 
   useLayoutEffect(() => {
     if (!userId) getInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const getInfo = async () => {
