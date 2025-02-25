@@ -1,10 +1,9 @@
-import { useRouter } from 'next/navigation';
-
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function useAuth() {
-  const router = useRouter();
-  const { userId, email, name, logout } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
+  const email = useInfoStore((state) => state.email);
+  const name = useInfoStore((state) => state.name);
 
   const isLoggedIn = userId !== null;
 

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import useIsSmallScreen from '@/hooks/nav/useIsSmallScreen';
 import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
@@ -21,22 +21,15 @@ const compareArrayWithObject = (arr: [string, any][], obj: { [key: string]: any 
 };
 
 export default function TodoCreateModal() {
-  const { setIsTodoCreateModalOpen, setIsTodoCreateCheckModalOpen } = useModalStore(
-    (state) => state
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
+  const setIsTodoCreateCheckModalOpen = useModalStore(
+    (state) => state.setIsTodoCreateCheckModalOpen
   );
-  const createdTodo = useTodoCreateModalStore((state) => state);
-  const { title, resetTodoCreateModal } = useTodoCreateModalStore((state) => state);
-  const [isEdit, setIsEdit] = useState<any>(null);
+  const resetTodoCreateModal = useTodoCreateModalStore((state) => state.resetTodoCreateModal);
+  const isEdit = useTodoCreateModalStore((state) => state.isEdit);
+
   const formRef = useRef<HTMLFormElement>(null);
   const { isSmallScreen } = useIsSmallScreen();
-
-  useLayoutEffect(() => {
-    if (title) setIsEdit({ ...createdTodo });
-  }, []);
-
-  useEffect(() => {
-    console.log('isEdit', isEdit);
-  }, [isEdit]);
 
   useEffect(() => {
     return () => {
@@ -50,11 +43,11 @@ export default function TodoCreateModal() {
 
       let isChanged = false;
 
-      if (isEdit) isChanged = compareArrayWithObject(Array.from(formData.entries()), isEdit);
-      else
-        isChanged = Array.from(formData.values()).some((value) =>
-          value instanceof File ? value.size > 0 : value !== ''
-        );
+      // if (isEdit) isChanged = compareArrayWithObject(Array.from(formData.entries()), ;
+      // else
+      isChanged = Array.from(formData.values()).some((value) =>
+        value instanceof File ? value.size > 0 : value !== ''
+      );
 
       if (isChanged) {
         setIsTodoCreateCheckModalOpen(true);

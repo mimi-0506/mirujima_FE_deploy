@@ -4,7 +4,7 @@ import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function useGetGoalList() {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
 
   const fetchGoalList = async () => {
     const { data } = await apiWithClientToken.get('/goals', {

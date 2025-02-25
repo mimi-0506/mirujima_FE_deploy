@@ -9,7 +9,7 @@ import type { NoteListType } from '@/types/note.type';
 import type { InfiniteData } from '@tanstack/react-query';
 
 const useDeleteNote = (goalId: number) => {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
 
   return useMutation({
