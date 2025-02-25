@@ -1,17 +1,12 @@
-'use client';
-
 import React from 'react';
 
-import { BlockNoteEditor, locales, type PartialBlock } from '@blocknote/core';
-import { BlockNoteView } from '@blocknote/mantine';
+import { BlockNoteEditor, locales } from '@blocknote/core';
 
 import { convertDataForEditor } from '@/utils/note/convertDataForEditor';
 
-interface Props {
-  defaultContent: string;
-}
+import type { PartialBlock } from '@blocknote/core';
 
-export default function ReadOnlyEditor({ defaultContent }: Props) {
+const useEditor = (defaultContent: string | undefined) => {
   const [initialContent, setInitialContent] = React.useState<
     PartialBlock[] | undefined | 'loading'
   >('loading');
@@ -39,18 +34,7 @@ export default function ReadOnlyEditor({ defaultContent }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!editor) return null;
+  return { editor };
+};
 
-  return (
-    <>
-      <BlockNoteView
-        editor={editor}
-        editable={false}
-        formattingToolbar={false}
-        sideMenu={false}
-        slashMenu={false}
-        data-custom-css
-      />
-    </>
-  );
-}
+export default useEditor;
