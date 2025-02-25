@@ -15,7 +15,7 @@ import Uploader from './Uploader';
 const compareArrayWithObject = (arr: [string, any][], obj: { [key: string]: any }): boolean => {
   return arr.some(([key, value]) => {
     if (!(key in obj)) return false;
-    if (key === 'goal') return String(obj[key].id) !== String(value);
+    if (key === 'goal') return String(obj[key]?.id) !== String(value);
     else return String(obj[key]) !== String(value);
   });
 };

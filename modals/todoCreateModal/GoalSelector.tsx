@@ -44,7 +44,7 @@ export default function GoalSelector() {
           목표를 선택해주세요
         </option>
         {goalList.map((goal, index) => (
-          <option key={index} id={`${index}`} value={goal.id} className="text-gray500">
+          <option key={index} id={`${index}`} value={goal?.id} className="text-gray500">
             {goal?.title}
           </option>
         ))}

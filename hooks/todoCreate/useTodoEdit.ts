@@ -1,7 +1,6 @@
 import toast from 'react-hot-toast';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { usePathname } from 'next/navigation';
 
 import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
@@ -9,18 +8,24 @@ import { useInfoStore, useModalStore } from '@/provider/store-provider';
 export default function useTodoEdit(todoId?: number) {
   const { userId } = useInfoStore((state) => state);
   const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
-  const pathname = usePathname();
   const queryClient = useQueryClient();
 
-  const setTodoEdit = async (formData: { [k: string]: FormDataEntryValue }, savedPath?: string) => {
-    const { data } = await apiWithClientToken.patch(`/todos/${todoId}`, {
+  const setTodoEdit = async (
+    formData: { [k: string]: FormDataEntryValue },
+    fileName: string,
+    savedPath?: string
+  ) => {
+    const body = {
+      done: Boolean(formData?.done),
       goalId: formData.goal,
       title: formData.title,
+      orgFileName: fileName,
       filePath: savedPath || '',
       linkUrl: formData?.linkUrl,
-      priority: formData.priority,
-      done: Boolean(formData?.done)
-    });
+      priority: formData.priority
+    };
+
+    const { data } = await apiWithClientToken.patch(`/todos/${todoId}`, body);
 
     if (data.code === 200) todoEditSueccess();
     else todoEditFail();
