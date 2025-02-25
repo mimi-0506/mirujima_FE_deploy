@@ -11,6 +11,7 @@ import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
 import { useModalStore } from '@/provider/store-provider';
 import { useInfoStore } from '@/provider/store-provider';
+import SpinIcon from '@/public/icon/spin.svg';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
 
 import Button from '../_components/Button';
@@ -43,8 +44,14 @@ export default function GoalDetailPage() {
   const setGoalDeleteModalOpen = useModalStore((state) => state.setGoalDeleteModalOpen);
   const setGoalEditModalOpen = useModalStore((state) => state.setGoalEditModalOpen);
 
+  // For mobile tab functionality
+  const [activeTab, setActiveTab] = useState('todo');
+  // For client-side rendering check
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
     restoreUser();
+    setIsMounted(true);
   }, [restoreUser]);
 
   useEffect(() => {
@@ -54,7 +61,12 @@ export default function GoalDetailPage() {
   }, [goalTitle, isEditing]);
 
   if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <SpinIcon />
+      </div>
+    );
   if (isError || !goalData) return <div>목표 정보를 불러오는데 실패했습니다.</div>;
 
   return (
@@ -123,19 +135,64 @@ export default function GoalDetailPage() {
 
       <Button onClick={() => router.push(`/noteList/${goalId}`)}>노트 모아보기</Button>
 
-      <div className="flex flex-col rounded-2xl border border-gray200 bg-white p-6 shadow-sm desktop:flex-row">
-        <div className="flex-1 overflow-y-auto">
-          <TaskList title="To do" goalId={goalId} done={false} />
-        </div>
+      <div className="flex flex-col rounded-2xl border border-gray200 bg-white shadow-sm desktop:flex-row desktop:rounded-2xl desktop:p-6">
+        <div className="flex rounded-t-lg desktop:hidden">
+          <div className="flex h-[52px] w-full items-center rounded-lg border-b border-gray200 border-transparent px-4">
+            <button
+              className={`relative min-w-[71px] py-4 text-center text-body1 ${
+                activeTab === 'todo' ? 'font-medium text-black' : 'text-Gray500'
+              }`}
+              onClick={() => setActiveTab('todo')}
+            >
+              To do
+              {activeTab === 'todo' && (
+                <div className="absolute bottom-0 left-0 h-0.5 w-full bg-main"></div>
+              )}
+            </button>
+            <button
+              className={`relative min-w-[80px] py-4 text-center text-body1 ${
+                activeTab === 'done' ? 'font-medium text-black' : 'text-Gray500'
+              }`}
+              onClick={() => setActiveTab('done')}
+            >
+              Done
+              {activeTab === 'done' && (
+                <div className="absolute bottom-0 left-0 h-0.5 w-full bg-main"></div>
+              )}
+            </button>
 
-        <hr className="my-4 border-t border-dashed border-gray200 desktop:hidden" />
+            <div className="flex-grow"></div>
+
+            {activeTab === 'todo' && (
+              <button className="flex items-center px-4 text-body1 text-main">
+                <span className="mr-1">+</span>
+                <span>할일 추가</span>
+              </button>
+            )}
+          </div>
+        </div>
+        <div
+          className={`flex-1 overflow-y-auto p-4 desktop:p-0 ${activeTab === 'todo' ? 'block' : 'hidden desktop:block'}`}
+        >
+          <TaskList
+            title={isMounted && window.innerWidth >= 1280 ? 'To do' : ''}
+            goalId={goalId}
+            done={false}
+          />
+        </div>
 
         <div className="mx-6 my-4 hidden translate-y-5 items-center justify-center desktop:flex">
           <span className="min-h-[160px] w-px border-l border-dashed border-gray200"></span>
         </div>
 
-        <div className="flex-1 overflow-y-auto">
-          <TaskList title="Done" goalId={goalId} done={true} />
+        <div
+          className={`flex-1 overflow-y-auto p-4 desktop:p-0 ${activeTab === 'done' ? 'block' : 'hidden desktop:block'}`}
+        >
+          <TaskList
+            title={isMounted && window.innerWidth >= 1280 ? 'Done' : ''}
+            goalId={goalId}
+            done={true}
+          />
         </div>
       </div>
     </section>
