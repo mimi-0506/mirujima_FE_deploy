@@ -2,22 +2,22 @@ import { apiWithClientToken } from './clientActions/index';
 
 import type { TodoListType } from '@/types/todo.type';
 
-const TODO_SIZE = 40;
+const TODO_SIZE = 10;
 
 export const readTodoList = async ({
-  pageParam = 9999,
+  lastSeenId,
   pageSize = TODO_SIZE
 }: {
-  pageParam?: number;
+  lastSeenId?: number;
   pageSize?: number;
 }): Promise<TodoListType> => {
   const response = await apiWithClientToken.get<{ result: TodoListType }>('/todos', {
-    params: { lastSeenId: pageParam, pageSize }
+    params: { lastSeenId, pageSize }
   });
 
   if (response.data.result === null) throw new Error('read todo list error');
 
-  return response.data.result;
+  return { ...response.data.result, todos: response.data.result.todos.reverse() };
 };
 
 export const deleteTodoItem = async (id: number) => {
