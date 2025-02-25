@@ -7,7 +7,7 @@ import { useComponentsContext } from '@blocknote/react';
 import EmbedLinkIcon from '@/public/icon/embed-link.svg';
 
 interface Props {
-  handleLinkModal: () => void;
+  handleLinkModal: (() => void) | undefined;
 }
 
 export default function LinkToolbarButton({ handleLinkModal }: Props) {

@@ -9,7 +9,7 @@ import { useInfoStore } from '@/provider/store-provider';
 import type { NoteListType } from '@/types/note.type';
 
 const useInfiniteNoteList = (goalId: number, initialData: NoteListType) => {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
   const { data, isFetching, fetchNextPage, refetch } = useInfiniteQuery({
     queryKey: ['notes', goalId, userId],
     queryFn: ({ pageParam }) => readNoteListFromClient({ goalId, lastSeenId: pageParam }),

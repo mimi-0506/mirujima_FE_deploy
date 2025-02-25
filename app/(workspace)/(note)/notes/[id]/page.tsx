@@ -15,7 +15,7 @@ export default async function NoteDetail({ params }: Props) {
 
   const note = await readNoteFromServer(Number(id));
 
-  if (!note) redirect('/');
+  if (!note) redirect('/dashboard');
 
   return (
     <div className="min-h-[calc(100vh-132px)] bg-white px-4 pt-4 md:min-h-[calc(100vh-162px)]">

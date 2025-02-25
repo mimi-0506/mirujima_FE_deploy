@@ -14,6 +14,7 @@ export type TodoCreateModalState = {
   priority: number;
   id?: number;
   noteId?: number;
+  isEdit: boolean;
 };
 
 export type TodoCreateModalActions = {
@@ -29,7 +30,8 @@ const initTodoCreateModalState: TodoCreateModalState = {
   linkUrl: '',
   fileName: '',
   goal: null,
-  priority: 0
+  priority: 0,
+  isEdit: false
 };
 export const defaultInitState: TodoCreateModalState = {
   ...initTodoCreateModalState

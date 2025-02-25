@@ -16,7 +16,7 @@ const checkTodo = async ({ todo }: { todo: TodoType }) => {
   return response.data;
 };
 export const useCheckTodo = () => {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -28,6 +28,7 @@ export const useCheckTodo = () => {
       queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, true] });
       queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, false] });
       queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, true] });
+      queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
     },
     onError: (error: any) => {
       console.error('업데이트 실패:', error.response?.data?.message || 'Unknown error occurred.');

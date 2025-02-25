@@ -23,7 +23,7 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
-  const { logout } = useInfoStore((state) => state);
+  const logout = useInfoStore((state) => state.logout);
   const {
     register,
     handleSubmit,
@@ -33,7 +33,7 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
     mode: 'onSubmit'
   });
-  const { setIsLoading } = useModalStore((state) => state);
+  const setIsLoading = useModalStore((state) => state.setIsLoading);
 
   useEffect(() => {
     setIsLoading(false);

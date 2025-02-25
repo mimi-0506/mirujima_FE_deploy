@@ -6,7 +6,8 @@ import { useTodoCreateModalStore } from '@/provider/store-provider';
 const PRIORITY = [1, 2, 3, 4];
 
 export default function PrioritySelector() {
-  const { priority, setCreatedTodoState } = useTodoCreateModalStore((state) => state);
+  const priority = useTodoCreateModalStore((state) => state.priority);
+  const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
   const [selectedPriority, setSelectedPriority] = useState<number | string>(priority);
 
   useEffect(() => {

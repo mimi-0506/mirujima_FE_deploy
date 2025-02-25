@@ -8,7 +8,7 @@ import { useInfoStore } from '@/provider/store-provider';
 import type { QueryClient } from '@tanstack/react-query';
 
 export function useDeleteTodoMutation(queryClient: QueryClient) {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
   return useMutation({
     mutationFn: (id: number) => deleteTodoItem(id),
     onMutate: () => {

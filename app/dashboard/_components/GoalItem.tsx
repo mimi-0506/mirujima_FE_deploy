@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import TaskList from '@/components/TaskList/TaskList';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useModalStore } from '@/provider/store-provider';
@@ -14,7 +16,8 @@ interface GoalItemProps {
 
 export default function GoalItem({ goalId, title }: GoalItemProps) {
   const { data, isLoading, isError } = useGetGoalDetail(goalId.toString());
-  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
+
   if (isLoading) {
     return (
       <div className="rounded-container w-full p-4">
@@ -74,3 +77,4 @@ export default function GoalItem({ goalId, title }: GoalItemProps) {
     </div>
   );
 }
+

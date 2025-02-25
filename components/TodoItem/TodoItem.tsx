@@ -1,4 +1,5 @@
 'use client';
+
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
@@ -19,10 +20,11 @@ import type { TodoType } from '@/types/todo.type';
 
 interface TodoItemProps {
   todo: TodoType;
-  goalId: number;
+  goalId?: number;
 }
 
 export default function TodoItem({ todo, goalId }: TodoItemProps) {
+
   const router = useRouter();
   const queryClient = useQueryClient();
   const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
@@ -49,9 +51,11 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   };
 
   const handleOpenEditModal = (todo: any) => {
+    console.log(todo);
     setCreatedTodoState({
       ...todo,
-      fileName: todo.filePath
+      fileName: todo.filePath,
+      isEdit: true
     });
     setIsTodoCreateModalOpen(true);
   };
@@ -65,7 +69,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   return (
     <li className="group relative mb-3 flex items-center justify-between">
       <div className="flex min-w-0 flex-1 items-baseline gap-2 text-gray500 group-hover:text-main">
-        <div className="relative flex translate-y-[5px] cursor-pointer items-center">
+        <div className="relative flex translate-y-[3px] cursor-pointer">
           <input
             type="checkbox"
             checked={todo.done ?? undefined}
@@ -86,7 +90,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
           )}
         </div>
       </div>
-      <div className="relative mb-6 flex shrink-0 items-start gap-1">
+      <div className="relative -mt-4 flex shrink-0 items-start gap-1 desktop:-mt-0">
         <div className="flex flex-row gap-1 py-[1px]">
           {todo.filePath && (
             <span>

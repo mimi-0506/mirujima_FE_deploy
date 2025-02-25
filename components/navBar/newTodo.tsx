@@ -5,7 +5,8 @@ import { useModalStore } from '@/provider/store-provider';
 import AddIcon from '../../public/icon/add.svg';
 
 export default function NewTodo() {
-  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
+
   return (
     <>
       <button

@@ -10,7 +10,7 @@ const deleteTodoItem = async (todoId: number): Promise<void> => {
 };
 
 export function useDeleteTodoItem() {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
 
   return useMutation({
