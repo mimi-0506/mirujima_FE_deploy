@@ -51,6 +51,7 @@ export default function Editor({ register, setValue, defaultContent, handleLinkM
       },
       initialContent
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialContent]);
 
   React.useEffect(() => {
