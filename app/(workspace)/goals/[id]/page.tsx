@@ -1,5 +1,6 @@
 'use client';
-import React, { useCallback, useEffect, useState } from 'react';
+
+import React, { useCallback, useEffect, useState, useTransition } from 'react';
 
 import { useParams, useRouter } from 'next/navigation';
 
@@ -24,7 +25,6 @@ export default function GoalDetailPage() {
   const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
   const goalIdString = goalId ? goalId.toString() : '';
 
-  // Fetch goal detail and todo lists
   const { data: goalData, isLoading, isError } = useGetGoalDetail(goalIdString);
   const { data: todosTodo } = useGetTodoList(goalId, false);
   const { data: todosDone } = useGetTodoList(goalId, true);
@@ -33,31 +33,29 @@ export default function GoalDetailPage() {
   const { mutate: updateGoalTitle } = useUpdateGoalTitle();
   const { mutate: deleteGoalMutate } = useDeleteGoal();
 
-  // Local states
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(goalTitle);
   const [activeTab, setActiveTab] = useState<'todo' | 'done'>('todo');
   const [isMounted, setIsMounted] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
-  // Modal store actions
+  const [isPending, startTransition] = useTransition();
+
   const setGoalDeleteModalOpen = useModalStore((state) => state.setGoalDeleteModalOpen);
   const setGoalEditModalOpen = useModalStore((state) => state.setGoalEditModalOpen);
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
 
-  // Restore user on mount and set isMounted flag
   useEffect(() => {
     restoreUser();
     setIsMounted(true);
   }, [restoreUser]);
 
-  // Sync edited title with goalTitle when not editing
   useEffect(() => {
     if (!isEditing) {
       setEditedTitle(goalTitle);
     }
   }, [goalTitle, isEditing]);
 
-  // Edit modal handlers
   const handleEditConfirm = useCallback(
     (newTitle: string) => {
       if (!goalId) return;
@@ -93,7 +91,6 @@ export default function GoalDetailPage() {
     });
   }, [goalTitle, handleEditConfirm, handleEditCancel, setGoalEditModalOpen]);
 
-  // Delete modal handlers
   const handleDeleteConfirm = useCallback(() => {
     if (!goalId) return;
     deleteGoalMutate(goalId, {
@@ -115,18 +112,21 @@ export default function GoalDetailPage() {
     });
   }, [handleDeleteConfirm, handleDeleteCancel, setGoalDeleteModalOpen]);
 
-  // Tab and Todo 추가 핸들러
   const handleTabChange = useCallback((tab: 'todo' | 'done') => {
     setActiveTab(tab);
   }, []);
 
-  const handleAddTodo = useCallback(() => {
-    setIsTodoCreateModalOpen(true);
-  }, [setIsTodoCreateModalOpen]);
+  const handleNoteListClick = useCallback(() => {
+    if (!goalId) return;
+    setIsNavigating(true);
+    startTransition(() => {
+      router.push(`/noteList/${goalId}`);
+      setIsNavigating(false);
+    });
+  }, [goalId, router, startTransition]);
 
-  // Loading and error states
   if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
-  if (isLoading)
+  if (isLoading || isNavigating || isPending)
     return (
       <div>
         <SpinIcon />
@@ -159,7 +159,9 @@ export default function GoalDetailPage() {
         />
       </h2>
 
-      <Button onClick={() => router.push(`/noteList/${goalId}`)}>노트 모아보기</Button>
+      <Button onClick={handleNoteListClick}>
+        {isNavigating || isPending ? <SpinIcon /> : '노트 모아보기'}
+      </Button>
 
       <div className="flex flex-col rounded-2xl border border-gray200 bg-white shadow-sm desktop:flex-row desktop:rounded-2xl desktop:p-6">
         <div className="flex rounded-t-lg desktop:hidden">
@@ -190,7 +192,10 @@ export default function GoalDetailPage() {
             <div className="flex-grow"></div>
 
             {activeTab === 'todo' && (
-              <button onClick={handleAddTodo} className="flex items-center text-main">
+              <button
+                onClick={() => setIsTodoCreateModalOpen(true)}
+                className="flex items-center text-main"
+              >
                 <PlusIcon /> 할일 추가
               </button>
             )}
