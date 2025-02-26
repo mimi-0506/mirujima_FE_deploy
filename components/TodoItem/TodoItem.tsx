@@ -24,7 +24,6 @@ interface TodoItemProps {
 }
 
 export default function TodoItem({ todo, goalId }: TodoItemProps) {
-
   const router = useRouter();
   const queryClient = useQueryClient();
   const { setIsTodoCreateModalOpen } = useModalStore((state) => state);

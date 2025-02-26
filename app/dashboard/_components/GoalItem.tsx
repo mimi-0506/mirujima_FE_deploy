@@ -1,7 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-
 import TaskList from '@/components/TaskList/TaskList';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useModalStore } from '@/provider/store-provider';
@@ -77,4 +75,3 @@ export default function GoalItem({ goalId, title }: GoalItemProps) {
     </div>
   );
 }
-

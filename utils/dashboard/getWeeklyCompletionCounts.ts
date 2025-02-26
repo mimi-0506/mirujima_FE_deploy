@@ -19,7 +19,7 @@ export const getWeeklyCompletionCounts = (todos: TodoType[]) => {
     일: 0
   };
 
-  todos.forEach((todo) => {
+  todos?.forEach((todo) => {
     if (!todo.completionDate) return;
     const completionDate = parseISO(todo.completionDate);
 
