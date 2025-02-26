@@ -62,7 +62,9 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const handlePenIconClick = () => {
     router.push(`/notes/create/${todo.id}`);
   };
-
+  const handleNoteIconClick = () => {
+    router.push(`/notes/${todo.noteId}`);
+  };
   const className = PRIORITY_COLORS[todo.priority];
 
   return (
@@ -102,7 +104,13 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
             </span>
           )}
           {todo.noteId && (
-            <span>
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNoteIconClick();
+              }}
+              className="cursor-pointer"
+            >
               <NoteIcon width={18} height={18} />
             </span>
           )}
