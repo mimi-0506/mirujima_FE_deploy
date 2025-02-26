@@ -11,7 +11,7 @@ const deleteGoal = async (goalId: number): Promise<void> => {
 };
 
 export function useDeleteGoal() {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
 
   return useMutation({

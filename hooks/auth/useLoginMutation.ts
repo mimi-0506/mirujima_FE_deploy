@@ -52,7 +52,7 @@ const loginUser = async (formData: LoginFormData): Promise<LoginResponse> => {
 
 export const useLoginMutation = () => {
   const router = useRouter();
-  const { setInfo } = useInfoStore((state) => state);
+  const setInfo = useInfoStore((state) => state.setInfo);
 
   return useMutation({
     mutationFn: loginUser,

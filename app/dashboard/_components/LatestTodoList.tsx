@@ -6,19 +6,17 @@ import TodoItem from '@/components/TodoItem/TodoItem';
 import { EMPTY_MESSAGES } from '@/constant/emtymessage';
 import { useInfoStore } from '@/provider/store-provider';
 import ArrowRightIcon from '@/public/icon/arrow-right-red.svg';
+import SpinIcon from '@/public/icon/spin.svg';
 
-import type { TodoListType } from '@/types/todo.type';
+import type { TodoListType, TodoType } from '@/types/todo.type';
 
 export default function LatestTodoList() {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
 
-  const { data } = useQuery<TodoListType>({
-    queryKey: ['allTodos', userId],
+  const { data, isLoading } = useQuery<TodoListType>({
+    queryKey: ['allTodos', userId, 4],
     queryFn: () => readTodoList({ pageSize: 4 }),
-    select: (data) => ({
-      ...data,
-      todos: (data.todos ?? []).toReversed()
-    })
+    retry: 0
   });
 
   return (
@@ -30,15 +28,18 @@ export default function LatestTodoList() {
           <ArrowRightIcon width={18} height={18} />
         </Link>
       </div>
-      {data?.todos ? (
+
+      {isLoading ? (
+        <SpinIcon />
+      ) : data?.todos ? (
         <ul className="pointer-events-none">
-          {data.todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} goalId={todo?.goal?.id} />
+          {data.todos.map((todo: TodoType) => (
+            <TodoItem key={todo.id} todo={todo} />
           ))}
         </ul>
       ) : (
         <div className="m-auto text-center">{EMPTY_MESSAGES.None}</div>
-      )}{' '}
+      )}
     </div>
   );
 }

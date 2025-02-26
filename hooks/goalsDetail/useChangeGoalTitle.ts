@@ -30,7 +30,7 @@ const changeGoalTitle = async ({
 };
 
 export function useUpdateGoalTitle() {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
 
   return useMutation({

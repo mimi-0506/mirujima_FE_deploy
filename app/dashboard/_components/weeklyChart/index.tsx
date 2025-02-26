@@ -15,7 +15,7 @@ import type { ChartDataType } from './Chart';
 import type { TodoProgressType } from '@/types/todo.type';
 
 export default function WeeklyChart() {
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
   const [chartData, setChartData] = useState<ChartDataType[]>([]);
   const [progressData, setProgressData] = useState(0);
   const count = useCountUp(Number(progressData), 2000);
@@ -36,20 +36,19 @@ export default function WeeklyChart() {
     setProgressData(completionRate);
   };
 
-  const { data: todoData } = useQuery({
+  const { data } = useQuery({
     queryKey: ['allTodos', userId],
     queryFn: () => readTodoList({}),
     retry: 0
   });
 
   useEffect(() => {
-    if (todoData) {
-      //필터링 로직 추가 필요
+    if (data?.todos) {
       setTimeout(() => {
-        setChartData(getWeeklyCompletionData(todoData.todos));
+        setChartData(getWeeklyCompletionData(data.todos));
       }, 300);
     }
-  }, [todoData]);
+  }, [data]);
 
   return (
     <div className="rounded-container">

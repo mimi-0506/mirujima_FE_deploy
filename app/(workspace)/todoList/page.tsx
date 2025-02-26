@@ -9,6 +9,7 @@ import { readTodoList } from '@/apis/todo';
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
+import SpinIcon from '@/public/icon/spin.svg';
 import TodoListIcon from '@/public/icon/todo-list-black.svg';
 
 import EmptyMessage from './_components/EmptyMessage';
@@ -19,45 +20,41 @@ import type { FilterType } from './_components/TodoFilter';
 import type { QueryClient } from '@tanstack/react-query';
 
 export default function TodoListPage() {
-  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
+
   const queryClient: QueryClient = useQueryClient();
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
   const [filter, setFilter] = useState<FilterType>('All');
   const [priority, setPriority] = useState<'all' | number>('all');
 
   const { ref, inView } = useInView();
 
-  const { data, isLoading, isFetching, fetchNextPage, refetch } = useInfiniteQuery({
-    queryKey: ['allTodos', userId],
-    queryFn: ({ pageParam = 9999 }) => readTodoList({ pageParam }),
+  const { data, isLoading, isFetching, fetchNextPage } = useInfiniteQuery({
+    queryKey: ['allTodos', userId, filter, priority],
+    queryFn: ({ pageParam = undefined }) => readTodoList({ lastSeenId: pageParam }),
     initialPageParam: 9999,
-    getNextPageParam: (lastPage) => (lastPage.remainingCount > 0 ? lastPage.lastSeenId : null),
-    enabled: !!userId,
-    retry: 0,
-    placeholderData: (previousData) => previousData,
+    getNextPageParam: (lastPage) => (lastPage.remainingCount > 0 ? lastPage.lastSeenId : undefined),
     refetchOnWindowFocus: false,
-    select: (data) => ({
-      ...data,
-      pages: data.pages.flatMap((page) => ({
-        todos: (page.todos ?? []).toReversed()
-      }))
-    })
+    select: (data) => {
+      return {
+        ...data,
+        pages: data.pages ? data.pages.flatMap((page) => page.todos) : []
+      };
+    }
   });
 
+  let filteredTodos = data?.pages || [];
+
   // 1. 필터링 (All, To do, Done)
-  let filteredTodos = data?.pages
-    .flatMap((page) => page.todos)
-    .filter((todo) => {
-      if (filter === 'To do') return !todo.done;
-      else if (filter === 'Done') return todo.done;
-      else return true;
-    });
+  filteredTodos = filteredTodos.filter((todo) => {
+    if (filter === 'To do') return !todo.done;
+    else if (filter === 'Done') return todo.done;
+    else return true;
+  });
 
   // 2. 우선순위 정렬
   if (priority !== 'all') {
     filteredTodos = filteredTodos?.filter((todo) => todo.priority === priority);
-  } else {
-    filteredTodos = filteredTodos?.sort((a, b) => a.priority - b.priority);
   }
 
   useEffect(() => {
@@ -69,10 +66,10 @@ export default function TodoListPage() {
   }, [filter]);
 
   useEffect(() => {
-    if (inView) {
+    if (inView && !isFetching) {
       fetchNextPage();
     }
-  }, [inView, fetchNextPage]);
+  }, [inView, fetchNextPage, isFetching]);
 
   return (
     <>
@@ -81,7 +78,6 @@ export default function TodoListPage() {
           <TodoListIcon />
           모든 할 일
         </h2>
-        {/* TODO: 할 일 추가 모달 생성 */}
         <button
           onClick={() => {
             setIsTodoCreateModalOpen(true);
@@ -96,18 +92,19 @@ export default function TodoListPage() {
           <TodoFilter filter={filter} setFilter={setFilter} />
           <PriorityFilter setPriority={setPriority} />
         </div>
-        {!isLoading && <EmptyMessage filter={filter} filteredTodos={filteredTodos || []} />}
+
         <div>
-          {!isLoading || !isFetching ? (
+          {isLoading || isFetching ? (
+            <SpinIcon />
+          ) : filteredTodos.length > 0 ? (
             <ul>
-              {filteredTodos?.map((todo) => {
-                return <TodoItem key={todo.id} todo={todo} goalId={todo?.goal?.id} />;
-              })}
+              {filteredTodos.map((todo) => (
+                <TodoItem key={todo.id} todo={todo} goalId={todo?.goal?.id} />
+              ))}
             </ul>
           ) : (
-            <p>로딩중</p>
+            <EmptyMessage filter={filter} filteredTodos={filteredTodos} />
           )}
-
           <div ref={ref} />
         </div>
       </div>

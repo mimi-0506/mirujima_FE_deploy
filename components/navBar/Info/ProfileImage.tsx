@@ -12,8 +12,9 @@ import LoadingIcon from '@/public/icon/spin.svg';
 import PhotoAddIcon from '../../../public/icon/photo-add.svg';
 
 export default function ProfileImage() {
-  const test = useInfoStore((state) => state);
-  const { profileImage, setInfo } = test;
+  const profileImage = useInfoStore((state) => state.profileImage);
+  const setInfo = useInfoStore((state) => state.setInfo);
+
   const { mutateAsync } = useProfileImageEdit();
   const fileRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);

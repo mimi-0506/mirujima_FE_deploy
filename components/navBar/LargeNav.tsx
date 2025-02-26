@@ -33,7 +33,7 @@ export default function LargeNav({
           </Link>
         )}
         <button
-          className={isOpen ? '' : 'flex h-[56px] w-[56px] items-center justify-center'}
+          className={`relative z-10 ${isOpen ? '' : 'flex h-[56px] w-[56px] items-center justify-center'}`}
           onClick={() => {
             setIsOpen((x) => !x);
           }}
@@ -42,7 +42,7 @@ export default function LargeNav({
         </button>
       </div>
 
-      <div className={isOpen ? '' : 'absolute left-[-10vw]'}>
+      <div className={isOpen ? '' : 'absolute left-[-10vw] w-[inherit]'}>
         <Info />
         <NewTodo />
         <Menus />

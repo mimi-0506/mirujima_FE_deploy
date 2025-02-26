@@ -9,7 +9,8 @@ import type { GoalType } from './type';
 export default function GoalSelector() {
   const [goalList, setGoalList] = useState<GoalType[]>([]);
   const { data } = useGetGoalList();
-  const { goal, setCreatedTodoState } = useTodoCreateModalStore((state) => state);
+  const goal = useTodoCreateModalStore((state) => state.goal);
+  const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
   const [selectedGoal, setSelectedGoal] = useState<GoalType | null>(goal);
 
   //수정시 초기값 가져오기용 세팅
@@ -44,7 +45,7 @@ export default function GoalSelector() {
           목표를 선택해주세요
         </option>
         {goalList.map((goal, index) => (
-          <option key={index} id={`${index}`} value={goal.id} className="text-gray500">
+          <option key={index} id={`${index}`} value={goal?.id} className="text-gray500">
             {goal?.title}
           </option>
         ))}

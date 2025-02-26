@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import TaskList from '@/components/TaskList/TaskList';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useModalStore } from '@/provider/store-provider';
+import LoadingIcon from '@/public/icon/spin.svg';
 
 import type { TodoType } from '@/types/todo.type';
 
@@ -24,7 +25,9 @@ export default function GoalItem({ goalId, title }: GoalItemProps) {
     return (
       <div className="rounded-container w-full p-4">
         <h3 className="text-lg font-bold">{title}</h3>
-        <div>Loading todos...</div>
+        <div>
+          <LoadingIcon />
+        </div>
       </div>
     );
   }
@@ -33,7 +36,7 @@ export default function GoalItem({ goalId, title }: GoalItemProps) {
     return (
       <div className="rounded-container w-full p-4">
         <h3 className="text-lg font-bold">{title}</h3>
-        <div>Failed to fetch detail...</div>
+        <div>데이터 불러오기 실패</div>
       </div>
     );
   }

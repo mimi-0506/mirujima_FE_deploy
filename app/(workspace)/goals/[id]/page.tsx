@@ -18,7 +18,7 @@ import Button from '../_components/Button';
 
 export default function GoalDetailPage() {
   const router = useRouter();
-  const { restoreUser } = useInfoStore((state) => state);
+  const restoreUser = useInfoStore((state) => state.restoreUser);
   const params = useParams();
   const goalIdParam = Array.isArray(params.id) ? params.id[0] : params.id;
   const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
