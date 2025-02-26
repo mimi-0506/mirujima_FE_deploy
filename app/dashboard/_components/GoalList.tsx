@@ -39,6 +39,8 @@ export default function GoalList() {
       <section className="flex flex-col gap-4">
         {goals?.length > 0 ? (
           goals.map((goal) => <GoalItem key={goal.id} goalId={goal.id} title={goal.title} />)
+        ) : goals?.length === 0 ? (
+          <div className="text-center text-gray-500">목표를 설정해주세요</div>
         ) : (
           <div>Loading...</div>
         )}

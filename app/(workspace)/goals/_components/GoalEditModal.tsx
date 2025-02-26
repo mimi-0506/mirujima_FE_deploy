@@ -53,6 +53,12 @@ export default function GoalEditModal({
             onChange={(e) => setValue(e.target.value)}
             className="w-full rounded-lg border border-gray200 bg-white px-4 py-3 text-base text-gray500 outline-none"
             placeholder="목표를 수정해주세요"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleConfirm();
+              }
+            }}
             autoFocus
           />
         </section>

@@ -7,7 +7,8 @@ import authApi from '@/apis/clientActions/authApi';
 import { useInfoStore } from '@/provider/store-provider';
 
 const deleteGoal = async (goalId: number): Promise<void> => {
-  await authApi.delete(`/goals/${goalId}`);
+  const response = await authApi.delete(`/goals/${goalId}`);
+  console.log('삭제 API 응답:', response); // 응답 로그 추가
 };
 
 export function useDeleteGoal() {
