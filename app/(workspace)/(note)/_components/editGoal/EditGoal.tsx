@@ -39,8 +39,8 @@ export default function EditGoal({ goalId }: Props) {
     setEditedTitle(goalTitle);
   }, [goalTitle]);
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (isError || !goalData) return <div>목표 정보를 불러오는데 실패했습니다.</div>;
+  // if (isLoading) return <div>로딩 중...</div>;
+  // if (isError || !goalData) return <div>목표 정보를 불러오는데 실패했습니다.</div>;
 
   return (
     <>

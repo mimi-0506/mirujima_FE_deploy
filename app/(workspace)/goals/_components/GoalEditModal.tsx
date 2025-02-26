@@ -34,7 +34,11 @@ export default function GoalEditModal({
 
   return (
     <Overlay onClick={onCancel}>
-      <div ref={modalRef} className="w-[343px] rounded-xl bg-white p-6">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        ref={modalRef}
+        className="w-[343px] rounded-xl bg-white p-6"
+      >
         <header className="flex items-center justify-between">
           <h3 className="text-[17px] leading-[22px]">목표 수정</h3>
           <button onClick={handleClose}>
