@@ -23,7 +23,7 @@ export default function GoalNoteListContent({ goal }: Props) {
   }
 
   return (
-    <div className="max-h-[400px] space-y-2 overflow-y-scroll [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar]:w-1">
+    <div className="custom-scrollbar max-h-[400px] space-y-2 overflow-y-scroll">
       {data.map((note) => (
         <NoteCard
           key={note.createdAt}
@@ -33,7 +33,11 @@ export default function GoalNoteListContent({ goal }: Props) {
           onClickDelete={onClickDelete(note.id)}
         />
       ))}
-      {isFetching && <LoadingSpinner />}
+      {isFetching && (
+        <div className="flex-center w-full py-2">
+          <LoadingSpinner width="24" height="24" />
+        </div>
+      )}
       <div ref={inViewRef} />
     </div>
   );

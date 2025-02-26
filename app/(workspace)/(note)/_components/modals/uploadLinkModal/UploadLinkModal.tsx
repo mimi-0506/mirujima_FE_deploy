@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import Overlay from '@/modals/Overlay';
 import { useModalStore } from '@/provider/store-provider';
 import CloseIcon from '@/public/icon/X.svg';
 
@@ -15,8 +16,11 @@ export default function UploadLinkModal({ defaultValue, onSubmit, linkInputRef }
   const setNoteLinkModalOpen = useModalStore((store) => store.setNoteLinkModalOpen);
 
   return (
-    <div className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/50">
-      <dialog open className="w-11/12 max-w-[450px] rounded-xl bg-white p-6">
+    <Overlay onClick={() => setNoteLinkModalOpen(false)}>
+      <div
+        className="w-11/12 max-w-[450px] rounded-xl bg-white p-6"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex justify-between">
           <p className="text-lg font-bold leading-7 text-gray500">링크 업로드</p>
           <button
@@ -49,7 +53,7 @@ export default function UploadLinkModal({ defaultValue, onSubmit, linkInputRef }
         >
           확인
         </button>
-      </dialog>
-    </div>
+      </div>
+    </Overlay>
   );
 }

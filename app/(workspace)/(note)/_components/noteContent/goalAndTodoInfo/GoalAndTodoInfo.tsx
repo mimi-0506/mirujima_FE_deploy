@@ -2,6 +2,8 @@ import React from 'react';
 
 import GoalIcon from '@/public/icon/work.svg';
 
+import TodoChip from '../../todoChip/TodoChip';
+
 interface Props {
   goalTitle: string;
   todoTitle: string;
@@ -18,10 +20,8 @@ export default function GoalAndTodoInfo({ goalTitle, todoTitle, todoCompletionDa
         <h3 className="truncate text-gray500">{goalTitle}</h3>
       </div>
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <div className="h-[20px] w-[37px] rounded bg-Cgray px-[3px] py-[2px] text-[12px] font-medium text-gray350">
-            <span>To do</span>
-          </div>
+        <div className="flex w-full items-center gap-2">
+          <TodoChip />
           <h4 className="truncate text-gray400">{todoTitle}</h4>
         </div>
         {todoCompletionDate && (
