@@ -40,7 +40,9 @@ export default function GoalList() {
         {goals?.length > 0 ? (
           goals.map((goal) => <GoalItem key={goal.id} goalId={goal.id} title={goal.title} />)
         ) : goals?.length === 0 ? (
-          <div className="text-center text-gray-500">목표를 설정해주세요</div>
+          <div className="text-center text-[14px] font-medium leading-[16px] text-gray350">
+            목표를 설정해주세요
+          </div>
         ) : (
           <div>Loading...</div>
         )}
