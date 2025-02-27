@@ -25,9 +25,9 @@ export default function EmbedContent({ linkUrl, isReadOnlyPage }: Props) {
   if (isEmbedContentOpen) {
     return (
       <div
-        className={`z-[50] flex w-full min-w-[355px] flex-col bg-solid desktop:static desktop:w-5/12 ${
+        className={`flex w-full min-w-[355px] flex-col bg-solid desktop:static desktop:w-5/12 ${
           isReadOnlyPage
-            ? 'absolute left-0 top-0 h-full desktop:h-auto'
+            ? 'absolute left-0 top-0 z-[50] h-full desktop:h-auto'
             : 'mb-6 h-[385px] bg-white desktop:h-[700px] desktop:bg-gray100'
         }`}
       >

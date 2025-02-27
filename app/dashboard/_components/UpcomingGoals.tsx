@@ -1,5 +1,5 @@
+import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import useGetGoalList from '@/hooks/useGetGoalList';
-import SpinIcon from '@/public/icon/spin.svg';
 import { getUpcomingDates } from '@/utils/dateUtils';
 
 import type { GoalType } from '@/types/goal.type';
@@ -36,7 +36,7 @@ export default function UpcomingGoals() {
               </div>
               <div className="flex flex-col gap-y-1 text-[13px]">
                 {isLoading ? (
-                  <SpinIcon />
+                  <LoadingSpinner />
                 ) : goals.length > 0 ? (
                   goals.map((goal: GoalType) => <span key={goal.id}>{goal.title}</span>)
                 ) : (
