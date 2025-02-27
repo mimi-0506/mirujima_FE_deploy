@@ -90,7 +90,7 @@ export default function NoteContent({ todo, note }: Props) {
   };
 
   const onSaveTempNote = () => {
-    onSaveTempToStorage(getValues('title'), getValues('content'), linkUrl);
+    onSaveTempToStorage(getValues('title').trim(), getValues('content'), linkUrl);
     toast('임시 저장이 완료 되었습니다.', {
       duration: 2000,
       position: 'bottom-center',

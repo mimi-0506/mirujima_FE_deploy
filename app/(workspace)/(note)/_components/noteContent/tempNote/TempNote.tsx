@@ -19,7 +19,7 @@ export default function TempNote({ tempedNote, onRemove, onLoad }: Props) {
   const handleConfirmModal = () => {
     setIsNoteConfirmModalOpen(true, {
       type: 'temp',
-      contentTitle: tempedNote?.noteTitle,
+      contentTitle: tempedNote?.noteTitle || '제목 없음',
       onCancel: () => setIsNoteConfirmModalOpen(false),
       onConfirm: () => {
         setIsNoteConfirmModalOpen(false);
