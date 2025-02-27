@@ -10,15 +10,15 @@ import BackIcon from '@/public/icon/arrow-left-black.svg';
 
 interface Props extends PropsWithChildren {
   embed?: React.ReactNode;
-  onClose?: () => void; // 추가
+  onClose?: () => void;
 }
 
-export default function NoteLayoutModal({ embed, children, onClose }: Props) {
+export default function NoteModalInGoal({ embed, children, onClose }: Props) {
   const router = useRouter();
 
   const onDismiss = () => {
     if (onClose) {
-      onClose(); // 부모에서 전달된 onClose 실행
+      onClose();
     } else {
       router.back(); // 기본 동작으로 fallback
     }
@@ -26,7 +26,7 @@ export default function NoteLayoutModal({ embed, children, onClose }: Props) {
 
   return (
     <Overlay>
-      <div aria-label="노트 상세 페이지" className="flex h-full w-full justify-end">
+      <div aria-label="노트 상세 페이지" className="flex h-screen w-full justify-end">
         {embed}
         <div className="custom-scrollbar w-full overflow-y-scroll bg-white px-6 md:w-2/3 desktop:w-6/12">
           <div className="py-6">
