@@ -19,7 +19,7 @@ export default function ReadOnlyNoteContent({ note }: Props) {
   const { onClickEdit, onClickDelete } = useNoteActions(note.goalDto.id);
 
   return (
-    <section className="bg-white">
+    <section className="w-full bg-white">
       <NoteInfo
         goalTitle={note.goalDto.title}
         todoTitle={note.todoDto.title}

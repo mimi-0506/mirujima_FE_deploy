@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { z } from 'zod';
 
+import { EMAIL_ERROR, SIGHNUP_ERROR } from '@/constant/toastText';
 import { checkEmailExists, useSignUpMutation } from '@/hooks/auth/useSignUpMutation';
 
 import Button from '../_components/Button';
@@ -51,12 +52,12 @@ export default function SignUpPage() {
 
       signUpMutate(data, {
         onError: () => {
-          toast.error('회원가입에 실패했습니다. 다시 시도해 주세요.');
+          toast.error(SIGHNUP_ERROR);
         }
       });
     } catch (error) {
       console.error('회원가입 에러:', error);
-      toast.error('이메일 중복 체크 중 오류가 발생했습니다.');
+      toast.error(EMAIL_ERROR);
     }
   };
 

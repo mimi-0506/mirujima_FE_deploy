@@ -1,18 +1,15 @@
+'use client';
+
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
-import { redirect } from 'next/navigation';
 
 import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
-// accessToken 만료시 로그아웃시킴
 export const withTokenFromClient = (config: InternalAxiosRequestConfig) => {
   const accessToken = getCookie('accessToken');
-  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
-  else {
-    const refreshToken = getCookie('refreshToken');
-    config.headers.Authorization = `Bearer ${refreshToken}`;
-  }
+  const refreshToken = getCookie('refreshToken');
 
+  config.headers.Authorization = `Bearer ${accessToken || refreshToken}`;
   return config;
 };
 
@@ -21,29 +18,26 @@ export const apiWithClientToken = axios.create({
   headers: { 'Content-Type': 'application/json' }
 });
 
-// 정상 응답 처리
-const tokenExpireCheck = (response: AxiosResponse) => {
-  if (response.status !== 200) {
-    console.log('토큰 이상');
-    redirect('/logout');
-  }
-  return response;
-};
-
-// 에러 응답 처리 (404 등)
-// 토큰 만료 처리도 이쪽에 추가할 것
-const errorHandler = (error: AxiosError) => {
+// ✅ 응답 인터셉터: 에러 발생 시 URL 이동
+const errorInterceptor = async (error: AxiosError) => {
   if (error.response) {
-    const { status } = error.response;
-
-    if ([401, 403, 404].includes(status)) {
-      console.log(`HTTP ${status} 에러 - 로그아웃 처리`);
-      redirect('/logout');
+    if (error.response.status === 401) {
+      window.location.href = '/logout';
+    } else if (error.response.status >= 400 && error.response.status < 500) {
+      window.location.href = '/pageError';
+    } else if (error.response.status >= 500) {
+      window.location.href = '/serverError';
     }
   }
-
   return Promise.reject(error);
 };
 
+// ✅ 응답 인터셉터: 정상 응답 로깅
+const responseInterceptor = async (response: AxiosResponse) => {
+  console.log('현재 response', response, response.data?.code, response.status);
+  return response;
+};
+
+// ✅ Axios 인스턴스에 인터셉터 추가
 apiWithClientToken.interceptors.request.use(withTokenFromClient);
-apiWithClientToken.interceptors.response.use(tokenExpireCheck, errorHandler);
+apiWithClientToken.interceptors.response.use(responseInterceptor, errorInterceptor);
