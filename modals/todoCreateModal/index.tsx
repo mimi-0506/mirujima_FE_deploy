@@ -61,7 +61,7 @@ export default function TodoCreateModal() {
   return (
     <Overlay>
       <div
-        className={`relative flex min-h-[45.8vw] ${isSmallScreen ? 'w-screen' : 'min-w-[27vw]'} flex-col justify-between rounded-lg bg-white p-6 font-semibold`}
+        className={`scrollbar-thin relative flex overflow-y-auto [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar]:w-1 ${isSmallScreen ? 'h-screen w-screen' : 'max-h-[80vh] w-[40vw]'} flex-col justify-between rounded-lg bg-white p-6 font-semibold`}
       >
         <div className="flex justify-between">
           <h2 className="mb-4 text-2xl font-semibold">{isEdit ? '할 일 수정' : '할 일 생성'}</h2>
