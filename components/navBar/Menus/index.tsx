@@ -42,7 +42,7 @@ export default function Menus() {
         <Link href="/todoList" className="flex items-center gap-[6px]">
           <TodoListIcon /> <p>할 일 모아보기</p>
         </Link>
-        <Link href="/" className="flex items-center gap-[6px]">
+        <Link href="/noteList" className="flex items-center gap-[6px]">
           <NoteListIcon /> <p>노트 모아보기</p>
         </Link>
       </div>
