@@ -6,7 +6,8 @@ import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 
 import api from '@/apis/clientActions/authApi';
-import { useInfoStore } from '@/provider/store-provider';
+import { LOGIN_ERROR, LOGIN_SUCCESS } from '@/constant/toastText';
+import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 interface LoginFormData {
   email: string;
@@ -53,17 +54,17 @@ const loginUser = async (formData: LoginFormData): Promise<LoginResponse> => {
 export const useLoginMutation = () => {
   const router = useRouter();
   const setInfo = useInfoStore((state) => state.setInfo);
+  const setIsLoading = useModalStore((state) => state.setIsLoading);
 
   return useMutation({
     mutationFn: loginUser,
     onMutate: () => {
-      toast.loading('로그인중...', { id: 'login' });
+      setIsLoading(true);
     },
     onSuccess: (data) => {
-      toast.dismiss('login');
-
+      setIsLoading(false);
       if (!data.success || !data.result) {
-        toast.error(data.message || '로그인에 실패했습니다.');
+        toast.error(data.message || LOGIN_ERROR);
         return;
       }
 
@@ -80,17 +81,16 @@ export const useLoginMutation = () => {
           name: user.username
         });
 
-        toast.success('로그인 되었습니다!', { duration: 2000 });
+        toast.success(LOGIN_SUCCESS, { duration: 2000 });
         router.push('/dashboard');
       } else {
-        toast.error('로그인 정보가 누락되었습니다.');
+        toast.error(LOGIN_ERROR);
       }
     },
     onError: (error: unknown) => {
-      toast.dismiss('login');
-
+      setIsLoading(false);
       if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.message || '로그인 중 오류가 발생했습니다.';
+        const errorMessage = error.response?.data?.message || LOGIN_ERROR;
         toast.error(errorMessage);
       }
     }

@@ -2,6 +2,7 @@ import React from 'react';
 import toast from 'react-hot-toast';
 
 import { URL_REGEX } from '@/constant/regex';
+import { LINK_DELETE_SUCCESS, LINK_VALID_ERROR } from '@/constant/toastText';
 import { useEmbedStore, useModalStore } from '@/provider/store-provider';
 
 const useNoteLink = (initLink: string | undefined) => {
@@ -23,13 +24,13 @@ const useNoteLink = (initLink: string | undefined) => {
     const linkValue = linkInputRef.current.value.trim();
     if (linkValue === '') {
       handleDeleteLink();
-      toast.success('링크를 삭제했습니다');
+      toast.success(LINK_DELETE_SUCCESS);
       return;
     }
 
     const isWrongURL = URL_REGEX.test(linkValue) === false;
     if (isWrongURL) {
-      toast.error('유효하지 않은 링크입니다', { duration: 1500 });
+      toast.error(LINK_VALID_ERROR, { duration: 1500 });
       return;
     }
 

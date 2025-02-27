@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
 
 import { apiWithClientToken } from '@/apis/clientActions';
+import { IMAGE_CHAGE_ERROR, IMAGE_CHAGE_SUCCESS } from '@/constant/toastText';
 
 export default function useProfileImageEdit() {
   const putProfileImage = async ({
@@ -23,11 +24,10 @@ export default function useProfileImageEdit() {
   const { mutateAsync } = useMutation({
     mutationFn: putProfileImage,
     onSuccess: () => {
-      console.log('onsuccess');
-      toast('등록되었습니다.');
+      toast.success(IMAGE_CHAGE_SUCCESS);
     },
     onError: (error) => {
-      toast.error('변경에 실패하였습니다.');
+      toast.error(IMAGE_CHAGE_ERROR);
       console.error('Error:', error);
     }
   });

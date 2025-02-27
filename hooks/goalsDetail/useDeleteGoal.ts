@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import authApi from '@/apis/clientActions/authApi';
+import { GOAL_DELETE_ERROR, GOAL_DELETE_SUCCESS } from '@/constant/toastText';
 import { useInfoStore } from '@/provider/store-provider';
 
 const deleteGoal = async (goalId: number): Promise<void> => {
@@ -22,11 +23,11 @@ export function useDeleteGoal() {
       queryClient.refetchQueries({ queryKey: ['goal', goalId, userId] });
 
       toast.dismiss('deleteGoal');
-      toast.success('목표가 삭제되었습니다!');
+      toast.success(GOAL_DELETE_SUCCESS);
     },
     onError: () => {
       toast.dismiss('deleteGoal');
-      toast.error('목표 삭제 실패했습니다.');
+      toast.error(GOAL_DELETE_ERROR);
     }
   });
 }
