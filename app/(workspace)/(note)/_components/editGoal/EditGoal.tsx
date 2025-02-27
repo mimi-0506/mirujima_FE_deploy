@@ -48,6 +48,8 @@ export default function EditGoal({ goalId }: Props) {
           onSuccess: () => {
             setGoalEditModalOpen(false);
             setEditedTitle(trimmedTitle);
+
+            router.refresh();
           },
           onError: () => setEditedTitle(goalTitle)
         }
