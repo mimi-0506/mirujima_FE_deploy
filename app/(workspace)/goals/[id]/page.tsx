@@ -10,10 +10,8 @@ import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
 import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
-
 import Loading from '@/modals/loadingOverlay/Loading';
 import { useInfoStore, useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
-
 import PlusIcon from '@/public/icon/plus-border-none.svg';
 import SpinIcon from '@/public/icon/spin.svg';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
@@ -91,9 +89,9 @@ export default function GoalDetailPage() {
     setGoalEditModalOpen(true, {
       onConfirm: handleEditConfirm,
       onCancel: handleEditCancel,
-      initialValue: goalTitle
+      initialValue: editedTitle
     });
-  }, [goalTitle, handleEditConfirm, handleEditCancel, setGoalEditModalOpen]);
+  }, [editedTitle, handleEditConfirm, handleEditCancel, setGoalEditModalOpen]);
 
   const handleDeleteConfirm = useCallback(() => {
     if (!goalId) return;
@@ -132,7 +130,7 @@ export default function GoalDetailPage() {
   const handleAddTodo = useCallback(() => {
     if (goalId) setCreatedTodoState({ goal: { id: goalId } });
     setIsTodoCreateModalOpen(true);
-  }, [setIsTodoCreateModalOpen]);
+  }, [setIsTodoCreateModalOpen, goalId]);
 
   if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
   if (isLoading || isNavigating || isPending)
