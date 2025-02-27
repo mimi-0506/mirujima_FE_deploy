@@ -2,6 +2,7 @@ import toast from 'react-hot-toast';
 
 import { useRouter } from 'next/navigation';
 
+import { LOGOUT_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 import ProfileImage from './ProfileImage';
@@ -16,7 +17,7 @@ export default function Info() {
 
   const handleLogoutClick = () => {
     setIsLoading(true);
-    toast.success('로그아웃 되었습니다!', { duration: 2000 });
+    toast.success(LOGOUT_SUCCESS);
     router.push('/logout');
   };
 
