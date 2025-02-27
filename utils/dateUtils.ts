@@ -11,7 +11,7 @@ export const getUpcomingDates = (days: number) => {
 
     upcomingDates.push({
       date: nextDay.getDate(),
-      day: WEEK_DAYS[nextDay.getDay()]
+      day: WEEK_DAYS[nextDay.getDay() - 1]
     });
   }
 

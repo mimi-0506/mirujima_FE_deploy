@@ -11,5 +11,7 @@ interface EmptyMessageProps {
 export default function EmptyMessage({ filter, filteredTodos }: EmptyMessageProps) {
   if (filteredTodos.length > 0) return null;
 
-  return <p>{EMPTY_MESSAGES[filter]}</p>;
+  return (
+    <p className="text-[14px] font-medium leading-[16px] text-gray350">{EMPTY_MESSAGES[filter]}</p>
+  );
 }

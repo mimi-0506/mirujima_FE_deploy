@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
-import useDeleteNote from '@/hooks/note/useDeleteNote';
 import useInfiniteNoteList from '@/hooks/note/useInfiniteNoteList';
+import useNoteActions from '@/hooks/note/useNoteActions';
 
 import NoteCard from './noteCard/NoteCard';
 
@@ -17,23 +17,9 @@ interface Props {
 
 export default function NoteCardList({ noteList }: Props) {
   const { goalId } = useParams<{ goalId: string }>();
-  const router = useRouter();
 
   const { data, inViewRef } = useInfiniteNoteList(Number(goalId), noteList);
-
-  const { mutate } = useDeleteNote(Number(goalId));
-
-  const onClickNote = (id: number) => {
-    return () => router.push(`/notes/${id}`, { scroll: false });
-  };
-
-  const onClickEdit = (todoId: number) => {
-    return () => router.push(`/notes/create/${todoId}`);
-  };
-
-  const onClickDelete = (noteId: number) => {
-    return () => mutate(noteId);
-  };
+  const { onClickNote, onClickEdit, onClickDelete } = useNoteActions(Number(goalId));
 
   return (
     <div className="space-y-2">

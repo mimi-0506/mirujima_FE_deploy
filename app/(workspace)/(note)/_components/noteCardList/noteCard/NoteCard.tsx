@@ -5,6 +5,8 @@ import React from 'react';
 import KebabMenu from '@/components/kebab/KebabMenu';
 import NoteIcon from '@/public/icon/note.svg';
 
+import TodoChip from '../../todoChip/TodoChip';
+
 import type { NoteType } from '@/types/note.type';
 
 interface Props {
@@ -41,9 +43,7 @@ export default function NoteCard({ note, onClickEdit, onClickDelete, onClickNote
       </div>
 
       <div className="flex items-center gap-3 text-slate-700">
-        <div className="h-[18px] rounded bg-Cgray px-[6px] pb-[2px] pt-[3px] text-[11px] font-medium text-gray350">
-          <span>To do</span>
-        </div>
+        <TodoChip />
         <h4 className="w-[calc(100%-55px)] truncate text-[15px] leading-[20px]">
           {note.todoDto.title}
         </h4>

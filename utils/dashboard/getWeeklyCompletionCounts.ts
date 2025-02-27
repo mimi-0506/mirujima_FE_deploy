@@ -19,12 +19,13 @@ export const getWeeklyCompletionCounts = (todos: TodoType[]) => {
     일: 0
   };
 
-  todos.forEach((todo) => {
+  todos?.forEach((todo) => {
     if (!todo.completionDate) return;
     const completionDate = parseISO(todo.completionDate);
 
     if (isWithinInterval(completionDate, { start: startOfThisWeek, end: endOfThisWeek })) {
-      const dayOfWeek = completionDate.getDay();
+      // WEEK_DAYS와 completionDate의 시작요일이 달라서 -1 연산
+      const dayOfWeek = completionDate.getDay() - 1;
       const dayName = WEEK_DAYS[dayOfWeek];
       weeklyCompletion[dayName] += 1;
     }

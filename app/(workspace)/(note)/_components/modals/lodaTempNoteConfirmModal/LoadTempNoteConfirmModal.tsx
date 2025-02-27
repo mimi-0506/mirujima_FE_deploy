@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import Overlay from '@/modals/Overlay';
+
 interface Props {
   tempNoteTitle: string | undefined;
   onCancel: () => void;
@@ -10,12 +12,11 @@ interface Props {
 
 export default function LoadTempNoteConfirmModal({ tempNoteTitle, onCancel, onConfirm }: Props) {
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/50"
-    >
-      <dialog open className="w-11/12 max-w-[450px] rounded-xl bg-white p-6">
+    <Overlay onClick={onCancel}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-11/12 max-w-[450px] rounded-xl bg-white p-6"
+      >
         <div className="space-y-4 text-center">
           <p className="text-head3 text-gray900">작성중인 글이 있습니다.</p>
           <div>
@@ -41,7 +42,7 @@ export default function LoadTempNoteConfirmModal({ tempNoteTitle, onCancel, onCo
             확인
           </button>
         </div>
-      </dialog>
-    </div>
+      </div>
+    </Overlay>
   );
 }

@@ -164,14 +164,15 @@ export default function NoteContent({ todo, note }: Props) {
               <ContentInfo control={control} />
 
               {linkUrl && <LinkArea linkUrl={linkUrl} onDeleteLink={() => setLinkUrl('')} />}
-
-              <Editor
-                register={register}
-                setValue={setValue}
-                defaultContent={defaultNoteContent}
-                handleLinkModal={handleLinkModal}
-                isEditable={true}
-              />
+              <div className="min-h-[400px]">
+                <Editor
+                  register={register}
+                  setValue={setValue}
+                  defaultContent={defaultNoteContent}
+                  handleLinkModal={handleLinkModal}
+                  isEditable={true}
+                />
+              </div>
             </div>
           </div>
         </div>

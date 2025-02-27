@@ -25,7 +25,7 @@ export default async function NoteList({ params }: Props) {
   const noteList = await readNoteListFromServer(defaultNoteListArgs);
 
   return (
-    <section className="max-w-[1248px] space-y-[24px]">
+    <section className="custom-scrollbar max-w-[1248px] space-y-[24px]">
       <div className="flex w-full items-center gap-2 rounded-xl">
         <div className="h-6 w-6">
           <TodoIcon width="24" height="24" />

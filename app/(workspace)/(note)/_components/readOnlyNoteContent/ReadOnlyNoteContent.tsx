@@ -37,14 +37,16 @@ export default function ReadOnlyNoteContent({ note }: Props) {
         todoCompletionDate={note.todoDto.completionDate}
       />
 
-      <div className="space-y-2 px-4 py-[40px]">
-        {note.linkUrl && <LinkArea linkUrl={note.linkUrl} />}
+      <div className="space-y-2">
         <div className="mt-6 flex gap-[10px] border-y border-gray200 px-4 py-4">
           <h3 className="w-full text-[22px] font-semibold leading-[28px]">{note.title}</h3>
           <KebabMenu onEdit={onEdit} onDelete={onDelete} size={24} />
         </div>
 
-        <Editor defaultContent={note.content} isEditable={false} />
+        <div className="space-y-4 px-4 py-[40px]">
+          {note.linkUrl && <LinkArea linkUrl={note.linkUrl} />}
+          <Editor defaultContent={note.content} isEditable={false} />
+        </div>
       </div>
     </section>
   );

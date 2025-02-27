@@ -13,7 +13,7 @@ interface Props {
 export default function TitleInput({ register, control }: Props) {
   const titleValue = useWatch({ control, name: 'title' });
   return (
-    <div className="flex items-center gap-[10px] border-y border-gray350 px-2">
+    <div className="flex items-center gap-[10px] border-y border-gray350 px-4">
       <input
         type="text"
         id="note-title-input"
