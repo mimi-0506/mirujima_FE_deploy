@@ -2,11 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 import { readTodoList } from '@/apis/todo';
+import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { EMPTY_MESSAGES } from '@/constant/emtymessage';
 import { useInfoStore } from '@/provider/store-provider';
 import ArrowRightIcon from '@/public/icon/arrow-right-red.svg';
-import SpinIcon from '@/public/icon/spin.svg';
 
 import type { TodoListType, TodoType } from '@/types/todo.type';
 
@@ -32,7 +32,7 @@ export default function LatestTodoList() {
       </div>
 
       {isLoading ? (
-        <SpinIcon />
+        <LoadingSpinner />
       ) : hasTodos ? (
         <ul className="pointer-events-none">
           {data.todos.map((todo: TodoType) => (

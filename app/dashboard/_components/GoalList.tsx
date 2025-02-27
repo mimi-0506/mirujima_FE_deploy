@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { readTodoList } from '@/apis/todo';
+import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import useGetGoalList from '@/hooks/useGetGoalList';
 import FlagBlackIcon from '@/public/icon/flag-black.svg';
-import LoadingSpinner from '@/public/icon/spin.svg';
 
 import GoalItem from './GoalItem';
 
@@ -48,9 +48,7 @@ export default function GoalList() {
       </h2>
       <section className="flex flex-col gap-4">
         {isLoading ? (
-          <div className="rounded-container flex-center min-h-96">
-            <LoadingSpinner width={40} height={40} />
-          </div>
+          <LoadingSpinner size={40} className="rounded-container min-h-96" />
         ) : goals?.length > 0 ? (
           goals.map((goal) => (
             <GoalItem
@@ -61,7 +59,7 @@ export default function GoalList() {
             />
           ))
         ) : (
-          <div className="empty-message rounded-container min-h-80 w-full desktop:min-h-96">
+          <div className="empty-message rounded-container min-h-64 w-full desktop:min-h-96">
             목표를 설정해주세요
           </div>
         )}

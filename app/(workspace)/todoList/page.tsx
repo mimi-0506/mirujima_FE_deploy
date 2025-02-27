@@ -6,10 +6,10 @@ import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 import { readTodoList } from '@/apis/todo';
+import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
-import SpinIcon from '@/public/icon/spin.svg';
 import TodoListIcon from '@/public/icon/todo-list-black.svg';
 
 import EmptyMessage from './_components/EmptyMessage';
@@ -95,9 +95,7 @@ export default function TodoListPage() {
 
         <div>
           {isLoading ? (
-            <div className="flex-center h-[70vh]">
-              <SpinIcon width={40} height={40} />
-            </div>
+            <LoadingSpinner size={40} className="h-[70vh]" />
           ) : filteredTodos.length > 0 ? (
             <ul>
               {filteredTodos.map((todo) => (
