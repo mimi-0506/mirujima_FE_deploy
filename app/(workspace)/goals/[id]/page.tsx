@@ -10,7 +10,7 @@ import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
 import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
-import { useInfoStore, useModalStore } from '@/provider/store-provider';
+import { useInfoStore, useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
 import SpinIcon from '@/public/icon/spin.svg';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
@@ -44,6 +44,7 @@ export default function GoalDetailPage() {
   const setGoalDeleteModalOpen = useModalStore((state) => state.setGoalDeleteModalOpen);
   const setGoalEditModalOpen = useModalStore((state) => state.setGoalEditModalOpen);
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
+  const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
 
   useEffect(() => {
     restoreUser();
@@ -125,6 +126,11 @@ export default function GoalDetailPage() {
     });
   }, [goalId, router, startTransition]);
 
+  const handleAddTodo = useCallback(() => {
+    if (goalId) setCreatedTodoState({ goal: { id: goalId } });
+    setIsTodoCreateModalOpen(true);
+  }, [setIsTodoCreateModalOpen]);
+
   if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
   if (isLoading || isNavigating || isPending)
     return (
@@ -192,10 +198,7 @@ export default function GoalDetailPage() {
             <div className="flex-grow"></div>
 
             {activeTab === 'todo' && (
-              <button
-                onClick={() => setIsTodoCreateModalOpen(true)}
-                className="flex items-center text-main"
-              >
+              <button onClick={handleAddTodo} className="flex items-center text-main">
                 <PlusIcon /> 할일 추가
               </button>
             )}

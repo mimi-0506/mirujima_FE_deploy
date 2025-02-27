@@ -11,17 +11,23 @@ import Overlay from '../Overlay';
 export default function GoalCreateModal() {
   const setIsGoalCreateModalOpen = useModalStore((state) => state.setIsGoalCreateModalOpen);
   const { mutateAsync } = useSetNewGoal();
-  const [valid, setValid] = useState(false);
+  const [textValid, setTextValid] = useState(false);
+  const [dateValid, setDateValid] = useState(false);
 
   const textRef = useRef<HTMLInputElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
 
-  const handleValidCheck = useCallback(
+  const handleTextValidCheck = useCallback(
     debounce((e: React.ChangeEvent<HTMLInputElement>) => {
-      setValid(e.target.value.trim() !== '');
+      setTextValid(e.target.value.trim() !== '');
     }, 50),
     []
   );
+
+  const handleDateValidCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value) setDateValid(true);
+    else setDateValid(false);
+  };
 
   const handleGoalCreat = async () => {
     if (textRef.current && dateRef.current) {
@@ -52,16 +58,21 @@ export default function GoalCreateModal() {
         </div>
         <input
           ref={textRef}
-          onChange={handleValidCheck}
+          onChange={handleTextValidCheck}
           className="mb-[28px] mt-[25px] box-border h-[50px] w-full rounded-lg border border-gray200 px-[16px] py-[14px]"
           placeholder="목표를 적어주세요"
           onKeyDown={handleKeyPress}
         />
-        완료날짜
-        <input type="date" ref={dateRef} />
+        <h1 className="text-[20px]">완료 날짜</h1>
+        <input
+          type="date"
+          ref={dateRef}
+          onChange={handleDateValidCheck}
+          className="mb-[28px] mt-[25px] box-border h-[50px] w-full rounded-lg border border-gray200 px-[16px] py-[14px]"
+        />
         <button
           className={`${
-            valid ? 'bg-main' : 'cursor-not-allowed bg-gray-400'
+            textValid && dateValid ? 'bg-main' : 'cursor-not-allowed bg-gray-400'
           } rounded px-4 py-2 font-bold text-white active:bg-pressed`}
           onClick={handleGoalCreat}
         >

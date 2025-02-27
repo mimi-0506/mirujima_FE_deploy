@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { apiWithClientToken } from '@/apis/clientActions';
+import { GOAL_CREATE_SUCCESS } from '@/constant/toastText';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function useSetNewGoal() {
@@ -27,7 +28,7 @@ export default function useSetNewGoal() {
       queryClient.invalidateQueries({ queryKey: ['goals', userId] });
       queryClient.refetchQueries({ queryKey: ['goals', userId] });
 
-      toast('등록되었습니다.');
+      toast.success(GOAL_CREATE_SUCCESS);
     },
     onError: (error) => {
       // 에러 발생 시 처리할 로직
