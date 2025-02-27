@@ -72,6 +72,7 @@ export default function ProfileImage() {
 
   return (
     <div className="relative flex aspect-[1/1] w-[64px] items-center justify-center overflow-hidden rounded-lg">
+      {isLoading && <LoadingIcon className="absolute z-10 w-full" />}
       <input
         ref={fileRef}
         onChange={handleFileChange}
@@ -79,8 +80,6 @@ export default function ProfileImage() {
         accept="image/*"
         className="hidden"
       />
-
-      {isLoading && <LoadingIcon />}
 
       <Image
         src={imageUrl || '/images/logo/mirujima-logo-tomato.png'}
