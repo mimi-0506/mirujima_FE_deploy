@@ -15,7 +15,7 @@ export default function TodoFilter({ filter, setFilter }: TodoFilterProps) {
           <li key={option}>
             <button
               onClick={() => setFilter(option)}
-              className={`rounded-[20px] px-4 py-[6px] hover:opacity-70 ${filter === option ? 'bg-[#FFF0F0] text-[#F86969]' : 'border border-[#F2EFEF] text-[#C0C0C0]'}`}
+              className={`rounded-[20px] px-4 py-[6px] text-button2 hover:opacity-70 ${filter === option ? 'border border-solid bg-solid text-main' : 'border border-gray200 text-gray350'}`}
             >
               {option}
             </button>
