@@ -3,15 +3,17 @@ import { EMPTY_MESSAGES } from '@/constant/emtymessage';
 import type { FilterType } from './TodoFilter';
 import type { TodoType } from '@/types/todo.type';
 
-interface EmptyMessageProps {
+type Props = {
   filter: FilterType;
   filteredTodos: TodoType[];
-}
+};
 
-export default function EmptyMessage({ filter, filteredTodos }: EmptyMessageProps) {
+export default function EmptyMessage({ filter, filteredTodos }: Props) {
   if (filteredTodos.length > 0) return null;
 
   return (
-    <p className="text-[14px] font-medium leading-[16px] text-gray350">{EMPTY_MESSAGES[filter]}</p>
+    <div className="h-[70vh]">
+      <p className="empty-message">{EMPTY_MESSAGES[filter]}</p>
+    </div>
   );
 }
