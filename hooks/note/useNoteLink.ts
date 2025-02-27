@@ -27,15 +27,26 @@ const useNoteLink = (initLink: string | undefined) => {
       return;
     }
 
-    const isWrongURL = URL_REGEX.test(linkValue) === false;
-    if (isWrongURL) {
-      toast.error('유효하지 않은 링크입니다', { duration: 1500 });
-      return;
-    }
+    try {
+      const link = new URL(linkValue);
+      const isWrongURL = URL_REGEX.test(link.href) === false;
+      if (isWrongURL) {
+        toast.error('유효하지 않은 링크입니다', { duration: 1500 });
+        return;
+      }
 
-    setEmbedUrl(decodeURI(linkValue));
-    setLinkUrl(decodeURI(linkValue));
-    setNoteLinkModalOpen(false);
+      const decodeLink = decodeURI(link.href);
+      if (decodeLink.length > 254) {
+        toast.error('링크가 너무 길어요!');
+        return;
+      }
+
+      setLinkUrl(decodeLink);
+      setNoteLinkModalOpen(false);
+      setEmbedUrl(decodeLink);
+    } catch (error) {
+      toast.error('유효하지 않은 링크입니다', { duration: 1500 });
+    }
   };
 
   const handleLinkModal = () => {
