@@ -1,11 +1,8 @@
 import { NextResponse } from 'next/server';
 
-import { apiWithClientToken } from './apis/clientActions';
-import { createInfoStore } from './stores/infoStore';
-
 import type { NextRequest } from 'next/server';
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // 정적 파일 및 API 요청 무시
@@ -13,51 +10,52 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // 로그아웃
   if (pathname === '/logout') {
     const response = NextResponse.redirect(new URL('/login', req.url));
-    const cookiesToDelete = ['accessToken', 'refreshToken', 'user'];
-    cookiesToDelete.forEach((cookie) => {
-      response.cookies.delete(cookie);
-    });
-
+    response.cookies.set('accessToken', '', { expires: new Date(0) });
+    response.cookies.set('refreshToken', '', { expires: new Date(0) });
+    response.cookies.set('user', '', { expires: new Date(0) });
     return response;
   }
 
-  //저스탠드 검사
-  const infoStore = createInfoStore();
-  const name = infoStore.getState().name;
-  if (name === '') {
-    console.log('zustand empty');
-    return NextResponse.redirect(new URL('/dashboard', req.url));
+  // 로그인 페이지 및 회원가입 페이지에서는 토큰 검사 제외
+  if (pathname === '/login' || pathname === '/signup') {
+    return NextResponse.next();
   }
 
-  //토큰 유효성 검사까지 추가
+  // 토큰 검사
   const accessToken = req.cookies.get('accessToken');
-
-  if (accessToken) {
-    console.log(req.url, '액세스토큰 있음');
-
-    try {
-      apiWithClientToken.get('/user').then((response) => {
-        console.log('액세스토큰 유효성검사', response.data);
-
-        if (response.data.status === 200) {
-          if (pathname === '/login' || pathname === '/signup')
-            return NextResponse.redirect(new URL('/dashboard', req.url));
-          else return NextResponse.next();
-        } else return NextResponse.redirect(new URL('/login', req.url));
-      });
-    } catch (e) {
-      console.log('액세스토큰 유효성검사', e);
-      return NextResponse.redirect(new URL('/login', req.url));
-    }
-  } else {
-    console.log(req.url, '액세스토큰 없음');
-    if (pathname === '/login' || pathname === '/signup') return NextResponse.next();
-    else return NextResponse.redirect(new URL('/login', req.url));
+  if (!accessToken) {
+    console.log(req.url, '❌ 액세스토큰 없음');
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  if (pathname === '/') return NextResponse.redirect(new URL('/dashboard', req.url));
+  console.log(req.url, '✅ 액세스토큰 있음');
+
+  try {
+    // axios보다 fetch가 next/server에서 더 안정적
+    // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/user`, {
+    //   method: 'GET',
+    //   headers: { Authorization: `Bearer ${accessToken}` }
+    // });
+
+    // console.log(response.status);
+
+    // if (!response.ok) {
+    //   console.log('토큰 유효하지 않음');
+    //   return NextResponse.redirect(new URL('/login', req.url));
+    // }
+
+    // 로그인 상태에서 로그인 페이지 접근 시 대시보드로 리디렉트
+    if (pathname === '/login' || pathname === '/signup')
+      return NextResponse.redirect(new URL('/dashboard', req.url));
+
+    return NextResponse.next();
+  } catch (error) {
+    console.log('❌ 서버 통신 오류:', error);
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
 }
 
 export const config = {
