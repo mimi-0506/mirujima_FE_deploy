@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 import { fileDownload, fileUpload } from '@/apis/clientActions/s3';
 import { FILE_SIZE_5MB } from '@/constant/numbers';
+import { FILE_SIZE_ERROR, FILE_UPLOAD_ERROR } from '@/constant/toastText';
 import useProfileImageEdit from '@/hooks/nav/useProfileImageEdit';
 import { useInfoStore } from '@/provider/store-provider';
 import LoadingIcon from '@/public/icon/spin.svg';
@@ -50,7 +51,7 @@ export default function ProfileImage() {
 
     if (selectedFile) {
       if (selectedFile.size > FILE_SIZE_5MB) {
-        toast.error('파일 크기는 5MB를 초과할 수 없습니다.');
+        toast.error(FILE_SIZE_ERROR);
         return;
       }
 
@@ -63,7 +64,7 @@ export default function ProfileImage() {
         setInfo({ profileImage: profileImagePath });
         getProfileImage(profileImagePath);
       } catch (error) {
-        toast.error('파일 업로드 중 오류가 발생했습니다.');
+        toast.error(FILE_UPLOAD_ERROR);
       } finally {
         setIsLoading(false);
       }
@@ -72,6 +73,7 @@ export default function ProfileImage() {
 
   return (
     <div className="relative flex aspect-[1/1] w-[64px] items-center justify-center overflow-hidden rounded-lg">
+      {isLoading && <LoadingIcon className="absolute z-10 w-full" />}
       <input
         ref={fileRef}
         onChange={handleFileChange}
@@ -79,8 +81,6 @@ export default function ProfileImage() {
         accept="image/*"
         className="hidden"
       />
-
-      {isLoading && <LoadingIcon />}
 
       <Image
         src={imageUrl || '/images/logo/mirujima-logo-tomato.png'}

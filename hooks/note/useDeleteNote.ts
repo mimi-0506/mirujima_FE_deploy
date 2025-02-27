@@ -3,7 +3,8 @@ import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { deleteNote } from '@/apis/clientActions/note';
-import { useInfoStore } from '@/provider/store-provider';
+import { NOTE_DELETE_ERROR, NOTE_DELETE_SUCCESS } from '@/constant/toastText';
+import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 import type { NoteListType } from '@/types/note.type';
 import type { InfiniteData } from '@tanstack/react-query';
@@ -11,11 +12,12 @@ import type { InfiniteData } from '@tanstack/react-query';
 const useDeleteNote = (goalId: number) => {
   const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
+  const setIsLoading = useModalStore((state) => state.setIsLoading);
 
   return useMutation({
     mutationFn: (noteId: number) => deleteNote(noteId),
     onMutate: async (noteId) => {
-      toast.loading('노트 삭제 중...', { id: 'deleteNote' });
+      setIsLoading(true);
 
       await queryClient.cancelQueries({ queryKey: ['notes', goalId, userId] });
 
@@ -37,12 +39,12 @@ const useDeleteNote = (goalId: number) => {
       return { prevList };
     },
     onSuccess: () => {
-      toast.dismiss('deleteNote');
-      toast.success('노트가 삭제되었습니다!');
+      setIsLoading(false);
+      toast.success(NOTE_DELETE_SUCCESS);
     },
     onError: (_, noteId, ctx) => {
-      toast.dismiss('deleteNote');
-      toast.error('노트 삭제 실패했습니다.');
+      setIsLoading(false);
+      toast.error(NOTE_DELETE_ERROR);
 
       queryClient.setQueryData<InfiniteData<NoteListType>>(
         ['notes', goalId, userId],
@@ -52,6 +54,8 @@ const useDeleteNote = (goalId: number) => {
     onSettled: (_, err, noteId) => {
       queryClient.removeQueries({ queryKey: ['note', noteId, userId] });
       queryClient.invalidateQueries({ queryKey: ['notes', goalId, userId] });
+
+      setIsLoading(false);
     }
   });
 };

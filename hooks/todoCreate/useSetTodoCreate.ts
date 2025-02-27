@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { apiWithClientToken } from '@/apis/clientActions';
+import { COMMON_ERROR, TODO_CREATE_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 export default function useTodoCreate() {
@@ -29,7 +30,7 @@ export default function useTodoCreate() {
   };
 
   const todoCreateSueccess = () => {
-    toast('할일을 등록했습니다.');
+    toast.success(TODO_CREATE_SUCCESS);
 
     queryClient.invalidateQueries({ queryKey: ['allTodos', userId] });
     queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
@@ -38,7 +39,7 @@ export default function useTodoCreate() {
   };
 
   const todoCreateFail = () => {
-    toast.error('문제가 발생했습니다.');
+    toast.error(COMMON_ERROR);
     ``;
   };
 

@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { apiWithClientToken } from '@/apis/clientActions';
+import { COMMON_ERROR, TODO_EDIT_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 
 export default function useTodoEdit() {
@@ -24,14 +25,17 @@ export default function useTodoEdit() {
       linkUrl: formData?.linkUrl,
       priority: formData.priority
     };
-    const { data } = await apiWithClientToken.patch(`/todos/${id}`, body);
+    const { data: todoEditData } = await apiWithClientToken.patch(`/todos/${id}`, body);
+    const { data: todoDoneData } = await apiWithClientToken.patch(`/todos/completion/${id}`, {
+      done: formData.done === 'on' ? true : false
+    });
 
-    if (data.code === 200) todoEditSueccess();
+    if (todoEditData.code === 200 && todoDoneData.code === 200) todoEditSueccess();
     else todoEditFail();
   };
 
   const todoEditSueccess = () => {
-    toast('할일을 수정했습니다.');
+    toast.success(TODO_EDIT_SUCCESS);
 
     queryClient.invalidateQueries({ queryKey: ['allTodos', userId] });
     queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
@@ -40,7 +44,7 @@ export default function useTodoEdit() {
   };
 
   const todoEditFail = () => {
-    toast.error('문제가 발생했습니다.');
+    toast.error(COMMON_ERROR);
   };
   return { setTodoEdit };
 }

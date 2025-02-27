@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { FILE_SIZE_5MB } from '@/constant/numbers';
+import { FILE_SIZE_ERROR, URL_ERROR, URL_VALID_ERROR } from '@/constant/toastText';
 import { useTodoCreateModalStore } from '@/provider/store-provider';
 
 import AddIcon from '../../public/icon/add-gray.svg';
@@ -21,7 +22,7 @@ export default function Uploader() {
 
     if (selectedFile) {
       if (selectedFile.size > FILE_SIZE_5MB) {
-        toast('파일 크기는 5MB를 초과할 수 없습니다.');
+        toast.error(FILE_SIZE_ERROR);
         return;
       }
 
@@ -37,9 +38,9 @@ export default function Uploader() {
       const url = new URL(nowLink);
       if (['http:', 'https:'].includes(url.protocol)) {
         setCreatedTodoState({ linkUrl: nowLink });
-      } else toast.error('올바른 주소가 아닙니다!');
+      } else toast.error(URL_VALID_ERROR);
     } catch {
-      toast.error('주소만 입력 가능합니다!');
+      toast.error(URL_ERROR);
     }
   };
 
