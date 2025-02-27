@@ -38,14 +38,14 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const [isNotePending, startNoteTransition] = useTransition();
   const [isPenLoading, setIsPenLoading] = useState(false);
   const [isPenPending, startPenTransition] = useTransition();
+
   const handleNoteIconClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsNoteLoading(true);
 
     startNoteTransition(async () => {
       try {
-        // 페이지 전환(노트 상세)
-        await router.push(`/notes/${todo.noteId}`);
+        await router.push(`/notes/${todo.noteId}`, { scroll: false });
       } finally {
         setIsNoteLoading(false);
       }
@@ -57,7 +57,6 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
 
     startPenTransition(async () => {
       try {
-        // 페이지 전환(노트 생성)
         await router.push(`/notes/create/${todo.id}`);
       } finally {
         setIsPenLoading(false);
