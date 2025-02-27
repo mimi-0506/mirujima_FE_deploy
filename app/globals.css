@@ -45,6 +45,9 @@ body {
   .custom-scrollbar {
     @apply [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar]:w-1;
   }
+  .empty-message {
+    @apply m-auto text-center text-sm/4 text-gray350;
+  }
 }
 
 @layer components {

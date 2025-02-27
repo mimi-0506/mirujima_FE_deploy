@@ -19,6 +19,8 @@ export default function LatestTodoList() {
     retry: 0
   });
 
+  const hasTodos = data?.todos && data.todos.length > 0;
+
   return (
     <div className="rounded-container flex flex-col desktop:min-h-[250px]">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
@@ -31,14 +33,14 @@ export default function LatestTodoList() {
 
       {isLoading ? (
         <SpinIcon />
-      ) : data?.todos ? (
+      ) : hasTodos ? (
         <ul className="pointer-events-none">
           {data.todos.map((todo: TodoType) => (
             <TodoItem key={todo.id} todo={todo} />
           ))}
         </ul>
       ) : (
-        <div className="m-auto text-center">{EMPTY_MESSAGES.None}</div>
+        <div className="empty-message">{EMPTY_MESSAGES.None}</div>
       )}
     </div>
   );
