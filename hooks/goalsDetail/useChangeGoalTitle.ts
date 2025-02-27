@@ -54,6 +54,12 @@ export function useUpdateGoalTitle() {
       queryClient.setQueryData(['goal', goalId, userId], context?.previousData);
       console.error('목표 수정 실패', error);
     },
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: ['goals', userId] });
+      queryClient.invalidateQueries({
+        queryKey: ['goals', userId]
+      });
+    },
     onSettled: (_, __, { goalId }) => {
       queryClient.invalidateQueries({
         queryKey: ['goal', goalId, userId]
