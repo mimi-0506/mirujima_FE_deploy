@@ -10,6 +10,7 @@ import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
 import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
+import Loading from '@/modals/loadingOverlay/Loading';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
 import SpinIcon from '@/public/icon/spin.svg';
@@ -129,7 +130,7 @@ export default function GoalDetailPage() {
   if (isLoading || isNavigating || isPending)
     return (
       <div>
-        <SpinIcon />
+        <Loading />
       </div>
     );
   if (isError || !goalData) return <div>목표 정보를 불러오는데 실패했습니다.</div>;
@@ -158,11 +159,9 @@ export default function GoalDetailPage() {
           onDelete={handleDelete}
         />
       </h2>
-
       <Button onClick={handleNoteListClick}>
         {isNavigating || isPending ? <SpinIcon /> : '노트 모아보기'}
       </Button>
-
       <div className="flex flex-col rounded-2xl border border-gray200 bg-white shadow-sm desktop:flex-row desktop:rounded-2xl desktop:p-6">
         <div className="flex rounded-t-lg desktop:hidden">
           <div className="flex h-[52px] w-full items-center rounded-lg border-b border-gray200 border-transparent px-4">
@@ -232,6 +231,7 @@ export default function GoalDetailPage() {
           <TaskList goalId={goalId} done={true} />
         </div>
       </div>
+      {(isLoading || isNavigating || isPending) && <Loading />}
     </section>
   );
 }

@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useTransition } from 'react';
+
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
@@ -13,6 +15,7 @@ import FlagIcon from '@/public/icon/flag-gray.svg';
 import LinkIcon from '@/public/icon/link.svg';
 import NoteIcon from '@/public/icon/note-s.svg';
 import PenIcon from '@/public/icon/pen.svg';
+import SpinIcon from '@/public/icon/spin.svg';
 
 import { CheckedIcon } from '../../app/(workspace)/todoList/_components/CheckedIcon';
 
@@ -31,6 +34,36 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const mutation = useDeleteTodoItem();
   const { mutate: toggleTodo } = useCheckTodo();
 
+  const [isNoteLoading, setIsNoteLoading] = useState(false);
+  const [isNotePending, startNoteTransition] = useTransition();
+  const [isPenLoading, setIsPenLoading] = useState(false);
+  const [isPenPending, startPenTransition] = useTransition();
+  const handleNoteIconClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsNoteLoading(true);
+
+    startNoteTransition(async () => {
+      try {
+        // 페이지 전환(노트 상세)
+        await router.push(`/notes/${todo.noteId}`);
+      } finally {
+        setIsNoteLoading(false);
+      }
+    });
+  };
+  const handlePenIconClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsPenLoading(true);
+
+    startPenTransition(async () => {
+      try {
+        // 페이지 전환(노트 생성)
+        await router.push(`/notes/create/${todo.id}`);
+      } finally {
+        setIsPenLoading(false);
+      }
+    });
+  };
   const handleCheckbox = () => {
     const isDone = !todo.done;
     const updatedTodo = {
@@ -59,12 +92,6 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
     setIsTodoCreateModalOpen(true);
   };
 
-  const handlePenIconClick = () => {
-    router.push(`/notes/create/${todo.id}`);
-  };
-  const handleNoteIconClick = () => {
-    router.push(`/notes/${todo.noteId}`);
-  };
   const className = PRIORITY_COLORS[todo.priority];
 
   return (
@@ -81,6 +108,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
             <CheckedIcon />
           </span>
         </div>
+
         <div className="flex min-w-0 flex-col gap-1">
           <span className={`truncate ${todo.done ? 'line-through' : ''}`}>{todo.title}</span>
           {todo.goal?.id && (
@@ -91,6 +119,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
           )}
         </div>
       </div>
+
       <div className="relative -mt-4 flex shrink-0 items-start gap-1 desktop:-mt-0">
         <div className="flex flex-row gap-1 py-[1px]">
           {todo.filePath && (
@@ -103,17 +132,17 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
               <LinkIcon width={18} height={18} />
             </span>
           )}
-          {todo.noteId && (
-            <span
-              onClick={(e) => {
-                e.stopPropagation();
-                handleNoteIconClick();
-              }}
-              className="cursor-pointer"
-            >
-              <NoteIcon width={18} height={18} />
-            </span>
-          )}
+
+          {todo.noteId &&
+            (isNoteLoading || isNotePending ? (
+              <span>
+                <SpinIcon width={18} height={18} />
+              </span>
+            ) : (
+              <span onClick={handleNoteIconClick} className="cursor-pointer">
+                <NoteIcon width={18} height={18} />
+              </span>
+            ))}
         </div>
 
         <span
@@ -122,20 +151,23 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
           {todo.priority}
         </span>
 
-        {!todo.noteId && (
-          <button
-            onClick={handlePenIconClick}
-            className="hidden group-hover:block group-focus:block"
-          >
-            <PenIcon width={18} height={18} />
-          </button>
-        )}
+        {!todo.noteId &&
+          (isPenLoading || isPenPending ? (
+            <span className="hidden group-hover:block group-focus:block">
+              <SpinIcon width={18} height={18} />
+            </span>
+          ) : (
+            <button
+              onClick={handlePenIconClick}
+              className="hidden group-hover:block group-focus:block"
+            >
+              <PenIcon width={18} height={18} />
+            </button>
+          ))}
         <div className="hidden group-hover:block group-focus:block">
           <KebabForGoal
             size={18}
-            onEdit={() => {
-              handleOpenEditModal(todo);
-            }}
+            onEdit={() => handleOpenEditModal(todo)}
             onDelete={handleDelete}
           />
         </div>
