@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import authApi from '@/apis/clientActions/authApi';
+import { apiWithClientToken } from '@/apis/clientActions/index';
 import { useInfoStore } from '@/provider/store-provider';
 
 import type { TodoType } from '@/types/todo.type';
@@ -22,7 +22,7 @@ const fetchTodoList = async (
   lastSeenId = 9999,
   pageSize = 5
 ): Promise<TodoType[]> => {
-  const response = await authApi.get<TodoListResponse>('/todos', {
+  const response = await apiWithClientToken.get<TodoListResponse>('/todos', {
     params: { goalId, done, lastSeenId, pageSize }
   });
   return response.data.result.todos;
