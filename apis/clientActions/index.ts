@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { redirect } from 'next/navigation';
 
 import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
@@ -24,7 +25,7 @@ export const apiWithClientToken = axios.create({
 const tokenExpireCheck = (response: AxiosResponse) => {
   if (response.status !== 200) {
     console.log('토큰 이상');
-    window.location.href = '/logout';
+    redirect('/logout');
   }
   return response;
 };
@@ -37,7 +38,7 @@ const errorHandler = (error: AxiosError) => {
 
     if ([401, 403, 404].includes(status)) {
       console.log(`HTTP ${status} 에러 - 로그아웃 처리`);
-      window.location.href = '/logout';
+      redirect('/logout');
     }
   }
 
