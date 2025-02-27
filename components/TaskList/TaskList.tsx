@@ -36,14 +36,16 @@ export default function TaskList({
   return (
     <div className="scrollbar-thin h-[260px] overflow-y-auto pr-5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray200 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar]:w-1">
       <ul className="mt-2 space-y-2 text-gray350">
-        {loading && (
+        {loading ? (
+          // 1. 로딩 중일 때
           <div>
             <SpinIcon />
           </div>
-        )}
-        {showEmptyMessage || !tasks || tasks.length === 0 ? (
+        ) : showEmptyMessage || !tasks || tasks.length === 0 ? (
+          // 2. 로딩 끝났는데 비어있음
           <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 할 일이 없어요</li>
         ) : (
+          // 3.  TodoItem 렌더링
           tasks.map((task) => <TodoItem key={task.id} todo={task} goalId={goalId} />)
         )}
       </ul>
