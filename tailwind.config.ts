@@ -42,6 +42,7 @@ export default {
         note: '0 0 20px rgba(0,0,0,0.04)'
       },
       fontSize: {
+        head2: ['22px', { lineHeight: '28px', fontWeight: 600 }],
         head3: ['17px', { lineHeight: '22px', fontWeight: 600 }],
         button1: ['16px', { lineHeight: '22px', fontWeight: 600 }],
         button2: ['14px', { lineHeight: '16px', fontWeight: 500 }],

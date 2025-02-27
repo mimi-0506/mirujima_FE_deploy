@@ -1,6 +1,6 @@
 'use client';
 
-import Calendar from './_components/Calendar';
+import Calendar from './_components/calendar';
 import GoalList from './_components/GoalList';
 import RightSidebar from './_components/RightSidebar';
 import WeeklyChart from './_components/weeklyChart';
