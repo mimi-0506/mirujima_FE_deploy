@@ -24,9 +24,12 @@ export default function useTodoEdit() {
       linkUrl: formData?.linkUrl,
       priority: formData.priority
     };
-    const { data } = await apiWithClientToken.patch(`/todos/${id}`, body);
+    const { data: todoEditData } = await apiWithClientToken.patch(`/todos/${id}`, body);
+    const { data: todoDoneData } = await apiWithClientToken.patch(`/todos/completion/${id}`, {
+      done: formData.done === 'on' ? true : false
+    });
 
-    if (data.code === 200) todoEditSueccess();
+    if (todoEditData.code === 200 && todoDoneData.code === 200) todoEditSueccess();
     else todoEditFail();
   };
 
