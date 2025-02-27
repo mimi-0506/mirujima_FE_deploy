@@ -52,7 +52,7 @@ export type TempNoteContentType = {
 
 export type NoteConfirmModalProps = {
   type: 'temp' | 'delete';
-  contentTitle: string | undefined;
+  contentTitle: string;
   onCancel: () => void;
   onConfirm: () => void;
 };
