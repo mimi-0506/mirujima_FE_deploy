@@ -2,7 +2,7 @@ import React from 'react';
 import toast from 'react-hot-toast';
 
 import { URL_REGEX } from '@/constant/regex';
-import { LINK_DELETE_SUCCESS, LINK_VALID_ERROR } from '@/constant/toastText';
+import { LINK_DELETE_SUCCESS, LINK_VALID_ERROR, LINK_VALID_LONG_ERROR } from '@/constant/toastText';
 import { useEmbedStore, useModalStore } from '@/provider/store-provider';
 
 const useNoteLink = (initLink: string | undefined) => {
@@ -38,7 +38,7 @@ const useNoteLink = (initLink: string | undefined) => {
 
       const decodeLink = decodeURI(link.href);
       if (decodeLink.length > 254) {
-        toast.error('링크가 너무 길어요!');
+        toast.error(LINK_VALID_LONG_ERROR);
         return;
       }
 

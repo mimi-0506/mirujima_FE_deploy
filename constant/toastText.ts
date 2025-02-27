@@ -9,6 +9,7 @@ export const NOTE_CREATE_SUCCESS = '노트 생성 완료!';
 
 export const LINK_DELETE_SUCCESS = '링크를 삭제했습니다';
 export const LINK_VALID_ERROR = '유효하지 않은 링크입니다';
+export const LINK_VALID_LONG_ERROR = '링크가 너무 길어요!';
 export const TEMP_SAVE_SUCCESS = '임시 저장이 완료 되었습니다.';
 export const TEMP_GET_SUCCESS = '임시 저장 노트 불러오기 성공';
 
