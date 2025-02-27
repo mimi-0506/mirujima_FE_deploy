@@ -11,7 +11,6 @@ import { useRouter } from 'next/navigation';
 import { createNote, updateNote } from '@/apis/clientActions/note';
 import useNoteLink from '@/hooks/note/useNoteLink';
 import useTempNote from '@/hooks/note/useTempNote';
-import { useEmbedStore } from '@/provider/store-provider';
 import SuccessIcon from '@/public/icon/success-red.svg';
 import { noteSchema } from '@/schema/noteSchema';
 
@@ -22,6 +21,7 @@ import LinkArea from './linkArea/LinkArea';
 import NoteInfo from './noteInfo/NoteInfo';
 import TempNote from './tempNote/TempNote';
 import TitleInput from './titleInput/TitleInput';
+import ContentLayout from '../layout/ContentLayout';
 
 import type { NoteInputData } from '@/schema/noteSchema';
 import type { CreateNoteType, NoteType, UpdateNoteType } from '@/types/note.type';
@@ -41,7 +41,6 @@ export default function NoteContent({ todo, note }: Props) {
   const { onSaveTempToStorage, deleteTempNote, hasTempedNote, resetHasTempNote, tempedNote } =
     useTempNote(todo.goal.id, todo.id);
   const { linkUrl, handleLinkModal, handleDeleteLink, setLink } = useNoteLink(note?.linkUrl);
-  const isEmbedContentOpen = useEmbedStore(({ state }) => state.isEmbedContentOpen);
 
   const {
     register,
@@ -111,38 +110,40 @@ export default function NoteContent({ todo, note }: Props) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={`flex flex-col items-center space-y-6 ${isEmbedContentOpen ? 'w-full desktop:w-[500px]' : 'w-full'}`}
-    >
-      <ButtonArea isEdit={isEdit} isValid={isValid} onSaveTempNote={onSaveTempNote} />
-      {hasTempedNote && (
-        <TempNote tempedNote={tempedNote} onRemove={resetHasTempNote} onLoad={onLoadTempNote} />
-      )}
-      <div className="w-full space-y-6 bg-white desktop:px-6 desktop:pt-[40px]">
-        <NoteInfo
-          goalTitle={todo.goal.title}
-          todoTitle={todo.title}
-          noteUpdatedAt={note?.updatedAt}
-        />
-        <div className="space-y-[40px]">
-          <TitleInput register={register} control={control} />
-          <div className="space-y-4 px-4">
-            <ContentInfo control={control} />
+    <ContentLayout>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex w-full flex-col items-center space-y-6"
+      >
+        <ButtonArea isEdit={isEdit} isValid={isValid} onSaveTempNote={onSaveTempNote} />
+        {hasTempedNote && (
+          <TempNote tempedNote={tempedNote} onRemove={resetHasTempNote} onLoad={onLoadTempNote} />
+        )}
+        <div className="w-full space-y-6 bg-white desktop:px-6 desktop:pt-[40px]">
+          <NoteInfo
+            goalTitle={todo.goal.title}
+            todoTitle={todo.title}
+            noteUpdatedAt={note?.updatedAt}
+          />
+          <div className="space-y-[40px]">
+            <TitleInput register={register} control={control} />
+            <div className="space-y-4 px-4">
+              <ContentInfo control={control} />
 
-            {linkUrl && <LinkArea linkUrl={linkUrl} onDeleteLink={handleDeleteLink} />}
-            <div className="min-h-[400px]">
-              <Editor
-                register={register}
-                setValue={setValue}
-                defaultContent={defaultNoteContent}
-                handleLinkModal={handleLinkModal}
-                isEditable={true}
-              />
+              {linkUrl && <LinkArea linkUrl={linkUrl} onDeleteLink={handleDeleteLink} />}
+              <div className="min-h-[400px]">
+                <Editor
+                  register={register}
+                  setValue={setValue}
+                  defaultContent={defaultNoteContent}
+                  handleLinkModal={handleLinkModal}
+                  isEditable={true}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </ContentLayout>
   );
 }
