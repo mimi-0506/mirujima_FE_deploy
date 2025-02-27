@@ -19,6 +19,7 @@ import {
 import _ from 'lodash';
 
 import useEditor from '@/hooks/note/useEditor';
+import LoadingSpinner from '@/public/icon/spin.svg';
 
 import LinkToolbarButton from './linkToolbarButton/LinkToolbarButton';
 
@@ -37,7 +38,7 @@ export default function Editor(props: Props) {
 
   const { editor } = useEditor(defaultContent);
 
-  if (!editor) return null;
+  if (!editor) return <LoadingSpinner width="48" height="48" />;
 
   const onChange = _.debounce(() => {
     if (setValue) {

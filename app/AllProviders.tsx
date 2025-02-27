@@ -26,7 +26,6 @@ export default function AllProviders({
                 bottom: 100
               }}
             />
-            <div id="modal-portal" />
           </ReactQueryProvider>
         </TodoCreateModalStoreProvider>
       </ModalStoreProvider>

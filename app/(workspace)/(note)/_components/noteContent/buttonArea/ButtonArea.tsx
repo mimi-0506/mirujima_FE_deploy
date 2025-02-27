@@ -18,7 +18,7 @@ export default function ButtonArea({ isEdit, isValid, onSaveTempNote }: Props) {
           onClick={onSaveTempNote}
           name="임시저장 버튼"
           aria-label="노트 임시저장"
-          className="h-[50px] w-[88px] rounded-lg border border-gray200 bg-white text-[14px] font-semibold text-gray350"
+          className="h-[40px] w-[80px] rounded-lg border border-gray200 bg-white text-[14px] font-semibold text-gray350 md:h-[50px] md:w-[88px]"
         >
           임시 저장
         </button>
@@ -28,7 +28,7 @@ export default function ButtonArea({ isEdit, isValid, onSaveTempNote }: Props) {
           aria-label="노트 작성완료"
           aria-disabled={!isValid}
           disabled={!isValid}
-          className="h-[50px] w-[88px] rounded-lg bg-solid text-[14px] font-semibold text-main disabled:bg-Cgray disabled:text-gray350"
+          className="h-[40px] w-[80px] rounded-lg bg-solid text-[14px] font-semibold text-main disabled:bg-Cgray disabled:text-gray350 md:h-[50px] md:w-[88px]"
         >
           {isEdit ? '수정 완료' : '작성 완료'}
         </button>

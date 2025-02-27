@@ -34,7 +34,7 @@ export default function PriorityFilter({ setPriority }: PriorityFilterProps) {
       >
         {PRIORITY_OPTION.find((option) => option.value === selectedPriority)?.text}
         <span className="ml-auto">
-          <ArrowDown />
+          <ArrowDown className="stroke-main" />
         </span>
       </button>
 
