@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { apiWithClientToken } from '@/apis/clientActions';
 import { readTodoList } from '@/apis/todo';
+import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import { useCountUp } from '@/hooks/dashboard/useCountUp';
 import { useInfoStore } from '@/provider/store-provider';
 import { getWeeklyCompletionData } from '@/utils/dashboard/getWeeklyCompletionData';
@@ -36,7 +37,7 @@ export default function WeeklyChart() {
     setProgressData(completionRate);
   };
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['allTodos', userId],
     queryFn: () => readTodoList({ pageSize: 9999 }),
     retry: 0
@@ -51,12 +52,12 @@ export default function WeeklyChart() {
   }, [data]);
 
   return (
-    <div className="rounded-container">
+    <div className="rounded-container flex flex-col">
       <h4 className="mb-4">이번주 평균 달성률</h4>
       <h3 className="mb-6 text-head3 desktop:text-head2">
         오늘까지 <span className="text-main">{count}%</span> 달성했어요
       </h3>
-      <Chart data={chartData} />
+      {isLoading ? <LoadingSpinner size={40} /> : <Chart data={chartData} />}
     </div>
   );
 }

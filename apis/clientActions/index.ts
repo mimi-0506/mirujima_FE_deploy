@@ -23,11 +23,12 @@ const errorInterceptor = async (error: AxiosError) => {
   if (error.response) {
     if (error.response.status === 401) {
       window.location.href = '/logout';
-    } else if (error.response.status >= 400 && error.response.status < 500) {
-      window.location.href = '/pageError';
-    } else if (error.response.status >= 500) {
-      window.location.href = '/serverError';
     }
+    //  else if (error.response.status >= 400 && error.response.status < 500) {
+    //   window.location.href = '/pageError';
+    // } else if (error.response.status >= 500) {
+    //   window.location.href = '/serverError';
+    // }
   }
   return Promise.reject(error);
 };
