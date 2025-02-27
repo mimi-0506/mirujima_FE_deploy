@@ -32,7 +32,7 @@ const useEditor = (defaultContent: string | undefined) => {
       setInitialContent(content);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [defaultContent]);
 
   return { editor };
 };
