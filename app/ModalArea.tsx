@@ -7,14 +7,14 @@ import TodoCreateCheckModal from '@/modals/todoCreateCheckModal';
 import TodoCreateModal from '@/modals/todoCreateModal';
 import { useModalStore } from '@/provider/store-provider';
 
-import LoadTempNoteConfirmModal from './(workspace)/(note)/_components/modals/lodaTempNoteConfirmModal/LoadTempNoteConfirmModal';
+import NoteConfirmModal from './(workspace)/(note)/_components/modals/noteConfirmModal/NoteConfirmModal';
 import UploadLinkModal from './(workspace)/(note)/_components/modals/uploadLinkModal/UploadLinkModal';
 import GoalDeleteConfirmModal from './(workspace)/goals/_components/GoalDeleteConfirmModal';
 
 export default function ModalArea() {
   const {
-    isConfirmTempModalOpen,
-    confirmTempNoteModalProps,
+    isNoteConfirmModalOpen,
+    noteConfirmModalProps,
     isNoteLinkModalOpen,
     noteLinkModalProps,
     isTodoCreateModalOpen,
@@ -45,11 +45,12 @@ export default function ModalArea() {
           initialValue={goalEditModalProps.initialValue}
         />
       ) : null}
-      {isConfirmTempModalOpen && confirmTempNoteModalProps ? (
-        <LoadTempNoteConfirmModal
-          tempNoteTitle={confirmTempNoteModalProps.tempNoteTitle}
-          onCancel={confirmTempNoteModalProps.onCancel}
-          onConfirm={confirmTempNoteModalProps.onConfirm}
+      {isNoteConfirmModalOpen && noteConfirmModalProps ? (
+        <NoteConfirmModal
+          type={noteConfirmModalProps.type}
+          contentTitle={noteConfirmModalProps.contentTitle}
+          onCancel={noteConfirmModalProps.onCancel}
+          onConfirm={noteConfirmModalProps.onConfirm}
         />
       ) : null}
       {isNoteLinkModalOpen && noteLinkModalProps ? (

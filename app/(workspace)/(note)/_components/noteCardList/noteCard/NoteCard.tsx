@@ -20,7 +20,7 @@ export default function NoteCard({ note, onClickEdit, onClickDelete, onClickNote
   return (
     <article
       onClick={onClickNote}
-      className="hover-animate cursor-pointer space-y-[12px] rounded-2xl border border-gray200 bg-white p-6 hover:border-main hover:drop-shadow-note"
+      className="color-animate cursor-pointer space-y-[12px] rounded-2xl border border-gray200 bg-white p-6 hover:border-main hover:drop-shadow-note"
     >
       <div className="flex items-center">
         <div className="flex w-[calc(100%-24px)] items-center gap-1">

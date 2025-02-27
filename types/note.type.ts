@@ -43,8 +43,22 @@ export type TempNoteType = {
   todoId: number;
   noteTitle: string;
   content: string;
+  linkUrl: string;
 };
 
 export type TempNoteContentType = {
   [goalId: number]: TempNoteType[];
+};
+
+export type NoteConfirmModalProps = {
+  type: 'temp' | 'delete';
+  contentTitle: string | undefined;
+  onCancel: () => void;
+  onConfirm: () => void;
+};
+
+export type NoteLinkModalProps = {
+  defaultValue: string | undefined;
+  onSubmit: () => void;
+  linkInputRef: React.RefObject<HTMLInputElement | null>;
 };

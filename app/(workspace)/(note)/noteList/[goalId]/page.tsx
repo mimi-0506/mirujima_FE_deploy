@@ -33,7 +33,11 @@ export default async function NoteList({ params }: Props) {
         <h2 className="w-full items-center truncate text-gray500">{goal.title}</h2>
         <EditGoal goalId={goal.id} />
       </div>
-      {noteList.result ? <NoteCardList noteList={noteList.result} /> : <div>데이터 없음</div>}
+      {noteList.result ? (
+        <NoteCardList noteList={noteList.result} />
+      ) : (
+        <div>작성한 노트가 없어요</div>
+      )}
     </section>
   );
 }

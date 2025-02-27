@@ -14,14 +14,15 @@ interface Props {
 }
 
 export default function TempNote({ tempedNote, onRemove, onLoad }: Props) {
-  const setIsConfirmTempModalOpen = useModalStore((state) => state.setIsConfirmTempModalOpen);
+  const setIsNoteConfirmModalOpen = useModalStore((state) => state.setIsNoteConfirmModalOpen);
 
   const handleConfirmModal = () => {
-    setIsConfirmTempModalOpen(true, {
-      tempNoteTitle: tempedNote?.noteTitle,
-      onCancel: () => setIsConfirmTempModalOpen(false),
+    setIsNoteConfirmModalOpen(true, {
+      type: 'temp',
+      contentTitle: tempedNote?.noteTitle,
+      onCancel: () => setIsNoteConfirmModalOpen(false),
       onConfirm: () => {
-        setIsConfirmTempModalOpen(false);
+        setIsNoteConfirmModalOpen(false);
         onLoad();
       }
     });

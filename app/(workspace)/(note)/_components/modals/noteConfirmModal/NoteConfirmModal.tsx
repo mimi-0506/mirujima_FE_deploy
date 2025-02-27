@@ -4,27 +4,36 @@ import React from 'react';
 
 import Overlay from '@/modals/Overlay';
 
-interface Props {
-  tempNoteTitle: string | undefined;
-  onCancel: () => void;
-  onConfirm: () => void;
-}
+import type { NoteConfirmModalProps } from '@/types/note.type';
 
-export default function LoadTempNoteConfirmModal({ tempNoteTitle, onCancel, onConfirm }: Props) {
+interface Props extends NoteConfirmModalProps {}
+
+const TEXT = {
+  header: {
+    temp: '작성중인 글이 있습니다.',
+    delete: '노트 삭제하기'
+  },
+  section: {
+    temp: '제목의 노트를 불러오시겠어요?',
+    delete: '제목의 노트를 삭제하겠어요?'
+  }
+} as const;
+
+export default function NoteConfirmModal({ type, contentTitle, onCancel, onConfirm }: Props) {
   return (
     <Overlay onClick={onCancel}>
       <div
         onClick={(e) => e.stopPropagation()}
         className="w-11/12 max-w-[450px] rounded-xl bg-white p-6"
       >
-        <div className="space-y-4 text-center">
-          <p className="text-head3 text-gray900">작성중인 글이 있습니다.</p>
-          <div>
-            <p className="text-body1 text-[#636267]">`{tempNoteTitle}`</p>
-            <p className="text-body1 text-[#636267]">제목의 노트를 불러오시겠어요?</p>
-          </div>
-        </div>
-        <div className="mt-6 flex w-full gap-2">
+        <header>
+          <p className="text-center text-head3 text-gray900">{TEXT.header[type]}</p>
+        </header>
+        <section className="mt-4 text-center">
+          <p className="text-body1 text-[#636267]">&lsquo;{contentTitle}&rsquo;</p>
+          <p className="text-body1 text-[#636267]">{TEXT.section[type]}</p>
+        </section>
+        <footer className="mt-6 flex w-full gap-2">
           <button
             type="button"
             onClick={onCancel}
@@ -41,7 +50,7 @@ export default function LoadTempNoteConfirmModal({ tempNoteTitle, onCancel, onCo
           >
             확인
           </button>
-        </div>
+        </footer>
       </div>
     </Overlay>
   );

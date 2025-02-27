@@ -4,7 +4,7 @@ import React from 'react';
 
 import Link from 'next/link';
 
-import { useModalStore } from '@/provider/store-provider';
+import { useEmbedStore } from '@/provider/store-provider';
 import CloseCircleIcon from '@/public/icon/X-circle.svg';
 
 const mockYoutube = 'https://www.youtube.com/embed/j2LZmDCCpKY';
@@ -15,14 +15,14 @@ interface Props {
 }
 
 export default function EmbedContent({ linkUrl, isReadOnlyPage }: Props) {
-  const isOpen = useModalStore((state) => state.isEmbedContentOpen);
-  const setEmbedContentOpen = useModalStore((state) => state.setEmbedContentOpen);
+  const { isEmbedContentOpen, embedUrl } = useEmbedStore(({ state }) => state);
+  const { setEmbedContentOpen } = useEmbedStore(({ actions }) => actions);
 
   React.useEffect(() => {
     return () => setEmbedContentOpen(false);
   }, [setEmbedContentOpen]);
 
-  if (isOpen) {
+  if (isEmbedContentOpen) {
     return (
       <div
         className={`z-[1] flex w-full min-w-[355px] flex-col bg-solid desktop:static desktop:w-5/12 ${
@@ -42,11 +42,11 @@ export default function EmbedContent({ linkUrl, isReadOnlyPage }: Props) {
             aria-label="임베드 콘텐츠 닫기"
             name="임베드 콘텐츠 닫기 버튼"
           >
-            <CloseCircleIcon width="24" height="24" className="hover-animate fill-main" />
+            <CloseCircleIcon width="24" height="24" className="color-animate fill-main" />
           </button>
           <div className="flex w-full justify-center">
             <Link
-              href={linkUrl || ''}
+              href={embedUrl || linkUrl || ''}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="임베드 링크 열기"
@@ -59,7 +59,7 @@ export default function EmbedContent({ linkUrl, isReadOnlyPage }: Props) {
           </div>
         </div>
         <iframe
-          src={linkUrl}
+          src={embedUrl || linkUrl}
           className="h-3/4 w-full"
           sandbox="allow-scripts allow-same-origin"
           referrerPolicy="no-referrer"
