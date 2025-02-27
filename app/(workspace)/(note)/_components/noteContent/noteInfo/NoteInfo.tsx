@@ -8,7 +8,7 @@ import TodoChip from '../../todoChip/TodoChip';
 interface Props {
   goalTitle: string;
   todoTitle: string;
-  todoCompletionDate: string | null | null;
+  todoCompletionDate?: string | null;
   noteUpdatedAt: string | undefined;
 }
 
