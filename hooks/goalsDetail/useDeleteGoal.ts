@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import authApi from '@/apis/clientActions/authApi';
 import { GOAL_DELETE_ERROR, GOAL_DELETE_SUCCESS } from '@/constant/toastText';
-import { useInfoStore } from '@/provider/store-provider';
+import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 const deleteGoal = async (goalId: number): Promise<void> => {
   const response = await authApi.delete(`/goals/${goalId}`);
@@ -15,18 +15,22 @@ const deleteGoal = async (goalId: number): Promise<void> => {
 export function useDeleteGoal() {
   const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
+  const setIsLoading = useModalStore((state) => state.setIsLoading);
 
   return useMutation({
     mutationFn: (goalId: number) => deleteGoal(goalId),
+    onMutate: () => {
+      setIsLoading(true);
+    },
     onSuccess: (_, goalId) => {
+      setIsLoading(false);
       queryClient.invalidateQueries({ queryKey: ['goal', goalId, userId] });
       queryClient.refetchQueries({ queryKey: ['goal', goalId, userId] });
 
-      toast.dismiss('deleteGoal');
       toast.success(GOAL_DELETE_SUCCESS);
     },
     onError: () => {
-      toast.dismiss('deleteGoal');
+      setIsLoading(false);
       toast.error(GOAL_DELETE_ERROR);
     }
   });
