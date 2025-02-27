@@ -63,8 +63,13 @@ export default function GoalCreateModal() {
           placeholder="목표를 적어주세요"
           onKeyDown={handleKeyPress}
         />
-        완료날짜
-        <input type="date" ref={dateRef} onChange={handleDateValidCheck} />
+        <h1 className="text-[20px]">완료 날짜</h1>
+        <input
+          type="date"
+          ref={dateRef}
+          onChange={handleDateValidCheck}
+          className="mb-[28px] mt-[25px] box-border h-[50px] w-full rounded-lg border border-gray200 px-[16px] py-[14px]"
+        />
         <button
           className={`${
             textValid && dateValid ? 'bg-main' : 'cursor-not-allowed bg-gray-400'
