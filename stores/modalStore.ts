@@ -1,5 +1,7 @@
 import { createStore } from 'zustand/vanilla';
 
+import type { NoteConfirmModalProps, NoteLinkModalProps } from '@/types/note.type';
+
 export type createModalType = {
   title: string;
   done: boolean;
@@ -29,8 +31,7 @@ export type DeleteModalProps = {
 };
 
 export type ModalState = {
-  isEmbedContentOpen: boolean;
-  isConfirmTempModalOpen: boolean;
+  isNoteConfirmModalOpen: boolean;
   isTodoCreateModalOpen: boolean;
   isTodoCreateCheckModalOpen: boolean;
   isNoteLinkModalOpen: boolean;
@@ -38,22 +39,10 @@ export type ModalState = {
   isGoalEditModalOpen: boolean;
   goalDeleteModalProps?: DeleteModalProps;
   goalEditModalProps?: EditModalProps;
-  confirmTempNoteModalProps?: ConfirmTempNoteModalProps;
+  noteConfirmModalProps?: NoteConfirmModalProps;
   noteLinkModalProps?: NoteLinkModalProps;
   isGoalCreateModalOpen: boolean;
   isLoading: boolean;
-};
-
-type ConfirmTempNoteModalProps = {
-  tempNoteTitle: string | undefined;
-  onCancel: () => void;
-  onConfirm: () => void;
-};
-
-type NoteLinkModalProps = {
-  defaultValue: string | undefined;
-  onSubmit: () => void;
-  linkInputRef: React.RefObject<HTMLInputElement | null>;
 };
 
 export type ModalActions = {
@@ -62,8 +51,7 @@ export type ModalActions = {
   setNoteLinkModalOpen: (now: boolean, props?: NoteLinkModalProps) => void;
   setGoalDeleteModalOpen: (isOpen: boolean, props?: DeleteModalProps) => void;
   setGoalEditModalOpen: (isOpen: boolean, props?: EditModalProps) => void;
-  setIsConfirmTempModalOpen: (now: boolean, props?: ConfirmTempNoteModalProps) => void;
-  setEmbedContentOpen: (now: boolean) => void;
+  setIsNoteConfirmModalOpen: (now: boolean, props?: NoteConfirmModalProps) => void;
   setIsGoalCreateModalOpen: (now: boolean) => void;
   setIsLoading: (now: boolean) => void;
 };
@@ -71,8 +59,7 @@ export type ModalActions = {
 export type ModalStore = ModalState & ModalActions;
 
 const initModalState = {
-  isEmbedContentOpen: false,
-  isConfirmTempModalOpen: false,
+  isNoteConfirmModalOpen: false,
   isTodoCreateModalOpen: false,
   isTodoCreateCheckModalOpen: false,
   isNoteLinkModalOpen: false,
@@ -81,7 +68,7 @@ const initModalState = {
   isGoalEditModalOpen: false,
   goalDeleteModalProps: undefined,
   goalEditModalProps: undefined,
-  confirmTempNoteModalProps: undefined,
+  noteConfirmModalProps: undefined,
   noteLinkModalProps: undefined,
   isGoalCreateModalOpen: false,
   isLoading: false
@@ -93,8 +80,8 @@ export const defaultInitState: ModalState = {
 export const createModalStore = (initState: ModalState = defaultInitState) => {
   return createStore<ModalStore>()((set) => ({
     ...initState,
-    setIsConfirmTempModalOpen: (now, props) =>
-      set((state) => ({ ...state, isConfirmTempModalOpen: now, confirmTempNoteModalProps: props })),
+    setIsNoteConfirmModalOpen: (now, props) =>
+      set((state) => ({ ...state, isNoteConfirmModalOpen: now, noteConfirmModalProps: props })),
 
     setIsTodoCreateModalOpen: (now) => set((state) => ({ ...state, isTodoCreateModalOpen: now })),
 
@@ -109,8 +96,6 @@ export const createModalStore = (initState: ModalState = defaultInitState) => {
 
     setGoalEditModalOpen: (isOpen, props) =>
       set((state) => ({ ...state, isGoalEditModalOpen: isOpen, goalEditModalProps: props })),
-
-    setEmbedContentOpen: (now) => set((state) => ({ ...state, isEmbedContentOpen: now })),
 
     setIsGoalCreateModalOpen: (now) => set((state) => ({ ...state, isGoalCreateModalOpen: now })),
 

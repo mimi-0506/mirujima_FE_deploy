@@ -6,8 +6,6 @@ import { isTempNoteContent } from '@/utils/note/isTempNoteContent';
 import type { TempNoteContentType, TempNoteType } from '@/types/note.type';
 
 const useTempNote = (goalId: number, todoId?: number) => {
-  // 로컬스토리지에서 불러온 데이터를 state로 관리할 필요?
-  // const [tempContent, setTempContent] = React.useState<TempNoteContentType>();
   const [tempedNote, setTempedNote] = React.useState<TempNoteType>();
   const [hasTempedNote, setHasTempedNote] = React.useState(false);
 
@@ -19,8 +17,6 @@ const useTempNote = (goalId: number, todoId?: number) => {
       const parsedContent = JSON.parse(tempContent);
       if (!isTempNoteContent(parsedContent)) return;
 
-      // setTempContent(parsedContent);
-
       return parsedContent;
     } catch (error) {
       console.error('데이터 파싱오류', error);
@@ -29,10 +25,10 @@ const useTempNote = (goalId: number, todoId?: number) => {
     }
   };
 
-  const onSaveTempToStorage = async (noteTitle: string, content: string) => {
+  const onSaveTempToStorage = async (noteTitle: string, content: string, link?: string) => {
     if (!todoId) return;
 
-    const note: TempNoteType = { todoId, noteTitle, content };
+    const note: TempNoteType = { todoId, noteTitle, content, linkUrl: link || '' };
     const tempData = onLoadTempNoteFromStorage();
     if (!tempData) {
       const newTempData: TempNoteContentType = {
@@ -82,6 +78,10 @@ const useTempNote = (goalId: number, todoId?: number) => {
     }
   };
 
+  const resetHasTempNote = () => {
+    setHasTempedNote(false);
+  };
+
   React.useEffect(() => {
     const temp = getTempNote();
     if (temp) {
@@ -96,7 +96,7 @@ const useTempNote = (goalId: number, todoId?: number) => {
     deleteTempNote,
     tempedNote,
     hasTempedNote,
-    setHasTempedNote
+    resetHasTempNote
   };
 };
 

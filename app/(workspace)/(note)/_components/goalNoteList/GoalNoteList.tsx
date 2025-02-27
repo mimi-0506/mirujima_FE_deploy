@@ -24,7 +24,7 @@ export default function GoalNoteList({ goal }: Props) {
         onClick={handleToggle}
         role="button"
         aria-expanded={isToggleOpen}
-        className="mb-4 flex w-full cursor-pointer items-center gap-1 pr-4 aria-expanded:text-main"
+        className="color-animate mb-4 flex w-full cursor-pointer items-center gap-1 pr-4 aria-expanded:text-main"
       >
         <TodoIcon width="18" height="18" className="shrink-0" />
         <h3 className="w-full truncate">{goal.title}</h3>

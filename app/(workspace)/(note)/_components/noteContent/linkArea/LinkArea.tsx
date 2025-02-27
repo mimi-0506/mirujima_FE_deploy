@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useModalStore } from '@/provider/store-provider';
+import { useEmbedStore } from '@/provider/store-provider';
 import EmbedLinkIcon from '@/public/icon/embed-link.svg';
 import CloseCircleIcon from '@/public/icon/X-circle.svg';
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function LinkArea({ linkUrl, onDeleteLink }: Props) {
-  const setEmbedContentOpen = useModalStore((state) => state.setEmbedContentOpen);
+  const setEmbedContentOpen = useEmbedStore(({ actions }) => actions.setEmbedContentOpen);
 
   return (
     <div className="flex w-full justify-between gap-2 rounded-[20px] bg-Cgray px-4 py-3">
@@ -36,7 +36,7 @@ export default function LinkArea({ linkUrl, onDeleteLink }: Props) {
           <CloseCircleIcon
             width="24"
             height="24"
-            className="hover-animate fill-gray350 hover:fill-main"
+            className="color-animate fill-gray350 hover:fill-main"
           />
         </button>
       )}

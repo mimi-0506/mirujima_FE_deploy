@@ -1,6 +1,7 @@
 import { Toaster } from 'react-hot-toast';
 
 import {
+  EmbedStoreProvider,
   InfoStoreProvider,
   ModalStoreProvider,
   TodoCreateModalStoreProvider
@@ -18,15 +19,17 @@ export default function AllProviders({
     <InfoStoreProvider>
       <ModalStoreProvider>
         <TodoCreateModalStoreProvider>
-          <ReactQueryProvider>
-            {children}
-            <ModalArea />
-            <Toaster
-              containerStyle={{
-                bottom: 100
-              }}
-            />
-          </ReactQueryProvider>
+          <EmbedStoreProvider>
+            <ReactQueryProvider>
+              {children}
+              <ModalArea />
+              <Toaster
+                containerStyle={{
+                  bottom: 100
+                }}
+              />
+            </ReactQueryProvider>
+          </EmbedStoreProvider>
         </TodoCreateModalStoreProvider>
       </ModalStoreProvider>
     </InfoStoreProvider>
