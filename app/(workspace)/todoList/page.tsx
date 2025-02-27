@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { motion } from 'motion/react';
+
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { useFilteredTodos } from '@/hooks/todo/useFilteredTodos';
@@ -54,13 +56,24 @@ export default function TodoListPage() {
             <LoadingSpinner size={40} className="h-[70vh]" />
           ) : filteredTodos.length > 0 ? (
             <ul>
-              {filteredTodos.map((todo) => (
-                <TodoItem key={todo.id} todo={todo} goalId={todo?.goal?.id} />
+              {filteredTodos.map((todo, i) => (
+                <motion.li
+                  key={todo.id}
+                  initial={{ y: 30 }}
+                  whileInView={{ y: 0 }}
+                  animate={{ transition: { duration: 0.3, delay: i * 0.3 } }}
+                  viewport={{ once: true }}
+                  exit={{ opacity: 1 }}
+                  layout
+                >
+                  <TodoItem todo={todo} goalId={todo?.goal?.id} />
+                </motion.li>
               ))}
             </ul>
           ) : (
             <EmptyMessage filter={filter} filteredTodos={filteredTodos} />
           )}
+
           <div ref={ref} />
         </div>
       </div>
