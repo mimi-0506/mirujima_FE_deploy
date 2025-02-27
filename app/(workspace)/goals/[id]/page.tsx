@@ -47,43 +47,49 @@ export default function GoalDetailPage() {
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
 
+  // 컴포넌트 마운트 시 사용자 복원 및 초기 상태 설정
   useEffect(() => {
     restoreUser();
     setIsMounted(true);
   }, [restoreUser]);
 
   useEffect(() => {
-    if (!isEditing) {
-      setEditedTitle(goalTitle);
-    }
-  }, [goalTitle, isEditing]);
+    setEditedTitle(goalTitle);
+  }, [goalTitle]);
 
   const handleEditConfirm = useCallback(
     (newTitle: string) => {
       if (!goalId) return;
+
       const trimmedTitle = newTitle.trim();
       if (trimmedTitle === '') {
         setEditedTitle(goalTitle);
         return;
       }
+
+      const previousTitle = editedTitle;
+      setEditedTitle(trimmedTitle);
+      setGoalEditModalOpen(false);
+
       updateGoalTitle(
         { goalId, title: trimmedTitle },
         {
           onSuccess: () => {
-            setGoalEditModalOpen(false);
-            setEditedTitle(trimmedTitle);
+            console.log('제목 수정 성공!');
           },
-          onError: () => setEditedTitle(goalTitle)
+          onError: () => {
+            setEditedTitle(previousTitle);
+            alert('제목 수정에 실패했습니다. 다시 시도해주세요.');
+          }
         }
       );
     },
-    [goalId, goalTitle, updateGoalTitle, setGoalEditModalOpen]
+    [goalId, editedTitle, updateGoalTitle, setGoalEditModalOpen, goalTitle]
   );
 
   const handleEditCancel = useCallback(() => {
     setGoalEditModalOpen(false);
-    setEditedTitle(goalTitle);
-  }, [goalTitle, setGoalEditModalOpen]);
+  }, [setGoalEditModalOpen]);
 
   const handleEdit = useCallback(() => {
     setGoalEditModalOpen(true, {
