@@ -28,11 +28,9 @@ export default function NoteInfo({ goalTitle, todoTitle, noteUpdatedAt }: Props)
           <TodoChip />
           <h4 className="truncate text-gray400">{todoTitle}</h4>
         </div>
-        {noteUpdatedAt && (
-          <span className="shrink-0 text-button2 text-gray400">
-            {dateFormatWithDots(noteUpdatedAt)}
-          </span>
-        )}
+        <span className="shrink-0 text-button2 text-gray400">
+          {dateFormatWithDots(noteUpdatedAt ?? new Date().toISOString())}
+        </span>
       </div>
     </div>
   );
