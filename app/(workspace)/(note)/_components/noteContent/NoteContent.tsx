@@ -109,7 +109,9 @@ export default function NoteContent({ todo, note }: Props) {
     if (!tempedNote) return;
 
     setLink(tempedNote.linkUrl);
-    setValue('title', tempedNote.noteTitle);
+    setValue('title', tempedNote.noteTitle, {
+      shouldValidate: true
+    });
     setValue('content', tempedNote.content);
     setDefaultNoteContent(tempedNote.content);
     resetHasTempNote();
