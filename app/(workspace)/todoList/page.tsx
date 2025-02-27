@@ -94,8 +94,10 @@ export default function TodoListPage() {
         </div>
 
         <div>
-          {isLoading || isFetching ? (
-            <SpinIcon />
+          {isLoading ? (
+            <div className="flex-center h-[70vh]">
+              <SpinIcon width={40} height={40} />
+            </div>
           ) : filteredTodos.length > 0 ? (
             <ul>
               {filteredTodos.map((todo) => (
