@@ -2,12 +2,12 @@ import toast from 'react-hot-toast';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import authApi from '@/apis/clientActions/authApi';
+import { apiWithClientToken } from '@/apis/clientActions/index';
 import { TODO_DELETE_ERROR, TODO_DELETE_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 const deleteTodoItem = async (todoId: number): Promise<void> => {
-  await authApi.delete(`/todos/${todoId}`);
+  await apiWithClientToken.delete(`/todos/${todoId}`);
 };
 
 export function useDeleteTodoItem() {
