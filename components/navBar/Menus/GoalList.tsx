@@ -50,7 +50,7 @@ export default function GoalList() {
         ) : (
           goals?.map((goal: any) => {
             return (
-              <li key={goal.id} className="p-2">
+              <li key={goal.id} className="rounded-xl p-2 hover:bg-gray200">
                 <div
                   className="w-[inherit] max-w-[100vw] cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap"
                   onClick={() => {
