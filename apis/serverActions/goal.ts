@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { redirect } from 'next/navigation';
 
 import type { ApiResponse } from '@/types/apiResponse.type';
 import type { GoalListType, GoalType } from '@/types/goal.type';
@@ -29,11 +30,7 @@ export const readGoalListFromServer = async () => {
     const res = await apiWithServerToken.get<ApiResponse<GoalListType>>(`/goals`);
 
     return res.data.result;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      // 추후 에러 처리 추가 예정
-    }
-
-    throw error;
+  } catch (e) {
+    redirect('/logout');
   }
 };
