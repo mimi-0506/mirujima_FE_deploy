@@ -5,7 +5,7 @@ import axios from 'axios';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 
-import api from '@/apis/clientActions/authApi';
+import authApi from '@/apis/clientActions/authApi';
 import { LOGIN_ERROR, LOGIN_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
@@ -40,7 +40,7 @@ const COOKIEOPTIONS = {
 
 const loginUser = async (formData: LoginFormData): Promise<LoginResponse> => {
   try {
-    const response = await api.post<LoginResponse>('/auth/login', formData);
+    const response = await authApi.post<LoginResponse>('/auth/login', formData);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

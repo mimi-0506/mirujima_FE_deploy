@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-import api from '@/apis/clientActions/authApi';
+import authApi from '@/apis/clientActions/authApi';
 import { SIGNUP_ERROR, SIGNUP_SUCCESS } from '@/constant/toastText';
 import { useModalStore } from '@/provider/store-provider';
 
@@ -25,7 +25,7 @@ interface EmailCheckResponse {
 
 export const checkEmailExists = async (email: string): Promise<boolean> => {
   try {
-    const response = await api.get<EmailCheckResponse>(`/user/exists?email=${email}`);
+    const response = await authApi.get<EmailCheckResponse>(`/user/exists?email=${email}`);
     return response.data.result.exists;
   } catch (error) {
     throw new Error('이미 존재하는 이메일입니다.');
@@ -34,7 +34,7 @@ export const checkEmailExists = async (email: string): Promise<boolean> => {
 
 const signUpUser = async (formData: SignUpFormData): Promise<void> => {
   try {
-    await api.post('/user', formData);
+    await authApi.post('/user', formData);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw error;

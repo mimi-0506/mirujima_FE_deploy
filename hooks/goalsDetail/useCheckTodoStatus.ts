@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import authApi from '@/apis/clientActions/authApi';
+import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
 import type { TodoType } from '@/types/todo.type';
@@ -9,7 +9,7 @@ const checkTodo = async ({ todo }: { todo: TodoType }) => {
   if (!todo.id) {
     throw new Error('ToDo id가 없습니다.');
   }
-  const response = await authApi.patch(`/todos/completion/${todo.id}`, {
+  const response = await apiWithClientToken.patch(`/todos/completion/${todo.id}`, {
     done: todo.done,
     completionDate: todo.completionDate ?? null
   });
