@@ -1,12 +1,14 @@
 import React from 'react';
 
+import Link from 'next/link';
+
 import GoalIcon from '@/public/icon/work.svg';
 import { dateFormatWithDots } from '@/utils/dateUtils';
 
 import TodoChip from '../../todoChip/TodoChip';
 
 interface Props {
-  goalTitle: string;
+  goalTitle: string | undefined;
   todoTitle: string;
   noteUpdatedAt: string | undefined;
 }
@@ -18,7 +20,13 @@ export default function NoteInfo({ goalTitle, todoTitle, noteUpdatedAt }: Props)
         <div className="h-6 w-6">
           <GoalIcon width="24" height="24" />
         </div>
-        <h3 className="truncate text-gray500">{goalTitle}</h3>
+        {goalTitle ? (
+          <h3 className="truncate text-gray500">{goalTitle}</h3>
+        ) : (
+          <Link href={'/todoList'} className="text-main hover:underline">
+            목표가 없어요! 할 일 수정하러가기 👈
+          </Link>
+        )}
       </div>
       <div className="flex w-full items-center justify-between gap-2">
         <div

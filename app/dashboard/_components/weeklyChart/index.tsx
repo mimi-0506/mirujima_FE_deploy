@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
-
 import { apiWithClientToken } from '@/apis/clientActions';
-import { readTodoList } from '@/apis/todo';
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import { useCountUp } from '@/hooks/dashboard/useCountUp';
+import { useAllTodos } from '@/hooks/todo/useAllTodos';
 import { useInfoStore } from '@/provider/store-provider';
 import { getWeeklyCompletionData } from '@/utils/dashboard/getWeeklyCompletionData';
 import { calcTotalCompletionPercentage } from '@/utils/percentageUtils';
@@ -37,19 +35,15 @@ export default function WeeklyChart() {
     setProgressData(completionRate);
   };
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['allTodos', userId],
-    queryFn: () => readTodoList({ pageSize: 9999 }),
-    retry: 0
-  });
+  const { todoData, isLoading } = useAllTodos();
 
   useEffect(() => {
-    if (data?.todos) {
+    if (todoData) {
       setTimeout(() => {
-        setChartData(getWeeklyCompletionData(data.todos));
+        setChartData(getWeeklyCompletionData(todoData));
       }, 300);
     }
-  }, [data]);
+  }, [todoData]);
 
   return (
     <div className="rounded-container flex flex-col">

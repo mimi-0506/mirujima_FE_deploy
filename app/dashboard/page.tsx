@@ -1,8 +1,9 @@
 'use client';
 
 import Calendar from './_components/calendar';
-import GoalList from './_components/GoalList';
-import RightSidebar from './_components/RightSidebar';
+import GoalList from './_components/goals/GoalList';
+import LatestTodoList from './_components/LatestTodoList';
+import UpcomingGoals from './_components/UpcomingGoals';
 import WeeklyChart from './_components/weeklyChart';
 
 export default function Dashboard() {
@@ -15,7 +16,10 @@ export default function Dashboard() {
         </div>
         <GoalList />
       </div>
-      <RightSidebar />
+      <div className="grid h-fit w-full grid-cols-1 gap-4 md:grid-cols-2 desktop:sticky desktop:top-0 desktop:grid-cols-1">
+        <LatestTodoList />
+        <UpcomingGoals />
+      </div>
     </div>
   );
 }

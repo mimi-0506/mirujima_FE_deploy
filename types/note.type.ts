@@ -16,7 +16,7 @@ export type NoteType = {
   createdAt: string;
   title: string;
   id: number;
-  goalDto: Pick<GoalType, 'id' | 'title' | 'completionDate'>;
+  goalDto: Pick<GoalType, 'id' | 'title' | 'completionDate'> | null;
   userId: number;
 };
 
