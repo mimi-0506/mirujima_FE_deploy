@@ -37,6 +37,11 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const [isPenLoading, setIsPenLoading] = useState(false);
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
 
+  // 1) 케밥 메뉴 열림/닫힘 상태
+  const [isKebabSelected, setIsKebabSelected] = useState(false);
+  // 2) 마우스 hover 상태
+  const [isHovered, setIsHovered] = useState(false);
+
   const handleNoteIconClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsNoteModalOpen(true);
@@ -66,24 +71,58 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
     setCreatedTodoState({ ...todo, fileName: todo.filePath, isEdit: true });
   };
 
+  const handleKebabClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsKebabSelected((prev) => !prev);
+  };
+
   useEffect(() => {
     if (isNoteModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
-    // 컴포넌트 언마운트 시 원상복구
     return () => {
       document.body.style.overflow = '';
     };
   }, [isNoteModalOpen]);
 
-  const className = PRIORITY_COLORS[todo.priority];
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setIsKebabSelected(false);
+    };
+
+    if (isKebabSelected) {
+      document.addEventListener('click', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isKebabSelected]);
+
+  const priorityClass = PRIORITY_COLORS[todo.priority];
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const handleMouseLeave = () => {
+    if (!isKebabSelected) {
+      setIsHovered(false);
+    }
+  };
 
   return (
     <>
-      <li className="group relative mb-3 flex items-center justify-between">
-        <div className="flex min-w-0 flex-1 items-baseline gap-2 text-gray500 group-hover:text-main">
+      <li
+        className="relative mb-3 flex items-center justify-between"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div
+          className={`flex min-w-0 flex-1 items-baseline gap-2 ${
+            isHovered || isKebabSelected ? 'text-main' : 'text-gray500'
+          }`}
+        >
           <div className="relative flex translate-y-[3px] cursor-pointer">
             <input
               type="checkbox"
@@ -118,24 +157,30 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
             )}
           </div>
 
-          <span className={`${className} rounded-full border p-1 px-3 py-0.5 text-[11px]`}>
+          <span
+            className={`${priorityClass} rounded-full border p-1 px-3 py-0.5 text-[11px] leading-[13px]`}
+          >
             {todo.priority}
           </span>
 
           {!todo.noteId &&
             (isPenLoading ? (
-              <span className="hidden group-hover:block group-focus:block">
+              <span className={isHovered || isKebabSelected ? 'block' : 'hidden'}>
                 <SpinIcon width={18} height={18} />
               </span>
             ) : (
               <button
                 onClick={handlePenIconClick}
-                className="hidden group-hover:block group-focus:block"
+                className={isHovered || isKebabSelected ? 'block' : 'hidden'}
               >
                 <PenIcon width={18} height={18} />
               </button>
             ))}
-          <div className="hidden group-hover:block group-focus:block">
+
+          <div
+            className={isHovered || isKebabSelected ? 'block' : 'hidden'}
+            onClick={handleKebabClick}
+          >
             <KebabForGoal
               size={18}
               onEdit={() => handleOpenEditModal(todo)}
