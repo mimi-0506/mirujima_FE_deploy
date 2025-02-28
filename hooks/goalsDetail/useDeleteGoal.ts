@@ -27,6 +27,9 @@ export function useDeleteGoal() {
       queryClient.invalidateQueries({ queryKey: ['goal', goalId, userId] });
       queryClient.refetchQueries({ queryKey: ['goal', goalId, userId] });
 
+      queryClient.invalidateQueries({ queryKey: ['goals', userId] });
+      queryClient.refetchQueries({ queryKey: ['goals', userId] });
+
       toast.success(GOAL_DELETE_SUCCESS);
     },
     onError: () => {
