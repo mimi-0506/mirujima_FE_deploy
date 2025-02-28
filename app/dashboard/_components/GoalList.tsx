@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import { useQuery } from '@tanstack/react-query';
 
 import { readTodoList } from '@/apis/todo';
@@ -9,7 +7,7 @@ import FlagBlackIcon from '@/public/icon/flag-black.svg';
 
 import GoalItem from './GoalItem';
 
-import type { GoalListType, GoalType } from '@/types/goal.type';
+import type { GoalListType } from '@/types/goal.type';
 
 type GoalListResponse = {
   success: boolean;
@@ -19,20 +17,7 @@ type GoalListResponse = {
 };
 
 export default function GoalList() {
-  const { data, isLoading } = useGetGoalList();
-  const [goals, setGoals] = useState<GoalType[]>([]);
-
-  useEffect(() => {
-    async function fetchGoals() {
-      try {
-        if (Array.isArray(data)) setGoals(data);
-      } catch (error) {
-        console.error('Failed to fetch goals:', error);
-      }
-    }
-
-    fetchGoals();
-  }, [data]);
+  const { data: goals = [], isLoading } = useGetGoalList();
 
   const { data: todosData } = useQuery({
     queryKey: ['allTodos'],
@@ -50,7 +35,7 @@ export default function GoalList() {
         {isLoading ? (
           <LoadingSpinner size={40} className="rounded-container min-h-96" />
         ) : goals?.length > 0 ? (
-          goals.map((goal) => (
+          goals.map((goal: any) => (
             <GoalItem
               key={goal.id}
               goalId={goal.id}

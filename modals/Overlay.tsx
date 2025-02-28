@@ -1,9 +1,18 @@
+import { useEffect } from 'react';
+
 type OverlayProps = {
   children: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLDialogElement>;
 };
 
 export default function Overlay({ children, onClick }: OverlayProps) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   return (
     <dialog
       id="modal"
