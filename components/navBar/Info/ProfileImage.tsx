@@ -73,7 +73,7 @@ export default function ProfileImage() {
 
   return (
     <div className="relative flex aspect-[1/1] w-[64px] items-center justify-center overflow-hidden rounded-lg">
-      {isLoading && <LoadingIcon className="absolute z-10 w-full" />}
+      {isLoading && <LoadingIcon className="absolute z-10 h-full w-full" />}
       <input
         ref={fileRef}
         onChange={handleFileChange}
