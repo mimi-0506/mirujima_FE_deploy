@@ -3,14 +3,16 @@ import { motion } from 'motion/react';
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import { useInfiniteGoalList } from '@/hooks/goal/useInfiniteGoalList';
 import { useAllTodos } from '@/hooks/todo/useAllTodos';
+import { useInfoStore } from '@/provider/store-provider';
 import FlagBlackIcon from '@/public/icon/flag-black.svg';
 
 import GoalItem from './GoalItem';
 
 export default function GoalList() {
+  const userId = useInfoStore((state) => state.userId);
   const { goals, isLoading, ref } = useInfiniteGoalList();
 
-  const { todoData } = useAllTodos();
+  const { todoData } = useAllTodos(Number(userId));
 
   return (
     <div className="mt-4 md:mt-8">
