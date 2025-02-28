@@ -4,14 +4,15 @@ import { readTodoList } from '@/apis/clientActions/todo';
 
 import type { TodoListType } from '@/types/todo.type';
 
-export const useAllTodos = (pageSize?: number) => {
+export const useAllTodos = (userId: number, pageSize?: number) => {
   const { data, isLoading } = useQuery<TodoListType>({
-    queryKey: ['todos', pageSize],
-    queryFn: () => readTodoList({ pageSize }),
+    queryKey: ['allTodos', userId],
+    queryFn: () => readTodoList({ pageSize: 9999 }),
     retry: 0
   });
 
-  const todoData = data?.todos || [];
+  const todos = data?.todos || [];
+  const todoData = pageSize ? todos.slice(0, pageSize) : todos;
 
   return { todoData, isLoading };
 };
