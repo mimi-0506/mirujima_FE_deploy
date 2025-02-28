@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { WEEK_DAYS } from '@/constant/date';
 import useCalendar from '@/hooks/dashboard/useCalendar';
 import { useAllTodos } from '@/hooks/todo/useAllTodos';
+import { useInfoStore } from '@/provider/store-provider';
 import ArrowLeft from '@/public/icon/arrow-left-calendar.svg';
 import ArrowRight from '@/public/icon/arrow-right-calendar.svg';
 import { getBgColorForGoal } from '@/utils/dashboard/getBgColorForGoal';
@@ -13,7 +14,8 @@ import { calcGoalCompletionPercentage } from '@/utils/percentageUtils';
 import Label, { labelColorMap } from './Label';
 
 export default function Calendar() {
-  const { todoData } = useAllTodos();
+  const userId = useInfoStore((state) => state.userId);
+  const { todoData } = useAllTodos(Number(userId));
   const { currentDate, days, firstDayOfWeek, handleClickPrevMonth, handleClickNextMonth } =
     useCalendar();
 

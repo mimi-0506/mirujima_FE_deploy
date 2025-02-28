@@ -8,7 +8,7 @@ import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import TaskList from '@/components/TaskList/TaskList';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useAllTodos } from '@/hooks/todo/useAllTodos';
-import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
+import { useInfoStore, useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 import ArrowDownIcon from '@/public/icon/arrow-down.svg';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
 
@@ -23,12 +23,13 @@ interface GoalItemProps {
 }
 
 export default function GoalItem({ goalId, title, todos }: GoalItemProps) {
+  const userId = useInfoStore((state) => state.userId);
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
 
   const { data, isLoading, isError } = useGetGoalDetail(goalId.toString());
 
-  const { todoData } = useAllTodos();
+  const { todoData } = useAllTodos(Number(userId));
   const todoForGoal = todoData.filter((todo) => todo?.goal?.id === goalId);
 
   const [isMoreToggle, setIsMoreToggle] = useState(false);
