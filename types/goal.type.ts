@@ -1,6 +1,6 @@
 export type GoalListType = {
   lastSeenId: number;
-  totalCount: number;
+  remainingCount: number;
   goals: GoalType[];
 };
 
