@@ -6,8 +6,7 @@ import Link from 'next/link';
 
 import { useEmbedStore } from '@/provider/store-provider';
 import CloseCircleIcon from '@/public/icon/X-circle.svg';
-
-const mockYoutube = 'https://www.youtube.com/embed/j2LZmDCCpKY';
+import convertYoutubeLinkToEmbedUrl from '@/utils/note/convertYoutubeLinkToEmbedUrl';
 
 interface Props {
   linkUrl: string | undefined;
@@ -59,7 +58,7 @@ export default function EmbedContent({ linkUrl, isReadOnlyPage }: Props) {
           </div>
         </div>
         <iframe
-          src={embedUrl || linkUrl}
+          src={convertYoutubeLinkToEmbedUrl(embedUrl || linkUrl)}
           className="h-3/4 w-full"
           sandbox="allow-scripts allow-same-origin"
           referrerPolicy="no-referrer"
