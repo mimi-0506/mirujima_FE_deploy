@@ -4,10 +4,11 @@ import { useModalStore } from '@/provider/store-provider';
 
 import useDeleteNote from './useDeleteNote';
 
-const useNoteActions = (goalId: number) => {
+const useNoteActions = (goalId: number | undefined) => {
+  const effectGoalId = goalId ?? 0;
   const router = useRouter();
 
-  const { mutate } = useDeleteNote(goalId);
+  const { mutate } = useDeleteNote(effectGoalId);
   const setIsNoteConfirmModalOpen = useModalStore((state) => state.setIsNoteConfirmModalOpen);
 
   const onClickNote = (noteId: number) => {
