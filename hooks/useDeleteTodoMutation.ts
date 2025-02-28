@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 
 import { useMutation } from '@tanstack/react-query';
 
-import { deleteTodoItem } from '@/apis/todo';
+import { deleteTodoItem } from '@/apis/clientActions/todo';
 import { TODO_DELETE_ERROR, TODO_DELETE_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
