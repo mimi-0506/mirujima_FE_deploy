@@ -5,9 +5,13 @@
 
 # MIRUJIMA
 
-![미루지마](attachment:ed9a866c-eb4a-462d-b870-efc4ffb4c185)
 
-[View Demo](https://mirujima-fe-deploy-j69yb2acg-mimi0506.vercel.app) | [Report Bug](https://desert-share-9a5.notion.site/184a915822ac813eb508e86635d7423d?pvs=4) | [Request Feature](https://desert-share-9a5.notion.site/c1810df35eeb4f1c948baee096d0b538?pvs=4)
+ <img src="https://github.com/user-attachments/assets/533c8fd3-2c30-400d-8113-f383194e5d0b" alt="Image" style="width: 50%; height: auto;" />
+
+
+
+[Deployment](https://mirujima-fe-deploy.vercel.app/) | [Report Bug](https://desert-share-9a5.notion.site/184a915822ac813eb508e86635d7423d?pvs=4) | [Request Feature](https://desert-share-9a5.notion.site/c1810df35eeb4f1c948baee096d0b538?pvs=4)
+
 
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black)
