@@ -1,5 +1,4 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
@@ -10,6 +9,7 @@ import KebabForGoal from '@/components/kebab/KebabForGoal';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
 import { useDeleteTodoItem } from '@/hooks/goalsDetail/useDeleteTodoItem';
+import { useModalStore } from '@/provider/store-provider';
 import { useTodoCreateModalStore } from '@/provider/store-provider';
 import FileIcon from '@/public/icon/file.svg';
 import FlagIcon from '@/public/icon/flag-gray.svg';
@@ -33,7 +33,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const { setCreatedTodoState } = useTodoCreateModalStore((state) => state);
   const mutation = useDeleteTodoItem();
   const { mutate: toggleTodo } = useCheckTodo();
-
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const [isPenLoading, setIsPenLoading] = useState(false);
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
 
@@ -69,6 +69,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
 
   const handleOpenEditModal = (todo: any) => {
     setCreatedTodoState({ ...todo, fileName: todo.filePath, isEdit: true });
+    setIsTodoCreateModalOpen(true);
   };
 
   const handleKebabClick = (e: React.MouseEvent) => {
