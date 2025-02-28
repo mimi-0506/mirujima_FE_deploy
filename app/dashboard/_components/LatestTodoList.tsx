@@ -1,3 +1,4 @@
+import { motion } from 'motion/react';
 import Link from 'next/link';
 
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
@@ -12,7 +13,7 @@ import type { TodoType } from '@/types/todo.type';
 export default function LatestTodoList() {
   const userId = useInfoStore((state) => state.userId);
 
-  const { todoData, isLoading } = useAllTodos(4);
+  const { todoData, isLoading } = useAllTodos(Number(userId), 4);
 
   const hasTodos = todoData.length > 0;
 
@@ -29,9 +30,11 @@ export default function LatestTodoList() {
       {isLoading ? (
         <LoadingSpinner />
       ) : hasTodos ? (
-        <ul className="pointer-events-none">
+        <ul>
           {todoData.map((todo: TodoType) => (
-            <TodoItem key={todo.id} todo={todo} />
+            <motion.li key={todo.id} layout>
+              <TodoItem todo={todo} />
+            </motion.li>
           ))}
         </ul>
       ) : (

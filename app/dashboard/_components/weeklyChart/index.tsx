@@ -35,7 +35,7 @@ export default function WeeklyChart() {
     setProgressData(completionRate);
   };
 
-  const { todoData, isLoading } = useAllTodos();
+  const { todoData, isLoading } = useAllTodos(Number(userId));
 
   useEffect(() => {
     if (todoData) {
