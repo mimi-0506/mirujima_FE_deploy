@@ -14,6 +14,8 @@ interface TaskListProps {
   tasks?: TodoType[];
   isLoading?: boolean;
   isError?: boolean;
+  isMoreToggle?: boolean;
+  tasksLength?: number;
 }
 
 export default function TaskList({
@@ -21,7 +23,9 @@ export default function TaskList({
   done,
   tasks: propTasks,
   isLoading: propLoading,
-  isError: propError
+  isError: propError,
+  isMoreToggle,
+  tasksLength
 }: TaskListProps) {
   const { data, isLoading, isError } = useGetTodoList(goalId, done);
 
@@ -34,7 +38,9 @@ export default function TaskList({
   if (error) return <div>에러가 발생했어요.</div>;
 
   return (
-    <div className="scrollbar-thin h-[260px] overflow-y-auto pr-5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray200 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar]:w-1">
+    <div
+      className={`scrollbar-thin custom-scrollbar overflow-y-auto pr-5 transition-all ${isMoreToggle ? 'max-h-[1000px]' : 'max-h-[260px]'}`}
+    >
       <ul className="mt-2 space-y-2 text-gray350">
         {loading ? (
           // 1. 로딩 중일 때
@@ -46,7 +52,11 @@ export default function TaskList({
           <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 할 일이 없어요</li>
         ) : (
           // 3.  TodoItem 렌더링
-          tasks.map((task) => <TodoItem key={task.id} todo={task} goalId={goalId} />)
+          tasks.map((task) => (
+            <li key={task.id}>
+              <TodoItem todo={task} goalId={goalId} />
+            </li>
+          ))
         )}
       </ul>
     </div>

@@ -1,8 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
+import { updateTodoStatus } from '@/apis/clientActions/todo';
 import { useInfoStore } from '@/provider/store-provider';
-
-import { updateTodoStatus } from '../apis/todo';
 
 import type { QueryClient } from '@tanstack/react-query';
 

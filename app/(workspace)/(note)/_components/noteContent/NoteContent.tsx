@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 
 import { createNote, updateNote } from '@/apis/clientActions/note';
 import {
+  NOTE_CREATE_ERROR,
   NOTE_CREATE_SUCCESS,
   NOTE_EDIT_SUCCESS,
   TEMP_GET_SUCCESS,
@@ -40,12 +41,11 @@ interface Props {
 
 export default function NoteContent({ todo, note }: Props) {
   const [isEdit] = React.useState(!!note);
-
   const [defaultNoteContent, setDefaultNoteContent] = React.useState(note?.content);
   const router = useRouter();
 
   const { onSaveTempToStorage, deleteTempNote, hasTempedNote, resetHasTempNote, tempedNote } =
-    useTempNote(todo.goal.id, todo.id);
+    useTempNote(todo?.goal?.id, todo.id);
   const { linkUrl, handleLinkModal, handleDeleteLink, setLink } = useNoteLink(note?.linkUrl);
 
   const {
@@ -88,9 +88,10 @@ export default function NoteContent({ todo, note }: Props) {
       }
       // 노트 작성/수정 시 임시 저장 노트 삭제
       deleteTempNote();
-      router.push('/dashboard');
+      router.push('/noteList');
     } catch (error) {
       console.error(error);
+      toast.error(NOTE_CREATE_ERROR);
     }
   };
 
@@ -130,7 +131,7 @@ export default function NoteContent({ todo, note }: Props) {
         )}
         <div className="w-full space-y-6 bg-white desktop:px-6 desktop:pt-[40px]">
           <NoteInfo
-            goalTitle={todo.goal.title}
+            goalTitle={todo?.goal?.title}
             todoTitle={todo.title}
             noteUpdatedAt={note?.updatedAt}
           />

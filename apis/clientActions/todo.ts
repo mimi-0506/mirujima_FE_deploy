@@ -1,8 +1,8 @@
-import { apiWithClientToken } from './clientActions/index';
-
 import type { TodoListType } from '@/types/todo.type';
 
-const TODO_SIZE = 10;
+import { apiWithClientToken } from '.';
+
+const TODO_SIZE = 40;
 
 export const readTodoList = async ({
   lastSeenId,

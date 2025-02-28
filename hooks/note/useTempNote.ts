@@ -5,7 +5,14 @@ import { isTempNoteContent } from '@/utils/note/isTempNoteContent';
 
 import type { TempNoteContentType, TempNoteType } from '@/types/note.type';
 
-const useTempNote = (goalId: number, todoId?: number) => {
+/**
+ * 목표가 없는 할 일의 노트인 경우에도 사용 가능
+ *
+ * ex) useTempNote(todo?.goal?.id)
+ */
+const useTempNote = (goalId: number | undefined, todoId?: number) => {
+  const effectGoalId = goalId ?? 0;
+
   const [tempedNote, setTempedNote] = React.useState<TempNoteType>();
   const [hasTempedNote, setHasTempedNote] = React.useState(false);
 
@@ -32,18 +39,18 @@ const useTempNote = (goalId: number, todoId?: number) => {
     const tempData = onLoadTempNoteFromStorage();
     if (!tempData) {
       const newTempData: TempNoteContentType = {
-        [goalId]: [note]
+        [effectGoalId]: [note]
       };
 
       localStorage.setItem(TEMP_STORAGE_KEY, JSON.stringify(newTempData));
     } else {
-      if (!tempData[goalId]) tempData[goalId] = [note];
+      if (!tempData[effectGoalId]) tempData[effectGoalId] = [note];
       else {
-        const targetIdx = tempData[goalId].findIndex((note) => note.todoId === todoId);
+        const targetIdx = tempData[effectGoalId].findIndex((note) => note.todoId === todoId);
         if (targetIdx === -1) {
-          tempData[goalId].push(note); // 노트가 많을 경우를 생각해서 정렬 알고리즘을 적용해야하나..?
+          tempData[effectGoalId].push(note); // 노트가 많을 경우를 생각해서 정렬 알고리즘을 적용해야하나..?
         } else {
-          tempData[goalId][targetIdx] = note;
+          tempData[effectGoalId][targetIdx] = note;
         }
       }
 
@@ -53,25 +60,25 @@ const useTempNote = (goalId: number, todoId?: number) => {
 
   const getTempNote = () => {
     const tempData = onLoadTempNoteFromStorage();
-    if (!tempData || !tempData[goalId]) return;
+    if (!tempData || !tempData[effectGoalId]) return;
 
-    return tempData[goalId].find((temp) => temp.todoId === todoId);
+    return tempData[effectGoalId].find((temp) => temp.todoId === todoId);
   };
 
   // goal 삭제, todo 삭제 시에도 실행되어야함
   const deleteTempNote = () => {
     const tempData = onLoadTempNoteFromStorage();
-    if (tempData && tempData[goalId]) {
+    if (tempData && tempData[effectGoalId]) {
       if (todoId) {
         // todo 삭제 시, 노트 저장 시
-        const newNoteList = tempData[goalId].filter((note) => note.todoId !== todoId);
-        tempData[goalId] = newNoteList;
+        const newNoteList = tempData[effectGoalId].filter((note) => note.todoId !== todoId);
+        tempData[effectGoalId] = newNoteList;
         if (newNoteList.length === 0) {
-          delete tempData[goalId];
+          delete tempData[effectGoalId];
         }
       } else {
         // goal 삭제 시
-        delete tempData[goalId];
+        delete tempData[effectGoalId];
       }
 
       localStorage.setItem(TEMP_STORAGE_KEY, JSON.stringify(tempData));
@@ -91,11 +98,11 @@ const useTempNote = (goalId: number, todoId?: number) => {
   }, []);
 
   return {
+    tempedNote,
+    hasTempedNote,
     onLoadTempNoteFromStorage,
     onSaveTempToStorage,
     deleteTempNote,
-    tempedNote,
-    hasTempedNote,
     resetHasTempNote
   };
 };

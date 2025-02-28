@@ -114,7 +114,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
 
   return (
     <>
-      <li
+      <div
         className="relative mb-3 flex items-center justify-between"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -189,7 +189,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
             />
           </div>
         </div>
-      </li>
+      </div>
 
       {isNoteModalOpen && (
         <NoteDetailModal

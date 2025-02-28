@@ -20,7 +20,7 @@ export default function NavBar() {
     else setIsOpen(false);
   }, [screenSize, pathname]);
 
-  if (pathname.includes('login') || pathname.includes('signup')) return null;
+  if (pathname.includes('login') || pathname.includes('signup') || pathname === '/') return null;
 
   if (screenSize >= LARGE_MIN) return <LargeNav isOpen={isOpen} setIsOpen={setIsOpen} />;
   else if (screenSize < SMALL_MAX) return <SmallNav isOpen={isOpen} setIsOpen={setIsOpen} />;

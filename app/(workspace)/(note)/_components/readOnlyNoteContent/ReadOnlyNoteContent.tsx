@@ -16,12 +16,12 @@ interface Props {
 }
 
 export default function ReadOnlyNoteContent({ note }: Props) {
-  const { onClickEdit, onClickDelete } = useNoteActions(note.goalDto.id);
+  const { onClickEdit, onClickDelete } = useNoteActions(note.goalDto?.id);
 
   return (
     <section className="w-full bg-white">
       <NoteInfo
-        goalTitle={note.goalDto.title}
+        goalTitle={note.goalDto?.title}
         todoTitle={note.todoDto.title}
         noteUpdatedAt={note.updatedAt}
       />
