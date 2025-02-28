@@ -1,9 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { apiWithClientToken } from '@/apis/clientActions/index';
-import { useInfoStore } from '@/provider/store-provider';
+import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 import type { TodoType } from '@/types/todo.type';
+import type { QueryClient } from '@tanstack/react-query';
 
 interface TodoListResponse {
   success: boolean;
@@ -29,11 +32,21 @@ const fetchTodoList = async (
 };
 
 export const useGetTodoList = (goalId?: number | null | undefined, done = false) => {
+  const isTodoCreateModalOpen = useModalStore((state) => state.isTodoCreateModalOpen);
+  const queryClient: QueryClient = useQueryClient();
   const userId = useInfoStore((state) => state.userId);
   const query = useQuery<TodoType[]>({
     queryKey: ['todos', goalId, userId, done],
     queryFn: () => fetchTodoList(goalId, done),
     enabled: !!goalId
   });
+
+  useEffect(() => {
+    if (!isTodoCreateModalOpen) {
+      queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, done] });
+      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, done] });
+    }
+  }, [isTodoCreateModalOpen]);
+
   return query;
 };

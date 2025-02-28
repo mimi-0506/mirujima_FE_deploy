@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_ENV=deployment next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -57,6 +57,7 @@
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8.23.0",
     "babel-jest": "^29.7.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.1",
     "eslint-config-next": "15.1.6",
     "eslint-config-prettier": "^10.0.1",
