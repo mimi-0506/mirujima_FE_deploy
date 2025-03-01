@@ -21,8 +21,12 @@ export default async function NoteList({ params }: Props) {
   const goal = await readGoalFromServer(goalId);
   if (!goal) redirect('/dashboard'); // goalId가 잘못됐을 때 처리
 
-  const defaultNoteListArgs = { goalId: Number(goalId), lastSeenId: 9999, pageSize: 10 };
-  const noteList = await readNoteListFromServer(defaultNoteListArgs);
+  const noteList = await readNoteListFromServer({
+    goalId: goal.id,
+    lastSeenId: 9999,
+    pageSize: 10,
+    hasGoal: true
+  });
 
   return (
     <section className="custom-scrollbar max-w-[1248px] space-y-[24px]">
@@ -34,7 +38,7 @@ export default async function NoteList({ params }: Props) {
         <EditGoal goalId={goal.id} />
       </div>
       {noteList.result ? (
-        <NoteCardList noteList={noteList.result} />
+        <NoteCardList goalId={goal.id} noteList={noteList.result} />
       ) : (
         <div>작성한 노트가 없어요</div>
       )}

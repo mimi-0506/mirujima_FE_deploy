@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import { createNote, updateNote } from '@/apis/clientActions/note';
@@ -43,6 +44,7 @@ export default function NoteContent({ todo, note }: Props) {
   const [isEdit] = React.useState(!!note);
   const [defaultNoteContent, setDefaultNoteContent] = React.useState(note?.content);
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { onSaveTempToStorage, deleteTempNote, hasTempedNote, resetHasTempNote, tempedNote } =
     useTempNote(todo?.goal?.id, todo.id);
@@ -86,11 +88,15 @@ export default function NoteContent({ todo, note }: Props) {
         const res = await createNote(note);
         toast.success(NOTE_CREATE_SUCCESS);
       }
-      // 노트 작성/수정 시 임시 저장 노트 삭제
+
+      queryClient.invalidateQueries({
+        queryKey: ['notes', todo?.goal?.id ?? 0],
+        refetchType: 'all'
+      });
       deleteTempNote();
+
       router.push('/noteList');
     } catch (error) {
-      console.error(error);
       toast.error(NOTE_CREATE_ERROR);
     }
   };

@@ -10,7 +10,7 @@ const deleteTodoItem = async (todoId: number): Promise<void> => {
   await apiWithClientToken.delete(`/todos/${todoId}`);
 };
 
-export function useDeleteTodoItem() {
+export function useDeleteTodoItem(goalId?: number) {
   const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
   const setIsLoading = useModalStore((state) => state.setIsLoading);
@@ -22,8 +22,17 @@ export function useDeleteTodoItem() {
     },
     onSuccess: (_, todoId) => {
       setIsLoading(false);
-      queryClient.invalidateQueries({ queryKey: ['allTodos', userId] });
+      queryClient.invalidateQueries({ queryKey: ['allTodos', userId], refetchType: 'all' });
       queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
+      queryClient.invalidateQueries({
+        queryKey: ['todos', goalId ?? 0, userId],
+        refetchType: 'all'
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['notes', goalId ?? 0, userId],
+        refetchType: 'all'
+      });
+
       toast.success(TODO_DELETE_SUCCESS);
     },
     onError: () => {

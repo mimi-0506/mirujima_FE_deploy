@@ -5,13 +5,10 @@ import type { NoteListType, NoteType, ReadNoteListType } from '@/types/note.type
 
 import { apiWithServerToken } from '.';
 
-export const readNoteListFromServer = async ({
-  goalId,
-  lastSeenId,
-  pageSize = 10
-}: ReadNoteListType) => {
+export const readNoteListFromServer = async (args: ReadNoteListType) => {
   'use server';
-  const query = `goalId=${goalId}&lastSeenId=${lastSeenId}&pageSize=${pageSize}`;
+  const { goalId, lastSeenId, pageSize = 10, hasGoal } = args;
+  const query = `goalId=${goalId}&lastSeenId=${lastSeenId}&pageSize=${pageSize}&hasGoal=${hasGoal}`;
   try {
     const res = await apiWithServerToken.get<ApiResponse<NoteListType>>(`/notes?${query}`);
 
