@@ -31,7 +31,7 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { setCreatedTodoState } = useTodoCreateModalStore((state) => state);
-  const mutation = useDeleteTodoItem();
+  const mutation = useDeleteTodoItem(goalId);
   const { mutate: toggleTodo } = useCheckTodo();
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const [isPenLoading, setIsPenLoading] = useState(false);

@@ -9,13 +9,7 @@ import TodoIcon from '@/public/icon/work.svg';
 
 import NoteCardList from '../noteCardList/NoteCardList';
 
-import type { GoalType } from '@/types/goal.type';
-
-interface Props {
-  goal: GoalType;
-}
-
-export default function GoalNoteList({ goal }: Props) {
+export default function NoGoalNoteList() {
   const { isToggleOpen, handleToggle } = useToggle();
 
   return (
@@ -27,7 +21,7 @@ export default function GoalNoteList({ goal }: Props) {
         className="color-animate mb-4 flex w-full cursor-pointer items-center gap-1 pr-4"
       >
         <TodoIcon width="18" height="18" className="shrink-0" />
-        <h3 className="w-full truncate">{goal.title}</h3>
+        <h3 className="w-full truncate">정리되지 않은 노트</h3>
         <button type="button" aria-label={isToggleOpen ? '목표 노트 숨기기' : '목표 노트 보기'}>
           {isToggleOpen ? (
             <ArrowUp width="24" height="24" />
@@ -37,7 +31,7 @@ export default function GoalNoteList({ goal }: Props) {
         </button>
       </div>
 
-      {isToggleOpen && <NoteCardList goalId={goal.id} />}
+      {isToggleOpen && <NoteCardList goalId={undefined} />}
     </section>
   );
 }

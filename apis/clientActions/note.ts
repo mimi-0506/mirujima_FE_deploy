@@ -37,12 +37,10 @@ export const createNote = async (data: CreateNoteType) => {
   }
 };
 
-export const readNoteListFromClient = async ({
-  goalId,
-  lastSeenId,
-  pageSize = 10
-}: ReadNoteListType) => {
-  const query = `goalId=${goalId}&lastSeenId=${lastSeenId}&pageSize=${pageSize}`;
+export const readNoteListFromClient = async (args: ReadNoteListType) => {
+  const { goalId, lastSeenId, pageSize = 10, hasGoal } = args;
+  const goalQuery = goalId !== 0 ? `&goalId=${goalId}` : '';
+  const query = `lastSeenId=${lastSeenId}&pageSize=${pageSize}&hasGoal=${hasGoal}${goalQuery}`;
   try {
     const res = await apiWithClientToken.get<ApiResponse<NoteListType>>(`/notes?${query}`);
 

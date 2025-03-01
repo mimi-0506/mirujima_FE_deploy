@@ -30,6 +30,7 @@ export type ReadNoteListType = {
   goalId: number;
   lastSeenId: number;
   pageSize?: number;
+  hasGoal: boolean;
 };
 
 export type UpdateNoteType = Pick<NoteType, 'title' | 'content' | 'linkUrl'>;
