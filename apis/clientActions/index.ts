@@ -35,7 +35,7 @@ const errorInterceptor = async (error: AxiosError) => {
 
 // ✅ 응답 인터셉터: 정상 응답 로깅
 const responseInterceptor = async (response: AxiosResponse) => {
-  console.log('현재 response', response, response.data?.code, response.status);
+  // console.log('현재 response', response, response.data?.code, response.status);
   return response;
 };
 
