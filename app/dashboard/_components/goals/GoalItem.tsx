@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import TaskList from '@/components/TaskList/TaskList';
@@ -23,6 +23,7 @@ interface GoalItemProps {
 }
 
 export default function GoalItem({ goalId, title, todos }: GoalItemProps) {
+  const router = useRouter();
   const userId = useInfoStore((state) => state.userId);
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
@@ -68,9 +69,13 @@ export default function GoalItem({ goalId, title, todos }: GoalItemProps) {
     setIsMoreToggle((prev) => !prev);
   };
 
+  const handleGoalClick = () => {
+    router.push(`/goals/${goalId}`);
+  };
+
   return (
     <div className="relative">
-      <Link href={`/goals/${goalId}`}>
+      <article onClick={handleGoalClick}>
         <div className="rounded-container mb-4 w-full cursor-pointer p-6" ref={ref}>
           <div className="flex justify-between">
             <h3 className="truncate pr-16 text-lg font-semibold">{title}</h3>
@@ -104,7 +109,7 @@ export default function GoalItem({ goalId, title, todos }: GoalItemProps) {
             </div>
           </div>
         </div>
-      </Link>
+      </article>
 
       <div className="absolute right-6 top-6 z-10 text-xs">
         <button onClick={handleAddTodo} className="flex-center text-main">

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
-import NoteDetailModal from '@/app/(workspace)/goals/_components/NoteDetailModal';
 import KebabForGoal from '@/components/kebab/KebabForGoal';
 import { PRIORITY_COLORS } from '@/constant/priorityColor';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
@@ -34,8 +33,8 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const mutation = useDeleteTodoItem(goalId);
   const { mutate: toggleTodo } = useCheckTodo();
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
+  const setNoteDetailPageOpen = useModalStore((state) => state.setNoteDetailPageOpen);
   const [isPenLoading, setIsPenLoading] = useState(false);
-  const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
 
   // 1) 케밥 메뉴 열림/닫힘 상태
   const [isKebabSelected, setIsKebabSelected] = useState(false);
@@ -44,7 +43,11 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
 
   const handleNoteIconClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsNoteModalOpen(true);
+
+    setNoteDetailPageOpen(true, {
+      params: Promise.resolve({ id: String(todo.noteId) }),
+      onClose: () => setNoteDetailPageOpen(false)
+    });
   };
 
   const handlePenIconClick = (e: React.MouseEvent) => {
@@ -76,17 +79,6 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
     e.stopPropagation();
     setIsKebabSelected((prev) => !prev);
   };
-
-  useEffect(() => {
-    if (isNoteModalOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isNoteModalOpen]);
 
   useEffect(() => {
     const handleClickOutside = () => {
@@ -190,13 +182,6 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
           </div>
         </div>
       </div>
-
-      {isNoteModalOpen && (
-        <NoteDetailModal
-          params={Promise.resolve({ id: String(todo.noteId) })}
-          onClose={() => setIsNoteModalOpen(false)}
-        />
-      )}
     </>
   );
 }

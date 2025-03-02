@@ -6,18 +6,20 @@ import { useEffect, useState } from 'react';
 import { readNoteFromClient } from '@/apis/clientActions/note';
 import EmbedContent from '@/app/(workspace)/(note)/_components/embedContent/EmbedContent';
 import ReadOnlyNoteContent from '@/app/(workspace)/(note)/_components/readOnlyNoteContent/ReadOnlyNoteContent';
+import { useModalStore } from '@/provider/store-provider';
 
 import NoteModalInGoal from '../_components/NoteModalInGoal';
 
 import type { NoteType } from '@/types/note.type';
 
-interface Props {
+export interface NoteDetailPageModalProps {
   params: Promise<{ id: string }>;
   onClose: () => void;
 }
 
-export default function NoteDetailModal({ params, onClose }: Props) {
+export default function NoteDetailModal({ params, onClose }: NoteDetailPageModalProps) {
   const [note, setNote] = useState<NoteType | null>(null);
+  const setNoteDetailPageOpen = useModalStore((state) => state.setNoteDetailPageOpen);
 
   useEffect(() => {
     (async () => {
@@ -32,6 +34,15 @@ export default function NoteDetailModal({ params, onClose }: Props) {
       }
     })();
   }, [params, onClose]);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = '';
+      setNoteDetailPageOpen(false);
+    };
+  }, []);
 
   if (!note) return null;
 
