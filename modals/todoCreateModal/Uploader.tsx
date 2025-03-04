@@ -32,7 +32,7 @@ export default function Uploader() {
 
   const handleLinkPaste = async () => {
     const nowLink = await navigator.clipboard.readText();
-    //있는 url을 지우는 ui도 필요할듯
+    // 있는 url을 지우는 ui도 필요할듯
 
     try {
       const url = new URL(nowLink);

@@ -1,6 +1,6 @@
 export const generateMetadata = () => {
   return {
-    title: `노트 모아보기 페이지`
+    title: '노트 모아보기 페이지'
   };
 };
 

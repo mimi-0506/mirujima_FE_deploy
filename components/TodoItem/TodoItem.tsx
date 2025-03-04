@@ -1,7 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-
-import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import KebabForGoal from '@/components/kebab/KebabForGoal';
@@ -28,7 +26,6 @@ interface TodoItemProps {
 
 export default function TodoItem({ todo, goalId }: TodoItemProps) {
   const router = useRouter();
-  const queryClient = useQueryClient();
   const { setCreatedTodoState } = useTodoCreateModalStore((state) => state);
   const mutation = useDeleteTodoItem(goalId);
   const { mutate: toggleTodo } = useCheckTodo();

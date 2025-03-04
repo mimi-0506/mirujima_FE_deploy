@@ -16,7 +16,7 @@ const useInfiniteNoteList = (goalId: number | undefined, initData?: NoteListType
 
   const staleTime = initData ? (isFirst ? 1000 : 10 * 60 * 1000) : isFirst ? 0 : 10 * 60 * 1000;
 
-  const { data, isFetching, fetchNextPage, refetch } = useInfiniteQuery({
+  const { data, isFetching, fetchNextPage } = useInfiniteQuery({
     queryKey: ['notes', effectGoalId, userId],
     queryFn: ({ pageParam }) =>
       readNoteListFromClient({ goalId: effectGoalId, lastSeenId: pageParam, hasGoal: !!goalId }),

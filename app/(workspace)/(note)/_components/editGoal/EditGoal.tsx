@@ -17,10 +17,11 @@ interface Props {
 export default function EditGoal({ goalId }: Props) {
   const router = useRouter();
   const { restoreUser } = useInfoStore((state) => state);
-  const { data: goalData, isLoading, isError } = useGetGoalDetail(goalId.toString());
+  const { data: goalData } = useGetGoalDetail(goalId.toString());
   const goalTitle = goalData?.result?.title ?? '목표 제목이 없어요';
 
   const [editedTitle, setEditedTitle] = useState(goalTitle);
+  console.log(editedTitle);
 
   const { mutate: deleteGoalMutate } = useDeleteGoal();
   const { mutate: updateGoalTitle } = useUpdateGoalTitle();

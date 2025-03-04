@@ -27,7 +27,7 @@ export const readGoalFromServer = async (goalId: string | number) => {
 export const readGoalListFromServer = async () => {
   'use server';
   try {
-    const res = await apiWithServerToken.get<ApiResponse<GoalListType>>(`/goals?pageSize=99`);
+    const res = await apiWithServerToken.get<ApiResponse<GoalListType>>('/goals?pageSize=99');
 
     return res.data.result;
   } catch (e) {

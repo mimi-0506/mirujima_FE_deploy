@@ -15,7 +15,7 @@ export default function SubmitButton({ formRef }: { formRef: RefObject<HTMLFormE
   const { setTodoEdit } = useTodoEdit();
   const { allValid } = useTodoCreateValidCheck();
 
-  //제출 로직 컴포넌트에 분리하고 싶으므로 onSubmit이 아닌 button에서 해결
+  // 제출 로직 컴포넌트에 분리하고 싶으므로 onSubmit이 아닌 button에서 해결
   const handleTodoSubmit: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
 

@@ -13,7 +13,7 @@ export default function GoalSelector() {
   const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
   const [selectedGoal, setSelectedGoal] = useState<GoalType | null>(goal);
 
-  //수정시 초기값 가져오기용 세팅
+  // 수정시 초기값 가져오기용 세팅
   useEffect(() => {
     if (goal?.id !== selectedGoal?.id) setSelectedGoal(goal);
   }, [goal]);

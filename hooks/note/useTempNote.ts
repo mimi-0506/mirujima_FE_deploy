@@ -5,11 +5,6 @@ import { isTempNoteContent } from '@/utils/note/isTempNoteContent';
 
 import type { TempNoteContentType, TempNoteType } from '@/types/note.type';
 
-/**
- * 목표가 없는 할 일의 노트인 경우에도 사용 가능
- *
- * ex) useTempNote(todo?.goal?.id)
- */
 const useTempNote = (goalId: number | undefined, todoId?: number) => {
   const effectGoalId = goalId ?? 0;
 

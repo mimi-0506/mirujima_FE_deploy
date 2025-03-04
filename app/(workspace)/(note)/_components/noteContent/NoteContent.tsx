@@ -76,7 +76,7 @@ export default function NoteContent({ todo, note }: Props) {
           content,
           linkUrl: linkUrl || ''
         };
-        const res = await updateNote(note.id, newNote);
+        await updateNote(note.id, newNote);
         toast.success(NOTE_EDIT_SUCCESS);
       } else {
         const note: CreateNoteType = {
@@ -85,7 +85,7 @@ export default function NoteContent({ todo, note }: Props) {
           content,
           linkUrl: linkUrl || ''
         };
-        const res = await createNote(note);
+        await createNote(note);
         toast.success(NOTE_CREATE_SUCCESS);
       }
 
@@ -109,7 +109,7 @@ export default function NoteContent({ todo, note }: Props) {
       style: { color: '#F86969', borderRadius: '20px', border: '1px solid #F86969' },
       icon: <SuccessIcon />
     });
-    //따로 빼려고 했는데, 생각해보니 여기 외에는 해당 토스트를 쓰는 곳이 없어서 그냥 놔두는 쪽이 좋을 것 같아요🤔
+    // 따로 빼려고 했는데, 생각해보니 여기 외에는 해당 토스트를 쓰는 곳이 없어서 그냥 놔두는 쪽이 좋을 것 같아요🤔
   };
 
   const onLoadTempNote = () => {

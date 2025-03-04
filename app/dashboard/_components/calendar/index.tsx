@@ -78,7 +78,9 @@ export default function Calendar() {
               return (
                 <div
                   key={i}
-                  className={`flex-center relative z-10 mx-1 mb-2 w-full text-body2 desktop:text-body1`}
+                  className={
+                    'flex-center relative z-10 mx-1 mb-2 w-full text-body2 desktop:text-body1'
+                  }
                   style={i === 0 ? { gridColumnStart: firstDayOfWeek } : {}}
                 >
                   <span

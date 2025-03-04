@@ -9,7 +9,6 @@ import TaskList from '@/components/TaskList/TaskList';
 import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
 import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
-import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
 import Loading from '@/modals/loadingOverlay/Loading';
 import { useInfoStore, useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
@@ -27,14 +26,18 @@ export default function GoalDetailPage() {
   const goalIdString = goalId ? goalId.toString() : '';
 
   const { data: goalData, isLoading, isError } = useGetGoalDetail(goalIdString);
-  const { data: todosTodo } = useGetTodoList(goalId, false);
-  const { data: todosDone } = useGetTodoList(goalId, true);
+  // const { data: todosTodo } = useGetTodoList(goalId, false);
+  // const { data: todosDone } = useGetTodoList(goalId, true);
 
   const goalTitle = goalData?.result?.title ?? '목표 제목이 없어요';
   const { mutate: updateGoalTitle } = useUpdateGoalTitle();
   const { mutate: deleteGoalMutate } = useDeleteGoal();
 
   const [isEditing, setIsEditing] = useState(false);
+  useEffect(() => {
+    setIsEditing(false);
+  }, []);
+
   const [editedTitle, setEditedTitle] = useState(goalTitle);
   const [activeTab, setActiveTab] = useState<'todo' | 'done'>('todo');
   const [isMounted, setIsMounted] = useState(false);

@@ -58,7 +58,7 @@ export default function ProfileImage() {
       setIsLoading(true);
 
       try {
-        const profileImagePath = await fileUpload(selectedFile, selectedFile.name); //1.이미지 업로드
+        const profileImagePath = await fileUpload(selectedFile, selectedFile.name); // 1.이미지 업로드
         await mutateAsync({ orgFileName: selectedFile.name, profileImagePath }); // 2.기존 정보 수정
 
         setInfo({ profileImage: profileImagePath });

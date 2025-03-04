@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
@@ -34,6 +34,9 @@ export default function TaskList({
   const error = propTasks !== undefined ? (propError ?? false) : isError;
 
   const [showEmptyMessage, setShowEmptyMessage] = useState(false);
+  useEffect(() => {
+    setShowEmptyMessage(false);
+  }, []);
 
   if (error) return <div>에러가 발생했어요.</div>;
 
