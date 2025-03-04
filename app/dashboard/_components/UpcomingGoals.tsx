@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import useGetGoalList from '@/hooks/useGetGoalList';
 import { getUpcomingDates } from '@/utils/dateUtils';
@@ -8,6 +10,7 @@ import type { GoalType } from '@/types/goal.type';
 
 export default function UpcomingGoals() {
   const { data, isLoading } = useGetGoalList();
+  const [todayDate, setTodayDate] = useState<number>(new Date().getDate());
 
   // 오늘, 내일, 모레 목표 필터링
   const upcomingGoals = getUpcomingDates(3).map(({ date, day }) => {
@@ -17,7 +20,9 @@ export default function UpcomingGoals() {
     return { date, day, goals: filteredGoals };
   });
 
-  const todayDate = new Date().getDate();
+  useEffect(() => {
+    setTodayDate(new Date().getDate());
+  }, []);
 
   return (
     <div className="rounded-container">
