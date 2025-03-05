@@ -1,9 +1,5 @@
 import type { TodoType } from '@/types/todo.type';
-
-export type GoalId = {
-  goalId: number;
-  completionDate: string;
-};
+import type { GoalId } from '@/types/goal.type';
 
 export const getBgColorForGoal = (
   todos: TodoType[],

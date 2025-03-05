@@ -5,12 +5,11 @@ import { createContext, type ReactNode, useContext, useRef } from 'react';
 import { useStore } from 'zustand';
 
 import { createEmbedStore } from '@/stores/embedStore';
-import { createInfoStore, type InfoStore } from '@/stores/infoStore';
+import { createInfoStore } from '@/stores/infoStore';
 import { createModalStore, type ModalStore } from '@/stores/modalStore';
-import {
-  createTodoCreateModalStore,
-  type TodoCreateModalStore
-} from '@/stores/todoCreateModalStore';
+import { createTodoCreateModalStore } from '@/stores/todoCreateModalStore';
+import type { InfoStore } from '@/types/infoStore.types';
+import type { TodoCreateModalStore } from '@/types/todoCreateModal.types';
 
 import type { EmbedStore } from '@/stores/embedStore';
 

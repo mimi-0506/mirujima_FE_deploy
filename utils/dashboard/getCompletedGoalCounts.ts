@@ -2,7 +2,7 @@ import { getGoalTodos } from './goalUtil';
 
 import type { TodoType } from '@/types/todo.type';
 
-export const getCompletedGoalCounts = (todos: TodoType[], year: number, month: number) => {
+export const getCompletedGoalCounts = (todos: TodoType[], year: number, month: number): number => {
   // 해당 월에 완료된 todos 필터링
   const filteredTodos = todos.filter((todo) => {
     if (!todo.goal?.completionDate) return false;

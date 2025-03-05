@@ -15,7 +15,6 @@ interface TaskListProps {
   isLoading?: boolean;
   isError?: boolean;
   isMoreToggle?: boolean;
-  tasksLength?: number;
 }
 
 export default function TaskList({
@@ -24,8 +23,7 @@ export default function TaskList({
   tasks: propTasks,
   isLoading: propLoading,
   isError: propError,
-  isMoreToggle,
-  tasksLength
+  isMoreToggle
 }: TaskListProps) {
   const { data, isLoading, isError } = useGetTodoList(goalId, done);
 

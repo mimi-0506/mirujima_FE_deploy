@@ -1,11 +1,27 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
 import type { TodoType } from '@/types/todo.type';
 
-const checkTodo = async ({ todo }: { todo: TodoType }) => {
+interface CheckTodoParams {
+  todo: TodoType;
+}
+
+interface CheckTodoMutationVars {
+  todo: TodoType;
+  goalId: number;
+}
+
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
+const checkTodo = async ({ todo }: CheckTodoParams): Promise<TodoType> => {
   if (!todo.id) {
     throw new Error('ToDo id가 없습니다.');
   }
@@ -15,12 +31,13 @@ const checkTodo = async ({ todo }: { todo: TodoType }) => {
   });
   return response.data;
 };
+
 export const useCheckTodo = () => {
   const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: async ({ todo, goalId }: { todo: TodoType; goalId: number }) => {
+  return useMutation<TodoType, ApiError, CheckTodoMutationVars>({
+    mutationFn: async ({ todo }: CheckTodoMutationVars): Promise<TodoType> => {
       return checkTodo({ todo });
     },
     onSuccess: (_, { goalId }) => {
@@ -30,7 +47,7 @@ export const useCheckTodo = () => {
       queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, true] });
       queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
     },
-    onError: (error: any) => {
+    onError: (error: ApiError) => {
       console.error('업데이트 실패:', error.response?.data?.message || 'Unknown error occurred.');
     }
   });

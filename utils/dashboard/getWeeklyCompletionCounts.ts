@@ -3,13 +3,15 @@ import { endOfWeek, isWithinInterval, parseISO, startOfWeek } from 'date-fns';
 import { WEEK_DAYS } from '@/constant/date';
 
 import type { TodoType } from '@/types/todo.type';
+import type { ISODateString } from '@/types/ISODateString.type';
 
+type DayOfWeek = '월' | '화' | '수' | '목' | '금' | '토' | '일';
 export const getWeeklyCompletionCounts = (todos: TodoType[]) => {
   const today = new Date();
   const startOfThisWeek = startOfWeek(today, { weekStartsOn: 1 });
   const endOfThisWeek = endOfWeek(today, { weekStartsOn: 1 });
 
-  const weeklyCompletion: Record<string, number> = {
+  const weeklyCompletion: Record<DayOfWeek, number> = {
     월: 0,
     화: 0,
     수: 0,
@@ -20,13 +22,15 @@ export const getWeeklyCompletionCounts = (todos: TodoType[]) => {
   };
 
   todos?.forEach((todo) => {
-    if (!todo.completionDate) return;
-    const completionDate = parseISO(todo.completionDate);
+    const completionDateStr: ISODateString | null = todo.completionDate;
+    if (!completionDateStr) return;
+
+    const completionDate = parseISO(completionDateStr);
 
     if (isWithinInterval(completionDate, { start: startOfThisWeek, end: endOfThisWeek })) {
       // WEEK_DAYS와 completionDate의 시작요일이 달라서 -1 연산
-      const dayOfWeek = completionDate.getDay() - 1;
-      const dayName = WEEK_DAYS[dayOfWeek];
+      const dayOfWeekIndex = completionDate.getDay() - 1;
+      const dayName = WEEK_DAYS[dayOfWeekIndex] as DayOfWeek;
       weeklyCompletion[dayName] += 1;
     }
   });
