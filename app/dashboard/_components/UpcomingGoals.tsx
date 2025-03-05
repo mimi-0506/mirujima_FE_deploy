@@ -8,6 +8,8 @@ import { getUpcomingDates } from '@/utils/dateUtils';
 
 import type { GoalType } from '@/types/goal.type';
 
+type UpcomingGoalType = Pick<GoalType, 'id' | 'title' | 'completionDate'>;
+
 export default function UpcomingGoals() {
   const { data, isLoading } = useGetGoalList();
   const [todayDate, setTodayDate] = useState<number>(new Date().getDate());
@@ -15,7 +17,8 @@ export default function UpcomingGoals() {
   // 오늘, 내일, 모레 목표 필터링
   const upcomingGoals = getUpcomingDates(3).map(({ date, day }) => {
     const filteredGoals =
-      data?.filter((goal: GoalType) => new Date(goal.completionDate).getDate() === date) || [];
+      data?.filter((goal: UpcomingGoalType) => new Date(goal.completionDate).getDate() === date) ||
+      [];
 
     return { date, day, goals: filteredGoals };
   });

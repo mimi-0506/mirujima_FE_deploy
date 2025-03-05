@@ -3,11 +3,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
-import type { GoalType } from '@/types/goal.type';
+import type { GoalType, ISODateString } from '@/types/goal.type';
+
 interface UpdateGoalVariables {
   goalId: number;
   title: string;
-  completionDate?: string;
+  completionDate?: ISODateString;
 }
 
 interface UpdateGoalResponse {

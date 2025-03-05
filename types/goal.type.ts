@@ -1,3 +1,9 @@
+import { ISODateString } from './ISODateString.type';
+import { ApiResponse } from './apiResponse.type';
+
+export type { ISODateString } from './ISODateString.type'; // 재export
+export type { ApiResponse } from './apiResponse.type'; // 재export
+
 export type GoalListType = {
   lastSeenId: number;
   remainingCount: number;
@@ -8,9 +14,19 @@ export type GoalType = {
   id: number;
   userId: number;
   title: string;
-  completionDate: string;
-  createdAt: string;
-  updatedAt: string;
+  completionDate: ISODateString;
+  createdAt: ISODateString;
+  updatedAt: ISODateString;
 };
 
+export type GoalListResponse = ApiResponse<GoalListType>;
 export type CreateGoalType = Pick<GoalType, 'title'>;
+export type DeleteGoalResponse = ApiResponse<{}>;
+
+export interface UpdateGoalRequest {
+  goalId: number;
+  title: string;
+  completionDate?: ISODateString;
+}
+
+export interface UpdateGoalResponse extends ApiResponse<GoalType> {}

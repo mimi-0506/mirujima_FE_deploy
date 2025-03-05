@@ -12,7 +12,7 @@ import NoteCardList from '../noteCardList/NoteCardList';
 import type { GoalType } from '@/types/goal.type';
 
 interface Props {
-  goal: GoalType;
+  goal: Pick<GoalType, 'id' | 'title'>;
 }
 
 export default function GoalNoteList({ goal }: Props) {
