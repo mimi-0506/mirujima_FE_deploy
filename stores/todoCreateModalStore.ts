@@ -1,6 +1,6 @@
 import { createStore } from 'zustand/vanilla';
 
-import type { GoalType } from '@/modals/todoCreateModal/type';
+import type { GoalType, ISODateString } from '@/types/goal.type';
 
 export type TodoCreateModalState = {
   title: string;
@@ -8,8 +8,8 @@ export type TodoCreateModalState = {
   linkUrl: string;
   fileName: string;
   userId?: number;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: ISODateString;
+  updatedAt?: ISODateString;
   goal: GoalType | null;
   priority: number;
   id?: number;

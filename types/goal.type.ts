@@ -12,11 +12,11 @@ export type GoalListType = {
 
 export type GoalType = {
   id: number;
-  userId: number;
+  userId?: number;
   title: string;
-  completionDate: ISODateString;
-  createdAt: ISODateString;
-  updatedAt: ISODateString;
+  completionDate: ISODateString | null;
+  createdAt?: ISODateString;
+  updatedAt?: ISODateString;
 };
 
 export type GoalListResponse = ApiResponse<GoalListType>;

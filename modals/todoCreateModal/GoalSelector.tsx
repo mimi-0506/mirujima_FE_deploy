@@ -4,7 +4,7 @@ import type { ChangeEvent } from 'react';
 import useGetGoalList from '@/hooks/useGetGoalList';
 import { useTodoCreateModalStore } from '@/provider/store-provider';
 
-import type { GoalType } from './type';
+import type { GoalType } from '@/types/goal.type';
 
 export default function GoalSelector() {
   const [goalList, setGoalList] = useState<GoalType[]>([]);
@@ -13,10 +13,9 @@ export default function GoalSelector() {
   const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
   const [selectedGoal, setSelectedGoal] = useState<GoalType | null>(goal);
 
-  // 수정시 초기값 가져오기용 세팅
   useEffect(() => {
     if (goal?.id !== selectedGoal?.id) setSelectedGoal(goal);
-  }, [goal]);
+  }, [goal, selectedGoal?.id]);
 
   useLayoutEffect(() => {
     if (Array.isArray(data)) setGoalList(data);
