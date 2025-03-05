@@ -1,28 +1,5 @@
 import { createStore } from 'zustand/vanilla';
-
-import type { GoalType, ISODateString } from '@/types/goal.type';
-
-export type TodoCreateModalState = {
-  title: string;
-  done: boolean;
-  linkUrl: string;
-  fileName: string;
-  userId?: number;
-  createdAt?: ISODateString;
-  updatedAt?: ISODateString;
-  goal: GoalType | null;
-  priority: number;
-  id?: number;
-  noteId?: number;
-  isEdit: boolean;
-};
-
-export type TodoCreateModalActions = {
-  setCreatedTodoState: (now: Partial<TodoCreateModalState>) => void;
-  resetTodoCreateModal: () => void;
-};
-
-export type TodoCreateModalStore = TodoCreateModalState & TodoCreateModalActions;
+import type { TodoCreateModalState, TodoCreateModalStore } from '@/types/todoCreateModal.types.ts';
 
 const initTodoCreateModalState: TodoCreateModalState = {
   title: '',
@@ -33,6 +10,7 @@ const initTodoCreateModalState: TodoCreateModalState = {
   priority: 0,
   isEdit: false
 };
+
 export const defaultInitState: TodoCreateModalState = {
   ...initTodoCreateModalState
 };
@@ -40,11 +18,9 @@ export const defaultInitState: TodoCreateModalState = {
 export const createTodoCreateModalStore = (initState: TodoCreateModalState = defaultInitState) => {
   return createStore<TodoCreateModalStore>()((set) => ({
     ...initState,
-    setCreatedTodoState: (now) => set((state: TodoCreateModalState) => ({ ...state, ...now })),
+    setCreatedTodoState: (now: Partial<TodoCreateModalState>) =>
+      set((state: TodoCreateModalState) => ({ ...state, ...now })),
 
-    resetTodoCreateModal: () =>
-      set((state: TodoCreateModalState) => ({
-        ...initTodoCreateModalState
-      }))
+    resetTodoCreateModal: () => set(() => ({ ...initTodoCreateModalState }))
   }));
 };
