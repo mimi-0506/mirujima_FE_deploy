@@ -29,10 +29,10 @@ export type GoalListResponse = ApiResponse<GoalListType>;
 export type CreateGoalType = Pick<GoalType, 'title'>;
 export type DeleteGoalResponse = ApiResponse<{}>;
 
-export interface UpdateGoalRequest {
+export type UpdateGoalRequest = {
   goalId: number;
   title: string;
   completionDate?: ISODateString;
-}
+};
 
-export interface UpdateGoalResponse extends ApiResponse<GoalType> {}
+export type UpdateGoalResponse = ApiResponse<GoalType>;
