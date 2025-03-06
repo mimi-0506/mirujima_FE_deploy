@@ -6,7 +6,7 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "require-jsdoc": "off",
     "quotes": ["error", "single"],
     "react/react-in-jsx-scope": "off"
