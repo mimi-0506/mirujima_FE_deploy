@@ -9,9 +9,10 @@ import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
 import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
+import type { GoalType } from '@/types/goal.type';
 
 interface Props {
-  goalId: number;
+  goalId: GoalType['id'];
 }
 
 export default function EditGoal({ goalId }: Props) {

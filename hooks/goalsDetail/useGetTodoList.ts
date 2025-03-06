@@ -42,7 +42,6 @@ export const useGetTodoList = (goalId?: number | null | undefined, done = false)
   useEffect(() => {
     if (!isTodoCreateModalOpen) {
       queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, done] });
-      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, done] });
     }
   }, [isTodoCreateModalOpen, done, goalId, queryClient, userId]);
 
