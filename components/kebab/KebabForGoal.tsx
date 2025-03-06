@@ -38,7 +38,7 @@ export default function KebabForGoal({ size, onEdit, onDelete, className }: Keba
   };
 
   return (
-    <div className={`relative ${className ?? ''}`}>
+    <div className={`flex-center relative ${className ?? ''}`}>
       <button onClick={toggleMenu} className="rounded-md bg-Cgray" aria-label="목표 수정 및 삭제">
         {isKebabOpen ? (
           <KebabFocusIcon width={size} height={size} />

@@ -10,7 +10,8 @@ export const useInfiniteGoalList = () => {
     queryKey: ['goals'],
     queryFn: ({ pageParam = undefined }) => readGoalList({ lastSeenId: pageParam, pageSize: 3 }),
     initialPageParam: 9999,
-    getNextPageParam: (lastPage) => (lastPage.remainingCount > 0 ? lastPage.lastSeenId : undefined),
+    getNextPageParam: (lastPage) =>
+      lastPage?.remainingCount > 0 ? lastPage.lastSeenId : undefined,
     select: (data) => {
       return {
         ...data,

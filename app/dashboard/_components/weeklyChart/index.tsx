@@ -21,10 +21,6 @@ export default function WeeklyChart() {
   const [progressData, setProgressData] = useState(0);
   const count = useCountUp(Number(progressData), 2000);
 
-  useEffect(() => {
-    readTodoProgress();
-  }, []);
-
   const readTodoProgress = async () => {
     const response = await apiWithClientToken.get<{ result: TodoProgressType }>('/todos/progress');
     const data = response.data.result;
@@ -45,6 +41,8 @@ export default function WeeklyChart() {
         setChartData(getWeeklyCompletionData(todoData));
       }, 300);
     }
+
+    readTodoProgress();
   }, [todoData]);
 
   return (
