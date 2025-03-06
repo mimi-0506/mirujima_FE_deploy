@@ -7,11 +7,11 @@ import type { ApiResponse } from '@/types/apiResponse.type';
 import type { GoalType } from '@/types/goal.type';
 import type { TodoType } from '@/types/todo.type';
 
-export type GoalDetailResult = GoalType & {
+type GoalDetailResult = GoalType & {
   todos: TodoType[];
 };
 
-export type GoalDetailResponse = ApiResponse<GoalDetailResult>;
+type GoalDetailResponse = ApiResponse<GoalDetailResult>;
 
 const fetchGoalDetail = async (goalId: string): Promise<GoalDetailResponse> => {
   const response = await apiWithClientToken.get<GoalDetailResponse>(`/goals/${goalId}`);

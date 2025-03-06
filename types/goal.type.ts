@@ -19,6 +19,8 @@ export type GoalType = {
   updatedAt?: ISODateString;
 };
 
+export type GoalSummary = Pick<GoalType, 'id' | 'title' | 'completionDate'>;
+
 export type GoalId = {
   goalId: GoalType['id'];
   completionDate?: GoalType['completionDate'];

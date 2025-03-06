@@ -1,6 +1,5 @@
-import type { GoalType } from './goal.type';
 import type { ISODateString } from './goal.type';
-
+import type { GoalSummary } from './goal.type';
 export type TodoListType = {
   lastSeenId: number;
   remainingCount: number;
@@ -8,7 +7,7 @@ export type TodoListType = {
 };
 
 export type TodoType = {
-  goal: Pick<GoalType, 'id' | 'title' | 'completionDate'>;
+  goal: GoalSummary;
   noteId: number | null;
   done: boolean;
   linkUrl: string | null;
