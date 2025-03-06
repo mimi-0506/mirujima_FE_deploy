@@ -7,7 +7,7 @@ export type TodoListType = {
 };
 
 export type TodoType = {
-  goal: Pick<GoalType, 'id' | 'title' | 'completionDate'>;
+  goal: Pick<GoalType, 'id' | 'title' | 'completionDate'> | null;
   noteId: number | null;
   done: boolean;
   linkUrl: string | null;

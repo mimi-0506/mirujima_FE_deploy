@@ -10,7 +10,7 @@ import type { GoalType } from '@/types/goal.type';
 
 export default function UpcomingGoals() {
   const { data, isLoading } = useGetGoalList();
-  const [todayDate, setTodayDate] = useState<number>(new Date().getDate());
+  const [todayDate, setTodayDate] = useState<number | null>(null);
 
   // 오늘, 내일, 모레 목표 필터링
   const upcomingGoals = getUpcomingDates(3).map(({ date, day }) => {
@@ -21,8 +21,13 @@ export default function UpcomingGoals() {
   });
 
   useEffect(() => {
-    setTodayDate(new Date().getDate());
+    const today = new Date();
+    setTodayDate(today.getDate());
   }, []);
+
+  if (todayDate === null) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="rounded-container">

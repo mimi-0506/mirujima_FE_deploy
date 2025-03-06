@@ -15,7 +15,7 @@ interface TaskListProps {
   isLoading?: boolean;
   isError?: boolean;
   isMoreToggle?: boolean;
-  tasksLength?: number;
+  isDashboard?: boolean;
 }
 
 export default function TaskList({
@@ -25,7 +25,7 @@ export default function TaskList({
   isLoading: propLoading,
   isError: propError,
   isMoreToggle,
-  tasksLength
+  isDashboard
 }: TaskListProps) {
   const { data, isLoading, isError } = useGetTodoList(goalId, done);
 
@@ -42,7 +42,7 @@ export default function TaskList({
 
   return (
     <div
-      className={`scrollbar-thin custom-scrollbar overflow-y-auto pr-5 transition-all ${isMoreToggle ? 'max-h-[1000px]' : 'max-h-[260px]'}`}
+      className={`scrollbar-thin custom-scrollbar overflow-y-auto pr-5 transition-all ${isMoreToggle ? 'max-h-full' : 'max-h-[260px]'} ${isDashboard ? 'scrollbar-hide' : ''}`}
     >
       <ul className="mt-2 space-y-2 text-gray350">
         {loading ? (
@@ -57,7 +57,7 @@ export default function TaskList({
           // 3.  TodoItem 렌더링
           tasks.map((task) => (
             <li key={task.id}>
-              <TodoItem todo={task} goalId={goalId} />
+              <TodoItem todo={task} goalId={goalId} isDashboard={isDashboard} />
             </li>
           ))
         )}

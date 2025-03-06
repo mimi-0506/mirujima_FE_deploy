@@ -13,7 +13,6 @@ import FlagIcon from '@/public/icon/flag-gray.svg';
 import LinkIcon from '@/public/icon/link.svg';
 import NoteIcon from '@/public/icon/note-s.svg';
 import PenIcon from '@/public/icon/pen.svg';
-import SpinIcon from '@/public/icon/spin.svg';
 
 import { CheckedIcon } from '../../app/(workspace)/todoList/_components/CheckedIcon';
 
@@ -22,16 +21,17 @@ import type { TodoType } from '@/types/todo.type';
 interface TodoItemProps {
   todo: TodoType;
   goalId?: number;
+  showGoal?: boolean;
+  isDashboard?: boolean;
 }
 
-export default function TodoItem({ todo, goalId }: TodoItemProps) {
+export default function TodoItem({ todo, goalId, showGoal, isDashboard }: TodoItemProps) {
   const router = useRouter();
   const { setCreatedTodoState } = useTodoCreateModalStore((state) => state);
   const mutation = useDeleteTodoItem(goalId);
   const { mutate: toggleTodo } = useCheckTodo();
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const setNoteDetailPageOpen = useModalStore((state) => state.setNoteDetailPageOpen);
-  const [isPenLoading, setIsPenLoading] = useState(false);
 
   // 1) 케밥 메뉴 열림/닫힘 상태
   const [isKebabSelected, setIsKebabSelected] = useState(false);
@@ -49,7 +49,6 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
 
   const handlePenIconClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsPenLoading(true);
     router.push(`/notes/create/${todo.id}`);
   };
 
@@ -60,7 +59,9 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
       done: isDone,
       completionDate: isDone ? new Date().toISOString() : null
     };
-    toggleTodo({ todo: updatedTodo, goalId: todo?.goal?.id });
+
+    const goalId = todo?.goal?.id;
+    if (goalId) toggleTodo({ todo: updatedTodo, goalId });
   };
 
   const handleDelete = () => {
@@ -101,15 +102,17 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
     }
   };
 
+  const isGoalVisible = showGoal && todo.goal?.id;
+
   return (
     <>
       <div
-        className="relative mb-3 flex items-center justify-between"
+        className={`relative mb-4 grid grid-cols-4 items-center justify-between ${isGoalVisible ? 'grid-rows-2' : 'grid-rows-1'}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         <div
-          className={`flex min-w-0 flex-1 items-baseline gap-2 ${
+          className={`col-start-1 col-end-4 flex flex-1 items-baseline gap-2 ${
             isHovered || isKebabSelected ? 'text-main' : 'text-gray500'
           }`}
         >
@@ -125,18 +128,10 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
             </span>
           </div>
 
-          <div className="flex min-w-0 flex-col gap-1">
-            <span className={`truncate ${todo.done ? 'line-through' : ''}`}>{todo.title}</span>
-            {todo.goal?.id && (
-              <span className="flex items-center gap-1 text-[13px] text-gray350">
-                <FlagIcon />
-                <span className="min-w-0 flex-1 truncate">{todo.goal.title}</span>
-              </span>
-            )}
-          </div>
+          <h4 className={`truncate py-0.5 ${todo.done ? 'line-through' : ''} `}>{todo.title}</h4>
         </div>
 
-        <div className="relative -mt-4 flex shrink-0 items-start gap-1 desktop:-mt-0">
+        <div className="relative flex shrink-0 items-center justify-end gap-1">
           <div className="flex flex-row gap-1 py-[1px]">
             {todo.filePath && <FileIcon width={18} height={18} />}
             {todo.linkUrl && <LinkIcon width={18} height={18} />}
@@ -146,38 +141,38 @@ export default function TodoItem({ todo, goalId }: TodoItemProps) {
               </span>
             )}
           </div>
-
           <span
             className={`${priorityClass} rounded-full border p-1 px-3 py-0.5 text-[11px] leading-[13px]`}
           >
             {todo.priority}
           </span>
-
-          {!todo.noteId &&
-            (isPenLoading ? (
-              <span className={isHovered || isKebabSelected ? 'block' : 'hidden'}>
-                <SpinIcon width={18} height={18} />
-              </span>
-            ) : (
-              <button
-                onClick={handlePenIconClick}
-                className={isHovered || isKebabSelected ? 'block' : 'hidden'}
-              >
-                <PenIcon width={18} height={18} />
-              </button>
-            ))}
-
-          <div
-            className={isHovered || isKebabSelected ? 'block' : 'hidden'}
-            onClick={handleKebabClick}
-          >
-            <KebabForGoal
-              size={18}
-              onEdit={() => handleOpenEditModal(todo)}
-              onDelete={handleDelete}
-            />
-          </div>
+          {!todo.noteId && !isDashboard && (
+            <button
+              onClick={handlePenIconClick}
+              className={isHovered || isKebabSelected ? 'block' : 'hidden'}
+            >
+              <PenIcon width={18} height={18} />
+            </button>
+          )}
+          {!isDashboard && (
+            <div
+              className={isHovered || isKebabSelected ? 'block' : 'hidden'}
+              onClick={handleKebabClick}
+            >
+              <KebabForGoal
+                size={18}
+                onEdit={() => handleOpenEditModal(todo)}
+                onDelete={handleDelete}
+              />
+            </div>
+          )}
         </div>
+        {isGoalVisible && (
+          <span className="col-start-1 -col-end-1 flex items-center gap-1 truncate pl-5 text-body2 text-gray350">
+            <FlagIcon />
+            <span className="min-w-0 flex-1 truncate">{todo?.goal?.title}</span>
+          </span>
+        )}
       </div>
     </>
   );

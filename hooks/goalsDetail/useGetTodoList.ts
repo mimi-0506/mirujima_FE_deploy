@@ -23,7 +23,7 @@ const fetchTodoList = async (
   goalId: number | undefined | null,
   done = false,
   lastSeenId = 9999,
-  pageSize = 5
+  pageSize = 50
 ): Promise<TodoType[]> => {
   const response = await apiWithClientToken.get<TodoListResponse>('/todos', {
     params: { goalId, done, lastSeenId, pageSize }
