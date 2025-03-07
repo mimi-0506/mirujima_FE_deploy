@@ -5,7 +5,8 @@ export default {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './modals/**/*.{js,ts,jsx,tsx,mdx}'
+    './modals/**/*.{js,ts,jsx,tsx,mdx}',
+    './constant/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
     extend: {
@@ -32,7 +33,10 @@ export default {
         label2: '#F1B424',
         label3: '#FFA26B',
         label4: '#0084F4',
-        pressed: '#E45555'
+        pressed: '#E45555',
+        lightLabel1: '#EBCBFB',
+        lightLabel4: '#A8D2F5',
+        lightGray400: '#B3B3B3'
       },
       screens: {
         md: '744px',
