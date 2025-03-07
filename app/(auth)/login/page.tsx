@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-
+import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { z } from 'zod';
-
+import { CheckedIcon } from '@/app/(workspace)/todoList/_components/CheckedIcon';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 import { useLoginMutation } from '../../../hooks/auth/useLoginMutation';
@@ -23,7 +23,10 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const router = useRouter();
   const logout = useInfoStore((state) => state.logout);
+  const setIsLoading = useModalStore((state) => state.setIsLoading);
+
   const {
     register,
     handleSubmit,
@@ -33,7 +36,6 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
     mode: 'onSubmit'
   });
-  const setIsLoading = useModalStore((state) => state.setIsLoading);
 
   useEffect(() => {
     setIsLoading(false);
@@ -43,7 +45,7 @@ export default function LoginPage() {
 
   const { mutate: loginMutate, isError, error } = useLoginMutation();
 
-  const router = useRouter();
+  const [isChecked, setIsChecked] = useState(false);
 
   const onSubmit = (data: LoginFormData) => {
     loginMutate(data);
@@ -78,13 +80,22 @@ export default function LoginPage() {
         />
         {serverErrorMessage && <p className="text-sm text-warning">{serverErrorMessage}</p>}
 
-        <div className="mb-[60px] hidden items-center justify-between px-2">
-          <p className="text-[14px] font-medium leading-[20px] text-gray350">
-            비밀번호를 잊으셨나요?
-          </p>
-          <button className="cursor-not-allowed border-none bg-transparent p-0 text-[14px] font-medium leading-[20px] text-main">
-            비밀번호 찾기
-          </button>
+        <div className="my-3 flex items-center gap-2">
+          <div className="relative flex cursor-pointer">
+            <input
+              id="auto-login"
+              type="checkbox"
+              checked={isChecked}
+              onChange={() => setIsChecked((prev) => !prev)}
+              className="peer h-[18px] w-[18px] cursor-pointer appearance-none rounded-[6px] border border-gray200 transition-all checked:border-main checked:bg-main"
+            />
+            <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100">
+              <CheckedIcon />
+            </span>
+          </div>
+          <label htmlFor="auto-login" className="text-[14px] font-medium text-gray500">
+            자동 로그인
+          </label>
         </div>
 
         <Button type="submit" className="bg-main text-white">
@@ -98,6 +109,7 @@ export default function LoginPage() {
           회원가입
         </Button>
       </form>
+
       <div className="mt-[40px] hidden gap-4">
         <label className="font-semibold text-gray500">간편 로그인</label>
         <div className="flex flex-col gap-3">
