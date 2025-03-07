@@ -17,7 +17,7 @@ export default function GoalList() {
   const { data: goals, isFetching, isLoading } = useGetGoalList();
   const goalListRef = useRef<HTMLUListElement | null>(null);
 
-  useScrollUpdate(goalListRef, goals);
+  useScrollUpdate(goalListRef, goals ?? []);
 
   const router = useRouter();
   const [isPending, startTransition] = useTransition();

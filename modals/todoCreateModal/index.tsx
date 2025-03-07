@@ -35,7 +35,7 @@ export default function TodoCreateModal() {
     return () => {
       resetTodoCreateModal();
     };
-  }, []);
+  }, [resetTodoCreateModal]);
 
   const handleClose = () => {
     if (formRef.current) {

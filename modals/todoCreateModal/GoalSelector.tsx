@@ -9,12 +9,12 @@ import type { GoalType } from '@/types/goal.type';
 export default function GoalSelector() {
   const [goalList, setGoalList] = useState<GoalType[]>([]);
   const { data } = useGetGoalList();
-  const goal = useTodoCreateModalStore((state) => state.goal);
+  const goal = useTodoCreateModalStore((state) => state.goal) as GoalType | null;
   const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
-  const [selectedGoal, setSelectedGoal] = useState<GoalType | null>(goal);
+  const [selectedGoal, setSelectedGoal] = useState<GoalType | null>(goal as GoalType);
 
   useEffect(() => {
-    if (goal?.id !== selectedGoal?.id) setSelectedGoal(goal);
+    if (goal && goal.id !== selectedGoal?.id) setSelectedGoal(goal);
   }, [goal, selectedGoal?.id]);
 
   useLayoutEffect(() => {
