@@ -131,7 +131,7 @@ export default function GoalDetailPage() {
   const handleAddTodo = useCallback(() => {
     if (goalId) setCreatedTodoState({ goal: { id: goalId } });
     setIsTodoCreateModalOpen(true);
-  }, [goalId]);
+  }, [goalId, setCreatedTodoState, setIsTodoCreateModalOpen]);
 
   if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
   if (isLoading || isNavigating || isPending)
