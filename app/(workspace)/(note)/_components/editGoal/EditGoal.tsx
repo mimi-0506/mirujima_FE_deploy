@@ -8,7 +8,7 @@ import KebabForGoal from '@/components/kebab/KebabForGoal';
 import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
 import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
-import { useInfoStore, useModalStore } from '@/provider/store-provider';
+import { useModalStore } from '@/provider/store-provider';
 import type { GoalType } from '@/types/goal.type';
 
 interface Props {
@@ -17,7 +17,6 @@ interface Props {
 
 export default function EditGoal({ goalId }: Props) {
   const router = useRouter();
-  const { restoreUser } = useInfoStore((state) => state);
   const { data: goalData } = useGetGoalDetail(goalId.toString());
   const goalTitle = goalData?.result?.title ?? '목표 제목이 없어요';
 
@@ -28,9 +27,6 @@ export default function EditGoal({ goalId }: Props) {
   const { mutate: updateGoalTitle } = useUpdateGoalTitle();
   const setGoalDeleteModalOpen = useModalStore((state) => state.setGoalDeleteModalOpen);
   const setGoalEditModalOpen = useModalStore((state) => state.setGoalEditModalOpen);
-  useEffect(() => {
-    restoreUser();
-  }, [restoreUser]);
 
   useEffect(() => {
     setEditedTitle(goalTitle);

@@ -10,7 +10,7 @@ import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
 import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import Loading from '@/modals/loadingOverlay/Loading';
-import { useInfoStore, useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
+import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
 import SpinIcon from '@/public/icon/spin.svg';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
@@ -19,7 +19,6 @@ import Button from '../_components/Button';
 
 export default function GoalDetailPage() {
   const router = useRouter();
-  const restoreUser = useInfoStore((state) => state.restoreUser);
   const params = useParams();
   const goalIdParam = Array.isArray(params.id) ? params.id[0] : params.id;
   const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
