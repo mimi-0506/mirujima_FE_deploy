@@ -106,7 +106,7 @@ export default function Uploader() {
         </div>
 
         <div className={`${selectedOption !== 'link' && 'hidden'}`}>
-          <input value={linkUrl} name="linkUrl" readOnly className="hidden" />
+          <input value={linkUrl ?? ''} name="linkUrl" readOnly className="hidden" />
 
           <button type="button" onClick={handleLinkPaste}>
             {linkUrl === '' || linkUrl === null ? '링크를 첨부해주세요' : linkUrl}

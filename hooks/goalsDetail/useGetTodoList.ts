@@ -4,21 +4,16 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { apiWithClientToken } from '@/apis/clientActions/index';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
-
+import type { ApiResponse } from '@/types/apiResponse.type';
 import type { TodoType } from '@/types/todo.type';
 import type { QueryClient } from '@tanstack/react-query';
 
-interface TodoListResponse {
-  success: boolean;
-  code: number;
-  message: string;
-  result: {
-    lastSeenId: number;
-    totalCount: number;
-    todos: TodoType[];
-  };
+interface TodoListData {
+  lastSeenId: number;
+  totalCount: number;
+  todos: TodoType[];
 }
-
+type TodoListResponse = ApiResponse<TodoListData>;
 const fetchTodoList = async (
   goalId: number | undefined | null,
   done = false,
@@ -28,6 +23,9 @@ const fetchTodoList = async (
   const response = await apiWithClientToken.get<TodoListResponse>('/todos', {
     params: { goalId, done, lastSeenId, pageSize }
   });
+  if (!response.data.result) {
+    throw new Error('결과가 없습니다.');
+  }
   return response.data.result.todos;
 };
 
@@ -44,9 +42,8 @@ export const useGetTodoList = (goalId?: number | null | undefined, done = false)
   useEffect(() => {
     if (!isTodoCreateModalOpen) {
       queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, done] });
-      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, done] });
     }
-  }, [isTodoCreateModalOpen]);
+  }, [isTodoCreateModalOpen, done, goalId, queryClient, userId]);
 
   return query;
 };

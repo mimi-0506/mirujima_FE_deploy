@@ -10,7 +10,7 @@ import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
 import { useDeleteGoal } from '@/hooks/goalsDetail/useDeleteGoal';
 import { useGetGoalDetail } from '@/hooks/goalsDetail/useGetGoalDetail';
 import Loading from '@/modals/loadingOverlay/Loading';
-import { useInfoStore, useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
+import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
 import SpinIcon from '@/public/icon/spin.svg';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
@@ -19,7 +19,6 @@ import Button from '../_components/Button';
 
 export default function GoalDetailPage() {
   const router = useRouter();
-  const restoreUser = useInfoStore((state) => state.restoreUser);
   const params = useParams();
   const goalIdParam = Array.isArray(params.id) ? params.id[0] : params.id;
   const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
@@ -40,7 +39,6 @@ export default function GoalDetailPage() {
 
   const [editedTitle, setEditedTitle] = useState(goalTitle);
   const [activeTab, setActiveTab] = useState<'todo' | 'done'>('todo');
-  const [isMounted, setIsMounted] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
 
   const [isPending, startTransition] = useTransition();
@@ -49,12 +47,6 @@ export default function GoalDetailPage() {
   const setGoalEditModalOpen = useModalStore((state) => state.setGoalEditModalOpen);
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
-
-  // 컴포넌트 마운트 시 사용자 복원 및 초기 상태 설정
-  useEffect(() => {
-    restoreUser();
-    setIsMounted(true);
-  }, [restoreUser]);
 
   useEffect(() => {
     setEditedTitle(goalTitle);
@@ -139,7 +131,7 @@ export default function GoalDetailPage() {
   const handleAddTodo = useCallback(() => {
     if (goalId) setCreatedTodoState({ goal: { id: goalId } });
     setIsTodoCreateModalOpen(true);
-  }, [goalId]);
+  }, [goalId, setCreatedTodoState, setIsTodoCreateModalOpen]);
 
   if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
   if (isLoading || isNavigating || isPending)
@@ -218,7 +210,7 @@ export default function GoalDetailPage() {
             activeTab === 'todo' ? 'block' : 'hidden desktop:block'
           }`}
         >
-          {isMounted && window.innerWidth >= 1280 && (
+          {typeof window !== 'undefined' && window.innerWidth >= 1280 && (
             <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
               To do
             </h2>
@@ -235,7 +227,7 @@ export default function GoalDetailPage() {
             activeTab === 'done' ? 'block' : 'hidden desktop:block'
           }`}
         >
-          {isMounted && window.innerWidth >= 1280 && (
+          {typeof window !== 'undefined' && window.innerWidth >= 1280 && (
             <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
               Done
             </h2>

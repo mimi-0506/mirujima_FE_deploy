@@ -1,5 +1,5 @@
-import type { GoalType } from './goal.type';
-
+import type { ISODateString } from './goal.type';
+import type { GoalSummary } from './goal.type';
 export type TodoListType = {
   lastSeenId: number;
   remainingCount: number;
@@ -7,7 +7,7 @@ export type TodoListType = {
 };
 
 export type TodoType = {
-  goal: Pick<GoalType, 'id' | 'title' | 'completionDate'> | null;
+  goal: GoalSummary | null;
   noteId: number | null;
   done: boolean;
   linkUrl: string | null;
@@ -15,13 +15,18 @@ export type TodoType = {
   title: string;
   id: number;
   userId: number;
-  completionDate: string | null;
-  createdAt: string;
-  updatedAt: string;
+  completionDate: ISODateString | null;
+  createdAt: ISODateString;
+  updatedAt: ISODateString;
   priority: number;
 };
 
-export type TodoProgressType = {
-  todoCount?: number;
-  completionTodoCount?: number;
+export type TodoProgressType = Partial<{
+  todoCount: number;
+  completionTodoCount: number;
+}>;
+
+export type EditableTodo = TodoType & {
+  fileName?: string | null;
+  isEdit: boolean;
 };

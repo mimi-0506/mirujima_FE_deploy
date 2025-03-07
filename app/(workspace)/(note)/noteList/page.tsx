@@ -4,10 +4,9 @@ import { readGoalListFromServer } from '@/apis/serverActions/goal';
 import NoteIcon from '@/public/icon/note.svg';
 
 import GoalNoteList from '../_components/goalNoteList/GoalNoteList';
-import NoGoalNoteList from '../_components/noGoalNoteList/NoGoalNoteList';
 
 export default async function AllNoteList() {
-  const goalList = await readGoalListFromServer();
+  const goalList = (await readGoalListFromServer())!;
 
   const showErrorMessage = !goalList || !goalList.goals || goalList.goals.length === 0;
 
@@ -17,11 +16,12 @@ export default async function AllNoteList() {
         <NoteIcon width="24" height="24" />
         <h2>모든 노트 모아보기</h2>
       </div>
-      <NoGoalNoteList />
       {showErrorMessage ? (
         <div>목표가 없습니다.</div>
       ) : (
-        goalList.goals.map((goal) => <GoalNoteList key={goal.createdAt} goal={goal} />)
+        goalList.goals.map((goal) => (
+          <GoalNoteList key={goal.id} goalId={goal.id} goalTitle={goal.title} />
+        ))
       )}
     </section>
   );

@@ -15,7 +15,6 @@ export default function SubmitButton({ formRef }: { formRef: RefObject<HTMLFormE
   const { setTodoEdit } = useTodoEdit();
   const { allValid } = useTodoCreateValidCheck();
 
-  // 제출 로직 컴포넌트에 분리하고 싶으므로 onSubmit이 아닌 button에서 해결
   const handleTodoSubmit: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
 
@@ -24,11 +23,12 @@ export default function SubmitButton({ formRef }: { formRef: RefObject<HTMLFormE
       const data = Object.fromEntries(formData.entries());
 
       if (data.file instanceof File && data.file.size > 0) {
-        const savedPath = await fileUpload(data.file, fileName);
+        const safeFileName = fileName ?? '';
+        const savedPath = await fileUpload(data.file, safeFileName);
         isEdit
-          ? await setTodoEdit(data, fileName, savedPath)
+          ? await setTodoEdit(data, fileName ?? '', savedPath)
           : await setTodoCreate(data, savedPath);
-      } else isEdit ? await setTodoEdit(data, fileName) : await setTodoCreate(data);
+      } else isEdit ? await setTodoEdit(data, fileName ?? '') : await setTodoCreate(data);
     }
   };
 

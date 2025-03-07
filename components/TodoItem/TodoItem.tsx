@@ -16,7 +16,7 @@ import PenIcon from '@/public/icon/pen.svg';
 
 import { CheckedIcon } from '../../app/(workspace)/todoList/_components/CheckedIcon';
 
-import type { TodoType } from '@/types/todo.type';
+import type { TodoType, EditableTodo } from '@/types/todo.type';
 import { Priority } from '@/types/color.type';
 
 interface TodoItemProps {
@@ -69,8 +69,14 @@ export default function TodoItem({ todo, goalId, showGoal, isDashboard }: TodoIt
     mutation.mutate(todo.id);
   };
 
-  const handleOpenEditModal = (todo: any) => {
-    setCreatedTodoState({ ...todo, fileName: todo.filePath, isEdit: true });
+  const handleOpenEditModal = (todo: TodoType): void => {
+    const editableTodo: EditableTodo = {
+      ...todo,
+      fileName: todo.filePath,
+      isEdit: true,
+      linkUrl: todo.linkUrl
+    };
+    setCreatedTodoState(editableTodo);
     setIsTodoCreateModalOpen(true);
   };
 
