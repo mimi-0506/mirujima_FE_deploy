@@ -7,6 +7,7 @@ import AllProviders from './AllProviders';
 import type { Metadata } from 'next';
 
 import './globals.css';
+import PomodoroTimer from '@/components/PomodoroTimer';
 
 const pretendard = localFont({
   src: '../public/fonts/PretendardVariable.woff2',
@@ -32,6 +33,7 @@ export default function RootLayout({
         <AllProviders>
           <NavBar />
           <main className="h-screen w-screen overflow-hidden bg-white">{children}</main>
+          <PomodoroTimer />
         </AllProviders>
       </body>
     </html>

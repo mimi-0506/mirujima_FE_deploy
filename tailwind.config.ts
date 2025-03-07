@@ -52,7 +52,8 @@ export default {
       },
       animation: {
         tomatofill: 'tomatofill 2s infinite ease-in-out',
-        tomatogradation: 'tomatogradation 2s infinite'
+        tomatogradation: 'tomatogradation 2s infinite',
+        confetti: 'confettiAnimation 3s infinite ease-in-out'
       },
       keyframes: {
         tomatofill: {
@@ -69,6 +70,15 @@ export default {
           },
           '100%': {
             backgroundColor: 'transparent'
+          }
+        },
+
+        confettiAnimation: {
+          '0%': {
+            transform: 'translate3d(0vw, -10vh, 0) scale(1) rotate(0deg)' // 위에서 시작
+          },
+          '100%': {
+            transform: 'translate3d(10vw, 170vh, 0) scale(1) rotate(720deg)' // 아래로 떨어지고, 화면 밖에서 사라짐
           }
         }
       }
