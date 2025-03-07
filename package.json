@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=deployment next dev",
+    "dev-https": "cross-env NODE_ENV=deployment next dev --experimental-https",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --fix",
@@ -31,6 +32,7 @@
     "lodash": "^4.17.21",
     "motion": "^12.3.0",
     "next": "15.1.6",
+    "next-pwa": "^5.6.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-hook-form": "^7.54.2",
