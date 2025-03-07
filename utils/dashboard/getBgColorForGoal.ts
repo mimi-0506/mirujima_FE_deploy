@@ -20,7 +20,7 @@ export const getBgColorForGoal = (
   const completionRate = calcGoalCompletionPercentage(todos, goalId);
 
   if (completionRate === 100) return 'bg-main text-white';
-  else if (completionRate >= 70) return 'bg-[#FBA5A5] text-white';
-  else if (completionRate >= 30) return 'bg-[#FFF0F0]';
+  else if (completionRate >= 70) return 'bg-default text-white';
+  else if (completionRate >= 30) return 'bg-solid';
   else return '';
 };
