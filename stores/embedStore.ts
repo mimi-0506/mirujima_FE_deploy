@@ -16,3 +16,5 @@ export const createEmbedStore = (initState: EmbedState = defaultInitState) => {
     }
   }));
 };
+
+export type { EmbedStore };

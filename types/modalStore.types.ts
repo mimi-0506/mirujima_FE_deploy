@@ -17,6 +17,7 @@ export type CreateModalType = BaseCreateModalType & {
   id?: number;
   noteId?: number;
 };
+
 export type ModalControlProps = {
   onConfirm: (...args: any[]) => void;
   onCancel: () => void;
@@ -27,7 +28,7 @@ export type EditModalProps = ModalControlProps & {
 };
 
 export type DeleteModalProps = ModalControlProps;
-// 모달 타입 정의
+
 export type ModalType =
   | 'NoteDetailPage'
   | 'NoteConfirm'
@@ -38,30 +39,44 @@ export type ModalType =
   | 'GoalEdit'
   | 'GoalCreate';
 
-// 각 모달 타입에 대응하는 props 매핑
 export type ModalPropsMap = {
   NoteDetailPage: NoteDetailPageModalProps;
   NoteConfirm: NoteConfirmModalProps;
-  TodoCreate: never; // props 없음
-  TodoCreateCheck: never; // props 없음
+  TodoCreate: never;
+  TodoCreateCheck: never;
   NoteLink: NoteLinkModalProps;
   GoalDelete: DeleteModalProps;
   GoalEdit: EditModalProps;
-  GoalCreate: never; // props 없음
+  GoalCreate: never;
 };
 
-// 모달 상태
 export type ModalState = {
-  openModals: Partial<Record<ModalType, boolean>>;
-  modalProps: Partial<ModalPropsMap>;
+  isNoteDetailPageModalOpen: boolean;
+  noteDetailPageModalProps: NoteDetailPageModalProps | null;
+  isNoteConfirmModalOpen: boolean;
+  noteConfirmModalProps: NoteConfirmModalProps | null;
+  isTodoCreateModalOpen: boolean;
+  isTodoCreateCheckModalOpen: boolean;
+  isNoteLinkModalOpen: boolean;
+  noteLinkModalProps: NoteLinkModalProps | null;
+  isGoalDeleteModalOpen: boolean;
+  goalDeleteModalProps: DeleteModalProps | null;
+  isGoalEditModalOpen: boolean;
+  goalEditModalProps: EditModalProps | null;
+  isGoalCreateModalOpen: boolean;
   isLoading: boolean;
 };
 
-// 모달 액션
 export type ModalActions = {
-  setModalOpen: <T extends ModalType>(type: T, isOpen: boolean, props?: ModalPropsMap[T]) => void;
+  setNoteDetailPageOpen: (isOpen: boolean, props?: NoteDetailPageModalProps) => void;
+  setIsNoteConfirmModalOpen: (isOpen: boolean, props?: NoteConfirmModalProps) => void;
+  setIsTodoCreateModalOpen: (isOpen: boolean) => void;
+  setIsTodoCreateCheckModalOpen: (isOpen: boolean) => void;
+  setNoteLinkModalOpen: (isOpen: boolean, props?: NoteLinkModalProps) => void;
+  setGoalDeleteModalOpen: (isOpen: boolean, props?: DeleteModalProps) => void;
+  setGoalEditModalOpen: (isOpen: boolean, props?: EditModalProps) => void;
+  setIsGoalCreateModalOpen: (isOpen: boolean) => void;
   setIsLoading: (isLoading: boolean) => void;
 };
 
-// 최종 ModalStore
 export type ModalStore = ModalState & ModalActions;

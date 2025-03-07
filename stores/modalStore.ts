@@ -1,37 +1,52 @@
 import { createStore } from 'zustand/vanilla';
-import type { ModalStore, ModalState, ModalType, ModalPropsMap } from '@/types/modalStore.types';
+import type { ModalStore } from '@/types/modalStore.types';
 
-export const defaultInitState: ModalState = {
-  openModals: {
-    NoteDetailPage: false,
-    NoteConfirm: false,
-    TodoCreate: false,
-    TodoCreateCheck: false,
-    NoteLink: false,
-    GoalDelete: false,
-    GoalEdit: false,
-    GoalCreate: false
-  },
-  modalProps: {},
-  isLoading: false
+export const defaultInitState: ModalStore = {
+  isNoteDetailPageModalOpen: false,
+  noteDetailPageModalProps: null,
+  isNoteConfirmModalOpen: false,
+  noteConfirmModalProps: null,
+  isTodoCreateModalOpen: false,
+  isTodoCreateCheckModalOpen: false,
+  isNoteLinkModalOpen: false,
+  noteLinkModalProps: null,
+  isGoalDeleteModalOpen: false,
+  goalDeleteModalProps: null,
+  isGoalEditModalOpen: false,
+  goalEditModalProps: null,
+  isGoalCreateModalOpen: false,
+  isLoading: false,
+
+  setNoteDetailPageOpen: () => {},
+  setIsNoteConfirmModalOpen: () => {},
+  setIsTodoCreateModalOpen: () => {},
+  setIsTodoCreateCheckModalOpen: () => {},
+  setNoteLinkModalOpen: () => {},
+  setGoalDeleteModalOpen: () => {},
+  setGoalEditModalOpen: () => {},
+  setIsGoalCreateModalOpen: () => {},
+  setIsLoading: () => {}
 };
 
-export const createModalStore = (initState: ModalState = defaultInitState) => {
+export const createModalStore = (initState: Partial<ModalStore> = defaultInitState) => {
   return createStore<ModalStore>()((set) => ({
+    ...defaultInitState,
     ...initState,
-    setModalOpen: <T extends ModalType>(type: T, isOpen: boolean, props?: ModalPropsMap[T]) =>
-      set((state) => ({
-        ...state,
-        openModals: {
-          ...state.openModals,
-          [type]: isOpen
-        },
-        modalProps: {
-          ...state.modalProps,
-          [type]: isOpen ? props : undefined
-        }
-      })),
-
-    setIsLoading: (isLoading) => set((state) => ({ ...state, isLoading }))
+    setNoteDetailPageOpen: (isOpen, props) =>
+      set({ isNoteDetailPageModalOpen: isOpen, noteDetailPageModalProps: props || null }),
+    setIsNoteConfirmModalOpen: (isOpen, props) =>
+      set({ isNoteConfirmModalOpen: isOpen, noteConfirmModalProps: props || null }),
+    setIsTodoCreateModalOpen: (isOpen) => set({ isTodoCreateModalOpen: isOpen }),
+    setIsTodoCreateCheckModalOpen: (isOpen) => set({ isTodoCreateCheckModalOpen: isOpen }),
+    setNoteLinkModalOpen: (isOpen, props) =>
+      set({ isNoteLinkModalOpen: isOpen, noteLinkModalProps: props || null }),
+    setGoalDeleteModalOpen: (isOpen, props) =>
+      set({ isGoalDeleteModalOpen: isOpen, goalDeleteModalProps: props || null }),
+    setGoalEditModalOpen: (isOpen, props) =>
+      set({ isGoalEditModalOpen: isOpen, goalEditModalProps: props || null }),
+    setIsGoalCreateModalOpen: (isOpen) => set({ isGoalCreateModalOpen: isOpen }),
+    setIsLoading: (isLoading) => set({ isLoading })
   }));
 };
+
+export type { ModalStore };

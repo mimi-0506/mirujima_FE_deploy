@@ -8,7 +8,8 @@ const initTodoCreateModalState: TodoCreateModalState = {
   fileName: '',
   goal: null,
   priority: 0,
-  isEdit: false
+  isEdit: false,
+  noteId: null
 };
 
 export const defaultInitState: TodoCreateModalState = {

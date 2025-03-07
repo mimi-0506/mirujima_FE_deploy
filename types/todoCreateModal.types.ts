@@ -11,7 +11,7 @@ export type TodoCreateModalState = {
   goal: Partial<GoalType> | null;
   priority: number;
   id?: number;
-  noteId: number | null;
+  noteId?: number | null;
   isEdit: boolean;
 };
 
