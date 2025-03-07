@@ -1,5 +1,3 @@
-'use client';
-
 import Calendar from './_components/calendar';
 import GoalList from './_components/goals/GoalList';
 import LatestTodoList from './_components/LatestTodoList';

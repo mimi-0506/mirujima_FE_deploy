@@ -23,13 +23,17 @@ export default function NoteCardList({ goalId, noteList }: Props) {
 
   if ((!data || data.length === 0) && !isFetching) {
     return (
-      <div className={`flex-center gap-2 py-2 ${noteList ? 'h-[300px]' : ''}`}>
+      <div
+        className={
+          'flex w-full flex-col items-center gap-2 rounded-2xl border border-gray200 bg-white p-6'
+        }
+      >
         <p>노트가 없어요..!</p>
         <Link
           href={goalId ? `/goals/${goalId}` : '/todoList'}
-          className="rounded bg-solid p-2 text-main hover:underline"
+          className="rounded text-main hover:underline"
         >
-          👉 {goalId ? '노트' : '할 일'} 추가하러 가기
+          👉 {goalId ? '목표 상세페이지로 가기' : '할 일 추가하러 가기'}
         </Link>
       </div>
     );

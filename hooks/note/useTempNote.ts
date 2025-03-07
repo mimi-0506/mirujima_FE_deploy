@@ -27,7 +27,7 @@ const useTempNote = (goalId: number | undefined, todoId?: number) => {
     }
   };
 
-  const onSaveTempToStorage = async (noteTitle: string, content: string, link?: string) => {
+  const onSaveTempToStorage = (noteTitle: string, content: string, link?: string) => {
     if (!todoId) return;
 
     const note: TempNoteType = { todoId, noteTitle, content, linkUrl: link || '' };
@@ -43,7 +43,7 @@ const useTempNote = (goalId: number | undefined, todoId?: number) => {
       else {
         const targetIdx = tempData[effectGoalId].findIndex((note) => note.todoId === todoId);
         if (targetIdx === -1) {
-          tempData[effectGoalId].push(note); // 노트가 많을 경우를 생각해서 정렬 알고리즘을 적용해야하나..?
+          tempData[effectGoalId].push(note);
         } else {
           tempData[effectGoalId][targetIdx] = note;
         }

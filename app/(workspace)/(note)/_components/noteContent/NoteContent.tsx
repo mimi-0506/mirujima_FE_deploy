@@ -89,8 +89,8 @@ export default function NoteContent({ todo, note }: Props) {
         toast.success(NOTE_CREATE_SUCCESS);
       }
 
-      queryClient.invalidateQueries({
-        queryKey: ['notes', todo?.goal?.id ?? 0],
+      await queryClient.invalidateQueries({
+        queryKey: ['notes', todo.goal?.id ?? 0],
         refetchType: 'all'
       });
       deleteTempNote();
@@ -109,7 +109,6 @@ export default function NoteContent({ todo, note }: Props) {
       style: { color: '#F86969', borderRadius: '20px', border: '1px solid #F86969' },
       icon: <SuccessIcon />
     });
-    // 따로 빼려고 했는데, 생각해보니 여기 외에는 해당 토스트를 쓰는 곳이 없어서 그냥 놔두는 쪽이 좋을 것 같아요🤔
   };
 
   const onLoadTempNote = () => {
@@ -137,7 +136,7 @@ export default function NoteContent({ todo, note }: Props) {
         )}
         <div className="w-full space-y-6 bg-white desktop:px-6 desktop:pt-[40px]">
           <NoteInfo
-            goalTitle={todo?.goal?.title}
+            goalTitle={todo.goal?.title}
             todoTitle={todo.title}
             noteUpdatedAt={note?.updatedAt}
           />

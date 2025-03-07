@@ -21,11 +21,12 @@ const useInfiniteNoteList = (goalId: number | undefined, initData?: NoteListType
     queryFn: ({ pageParam }) =>
       readNoteListFromClient({ goalId: effectGoalId, lastSeenId: pageParam, hasGoal: !!goalId }),
     initialPageParam: 9999,
-    initialData: { pages: initData ? [initData] : [], pageParams: [] },
+    initialData: { pages: initData ? [initData] : [], pageParams: [9999] },
     getNextPageParam: (lastPage) =>
       lastPage?.remainingCount > 0 ? lastPage.lastSeenId : undefined,
     select: (qData) => qData.pages.flatMap((page) => page.notes.toReversed()),
-    staleTime
+    staleTime,
+    enabled: !!userId
   });
 
   const { ref, inView } = useInView();

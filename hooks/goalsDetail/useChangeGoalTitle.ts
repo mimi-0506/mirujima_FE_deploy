@@ -59,7 +59,8 @@ export function useUpdateGoalTitle() {
     },
     onSettled: (_, __, { goalId }) => {
       queryClient.invalidateQueries({
-        queryKey: ['goal', goalId, userId]
+        queryKey: ['goal', goalId, userId],
+        refetchType: 'all'
       });
     }
   });

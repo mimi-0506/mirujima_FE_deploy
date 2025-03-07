@@ -43,7 +43,7 @@ export const getFormattedTime = () => {
   return `${year}${month}${day}${hours}${minutes}${seconds}`;
 };
 
-export const dateFormatWithDots = (val: string) => {
+export const convertDateFormatISOToWithDots = (val: string) => {
   try {
     const [date] = val.split('T');
     const dotFormat = date.replaceAll('-', '.');
