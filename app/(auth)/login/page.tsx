@@ -4,14 +4,15 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { getCookie, setCookie, deleteCookie } from 'cookies-next'; // deleteCookie 추가
+
 import { CheckedIcon } from '@/app/(workspace)/todoList/_components/CheckedIcon';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
-
 import { useLoginMutation } from '../../../hooks/auth/useLoginMutation';
+import authApi from '@/apis/clientActions/authApi';
 import Button from '../_components/Button';
 import InputField from '../_components/InputField';
 
@@ -25,8 +26,49 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const logout = useInfoStore((state) => state.logout);
+  const setInfo = useInfoStore((state) => state.setInfo);
   const setIsLoading = useModalStore((state) => state.setIsLoading);
+  useEffect(() => {
+    setIsLoading(true);
+    const refreshToken = getCookie('refreshToken') as string | undefined;
 
+    if (refreshToken) {
+      authApi
+        .post('/auth/refresh', { refreshToken })
+        .then((response) => {
+          const data = response.data;
+          if (data.success && data.result.accessToken) {
+            setCookie('accessToken', data.result.accessToken, {
+              maxAge: 60 * 60, // 1시간
+              path: '/'
+            });
+            const userCookie = getCookie('user') as string | undefined;
+            const user = userCookie ? JSON.parse(userCookie) : {};
+            setInfo({
+              userId: user.id || 0,
+              email: user.email || '',
+              name: user.username || ''
+            });
+            router.push('/dashboard');
+          } else {
+            deleteCookie('refreshToken', { path: '/' });
+            deleteCookie('accessToken', { path: '/' });
+            deleteCookie('user', { path: '/' });
+            logout();
+          }
+        })
+        .catch(() => {
+          deleteCookie('refreshToken', { path: '/' });
+          deleteCookie('accessToken', { path: '/' });
+          deleteCookie('user', { path: '/' });
+          logout();
+        })
+        .finally(() => setIsLoading(false));
+    } else {
+      logout();
+      setIsLoading(false);
+    }
+  }, [router, logout, setInfo, setIsLoading]);
   const {
     register,
     handleSubmit,
@@ -37,18 +79,11 @@ export default function LoginPage() {
     mode: 'onSubmit'
   });
 
-  useEffect(() => {
-    setIsLoading(false);
-    logout();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const { mutate: loginMutate, isError, error } = useLoginMutation();
-
   const [isChecked, setIsChecked] = useState(false);
 
   const onSubmit = (data: LoginFormData) => {
-    loginMutate(data);
+    loginMutate({ formData: data, isAutoLogin: isChecked });
   };
 
   const serverErrorMessage =
