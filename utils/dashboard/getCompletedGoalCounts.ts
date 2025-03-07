@@ -16,6 +16,7 @@ export const getCompletedGoalCounts = (todos: TodoType[], year: number, month: n
 
   // 모든 todo가 완료된 goal 개수 계산
   const completedGoalCount = Array.from(goals).filter((goalId) => {
+    if (goalId === undefined) return false;
     const goal = getGoalTodos(todos, goalId);
     const hasTodos = goal.length > 0;
     const allTodosCompleted = goal.every((todo) => todo.done);

@@ -8,7 +8,6 @@ export type InfoState = {
 export type InfoActions = {
   setInfo: (newInfo: Partial<InfoState>) => void;
   logout: () => void;
-  restoreUser: () => void;
 };
 
 export type InfoStore = InfoState & InfoActions;

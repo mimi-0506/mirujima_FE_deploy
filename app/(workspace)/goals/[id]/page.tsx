@@ -39,7 +39,6 @@ export default function GoalDetailPage() {
 
   const [editedTitle, setEditedTitle] = useState(goalTitle);
   const [activeTab, setActiveTab] = useState<'todo' | 'done'>('todo');
-  const [isMounted, setIsMounted] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
 
   const [isPending, startTransition] = useTransition();
@@ -48,12 +47,6 @@ export default function GoalDetailPage() {
   const setGoalEditModalOpen = useModalStore((state) => state.setGoalEditModalOpen);
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
-
-  // 컴포넌트 마운트 시 사용자 복원 및 초기 상태 설정
-  useEffect(() => {
-    restoreUser();
-    setIsMounted(true);
-  }, [restoreUser]);
 
   useEffect(() => {
     setEditedTitle(goalTitle);
@@ -217,7 +210,7 @@ export default function GoalDetailPage() {
             activeTab === 'todo' ? 'block' : 'hidden desktop:block'
           }`}
         >
-          {isMounted && window.innerWidth >= 1280 && (
+          {window.innerWidth >= 1280 && (
             <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
               To do
             </h2>
@@ -234,7 +227,7 @@ export default function GoalDetailPage() {
             activeTab === 'done' ? 'block' : 'hidden desktop:block'
           }`}
         >
-          {isMounted && window.innerWidth >= 1280 && (
+          {window.innerWidth >= 1280 && (
             <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
               Done
             </h2>

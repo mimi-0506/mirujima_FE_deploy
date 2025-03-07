@@ -16,7 +16,6 @@ interface TaskListProps {
   isError?: boolean;
   isMoreToggle?: boolean;
   isDashboard?: boolean;
-
 }
 
 export default function TaskList({
