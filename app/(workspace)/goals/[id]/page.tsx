@@ -210,7 +210,7 @@ export default function GoalDetailPage() {
             activeTab === 'todo' ? 'block' : 'hidden desktop:block'
           }`}
         >
-          {window.innerWidth >= 1280 && (
+          {typeof window !== 'undefined' && window.innerWidth >= 1280 && (
             <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
               To do
             </h2>
@@ -227,7 +227,7 @@ export default function GoalDetailPage() {
             activeTab === 'done' ? 'block' : 'hidden desktop:block'
           }`}
         >
-          {window.innerWidth >= 1280 && (
+          {typeof window !== 'undefined' && window.innerWidth >= 1280 && (
             <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
               Done
             </h2>
