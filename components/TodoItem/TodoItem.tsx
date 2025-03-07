@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import KebabForGoal from '@/components/kebab/KebabForGoal';
-import { PRIORITY_COLORS } from '@/constant/priorityColor';
+import { primaryColors } from '@/constant/colors';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
 import { useDeleteTodoItem } from '@/hooks/goalsDetail/useDeleteTodoItem';
 import { useModalStore } from '@/provider/store-provider';
@@ -17,6 +17,7 @@ import PenIcon from '@/public/icon/pen.svg';
 import { CheckedIcon } from '../../app/(workspace)/todoList/_components/CheckedIcon';
 
 import type { TodoType, EditableTodo } from '@/types/todo.type';
+import { Priority } from '@/types/color.type';
 
 interface TodoItemProps {
   todo: TodoType;
@@ -97,7 +98,7 @@ export default function TodoItem({ todo, goalId, showGoal, isDashboard }: TodoIt
     };
   }, [isKebabSelected]);
 
-  const priorityClass = PRIORITY_COLORS[todo.priority];
+  const priorityClass = primaryColors[todo.priority as Priority];
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -147,9 +148,7 @@ export default function TodoItem({ todo, goalId, showGoal, isDashboard }: TodoIt
               </span>
             )}
           </div>
-          <span
-            className={`${priorityClass} rounded-full border p-1 px-3 py-0.5 text-[11px] leading-[13px]`}
-          >
+          <span className={`${priorityClass} rounded-full border p-1 px-3 py-0.5 text-small`}>
             {todo.priority}
           </span>
           {!todo.noteId && !isDashboard && (

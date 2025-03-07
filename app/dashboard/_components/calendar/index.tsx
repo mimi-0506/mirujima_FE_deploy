@@ -13,7 +13,9 @@ import { getCompletedGoalCounts } from '@/utils/dashboard/getCompletedGoalCounts
 import { getGoalIdByTodo } from '@/utils/dashboard/goalUtil';
 import { calcGoalCompletionPercentage } from '@/utils/percentageUtils';
 
-import Label, { labelColorMap } from './Label';
+import Label from './Label';
+import { labelColors } from '@/constant/colors';
+import { LabelType } from '@/types/color.type';
 
 export default function Calendar() {
   const userId = useInfoStore((state) => state.userId);
@@ -95,8 +97,8 @@ export default function Calendar() {
         </div>
       </div>
       <ul className="mt-4 flex items-center gap-3">
-        {Object.keys(labelColorMap).map((label) => (
-          <Label key={label} label={label} />
+        {Object.keys(labelColors).map((label) => (
+          <Label key={label} label={label as LabelType} />
         ))}
       </ul>
     </div>
