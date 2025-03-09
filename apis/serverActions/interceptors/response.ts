@@ -6,6 +6,10 @@ import { cookies } from 'next/headers';
 
 import type { AxiosResponse } from 'axios';
 
+// 버셀 배포시에만 도메인을 버셀 도메인으로 적용. 그 외에는 "/"
+const isLocal = process.env.NODE_ENV === 'development';
+const DOMAIN = isLocal ? '/' : process.env.NEXT_PUBLIC_DOMAIN;
+
 export const defaultResponseSuccessInterceptor = async (response: AxiosResponse) => response;
 
 export const retryRequestWhenAccessTokenIsExpire = async (error: any) => {
@@ -31,7 +35,7 @@ export const retryRequestWhenAccessTokenIsExpire = async (error: any) => {
       }
 
       // 쿠키 재설정
-      await setCookie('accessToken', data.result.accessToken, { path: '/', cookies });
+      await setCookie('accessToken', data.result.accessToken, { path: DOMAIN, cookies });
 
       // 헤더 재설정
       originalRequest.headers['Authorization'] = `Bearer ${data.result.accessToken}`;

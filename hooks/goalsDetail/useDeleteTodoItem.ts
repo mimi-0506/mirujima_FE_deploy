@@ -2,29 +2,42 @@ import toast from 'react-hot-toast';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import authApi from '@/apis/clientActions/authApi';
+import { apiWithClientToken } from '@/apis/clientActions/index';
+import { TODO_DELETE_ERROR, TODO_DELETE_SUCCESS } from '@/constant/toastText';
+import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 const deleteTodoItem = async (todoId: number): Promise<void> => {
-  await authApi.delete(`/todos/${todoId}`);
+  await apiWithClientToken.delete(`/todos/${todoId}`);
 };
 
-export function useDeleteTodoItem() {
+export function useDeleteTodoItem(goalId?: number) {
+  const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
+  const setIsLoading = useModalStore((state) => state.setIsLoading);
 
   return useMutation({
     mutationFn: (todoId: number) => deleteTodoItem(todoId),
     onMutate: () => {
-      toast.loading('할 일 삭제 중...', { id: 'deleteTodo' });
+      setIsLoading(true);
     },
     onSuccess: (_, todoId) => {
-      queryClient.invalidateQueries({ queryKey: ['todoList'] });
+      setIsLoading(false);
+      queryClient.invalidateQueries({ queryKey: ['allTodos', userId], refetchType: 'all' });
+      queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
+      queryClient.invalidateQueries({
+        queryKey: ['todos', goalId ?? 0, userId],
+        refetchType: 'all'
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['notes', goalId ?? 0, userId],
+        refetchType: 'all'
+      });
 
-      toast.dismiss('deleteTodo');
-      toast.success('할 일이 삭제되었습니다!');
+      toast.success(TODO_DELETE_SUCCESS);
     },
     onError: () => {
-      toast.dismiss('deleteTodo');
-      toast.error('할 일 삭제 실패했습니다.');
+      setIsLoading(false);
+      toast.error(TODO_DELETE_ERROR);
     }
   });
 }

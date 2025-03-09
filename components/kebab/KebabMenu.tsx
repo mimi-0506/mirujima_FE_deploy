@@ -34,12 +34,7 @@ export default function KebabMenu({
 
   return (
     <div className="flex-center relative">
-      <button
-        onClick={toggleMenu}
-        onBlur={() => setIsKebabOpen(false)}
-        className="group/more"
-        aria-label="옵션 더보기"
-      >
+      <button onClick={toggleMenu} onBlur={() => setIsKebabOpen(false)} aria-label="옵션 더보기">
         {isKebabOpen ? (
           <KebabFocusIcon width={size} height={size} />
         ) : (
@@ -48,14 +43,26 @@ export default function KebabMenu({
       </button>
       {isKebabOpen && (
         <div className="absolute right-0 top-full z-10" onMouseDown={(e) => e.preventDefault()}>
-          <ul className="relative overflow-hidden rounded-xl bg-white shadow-md">
-            <li className="text-nowrap hover:bg-gray-100">
-              <button className="px-4 pb-[6px] pt-2" onClick={onEdit}>
+          <ul className="shadow-note relative overflow-hidden rounded-xl border border-gray200 bg-white p-1 text-body2 text-gray350">
+            <li className="color-animate text-nowrap hover:text-gray500">
+              <button
+                className="flex-center w-full px-4 py-2"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit();
+                }}
+              >
                 {editText}
               </button>
             </li>
-            <li className="text-nowrap hover:bg-gray-100">
-              <button className="px-4 pb-[6px] pt-2" onClick={onDelete}>
+            <li className="color-animate text-nowrap hover:text-gray500">
+              <button
+                className="flex-center w-full px-3 py-2"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete();
+                }}
+              >
                 {deleteText}
               </button>
             </li>

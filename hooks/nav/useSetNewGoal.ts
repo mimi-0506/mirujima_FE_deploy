@@ -3,17 +3,18 @@ import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { apiWithClientToken } from '@/apis/clientActions';
+import { GOAL_CREATE_SUCCESS } from '@/constant/toastText';
 import { useInfoStore } from '@/provider/store-provider';
 
 export default function useSetNewGoal() {
-  const { id } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
 
   const queryClient = useQueryClient();
 
-  const postNewGoal = async (nowGoal: string) => {
-    console.log('postNewGoal', nowGoal);
+  const postNewGoal = async ({ nowGoal, endDate }: { nowGoal: string; endDate: string }) => {
     const response = await apiWithClientToken.post('/goals', {
-      title: nowGoal
+      title: nowGoal,
+      completionDate: endDate
     });
 
     return response;
@@ -24,10 +25,10 @@ export default function useSetNewGoal() {
     onSuccess: () => {
       console.log('onsuccess');
 
-      queryClient.invalidateQueries({ queryKey: ['goals', id] });
-      queryClient.refetchQueries({ queryKey: ['goals', id] });
+      queryClient.invalidateQueries({ queryKey: ['goals', userId] });
+      queryClient.refetchQueries({ queryKey: ['goals', userId] });
 
-      toast('등록되었습니다.');
+      toast.success(GOAL_CREATE_SUCCESS);
     },
     onError: (error) => {
       // 에러 발생 시 처리할 로직

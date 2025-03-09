@@ -1,29 +1,53 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import authApi from '@/apis/clientActions/authApi';
+import { apiWithClientToken } from '@/apis/clientActions';
+import { useInfoStore } from '@/provider/store-provider';
 
 import type { TodoType } from '@/types/todo.type';
 
-const checkTodo = async ({ todo }: { todo: TodoType }) => {
+interface CheckTodoParams {
+  todo: TodoType;
+}
+
+interface CheckTodoMutationVars {
+  todo: TodoType;
+  goalId: number;
+}
+
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
+const checkTodo = async ({ todo }: CheckTodoParams): Promise<TodoType> => {
   if (!todo.id) {
     throw new Error('ToDo id가 없습니다.');
   }
-  const response = await authApi.patch(`/todos/${todo.id}`, todo);
+  const response = await apiWithClientToken.patch(`/todos/completion/${todo.id}`, {
+    done: todo.done,
+    completionDate: todo.completionDate ?? null
+  });
   return response.data;
 };
 
 export const useCheckTodo = () => {
+  const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: async ({ todo, goalId }: { todo: TodoType; goalId: number }) => {
+  return useMutation<TodoType, ApiError, CheckTodoMutationVars>({
+    mutationFn: async ({ todo }: CheckTodoMutationVars): Promise<TodoType> => {
       return checkTodo({ todo });
     },
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['todoList', variables.goalId, false] });
-      queryClient.invalidateQueries({ queryKey: ['todoList', variables.goalId, true] });
+    onSuccess: (_, { goalId }) => {
+      queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, false] });
+      queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, true] });
+      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, false] });
+      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, true] });
+      queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
     },
-    onError: (error: any) => {
+    onError: (error: ApiError) => {
       console.error('업데이트 실패:', error.response?.data?.message || 'Unknown error occurred.');
     }
   });

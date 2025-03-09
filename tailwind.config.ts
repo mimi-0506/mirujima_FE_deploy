@@ -5,7 +5,8 @@ export default {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './modals/**/*.{js,ts,jsx,tsx,mdx}'
+    './modals/**/*.{js,ts,jsx,tsx,mdx}',
+    './constant/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
     extend: {
@@ -32,7 +33,10 @@ export default {
         label2: '#F1B424',
         label3: '#FFA26B',
         label4: '#0084F4',
-        pressed: '#E45555'
+        pressed: '#E45555',
+        lightLabel1: '#EBCBFB',
+        lightLabel4: '#A8D2F5',
+        lightGray400: '#B3B3B3'
       },
       screens: {
         md: '744px',
@@ -42,12 +46,47 @@ export default {
         note: '0 0 20px rgba(0,0,0,0.04)'
       },
       fontSize: {
+        head2: ['22px', { lineHeight: '28px', fontWeight: 600 }],
         head3: ['17px', { lineHeight: '22px', fontWeight: 600 }],
         button1: ['16px', { lineHeight: '22px', fontWeight: 600 }],
         button2: ['14px', { lineHeight: '16px', fontWeight: 500 }],
-        body1: ['15px', { lineHeight: '20px', fontWeight: 500 }]
+        body1: ['15px', { lineHeight: '20px', fontWeight: 500 }],
+        body2: ['13px', { lineHeight: '18px', fontWeight: 400 }],
+        small: ['11px', { lineHeight: '13px', fontWeight: 500 }]
+      },
+      animation: {
+        tomatofill: 'tomatofill 2s infinite ease-in-out',
+        tomatogradation: 'tomatogradation 2s infinite',
+        confetti: 'confettiAnimation 3s infinite ease-in-out'
+      },
+      keyframes: {
+        tomatofill: {
+          '0%': { height: '0%' },
+          '50%': { height: '100%' },
+          '100%': { height: '0%' }
+        },
+        tomatogradation: {
+          '0%': {
+            backgroundColor: 'transparent'
+          },
+          '50%': {
+            backgroundColor: '#F86969'
+          },
+          '100%': {
+            backgroundColor: 'transparent'
+          }
+        },
+
+        confettiAnimation: {
+          '0%': {
+            transform: 'translate3d(0vw, -10vh, 0) scale(1) rotate(0deg)' // 위에서 시작
+          },
+          '100%': {
+            transform: 'translate3d(10vw, 170vh, 0) scale(1) rotate(720deg)' // 아래로 떨어지고, 화면 밖에서 사라짐
+          }
+        }
       }
     }
   },
-  plugins: []
+  plugins: [require('tailwind-scrollbar-hide')]
 } satisfies Config;

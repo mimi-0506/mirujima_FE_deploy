@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
 import EyeIcon from '@/components/icons/auth/EyeIcon';
@@ -11,6 +11,7 @@ interface InputFieldProps {
   type?: string;
   errorMessage?: string;
   className?: string;
+  triggerValidation?: () => void;
 }
 
 export default function InputField({
@@ -19,11 +20,42 @@ export default function InputField({
   register,
   type = 'text',
   errorMessage,
-  className
+  className,
+  triggerValidation
 }: InputFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const isPasswordField = label === '비밀번호' || label === '비밀번호 확인';
+
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const { onChange: formOnChange, onBlur: formOnBlur, ...restRegister } = register;
+  const handleFocus = () => {
+    setIsFocused(true);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      triggerValidation && triggerValidation();
+    }, 1000);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    formOnChange(e);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (isFocused) {
+      timeoutRef.current = setTimeout(() => {
+        triggerValidation && triggerValidation();
+      }, 1000);
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setIsFocused(false);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    triggerValidation && triggerValidation();
+    formOnBlur && formOnBlur(e);
+  };
 
   return (
     <div className="flex flex-col">
@@ -36,12 +68,15 @@ export default function InputField({
         <input
           type={isPasswordField && showPassword ? 'text' : type}
           placeholder={placeholder}
-          {...register}
           autoComplete="off"
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onChange={handleChange}
+          {...restRegister}
           className={`w-full rounded-lg border bg-white px-4 py-3.5 pr-10 text-[14px] font-semibold leading-[16px] placeholder-gray350 placeholder:text-[14px] placeholder:font-semibold placeholder:leading-[16px] focus:outline-none md:text-[16px] md:leading-[22px] md:placeholder:text-[16px] md:placeholder:leading-[22px] ${
-            errorMessage ? 'border-warning text-warning' : 'border-gray200 text-gray500'
+            errorMessage
+              ? 'border-warning text-warning'
+              : 'border-gray200 text-gray500 focus:border-gray400'
           } ${className}`}
         />
         {isPasswordField && (

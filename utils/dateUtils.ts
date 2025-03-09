@@ -11,7 +11,7 @@ export const getUpcomingDates = (days: number) => {
 
     upcomingDates.push({
       date: nextDay.getDate(),
-      day: WEEK_DAYS[nextDay.getDay()]
+      day: WEEK_DAYS[(nextDay.getDay() + 6) % 7]
     });
   }
 
@@ -41,4 +41,15 @@ export const getFormattedTime = () => {
 
   // 최종 포맷
   return `${year}${month}${day}${hours}${minutes}${seconds}`;
+};
+
+export const convertDateFormatISOToWithDots = (val: string) => {
+  try {
+    const [date] = val.split('T');
+    const dotFormat = date.replaceAll('-', '.');
+
+    return dotFormat;
+  } catch (error) {
+    return '';
+  }
 };

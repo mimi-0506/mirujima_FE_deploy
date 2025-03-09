@@ -103,7 +103,7 @@ export async function requestInterceptor(
     } else {
       const currentTime = Math.floor(Date.now() / 1000);
       const expiresIn = decoded.exp - currentTime;
-      const remainingMinutes = Math.floor(expiresIn / 60);
+      //   const remainingMinutes = Math.floor(expiresIn / 60);
 
       if (expiresIn < REFRESH_THRESHOLD_MINUTES * 60) {
         console.warn('[requestInterceptor] 만료 임박 - refreshAccessToken 진행');

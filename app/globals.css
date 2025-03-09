@@ -18,6 +18,7 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  @apply text-gray500;
 }
 
 @layer base {
@@ -36,16 +37,22 @@ body {
 }
 
 @layer utilities {
-  .hover-animate {
+  .color-animate {
     @apply transition-colors duration-100 ease-in-out;
   }
   .flex-center {
     @apply flex items-center justify-center;
   }
+  .custom-scrollbar {
+    @apply [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar]:w-1;
+  }
+  .empty-message {
+    @apply flex-center m-auto h-full text-center text-sm/4 font-medium text-gray350;
+  }
 }
 
 @layer components {
   .rounded-container {
-    @apply rounded-2xl border border-gray200 bg-white p-6;
+    @apply rounded-2xl border border-gray200 bg-white p-6 transition-all hover:shadow-md;
   }
 }

@@ -4,7 +4,8 @@ import { getWeeklyCompletionCounts } from './getWeeklyCompletionCounts';
 import type { TodoType } from '@/types/todo.type';
 
 export const getWeeklyCompletionData = (todos: TodoType[]) => {
-  const weeklyCompletion = getWeeklyCompletionCounts(todos);
+  const doneTodos = todos.filter((todo) => todo.done === true);
+  const weeklyCompletion = getWeeklyCompletionCounts(doneTodos);
   const totalTodos = todos.length || 0;
 
   return calcWeeklyCompletionPercentages(weeklyCompletion, totalTodos);

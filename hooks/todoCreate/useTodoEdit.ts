@@ -1,39 +1,50 @@
 import toast from 'react-hot-toast';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { usePathname } from 'next/navigation';
 
 import { apiWithClientToken } from '@/apis/clientActions';
-import { useModalStore } from '@/provider/store-provider';
+import { COMMON_ERROR, TODO_EDIT_SUCCESS } from '@/constant/toastText';
+import { useInfoStore, useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 
-export default function useTodoEdit(todoId?: number) {
-  const { setIsTodoCreateModalOpen } = useModalStore((state) => state);
-  const pathname = usePathname();
+export default function useTodoEdit() {
+  const userId = useInfoStore((state) => state.userId);
+  const id = useTodoCreateModalStore((state) => state.id);
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const queryClient = useQueryClient();
 
-  const setTodoEdit = async (formData: { [k: string]: FormDataEntryValue }, savedPath?: string) => {
-    const { data } = await apiWithClientToken.patch(`/todos/${todoId}`, {
+  const setTodoEdit = async (
+    formData: { [k: string]: FormDataEntryValue },
+    fileName: string,
+    savedPath?: string
+  ) => {
+    const body = {
       goalId: formData.goal,
       title: formData.title,
+      orgFileName: fileName,
       filePath: savedPath || '',
       linkUrl: formData?.linkUrl,
-      priority: formData.priority,
-      done: Boolean(formData?.done)
+      priority: formData.priority
+    };
+    const { data: todoEditData } = await apiWithClientToken.patch(`/todos/${id}`, body);
+    const { data: todoDoneData } = await apiWithClientToken.patch(`/todos/completion/${id}`, {
+      done: formData.done === 'on' ? true : false
     });
 
-    if (data.code === 200) todoEditSueccess();
+    if (todoEditData.code === 200 && todoDoneData.code === 200) todoEditSueccess();
     else todoEditFail();
   };
 
   const todoEditSueccess = () => {
-    toast('할일을 수정했습니다.');
+    toast.success(TODO_EDIT_SUCCESS);
 
-    if (pathname === '/todoList') queryClient.invalidateQueries({ queryKey: ['todos'] });
+    queryClient.invalidateQueries({ queryKey: ['allTodos', userId] });
+    queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
+
     setIsTodoCreateModalOpen(false);
   };
 
   const todoEditFail = () => {
-    toast.error('문제가 발생했습니다.');
+    toast.error(COMMON_ERROR);
   };
   return { setTodoEdit };
 }

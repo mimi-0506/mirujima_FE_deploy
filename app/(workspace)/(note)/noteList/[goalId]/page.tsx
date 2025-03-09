@@ -19,21 +19,29 @@ export default async function NoteList({ params }: Props) {
   const { goalId } = await params;
 
   const goal = await readGoalFromServer(goalId);
-  if (!goal) redirect('/'); // goalId가 잘못됐을 때 처리
+  if (!goal) redirect('/dashboard'); // goalId가 잘못됐을 때 처리
 
-  const defaultNoteListArgs = { goalId: Number(goalId), lastSeenId: 9999, pageSize: 10 };
-  const noteList = await readNoteListFromServer(defaultNoteListArgs);
+  const noteList = await readNoteListFromServer({
+    goalId: goal.id,
+    lastSeenId: 9999,
+    pageSize: 10,
+    hasGoal: true
+  });
 
   return (
-    <section className="max-w-[1248px] space-y-[24px]">
+    <section className="custom-scrollbar max-w-[1248px] space-y-[24px]">
       <div className="flex w-full items-center gap-2 rounded-xl">
         <div className="h-6 w-6">
           <TodoIcon width="24" height="24" />
         </div>
         <h2 className="w-full items-center truncate text-gray500">{goal.title}</h2>
-        <EditGoal goalId={goal.id} />
+        <EditGoal goalId={goal.id} goalTitle={goal.title} />
       </div>
-      {noteList.result ? <NoteCardList noteList={noteList.result} /> : <div>데이터 없음</div>}
+      {noteList.result ? (
+        <NoteCardList goalId={goal.id} noteList={noteList.result} />
+      ) : (
+        <div>작성한 노트가 없어요</div>
+      )}
     </section>
   );
 }

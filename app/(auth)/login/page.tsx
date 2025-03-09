@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
@@ -10,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
 import { useLoginMutation } from '@/hooks/auth/useLoginMutation';
-import { useInfoStore } from '@/provider/store-provider';
+import { useInfoStore, useModalStore } from '@/provider/store-provider';
 import GoogleIcon from '@/public/images/sns/google-icon.svg';
 import KaKaoIcon from '@/public/images/sns/kakao-icon.svg';
 import getGoogleLoginUrl from '@/utils/getGoogleLoginUrl';
@@ -28,31 +27,36 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const { logout, setInfo } = useInfoStore((state) => state);
+  const setIsLoading = useModalStore((state) => state.setIsLoading);
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors }
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     mode: 'onSubmit'
   });
 
-  const router = useRouter();
   const { mutate: loginMutate, isError, error } = useLoginMutation();
 
   useEffect(() => {
+    setIsLoading(false);
     logout();
     const accessToken = getCookie('accessToken');
     const user = getCookie('user');
     if (accessToken && user) {
       const parsedUser = JSON.parse(user as string);
       setInfo({
-        id: parsedUser.id,
+        userId: parsedUser.id, // 'id'를 'userId'로 변경
         email: parsedUser.email,
         name: parsedUser.username
       });
-      router.push('/dashboard'); // 이미 로그인 상태면 대시보드로
+      router.push('/dashboard');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logout, setInfo, router]);
 
   const onSubmit = (data: LoginFormData) => {
@@ -69,12 +73,12 @@ export default function LoginPage() {
   };
 
   const handleKakaoLogin = () => {
-    window.location.href = getKakaoLoginUrl(); // 카카오 로그인 URL로 이동
+    window.location.href = getKakaoLoginUrl();
   };
 
   return (
     <>
-      <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] md:text-[34px] md:leading-[41px]">
+      <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] text-gray500 md:text-[34px] md:leading-[41px]">
         로그인
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
@@ -84,6 +88,7 @@ export default function LoginPage() {
           register={register('email')}
           type="email"
           errorMessage={errors.email?.message}
+          triggerValidation={() => trigger('email')}
         />
         <InputField
           label="비밀번호"
@@ -91,6 +96,7 @@ export default function LoginPage() {
           register={register('password')}
           type="password"
           errorMessage={errors.password?.message}
+          triggerValidation={() => trigger('password')}
         />
         {serverErrorMessage && <p className="text-sm text-warning">{serverErrorMessage}</p>}
 

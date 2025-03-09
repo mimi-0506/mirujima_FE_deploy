@@ -1,11 +1,12 @@
 import { AxiosError } from 'axios';
+import { redirect } from 'next/navigation';
 
 import type { ApiResponse } from '@/types/apiResponse.type';
-import type { GoalType } from '@/types/goal.type';
+import type { GoalListType, GoalType } from '@/types/goal.type';
 
 import { apiWithServerToken } from '.';
 
-export const readGoalFromServer = async (goalId: string) => {
+export const readGoalFromServer = async (goalId: string | number) => {
   'use server';
   try {
     const isInvalid = isNaN(Number(goalId));
@@ -20,5 +21,16 @@ export const readGoalFromServer = async (goalId: string) => {
     }
 
     throw error;
+  }
+};
+
+export const readGoalListFromServer = async () => {
+  'use server';
+  try {
+    const res = await apiWithServerToken.get<ApiResponse<GoalListType>>('/goals?pageSize=99');
+
+    return res.data.result;
+  } catch (e) {
+    redirect('/logout');
   }
 };

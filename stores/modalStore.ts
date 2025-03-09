@@ -1,21 +1,6 @@
-import { createStore } from 'zustand/vanilla';
+'use client';
 
-export type createModalType = {
-  title: string;
-  done: boolean;
-  linkUrl: string;
-  filePath: string;
-  userId?: number;
-  createdAt?: string;
-  updatedAt?: string;
-  goal: {
-    id: number;
-    title: string;
-  };
-  priority: number;
-  id?: number;
-  noteId?: number;
-};
+import { createStore } from 'zustand/vanilla';
 
 export type EditModalProps = {
   onConfirm: (value: string) => void;
@@ -28,75 +13,94 @@ export type DeleteModalProps = {
   onCancel: () => void;
 };
 
-export type ModalState = {
-  isConfirmTempModalOpen: boolean;
-  isTodoCreateModalOpen: boolean;
-  isTodoCreateCheckModalOpen: boolean;
-  isNoteLinkModalOpen: boolean;
-  isGoalDeleteModalOpen: boolean;
-  isGoalEditModalOpen: boolean;
-  goalDeleteModalProps?: DeleteModalProps;
-  goalEditModalProps?: EditModalProps;
-  confirmTempNoteModalProps?: ConfirmTempNoteModalProps;
-  noteLinkModalProps?: NoteLinkModalProps;
-};
-
-type ConfirmTempNoteModalProps = {
+export type ConfirmTempNoteModalProps = {
   tempNoteTitle: string | undefined;
   onCancel: () => void;
   onConfirm: () => void;
 };
 
-type NoteLinkModalProps = {
+export type NoteLinkModalProps = {
   defaultValue: string | undefined;
   onSubmit: () => void;
   linkInputRef: React.RefObject<HTMLInputElement | null>;
 };
 
-export type ModalActions = {
-  setIsTodoCreateModalOpen: (now: boolean) => void;
-  setIsTodoCreateCheckModalOpen: (now: boolean) => void;
-  setNoteLinkModalOpen: (now: boolean, props?: NoteLinkModalProps) => void;
-  setGoalDeleteModalOpen: (isOpen: boolean, props?: DeleteModalProps) => void;
-  setGoalEditModalOpen: (isOpen: boolean, props?: EditModalProps) => void;
-  setIsConfirmTempModalOpen: (now: boolean, props?: ConfirmTempNoteModalProps) => void;
+export type NoteDetailPageModalProps = {
+  params: Promise<{ id: string }>;
+  onClose: () => void;
 };
 
-export type ModalStore = ModalState & ModalActions;
+export interface ModalStore {
+  isNoteDetailPageModalOpen: boolean;
+  noteDetailPageModalProps: NoteDetailPageModalProps | null;
+  isNoteConfirmModalOpen: boolean;
+  noteConfirmModalProps: ConfirmTempNoteModalProps | null;
+  isTodoCreateModalOpen: boolean;
+  isTodoCreateCheckModalOpen: boolean;
+  isNoteLinkModalOpen: boolean;
+  noteLinkModalProps: NoteLinkModalProps | null;
+  isGoalDeleteModalOpen: boolean;
+  goalDeleteModalProps: DeleteModalProps | null;
+  isGoalEditModalOpen: boolean;
+  goalEditModalProps: EditModalProps | null;
+  isGoalCreateModalOpen: boolean;
+  isLoading: boolean;
 
-const initModalState = {
-  isConfirmTempModalOpen: false,
+  setNoteDetailPageOpen: (isOpen: boolean, props?: NoteDetailPageModalProps) => void;
+  setIsNoteConfirmModalOpen: (isOpen: boolean, props?: ConfirmTempNoteModalProps) => void;
+  setIsTodoCreateModalOpen: (isOpen: boolean) => void;
+  setIsTodoCreateCheckModalOpen: (isOpen: boolean) => void;
+  setNoteLinkModalOpen: (isOpen: boolean, props?: NoteLinkModalProps) => void;
+  setGoalDeleteModalOpen: (isOpen: boolean, props?: DeleteModalProps) => void;
+  setGoalEditModalOpen: (isOpen: boolean, props?: EditModalProps) => void;
+  setIsGoalCreateModalOpen: (isOpen: boolean) => void;
+  setIsLoading: (isLoading: boolean) => void;
+}
+
+export const defaultInitState: ModalStore = {
+  isNoteDetailPageModalOpen: false,
+  noteDetailPageModalProps: null,
+  isNoteConfirmModalOpen: false,
+  noteConfirmModalProps: null,
   isTodoCreateModalOpen: false,
   isTodoCreateCheckModalOpen: false,
   isNoteLinkModalOpen: false,
+  noteLinkModalProps: null,
   isGoalDeleteModalOpen: false,
-
+  goalDeleteModalProps: null,
   isGoalEditModalOpen: false,
-  goalDeleteModalProps: undefined,
-  goalEditModalProps: undefined,
-  confirmTempNoteModalProps: undefined,
-  noteLinkModalProps: undefined
+  goalEditModalProps: null,
+  isGoalCreateModalOpen: false,
+  isLoading: false,
+
+  setNoteDetailPageOpen: () => {},
+  setIsNoteConfirmModalOpen: () => {},
+  setIsTodoCreateModalOpen: () => {},
+  setIsTodoCreateCheckModalOpen: () => {},
+  setNoteLinkModalOpen: () => {},
+  setGoalDeleteModalOpen: () => {},
+  setGoalEditModalOpen: () => {},
+  setIsGoalCreateModalOpen: () => {},
+  setIsLoading: () => {}
 };
 
-export const defaultInitState: ModalState = {
-  ...initModalState
-};
-
-export const createModalStore = (initState: ModalState = defaultInitState) => {
+export const createModalStore = (initState: Partial<ModalStore> = defaultInitState) => {
   return createStore<ModalStore>()((set) => ({
+    ...defaultInitState,
     ...initState,
-    setIsConfirmTempModalOpen: (now, props) =>
-      set((state) => ({ ...state, isConfirmTempModalOpen: now, confirmTempNoteModalProps: props })),
-    setIsTodoCreateModalOpen: (now) => set((state) => ({ ...state, isTodoCreateModalOpen: now })),
-
-    setIsTodoCreateCheckModalOpen: (now) =>
-      set((state) => ({ ...state, isTodoCreateCheckModalOpen: now })),
-    setNoteLinkModalOpen: (now, props) => {
-      set((state) => ({ ...state, isNoteLinkModalOpen: now, noteLinkModalProps: props }));
-    },
+    setNoteDetailPageOpen: (isOpen, props) =>
+      set({ isNoteDetailPageModalOpen: isOpen, noteDetailPageModalProps: props || null }),
+    setIsNoteConfirmModalOpen: (isOpen, props) =>
+      set({ isNoteConfirmModalOpen: isOpen, noteConfirmModalProps: props || null }),
+    setIsTodoCreateModalOpen: (isOpen) => set({ isTodoCreateModalOpen: isOpen }),
+    setIsTodoCreateCheckModalOpen: (isOpen) => set({ isTodoCreateCheckModalOpen: isOpen }),
+    setNoteLinkModalOpen: (isOpen, props) =>
+      set({ isNoteLinkModalOpen: isOpen, noteLinkModalProps: props || null }),
     setGoalDeleteModalOpen: (isOpen, props) =>
-      set((state) => ({ ...state, isGoalDeleteModalOpen: isOpen, goalDeleteModalProps: props })),
+      set({ isGoalDeleteModalOpen: isOpen, goalDeleteModalProps: props || null }),
     setGoalEditModalOpen: (isOpen, props) =>
-      set((state) => ({ ...state, isGoalEditModalOpen: isOpen, goalEditModalProps: props }))
+      set({ isGoalEditModalOpen: isOpen, goalEditModalProps: props || null }),
+    setIsGoalCreateModalOpen: (isOpen) => set({ isGoalCreateModalOpen: isOpen }),
+    setIsLoading: (isLoading) => set({ isLoading })
   }));
 };

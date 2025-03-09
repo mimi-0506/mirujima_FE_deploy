@@ -1,28 +1,27 @@
 import { useQuery } from '@tanstack/react-query';
 
-import authApi from '@/apis/clientActions/authApi';
+import { apiWithClientToken } from '@/apis/clientActions/index';
+import { useInfoStore } from '@/provider/store-provider';
 
+import type { ApiResponse } from '@/types/apiResponse.type';
+import type { GoalType } from '@/types/goal.type';
 import type { TodoType } from '@/types/todo.type';
 
-interface GoalDetailResponse {
-  success: boolean;
-  code: number;
-  message: string;
-  result: {
-    id: number;
-    title: string;
-    todos: TodoType[];
-  };
-}
+type GoalDetailResult = GoalType & {
+  todos: TodoType[];
+};
+
+type GoalDetailResponse = ApiResponse<GoalDetailResult>;
 
 const fetchGoalDetail = async (goalId: string): Promise<GoalDetailResponse> => {
-  const response = await authApi.get<GoalDetailResponse>(`/goals/${goalId}`);
+  const response = await apiWithClientToken.get<GoalDetailResponse>(`/goals/${goalId}`);
   return response.data;
 };
 
 export const useGetGoalDetail = (goalId?: string) => {
+  const userId = useInfoStore((state) => state.userId);
   const query = useQuery<GoalDetailResponse>({
-    queryKey: ['goalDetail', goalId],
+    queryKey: ['goal', goalId, userId],
     queryFn: () => fetchGoalDetail(goalId as string),
     enabled: !!goalId
   });

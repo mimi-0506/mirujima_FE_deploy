@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import useIsSmallScreen from '@/hooks/nav/useIsSmallScreen';
 import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
@@ -12,31 +12,30 @@ import SubmitButton from './SubmitButton';
 import TitleInput from './TitleInput';
 import Uploader from './Uploader';
 
-const compareArrayWithObject = (arr: [string, any][], obj: { [key: string]: any }): boolean => {
-  return arr.some(([key, value]) => {
-    if (!(key in obj)) return false;
-    if (key === 'goal') return String(obj[key].id) !== String(value);
-    else return String(obj[key]) !== String(value);
-  });
-};
+// const compareArrayWithObject = (arr: [string, any][], obj: { [key: string]: any }): boolean => {
+//   return arr.some(([key, value]) => {
+//     if (!(key in obj)) return false;
+//     if (key === 'goal') return String(obj[key].id) !== String(value);
+//     else return String(obj[key]) !== String(value);
+//   });
+// };
 
 export default function TodoCreateModal() {
-  const { setIsTodoCreateModalOpen, setIsTodoCreateCheckModalOpen } = useModalStore(
-    (state) => state
+  const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
+  const setIsTodoCreateCheckModalOpen = useModalStore(
+    (state) => state.setIsTodoCreateCheckModalOpen
   );
-  const createdTodo = useTodoCreateModalStore((state) => state);
-  const { title, resetTodoCreateModal } = createdTodo;
-  const [isEdit, setIsEdit] = useState<any>(null);
+  const resetTodoCreateModal = useTodoCreateModalStore((state) => state.resetTodoCreateModal);
+  const isEdit = useTodoCreateModalStore((state) => state.isEdit);
+
   const formRef = useRef<HTMLFormElement>(null);
   const { isSmallScreen } = useIsSmallScreen();
 
-  useLayoutEffect(() => {
-    if (title) setIsEdit({ ...createdTodo });
-  }, []);
-
   useEffect(() => {
-    console.log('isEdit', isEdit);
-  }, [isEdit]);
+    return () => {
+      resetTodoCreateModal();
+    };
+  }, [resetTodoCreateModal]);
 
   const handleClose = () => {
     if (formRef.current) {
@@ -44,11 +43,11 @@ export default function TodoCreateModal() {
 
       let isChanged = false;
 
-      if (isEdit) isChanged = compareArrayWithObject(Array.from(formData.entries()), isEdit);
-      else
-        isChanged = Array.from(formData.values()).some((value) =>
-          value instanceof File ? value.size > 0 : value !== ''
-        );
+      // if (isEdit) isChanged = compareArrayWithObject(Array.from(formData.entries()), ;
+      // else
+      isChanged = Array.from(formData.values()).some((value) =>
+        value instanceof File ? value.size > 0 : value !== ''
+      );
 
       if (isChanged) {
         setIsTodoCreateCheckModalOpen(true);
@@ -62,7 +61,7 @@ export default function TodoCreateModal() {
   return (
     <Overlay>
       <div
-        className={`relative flex min-h-[45.8vw] ${isSmallScreen ? 'w-screen' : 'min-w-[27vw]'} flex-col justify-between rounded-lg bg-white p-6 font-semibold`}
+        className={`scrollbar-thin relative flex overflow-y-auto [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-white [&::-webkit-scrollbar]:w-1 ${isSmallScreen ? 'h-screen w-screen' : 'max-h-[80vh] w-[40vw]'} flex-col justify-between rounded-lg bg-white p-6 font-semibold`}
       >
         <div className="flex justify-between">
           <h2 className="mb-4 text-2xl font-semibold">{isEdit ? '할 일 수정' : '할 일 생성'}</h2>
@@ -76,7 +75,7 @@ export default function TodoCreateModal() {
           <Uploader />
           <PrioritySelector />
           <GoalSelector />
-          <SubmitButton formRef={formRef} isEdit={isEdit} />
+          <SubmitButton formRef={formRef} />
         </form>
       </div>
     </Overlay>

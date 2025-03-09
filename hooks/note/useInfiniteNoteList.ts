@@ -4,22 +4,29 @@ import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { readNoteListFromClient } from '@/apis/clientActions/note';
+import { useInfoStore } from '@/provider/store-provider';
 
 import type { NoteListType } from '@/types/note.type';
 
-export const noteKey = {
-  detail: ['note', 'detail'],
-  list: ['note', 'list']
-};
+const useInfiniteNoteList = (goalId: number | undefined, initData?: NoteListType) => {
+  const effectGoalId = goalId ?? 0;
 
-const useInfiniteNoteList = (goalId: number, initialData: NoteListType) => {
-  const { data, isFetching, fetchNextPage, refetch } = useInfiniteQuery({
-    queryKey: [...noteKey.list, goalId],
-    queryFn: ({ pageParam }) => readNoteListFromClient({ goalId, lastSeenId: pageParam }),
+  const [isFirst, setIsFirst] = React.useState(true);
+  const { userId } = useInfoStore((state) => state);
+
+  const staleTime = initData ? (isFirst ? 1000 : 10 * 60 * 1000) : isFirst ? 0 : 10 * 60 * 1000;
+
+  const { data, isFetching, fetchNextPage } = useInfiniteQuery({
+    queryKey: ['notes', effectGoalId, userId],
+    queryFn: ({ pageParam }) =>
+      readNoteListFromClient({ goalId: effectGoalId, lastSeenId: pageParam, hasGoal: !!goalId }),
     initialPageParam: 9999,
-    initialData: { pages: [initialData], pageParams: [] },
-    getNextPageParam: (lastPage) => (lastPage.remainingCount > 0 ? lastPage.lastSeenId : undefined),
-    select: (qData) => qData.pages.flatMap((page) => page.notes.toReversed())
+    initialData: { pages: initData ? [initData] : [], pageParams: [9999] },
+    getNextPageParam: (lastPage) =>
+      lastPage?.remainingCount > 0 ? lastPage.lastSeenId : undefined,
+    select: (qData) => qData.pages.flatMap((page) => page.notes.toReversed()),
+    staleTime,
+    enabled: !!userId
   });
 
   const { ref, inView } = useInView();
@@ -27,6 +34,7 @@ const useInfiniteNoteList = (goalId: number, initialData: NoteListType) => {
   React.useEffect(() => {
     if (inView) {
       fetchNextPage();
+      setIsFirst(false);
     }
   }, [inView]);
 

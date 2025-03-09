@@ -4,18 +4,20 @@ import { createContext, type ReactNode, useContext, useRef } from 'react';
 
 import { useStore } from 'zustand';
 
-import { createInfoStore, type InfoStore } from '@/stores/infoStore';
+import { createEmbedStore } from '@/stores/embedStore';
+import { createInfoStore } from '@/stores/infoStore';
 import { createModalStore, type ModalStore } from '@/stores/modalStore';
-import {
-  createTodoCreateModalStore,
-  type TodoCreateModalStore
-} from '@/stores/todoCreateModalStore';
+import { createTodoCreateModalStore } from '@/stores/todoCreateModalStore';
+import type { InfoStore } from '@/types/infoStore.types';
+import type { TodoCreateModalStore } from '@/types/todoCreateModal.types';
+
+import type { EmbedStore } from '@/stores/embedStore';
 
 export interface storeProviderProps {
   children: ReactNode;
 }
 
-//--------------------------------
+// -------------------------------- InfoStore
 
 export type InfoStoreApi = ReturnType<typeof createInfoStore>;
 
@@ -31,12 +33,12 @@ export const InfoStoreProvider = ({ children }: storeProviderProps) => {
 export const useInfoStore = <T,>(selector: (store: InfoStore) => T): T => {
   const infoStoreContext = useContext(InfoStoreContext);
 
-  if (!infoStoreContext) throw new Error(`useInfoStore must be used within InfoStoreProvider`);
+  if (!infoStoreContext) throw new Error('useInfoStore must be used within InfoStoreProvider');
 
   return useStore(infoStoreContext, selector);
 };
 
-//-----------------------------
+// ----------------------------- ModalStore
 
 export type ModalStoreApi = ReturnType<typeof createModalStore>;
 
@@ -54,12 +56,12 @@ export const ModalStoreProvider = ({ children }: storeProviderProps) => {
 export const useModalStore = <T,>(selector: (store: ModalStore) => T): T => {
   const modalStoreContext = useContext(ModalStoreContext);
 
-  if (!modalStoreContext) throw new Error(`useModalStore must be used within ModalStoreProvider`);
+  if (!modalStoreContext) throw new Error('useModalStore must be used within ModalStoreProvider');
 
   return useStore(modalStoreContext, selector);
 };
 
-//-----------------------------
+// ----------------------------- TodoCreateModalStore
 
 export type TodoCreateModalStoreApi = ReturnType<typeof createTodoCreateModalStore>;
 
@@ -82,7 +84,30 @@ export const useTodoCreateModalStore = <T,>(selector: (store: TodoCreateModalSto
   const todoCreatemodalStoreContext = useContext(TodoCreateModalStoreContext);
 
   if (!todoCreatemodalStoreContext)
-    throw new Error(`useModalStore must be used within ModalStoreProvider`);
+    throw new Error('useModalStore must be used within ModalStoreProvider');
 
   return useStore(todoCreatemodalStoreContext, selector);
+};
+
+// ----------------------------- EmbedStore
+
+export type EmbedStoreApi = ReturnType<typeof createEmbedStore>;
+
+export const EmbedStoreContext = createContext<EmbedStoreApi | undefined>(undefined);
+
+export const EmbedStoreProvider = ({ children }: storeProviderProps) => {
+  const storeRef = useRef<EmbedStoreApi>(null);
+  if (!storeRef.current) storeRef.current = createEmbedStore();
+
+  return (
+    <EmbedStoreContext.Provider value={storeRef.current}>{children}</EmbedStoreContext.Provider>
+  );
+};
+
+export const useEmbedStore = <T,>(selector: (store: EmbedStore) => T): T => {
+  const embedStoreContext = useContext(EmbedStoreContext);
+
+  if (!embedStoreContext) throw new Error('useEmbedStore must be used within EmbedStoreProvider');
+
+  return useStore(embedStoreContext, selector);
 };

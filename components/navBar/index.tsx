@@ -18,9 +18,9 @@ export default function NavBar() {
   useLayoutEffect(() => {
     if (screenSize >= LARGE_MIN) setIsOpen(true);
     else setIsOpen(false);
-  }, [screenSize]);
+  }, [screenSize, pathname]);
 
-  if (pathname.includes('login') || pathname.includes('signup')) return null;
+  if (pathname.includes('login') || pathname.includes('signup') || pathname === '/') return null;
 
   if (screenSize >= LARGE_MIN) return <LargeNav isOpen={isOpen} setIsOpen={setIsOpen} />;
   else if (screenSize < SMALL_MAX) return <SmallNav isOpen={isOpen} setIsOpen={setIsOpen} />;

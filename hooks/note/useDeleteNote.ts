@@ -1,27 +1,28 @@
-import toast from 'react-hot-toast';
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { deleteNote } from '@/apis/clientActions/note';
 
-import { noteKey } from './useInfiniteNoteList';
+import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 import type { NoteListType } from '@/types/note.type';
 import type { InfiniteData } from '@tanstack/react-query';
 
 const useDeleteNote = (goalId: number) => {
+  const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
+  const setIsLoading = useModalStore((state) => state.setIsLoading);
 
   return useMutation({
     mutationFn: (noteId: number) => deleteNote(noteId),
     onMutate: async (noteId) => {
-      toast.loading('노트 삭제 중...', { id: 'deleteNote' });
+      setIsLoading(true);
 
-      await queryClient.cancelQueries({ queryKey: [...noteKey.list, goalId] });
+      await queryClient.cancelQueries({ queryKey: ['notes', goalId, userId] });
 
       const prevList = queryClient.getQueryData<InfiniteData<NoteListType>>([
-        ...noteKey.list,
-        goalId
+        'notes',
+        goalId,
+        userId
       ]);
       const newList = prevList;
 
@@ -31,26 +32,22 @@ const useDeleteNote = (goalId: number) => {
         });
       }
 
-      queryClient.setQueryData<InfiniteData<NoteListType>>([...noteKey.list, goalId], newList);
+      queryClient.setQueryData<InfiniteData<NoteListType>>(['notes', goalId, userId], newList);
 
       return { prevList };
     },
-    onSuccess: () => {
-      toast.dismiss('deleteNote');
-      toast.success('노트가 삭제되었습니다!');
+    onSuccess: (_, noteId) => {
+      queryClient.removeQueries({ queryKey: ['note', noteId, userId] });
+      queryClient.invalidateQueries({ queryKey: ['notes', goalId, userId] });
     },
     onError: (_, noteId, ctx) => {
-      toast.dismiss('deleteNote');
-      toast.error('노트 삭제 실패했습니다.');
-
       queryClient.setQueryData<InfiniteData<NoteListType>>(
-        [...noteKey.list, goalId],
+        ['notes', goalId, userId],
         ctx?.prevList
       );
     },
-    onSettled: (_, err, noteId) => {
-      queryClient.removeQueries({ queryKey: [...noteKey.detail, noteId] });
-      queryClient.invalidateQueries({ queryKey: [...noteKey.list, goalId] });
+    onSettled: () => {
+      setIsLoading(false);
     }
   });
 };

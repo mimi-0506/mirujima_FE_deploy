@@ -3,26 +3,37 @@ import toast from 'react-hot-toast';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import authApi from '@/apis/clientActions/authApi';
+import { apiWithClientToken } from '@/apis/clientActions';
+import { GOAL_DELETE_ERROR, GOAL_DELETE_SUCCESS } from '@/constant/toastText';
+import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 const deleteGoal = async (goalId: number): Promise<void> => {
-  await authApi.delete(`/goals/${goalId}`);
+  await apiWithClientToken.delete(`/goals/${goalId}`);
 };
 
 export function useDeleteGoal() {
+  const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
+  const setIsLoading = useModalStore((state) => state.setIsLoading);
 
   return useMutation({
     mutationFn: (goalId: number) => deleteGoal(goalId),
+    onMutate: () => {
+      setIsLoading(true);
+    },
     onSuccess: (_, goalId) => {
-      queryClient.invalidateQueries({ queryKey: ['goalDetail', goalId] });
+      setIsLoading(false);
+      queryClient.invalidateQueries({ queryKey: ['goal', goalId, userId] });
+      queryClient.refetchQueries({ queryKey: ['goal', goalId, userId] });
 
-      toast.dismiss('deleteGoal');
-      toast.success('목표가 삭제되었습니다!');
+      queryClient.invalidateQueries({ queryKey: ['goals', userId] });
+      queryClient.refetchQueries({ queryKey: ['goals', userId] });
+
+      toast.success(GOAL_DELETE_SUCCESS);
     },
     onError: () => {
-      toast.dismiss('deleteGoal');
-      toast.error('목표 삭제 실패했습니다.');
+      setIsLoading(false);
+      toast.error(GOAL_DELETE_ERROR);
     }
   });
 }

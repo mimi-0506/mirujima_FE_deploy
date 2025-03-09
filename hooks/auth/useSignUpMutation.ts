@@ -4,7 +4,9 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-import api from '@/apis/clientActions/authApi';
+import authApi from '@/apis/clientActions/authApi';
+import { SIGNUP_ERROR, SIGNUP_SUCCESS } from '@/constant/toastText';
+import { useModalStore } from '@/provider/store-provider';
 
 export interface SignUpFormData {
   username: string;
@@ -23,7 +25,7 @@ interface EmailCheckResponse {
 
 export const checkEmailExists = async (email: string): Promise<boolean> => {
   try {
-    const response = await api.get<EmailCheckResponse>(`/user/exists?email=${email}`);
+    const response = await authApi.get<EmailCheckResponse>(`/user/exists?email=${email}`);
     return response.data.result.exists;
   } catch (error) {
     throw new Error('이미 존재하는 이메일입니다.');
@@ -32,7 +34,7 @@ export const checkEmailExists = async (email: string): Promise<boolean> => {
 
 const signUpUser = async (formData: SignUpFormData): Promise<void> => {
   try {
-    await api.post('/user', formData);
+    await authApi.post('/user', formData);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw error;
@@ -44,8 +46,8 @@ const signUpUser = async (formData: SignUpFormData): Promise<void> => {
 
 const handleError = (error: unknown) => {
   if (axios.isAxiosError(error)) {
-    const errorMessage = error.response?.data?.message || '회원가입 중 오류가 발생했습니다.';
-    toast.error(`회원가입 실패: ${errorMessage}`);
+    const errorMessage = error.response?.data?.message || SIGNUP_ERROR;
+    toast.error(errorMessage);
   } else {
     toast.error(error instanceof Error ? error.message : '예기치 못한 오류가 발생했습니다.');
   }
@@ -53,6 +55,7 @@ const handleError = (error: unknown) => {
 
 export const useSignUpMutation = () => {
   const router = useRouter();
+  const setIsLoading = useModalStore((state) => state.setIsLoading);
 
   return useMutation({
     mutationFn: async (formData: SignUpFormData) => {
@@ -63,19 +66,21 @@ export const useSignUpMutation = () => {
       await signUpUser(formData);
     },
     onMutate: () => {
-      toast.loading('회원가입 요청 중...', { id: 'signup' });
+      setIsLoading(true);
     },
     onSuccess: () => {
-      toast.success('회원가입 되었습니다!', { duration: 2000 });
+      setIsLoading(false);
+      toast.success(SIGNUP_SUCCESS, { duration: 2000 });
       setTimeout(() => {
         router.push('/login');
       }, 500);
     },
     onError: (error: unknown) => {
+      setIsLoading(false);
       handleError(error);
     },
     onSettled: () => {
-      toast.dismiss('signup');
+      setIsLoading(false);
     }
   });
 };

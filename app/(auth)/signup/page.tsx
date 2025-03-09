@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { z } from 'zod';
 
+import { EMAIL_ERROR, SIGHNUP_ERROR } from '@/constant/toastText';
 import { checkEmailExists, useSignUpMutation } from '@/hooks/auth/useSignUpMutation';
 
 import Button from '../_components/Button';
@@ -32,6 +33,7 @@ export default function SignUpPage() {
     register,
     handleSubmit,
     setError,
+    trigger,
     formState: { errors }
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -50,18 +52,18 @@ export default function SignUpPage() {
 
       signUpMutate(data, {
         onError: () => {
-          toast.error('회원가입에 실패했습니다. 다시 시도해 주세요.');
+          toast.error(SIGHNUP_ERROR);
         }
       });
     } catch (error) {
       console.error('회원가입 에러:', error);
-      toast.error('이메일 중복 체크 중 오류가 발생했습니다.');
+      toast.error(EMAIL_ERROR);
     }
   };
 
   return (
     <>
-      <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] md:text-[34px] md:leading-[41px]">
+      <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] text-gray500 md:text-[34px] md:leading-[41px]">
         회원가입
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
@@ -72,6 +74,7 @@ export default function SignUpPage() {
           type="text"
           errorMessage={errors.username?.message}
           className="bg-white autofill:bg-white"
+          triggerValidation={() => trigger('username')}
         />
         <InputField
           label="이메일"
@@ -80,6 +83,7 @@ export default function SignUpPage() {
           type="email"
           errorMessage={errors.email?.message}
           className="!bg-white autofill:!bg-white"
+          triggerValidation={() => trigger('email')}
         />
         <InputField
           label="비밀번호"
@@ -88,6 +92,7 @@ export default function SignUpPage() {
           type="password"
           errorMessage={errors.password?.message}
           className="!bg-white autofill:!bg-white"
+          triggerValidation={() => trigger('password')}
         />
         <InputField
           label="비밀번호 확인"
@@ -96,6 +101,7 @@ export default function SignUpPage() {
           type="password"
           errorMessage={errors.confirmPassword?.message}
           className="!bg-white autofill:!bg-white"
+          triggerValidation={() => trigger('confirmPassword')}
         />
 
         <Button type="submit" className="mt-[60px] bg-main text-white">

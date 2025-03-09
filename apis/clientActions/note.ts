@@ -37,12 +37,10 @@ export const createNote = async (data: CreateNoteType) => {
   }
 };
 
-export const readNoteListFromClient = async ({
-  goalId,
-  lastSeenId,
-  pageSize = 10
-}: ReadNoteListType) => {
-  const query = `goalId=${goalId}&lastSeenId=${lastSeenId}&pageSize=${pageSize}`;
+export const readNoteListFromClient = async (args: ReadNoteListType) => {
+  const { goalId, lastSeenId, pageSize = 10, hasGoal } = args;
+  const goalQuery = goalId !== 0 ? `&goalId=${goalId}` : '';
+  const query = `lastSeenId=${lastSeenId}&pageSize=${pageSize}&hasGoal=${hasGoal}${goalQuery}`;
   try {
     const res = await apiWithClientToken.get<ApiResponse<NoteListType>>(`/notes?${query}`);
 
@@ -84,6 +82,21 @@ export const deleteNote = async (noteId: number) => {
     if (error instanceof AxiosError) {
       // 추후 에러 처리 추가 예정
     }
+    throw error;
+  }
+};
+
+export const readNoteFromClient = async (noteId: number): Promise<NoteType> => {
+  try {
+    const res = await apiWithClientToken.get<ApiResponse<NoteType>>(`/notes/${noteId}`);
+
+    if (res.data.result === null) throw new Error('노트가 존재하지 않습니다');
+
+    return res.data.result;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+    }
+
     throw error;
   }
 };

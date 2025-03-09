@@ -2,24 +2,17 @@
 
 import React from 'react';
 
+import useGoalActions from '@/hooks/goal/useGoalActions';
 import KebabMenu from '@/components/kebab/KebabMenu';
+import { GoalType } from '@/types/goal.type';
 
 interface Props {
-  goalId: number;
+  goalId: GoalType['id'];
+  goalTitle: GoalType['title'];
 }
 
-export default function EditGoal({ goalId }: Props) {
-  const onEdit = () => {};
-  const onDelete = () => {};
-  return (
-    <>
-      <KebabMenu
-        size={24}
-        onEdit={onEdit}
-        onDelete={onDelete}
-        editText="목표 수정"
-        deleteText="목표 삭제"
-      />
-    </>
-  );
+export default function EditGoal({ goalId, goalTitle }: Props) {
+  const { handleEdit, handleDelete } = useGoalActions(goalId, goalTitle);
+
+  return <KebabMenu size={24} onEdit={handleEdit} onDelete={handleDelete} />;
 }

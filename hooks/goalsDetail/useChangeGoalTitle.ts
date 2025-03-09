@@ -1,27 +1,25 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import authApi from '@/apis/clientActions/authApi';
+import { apiWithClientToken } from '@/apis/clientActions';
+import { useInfoStore } from '@/provider/store-provider';
 
-import type { GoalType } from '@/types/goal.type';
+import type { GoalType, ISODateString } from '@/types/goal.type';
+import type { ApiResponse } from '@/types/apiResponse.type';
+
 interface UpdateGoalVariables {
-  goalId: number;
-  title: string;
-  completionDate?: string;
+  goalId: GoalType['id'];
+  title: GoalType['title'];
+  completionDate?: ISODateString;
 }
 
-interface UpdateGoalResponse {
-  success: boolean;
-  code: number;
-  message: string;
-  result: GoalType;
-}
+type UpdateGoalResponse = ApiResponse<GoalType>;
 
 const changeGoalTitle = async ({
   goalId,
   title,
   completionDate
 }: UpdateGoalVariables): Promise<UpdateGoalResponse> => {
-  const { data } = await authApi.patch<UpdateGoalResponse>(`/goals/${goalId}`, {
+  const { data } = await apiWithClientToken.patch<UpdateGoalResponse>(`/goals/${goalId}`, {
     title,
     completionDate
   });
@@ -29,12 +27,13 @@ const changeGoalTitle = async ({
 };
 
 export function useUpdateGoalTitle() {
+  const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (variables: UpdateGoalVariables) => changeGoalTitle(variables),
-    onMutate: async (variables) => {
-      const queryKey = ['goalDetail', variables.goalId.toString()];
+    onMutate: async ({ goalId, title }) => {
+      const queryKey = ['goal', goalId, userId];
       await queryClient.cancelQueries({ queryKey });
       const previousData = queryClient.getQueryData(queryKey);
 
@@ -42,19 +41,26 @@ export function useUpdateGoalTitle() {
         ...old,
         result: {
           ...old?.result,
-          title: variables.title
+          title: title
         }
       }));
 
       return { previousData };
     },
-    onError: (error, variables, context) => {
-      queryClient.setQueryData(['goalDetail', variables.goalId.toString()], context?.previousData);
+    onError: (error, { goalId }, context) => {
+      queryClient.setQueryData(['goal', goalId, userId], context?.previousData);
       console.error('목표 수정 실패', error);
     },
-    onSettled: (_, __, variables) => {
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: ['goals', userId] });
       queryClient.invalidateQueries({
-        queryKey: ['goalDetail', variables.goalId.toString()]
+        queryKey: ['goals', userId]
+      });
+    },
+    onSettled: (_, __, { goalId }) => {
+      queryClient.invalidateQueries({
+        queryKey: ['goal', goalId, userId],
+        refetchType: 'all'
       });
     }
   });
