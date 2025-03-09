@@ -86,6 +86,7 @@ export const useLoginMutation = () => {
         });
 
         toast.success(LOGIN_SUCCESS, { duration: 2000 });
+        setIsLoading(true);
         router.push('/dashboard');
       } else {
         toast.error(LOGIN_ERROR);

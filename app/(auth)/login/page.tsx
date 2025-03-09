@@ -38,6 +38,13 @@ export default function LoginPage() {
   useEffect(() => {
     setIsLoading(false);
     logout();
+
+    // 모든 쿠키 삭제
+    document.cookie.split(';').forEach((cookie) => {
+      const [name] = cookie.split('=');
+      document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname}`;
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

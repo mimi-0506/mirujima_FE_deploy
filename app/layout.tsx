@@ -1,6 +1,6 @@
 import localFont from 'next/font/local';
 
-import NavBar from '@/components/navBar';
+import NavBar from '@/components/NavBar';
 
 import AllProviders from './AllProviders';
 
@@ -43,7 +43,7 @@ export default function RootLayout({
       <head>
         <link rel="apple-touch-icon" href="/images/ios/apple-touch-icon.png" sizes="180x180" />
       </head>
-      <body className={`${pretendard.className} antialiased`}>
+      <body className={`${pretendard.className} overflow-hidden antialiased`}>
         <AllProviders>
           <NavBar />
           <main className="h-screen w-screen overflow-hidden bg-white">{children}</main>

@@ -37,14 +37,15 @@ export default function WeeklyChart() {
 
   useEffect(() => {
     if (todoData) {
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         setChartData(getWeeklyCompletionData(todoData));
       }, 300);
+
+      return () => clearTimeout(timeoutId);
     }
 
     readTodoProgress();
   }, [todoData]);
-
   return (
     <div className="rounded-container flex flex-col">
       <h4 className="mb-4">이번주 평균 달성률</h4>

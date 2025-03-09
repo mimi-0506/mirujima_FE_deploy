@@ -9,7 +9,7 @@ export default function useIsSmallScreen() {
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(true);
 
   useLayoutEffect(() => {
-    if (screenSize <= SMALL_MAX) setIsSmallScreen(true);
+    if (screenSize.width <= SMALL_MAX) setIsSmallScreen(true);
     else setIsSmallScreen(false);
   }, [screenSize]);
 

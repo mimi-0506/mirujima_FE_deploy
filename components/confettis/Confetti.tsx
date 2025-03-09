@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 
 type confettiType = {
@@ -23,7 +25,7 @@ export default function Confetti({
       left: Math.random() * 80,
       top: Math.random() * -25 - 30,
       scale: Math.random() * 0.7 + 1,
-      // delay: Math.random() * 5000, 연속재생시 주석 풀기기
+      delay: Math.random() * 5000, // 연속재생
       duration: Math.random() * 1000 + 2000
     }));
 
@@ -51,6 +53,7 @@ export default function Confetti({
             top: `${confetti.top}vh`,
             animationDuration: `${confetti.duration}ms`,
             animationName: 'confettiAnimation',
+            // animationDelay: `${confetti.delay}`
             animationIterationCount: 1
           }}
           onAnimationEnd={handleAnimationEnd}
