@@ -27,7 +27,6 @@ async function googleLogin(authorizationCode: string): Promise<GoogleLoginRespon
   const response = await axios.get('https://api.mirujima.shop/mirujima/auth/google', {
     params: { code: authorizationCode }
   });
-
   return response.data;
 }
 
@@ -39,23 +38,15 @@ export const useGoogleLoginMutation = () => {
     },
     onSuccess: (data) => {
       toast.dismiss('googleLogin');
-
       if (!data.success || !data.result) {
         toast.error(data.message || '구글 로그인에 실패했습니다.');
         console.log(data);
         return;
       }
-
       const { accessToken, refreshToken, user, expiredAt } = data.result;
-
-      // 쿠키에 토큰/유저 정보 저장
       setCookie('accessToken', accessToken, { expires: new Date(expiredAt) });
       setCookie('refreshToken', refreshToken, { expires: new Date(expiredAt) });
       setCookie('user', JSON.stringify(user), { expires: new Date(expiredAt) });
-
-      console.log('받은 토큰:', accessToken, refreshToken);
-      console.log('받은 유저 정보:', user);
-
       toast.success('구글 로그인 성공!');
     },
     onError: (error) => {
