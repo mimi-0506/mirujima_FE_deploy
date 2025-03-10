@@ -35,21 +35,28 @@ export function useUpdateGoalTitle() {
     onMutate: async ({ goalId, title }) => {
       const queryKey = ['goal', goalId, userId];
       await queryClient.cancelQueries({ queryKey });
-      const previousData = queryClient.getQueryData(queryKey);
+      const previousData = queryClient.getQueryData<UpdateGoalResponse>(queryKey);
 
-      queryClient.setQueryData(queryKey, (old: any) => ({
-        ...old,
-        result: {
-          ...old?.result,
-          title: title
+      queryClient.setQueryData<UpdateGoalResponse>(
+        queryKey,
+        (old: UpdateGoalResponse | undefined) => {
+          const updatedResult = {
+            ...old?.result,
+            title
+          };
+          return {
+            success: old?.success ?? true,
+            code: old?.code,
+            message: old?.message,
+            result: updatedResult
+          } as UpdateGoalResponse;
         }
-      }));
+      );
 
       return { previousData };
     },
     onError: (error, { goalId }, context) => {
       queryClient.setQueryData(['goal', goalId, userId], context?.previousData);
-      console.error('목표 수정 실패', error);
     },
     onSuccess: () => {
       queryClient.refetchQueries({ queryKey: ['goals', userId] });
