@@ -50,7 +50,9 @@ const responseInterceptorError = async (error: any) => {
   return Promise.reject(error);
 };
 
-export default {
+const interceptors = {
   responseInterceptor,
   responseInterceptorError
 };
+
+export default interceptors;

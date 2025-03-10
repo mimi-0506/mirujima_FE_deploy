@@ -3,7 +3,7 @@ import { getCookie, setCookie } from 'cookies-next';
 
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const REFRESH_THRESHOLD_MINUTES = 30;
+const REFRESH_THRESHOLD_MINUTES = 50;
 
 let isRefreshing = false;
 let refreshPromise: Promise<string> | null = null;
@@ -84,7 +84,6 @@ export async function requestInterceptor(
 
   const accessToken = getCookie('accessToken');
   if (!accessToken) {
-    console.warn('[requestInterceptor] accessToken 없음 - 401/403 발생 가능');
     return config;
   }
 
@@ -103,7 +102,6 @@ export async function requestInterceptor(
     } else {
       const currentTime = Math.floor(Date.now() / 1000);
       const expiresIn = decoded.exp - currentTime;
-      //   const remainingMinutes = Math.floor(expiresIn / 60);
 
       if (expiresIn < REFRESH_THRESHOLD_MINUTES * 60) {
         console.warn('[requestInterceptor] 만료 임박 - refreshAccessToken 진행');
@@ -136,4 +134,5 @@ export function requestInterceptorError(error: AxiosError) {
   return Promise.reject(error);
 }
 
-export default { requestInterceptor, requestInterceptorError };
+const interceptors = { requestInterceptor, requestInterceptorError };
+export default interceptors;
