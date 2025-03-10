@@ -5,10 +5,9 @@ import { usePathname } from 'next/navigation';
 
 import { LARGE_MIN, SMALL_MAX } from '@/constant/numbers';
 import useResize from '@/hooks/nav/useResize';
-
 import LargeNav from './LargeNav';
-import MediumNav from './MediumNav';
 import SmallNav from './SmallNav';
+import MediumNav from './MediumNav';
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
