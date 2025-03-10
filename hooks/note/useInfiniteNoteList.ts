@@ -16,16 +16,17 @@ const useInfiniteNoteList = (goalId: number | undefined, initData?: NoteListType
 
   const staleTime = initData ? (isFirst ? 1000 : 10 * 60 * 1000) : isFirst ? 0 : 10 * 60 * 1000;
 
-  const { data, isFetching, fetchNextPage, refetch } = useInfiniteQuery({
+  const { data, isFetching, fetchNextPage } = useInfiniteQuery({
     queryKey: ['notes', effectGoalId, userId],
     queryFn: ({ pageParam }) =>
       readNoteListFromClient({ goalId: effectGoalId, lastSeenId: pageParam, hasGoal: !!goalId }),
     initialPageParam: 9999,
-    initialData: { pages: initData ? [initData] : [], pageParams: [] },
+    initialData: { pages: initData ? [initData] : [], pageParams: [9999] },
     getNextPageParam: (lastPage) =>
       lastPage?.remainingCount > 0 ? lastPage.lastSeenId : undefined,
     select: (qData) => qData.pages.flatMap((page) => page.notes.toReversed()),
-    staleTime
+    staleTime,
+    enabled: !!userId
   });
 
   const { ref, inView } = useInView();

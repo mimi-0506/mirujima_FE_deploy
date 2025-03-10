@@ -6,27 +6,34 @@ import { calcGoalCompletionPercentage } from '@/utils/percentageUtils';
 
 import type { TodoType } from '@/types/todo.type';
 
+interface GoalProgressBarProps {
+  todos?: TodoType[];
+  goalId: number;
+  startAnimation: boolean;
+}
+
 export default function GoalProgressBar({
   todos = [],
   goalId,
   startAnimation
-}: {
-  todos: TodoType[];
-  goalId: number;
-  startAnimation: boolean;
-}) {
+}: GoalProgressBarProps) {
   const [progress, setProgress] = useState(0);
   const goalTodos = getGoalTodos(todos, goalId);
-  const count = useCountUp(Number(progress), 2000);
+  const count = useCountUp(progress, 2000);
 
   useEffect(() => {
     const percentage = calcGoalCompletionPercentage(goalTodos, goalId);
 
-    if (startAnimation) {
-      setTimeout(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    if (startAnimation)
+      timeoutId = setTimeout(() => {
         setProgress(percentage);
       }, 500);
-    }
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, [startAnimation, goalTodos, goalId]);
 
   return (

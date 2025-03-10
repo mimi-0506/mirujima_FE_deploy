@@ -6,7 +6,7 @@ export default function DoneChecker() {
   const done = useTodoCreateModalStore((state) => state.done);
   const [nowDone, setNowDone] = useState(done);
 
-  //수정시 초기값 가져오기용용 세팅
+  // 수정시 초기값 가져오기용용 세팅
   useEffect(() => {
     if (nowDone !== done) setNowDone(done);
     // eslint-disable-next-line react-hooks/exhaustive-deps

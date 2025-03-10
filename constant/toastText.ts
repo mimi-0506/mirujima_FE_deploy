@@ -26,6 +26,9 @@ export const TODO_EDIT_SUCCESS = '할일을 수정했습니다.';
 
 export const GOAL_CREATE_SUCCESS = '목표를 등록했습니다.';
 
+export const GOAL_EDIT_SUCCESS = '목표 수정 성공했습니다';
+export const GOAL_EDIT_ERROR = '목표 수정 실패했습니다';
+
 export const URL_VALID_ERROR = '올바른 주소가 아닙니다!';
 export const URL_ERROR = '주소만 입력 가능합니다!';
 

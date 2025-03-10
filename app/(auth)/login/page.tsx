@@ -1,17 +1,18 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-
+import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { z } from 'zod';
+import { getCookie, setCookie, deleteCookie } from 'cookies-next'; // deleteCookie 추가
 
+import { CheckedIcon } from '@/app/(workspace)/todoList/_components/CheckedIcon';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
-
 import { useLoginMutation } from '../../../hooks/auth/useLoginMutation';
+import authApi from '@/apis/clientActions/authApi';
 import Button from '../_components/Button';
 import InputField from '../_components/InputField';
 
@@ -23,30 +24,72 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const router = useRouter();
   const logout = useInfoStore((state) => state.logout);
+  const setInfo = useInfoStore((state) => state.setInfo);
+  const setIsLoading = useModalStore((state) => state.setIsLoading);
+  useEffect(() => {
+    setIsLoading(true);
+    const refreshToken = getCookie('refreshToken') as string | undefined;
+
+    if (refreshToken) {
+      authApi
+        .post('/auth/refresh', { refreshToken })
+        .then((response) => {
+          const data = response.data;
+          if (data.success && data.result.accessToken) {
+            setCookie('accessToken', data.result.accessToken, {
+              maxAge: 60 * 60, // 1시간
+              path: '/'
+            });
+            const userCookie = getCookie('user') as string | undefined;
+            const user = userCookie ? JSON.parse(userCookie) : {};
+            setInfo({ userId: user.id || 0, email: user.email || '', name: user.username || '' });
+            router.push('/dashboard');
+          } else {
+            deleteCookie('refreshToken', { path: '/' });
+            deleteCookie('accessToken', { path: '/' });
+            deleteCookie('user', { path: '/' });
+            logout();
+          }
+        })
+        .catch(() => {
+          deleteCookie('refreshToken', { path: '/' });
+          deleteCookie('accessToken', { path: '/' });
+          deleteCookie('user', { path: '/' });
+          logout();
+        })
+        .finally(() => setIsLoading(false));
+    } else {
+      logout();
+      setIsLoading(false);
+    }
+  }, [router, logout, setInfo, setIsLoading]);
   const {
     register,
     handleSubmit,
     trigger,
     formState: { errors }
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-    mode: 'onSubmit'
-  });
-  const setIsLoading = useModalStore((state) => state.setIsLoading);
+  } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema), mode: 'onSubmit' });
 
   useEffect(() => {
     setIsLoading(false);
     logout();
+
+    // 모든 쿠키 삭제
+    document.cookie.split(';').forEach((cookie) => {
+      const [name] = cookie.split('=');
+      document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname}`;
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { mutate: loginMutate, isError, error } = useLoginMutation();
-
-  const router = useRouter();
+  const [isChecked, setIsChecked] = useState(false);
 
   const onSubmit = (data: LoginFormData) => {
-    loginMutate(data);
+    loginMutate({ formData: data, isAutoLogin: isChecked });
   };
 
   const serverErrorMessage =
@@ -56,7 +99,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] md:text-[34px] md:leading-[41px]">
+      <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] text-gray500 md:text-[34px] md:leading-[41px]">
         로그인
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
@@ -78,13 +121,22 @@ export default function LoginPage() {
         />
         {serverErrorMessage && <p className="text-sm text-warning">{serverErrorMessage}</p>}
 
-        <div className="mb-[60px] hidden items-center justify-between px-2">
-          <p className="text-[14px] font-medium leading-[20px] text-gray350">
-            비밀번호를 잊으셨나요?
-          </p>
-          <button className="cursor-not-allowed border-none bg-transparent p-0 text-[14px] font-medium leading-[20px] text-main">
-            비밀번호 찾기
-          </button>
+        <div className="my-3 flex items-center gap-2">
+          <div className="relative flex cursor-pointer">
+            <input
+              id="auto-login"
+              type="checkbox"
+              checked={isChecked}
+              onChange={() => setIsChecked((prev) => !prev)}
+              className="peer h-[18px] w-[18px] cursor-pointer appearance-none rounded-[6px] border border-gray200 transition-all checked:border-main checked:bg-main"
+            />
+            <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100">
+              <CheckedIcon />
+            </span>
+          </div>
+          <label htmlFor="auto-login" className="text-[14px] font-medium text-gray500">
+            자동 로그인
+          </label>
         </div>
 
         <Button type="submit" className="bg-main text-white">
@@ -98,6 +150,7 @@ export default function LoginPage() {
           회원가입
         </Button>
       </form>
+
       <div className="mt-[40px] hidden gap-4">
         <label className="font-semibold text-gray500">간편 로그인</label>
         <div className="flex flex-col gap-3">

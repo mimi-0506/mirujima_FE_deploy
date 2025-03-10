@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import GoalIcon from '@/public/icon/work.svg';
-import { dateFormatWithDots } from '@/utils/dateUtils';
+import { convertDateFormatISOToWithDots } from '@/utils/dateUtils';
 
 import TodoChip from '../../todoChip/TodoChip';
 
@@ -36,7 +36,7 @@ export default function NoteInfo({ goalTitle, todoTitle, noteUpdatedAt }: Props)
           <h4 className="truncate text-gray400">{todoTitle}</h4>
         </div>
         <span className="shrink-0 text-button2 text-gray400">
-          {dateFormatWithDots(noteUpdatedAt ?? new Date().toISOString())}
+          {convertDateFormatISOToWithDots(noteUpdatedAt ?? new Date().toISOString())}
         </span>
       </div>
     </div>

@@ -40,7 +40,6 @@ export default function useTodoCreate() {
 
   const todoCreateFail = () => {
     toast.error(COMMON_ERROR);
-    ``;
   };
 
   return { setTodoCreate };

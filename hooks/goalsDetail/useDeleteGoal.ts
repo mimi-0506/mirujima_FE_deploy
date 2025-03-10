@@ -8,7 +8,7 @@ import { GOAL_DELETE_ERROR, GOAL_DELETE_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 const deleteGoal = async (goalId: number): Promise<void> => {
-  const response = await apiWithClientToken.delete(`/goals/${goalId}`);
+  await apiWithClientToken.delete(`/goals/${goalId}`);
 };
 
 export function useDeleteGoal() {

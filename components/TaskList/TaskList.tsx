@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
@@ -15,7 +15,7 @@ interface TaskListProps {
   isLoading?: boolean;
   isError?: boolean;
   isMoreToggle?: boolean;
-  tasksLength?: number;
+  isDashboard?: boolean;
 }
 
 export default function TaskList({
@@ -25,7 +25,7 @@ export default function TaskList({
   isLoading: propLoading,
   isError: propError,
   isMoreToggle,
-  tasksLength
+  isDashboard
 }: TaskListProps) {
   const { data, isLoading, isError } = useGetTodoList(goalId, done);
 
@@ -34,12 +34,15 @@ export default function TaskList({
   const error = propTasks !== undefined ? (propError ?? false) : isError;
 
   const [showEmptyMessage, setShowEmptyMessage] = useState(false);
+  useEffect(() => {
+    setShowEmptyMessage(false);
+  }, []);
 
   if (error) return <div>에러가 발생했어요.</div>;
 
   return (
     <div
-      className={`scrollbar-thin custom-scrollbar overflow-y-auto pr-5 transition-all ${isMoreToggle ? 'max-h-[1000px]' : 'max-h-[260px]'}`}
+      className={`scrollbar-thin custom-scrollbar overflow-y-auto pr-5 transition-all ${isMoreToggle ? 'max-h-full' : 'max-h-[260px]'} ${isDashboard ? 'scrollbar-hide' : ''}`}
     >
       <ul className="mt-2 space-y-2 text-gray350">
         {loading ? (
@@ -54,7 +57,7 @@ export default function TaskList({
           // 3.  TodoItem 렌더링
           tasks.map((task) => (
             <li key={task.id}>
-              <TodoItem todo={task} goalId={goalId} />
+              <TodoItem todo={task} goalId={goalId} isDashboard={isDashboard} />
             </li>
           ))
         )}

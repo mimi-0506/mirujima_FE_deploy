@@ -1,24 +1,23 @@
-import type { GoalType } from './goal.type';
 import type { TodoType } from './todo.type';
-
-export type CreateNoteType = {
-  todoId: number;
+import type { ISODateString } from './ISODateString.type';
+import type { GoalSummary } from './goal.type';
+export type NoteCommonFields = {
   title: string;
   content: string;
   linkUrl?: string;
 };
+export type CreateNoteType = {
+  todoId: number;
+} & Pick<NoteCommonFields, 'title' | 'content' | 'linkUrl'>;
 
 export type NoteType = {
   todoDto: Pick<TodoType, 'done' | 'filePath' | 'linkUrl' | 'title' | 'id' | 'completionDate'>;
-  content: string;
-  linkUrl: string;
-  updatedAt: string;
-  createdAt: string;
-  title: string;
+  updatedAt: ISODateString;
+  createdAt: ISODateString;
   id: number;
-  goalDto: Pick<GoalType, 'id' | 'title' | 'completionDate'> | null;
+  goalDto: GoalSummary | null;
   userId: number;
-};
+} & NoteCommonFields;
 
 export type NoteListType = {
   lastSeenId: number;
