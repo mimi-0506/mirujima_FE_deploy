@@ -5,7 +5,8 @@ export default {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './modals/**/*.{js,ts,jsx,tsx,mdx}'
+    './modals/**/*.{js,ts,jsx,tsx,mdx}',
+    './constant/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
     extend: {
@@ -32,7 +33,10 @@ export default {
         label2: '#F1B424',
         label3: '#FFA26B',
         label4: '#0084F4',
-        pressed: '#E45555'
+        pressed: '#E45555',
+        lightLabel1: '#EBCBFB',
+        lightLabel4: '#A8D2F5',
+        lightGray400: '#B3B3B3'
       },
       screens: {
         md: '744px',
@@ -52,7 +56,10 @@ export default {
       },
       animation: {
         tomatofill: 'tomatofill 2s infinite ease-in-out',
-        tomatogradation: 'tomatogradation 2s infinite'
+        tomatogradation: 'tomatogradation 2s infinite',
+        confetti: 'confettiAnimation 3s infinite ease-in-out',
+        fadeIn: 'fadeIn 0.3s ease-out forwards',
+        modalContent: 'modalContent 0.3s ease-out forwards'
       },
       keyframes: {
         tomatofill: {
@@ -69,6 +76,22 @@ export default {
           },
           '100%': {
             backgroundColor: 'transparent'
+          }
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' }
+        },
+        modalContent: {
+          '0%': { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' }
+        },
+        confettiAnimation: {
+          '0%': {
+            transform: 'translate3d(0vw, -10vh, 0) scale(1) rotate(0deg)' // 위에서 시작
+          },
+          '100%': {
+            transform: 'translate3d(10vw, 170vh, 0) scale(1) rotate(720deg)' // 아래로 떨어지고, 화면 밖에서 사라짐
           }
         }
       }

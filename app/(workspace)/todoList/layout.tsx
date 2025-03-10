@@ -1,6 +1,6 @@
 export const generateMetadata = () => {
   return {
-    title: `할일목록`
+    title: '할일목록'
   };
 };
 

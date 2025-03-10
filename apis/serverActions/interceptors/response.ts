@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 
 import type { AxiosResponse } from 'axios';
 
-//버셀 배포시에만 도메인을 버셀 도메인으로 적용. 그 외에는 "/"
+// 버셀 배포시에만 도메인을 버셀 도메인으로 적용. 그 외에는 "/"
 const isLocal = process.env.NODE_ENV === 'development';
 const DOMAIN = isLocal ? '/' : process.env.NEXT_PUBLIC_DOMAIN;
 

@@ -1,9 +1,9 @@
 import { format } from 'date-fns';
 
-import type { GoalId } from './getBgColorForGoal';
+import type { GoalId } from '@/types/goal.type';
 import type { TodoType } from '@/types/todo.type';
 
-export const getGoalTodos = (todos: TodoType[], goalId: number) => {
+export const getGoalTodos = (todos: TodoType[], goalId: GoalId['goalId']) => {
   return todos.filter((todo) => todo.goal?.id === goalId);
 };
 

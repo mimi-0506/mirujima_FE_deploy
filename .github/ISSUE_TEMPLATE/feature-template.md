@@ -4,7 +4,6 @@ about: 기능 추가 이슈 템플릿
 title: 'feat: 이슈 제목 작성해주세요.'
 labels: ''
 assignees: ''
-
 ---
 
 # ✨ 어떤 기능인가요?

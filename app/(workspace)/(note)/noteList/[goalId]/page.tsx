@@ -35,7 +35,7 @@ export default async function NoteList({ params }: Props) {
           <TodoIcon width="24" height="24" />
         </div>
         <h2 className="w-full items-center truncate text-gray500">{goal.title}</h2>
-        <EditGoal goalId={goal.id} />
+        <EditGoal goalId={goal.id} goalTitle={goal.title} />
       </div>
       {noteList.result ? (
         <NoteCardList goalId={goal.id} noteList={noteList.result} />

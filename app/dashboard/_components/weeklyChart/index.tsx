@@ -21,10 +21,6 @@ export default function WeeklyChart() {
   const [progressData, setProgressData] = useState(0);
   const count = useCountUp(Number(progressData), 2000);
 
-  useEffect(() => {
-    readTodoProgress();
-  }, []);
-
   const readTodoProgress = async () => {
     const response = await apiWithClientToken.get<{ result: TodoProgressType }>('/todos/progress');
     const data = response.data.result;
@@ -41,12 +37,15 @@ export default function WeeklyChart() {
 
   useEffect(() => {
     if (todoData) {
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         setChartData(getWeeklyCompletionData(todoData));
       }, 300);
-    }
-  }, [todoData]);
 
+      return () => clearTimeout(timeoutId);
+    }
+
+    readTodoProgress();
+  }, [todoData]);
   return (
     <div className="rounded-container flex flex-col">
       <h4 className="mb-4">이번주 평균 달성률</h4>

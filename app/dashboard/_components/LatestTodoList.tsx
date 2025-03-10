@@ -22,8 +22,8 @@ export default function LatestTodoList() {
   return (
     <div className="rounded-container flex flex-col desktop:min-h-[250px]">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
-        <h3 className="h3">최근 등록한 일</h3>
-        <Link href="/todoList" className="flex items-center gap-1 text-main">
+        <h3>최근 등록한 일</h3>
+        <Link href="/todoList" className="flex items-center gap-1 text-xs text-main">
           모두 보기
           <ArrowRightIcon width={18} height={18} />
         </Link>
@@ -35,7 +35,7 @@ export default function LatestTodoList() {
         <ul>
           {todoData.map((todo: TodoType) => (
             <motion.li key={todo.id} layout>
-              <TodoItem todo={todo} />
+              <TodoItem todo={todo} showGoal={true} isDashboard={true} />
             </motion.li>
           ))}
         </ul>

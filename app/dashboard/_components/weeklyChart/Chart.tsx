@@ -12,7 +12,7 @@ export default function Chart({ data }: { data: ChartDataType[] }) {
   const { screenSize } = useResize();
 
   const surfaceWidth = 600;
-  const surfaceHeight = screenSize < LARGE_MIN ? 256 : 336;
+  const surfaceHeight = screenSize.width < LARGE_MIN ? 256 : 336;
 
   return (
     <ResponsiveContainer width="100%" height={surfaceHeight}>

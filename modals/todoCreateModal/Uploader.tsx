@@ -32,7 +32,7 @@ export default function Uploader() {
 
   const handleLinkPaste = async () => {
     const nowLink = await navigator.clipboard.readText();
-    //있는 url을 지우는 ui도 필요할듯
+    // 있는 url을 지우는 ui도 필요할듯
 
     try {
       const url = new URL(nowLink);
@@ -106,7 +106,7 @@ export default function Uploader() {
         </div>
 
         <div className={`${selectedOption !== 'link' && 'hidden'}`}>
-          <input value={linkUrl} name="linkUrl" readOnly className="hidden" />
+          <input value={linkUrl ?? ''} name="linkUrl" readOnly className="hidden" />
 
           <button type="button" onClick={handleLinkPaste}>
             {linkUrl === '' || linkUrl === null ? '링크를 첨부해주세요' : linkUrl}

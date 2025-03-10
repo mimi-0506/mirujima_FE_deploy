@@ -63,7 +63,7 @@ export default function SignUpPage() {
 
   return (
     <>
-      <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] md:text-[34px] md:leading-[41px]">
+      <h1 className="mb-[60px] text-[26px] font-semibold leading-[28px] text-gray500 md:text-[34px] md:leading-[41px]">
         회원가입
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">

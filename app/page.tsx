@@ -15,7 +15,7 @@ export default function Home() {
   useEffect(() => {
     const handleValidCheck = async () => {
       try {
-        const { data } = await apiWithClientToken.get(`/user`);
+        const { data } = await apiWithClientToken.get('/user');
         console.log(data.id);
         setValid(data ? true : false);
       } catch (error) {

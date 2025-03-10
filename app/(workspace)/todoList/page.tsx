@@ -66,7 +66,7 @@ export default function TodoListPage() {
                   exit={{ opacity: 1 }}
                   layout
                 >
-                  <TodoItem todo={todo} goalId={todo?.goal?.id} />
+                  <TodoItem todo={todo} goalId={todo?.goal?.id} showGoal={true} />
                 </motion.li>
               ))}
             </ul>

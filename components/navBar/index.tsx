@@ -16,13 +16,13 @@ export default function NavBar() {
   const pathname = usePathname();
 
   useLayoutEffect(() => {
-    if (screenSize >= LARGE_MIN) setIsOpen(true);
+    if (screenSize.width >= LARGE_MIN) setIsOpen(true);
     else setIsOpen(false);
   }, [screenSize, pathname]);
 
   if (pathname.includes('login') || pathname.includes('signup') || pathname === '/') return null;
 
-  if (screenSize >= LARGE_MIN) return <LargeNav isOpen={isOpen} setIsOpen={setIsOpen} />;
-  else if (screenSize < SMALL_MAX) return <SmallNav isOpen={isOpen} setIsOpen={setIsOpen} />;
+  if (screenSize.width >= LARGE_MIN) return <LargeNav isOpen={isOpen} setIsOpen={setIsOpen} />;
+  else if (screenSize.width < SMALL_MAX) return <SmallNav isOpen={isOpen} setIsOpen={setIsOpen} />;
   return <MediumNav isOpen={isOpen} setIsOpen={setIsOpen} />;
 }
