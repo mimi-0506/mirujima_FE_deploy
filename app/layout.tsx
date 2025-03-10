@@ -1,6 +1,6 @@
 import localFont from 'next/font/local';
 
-import NavBar from '@/components/NavBar';
+import NavigationBar from '@/components/NavigationBar';
 
 import AllProviders from './AllProviders';
 
@@ -45,7 +45,7 @@ export default function RootLayout({
       </head>
       <body className={`${pretendard.className} overflow-hidden antialiased`}>
         <AllProviders>
-          <NavBar />
+          <NavigationBar />
           <main className="h-screen w-screen overflow-hidden bg-white">{children}</main>
           <PomodoroTimer />
         </AllProviders>
