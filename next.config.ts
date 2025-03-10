@@ -1,40 +1,22 @@
-// import type { NextConfig } from 'next';
-
-// const nextConfig: NextConfig = {
-//   /* config options here */
-//   experimental: {
-//     forceSwcTransforms: true
-//     // serverActions: {
-//     //   allowedOrigins: [process.env.NEXT_PUBLIC_BASE_URL as string]
-//     // }
-//   },
-//   reactStrictMode: false,
-//   webpack(config) {
-//     config.module.rules.push({
-//       test: /\.svg$/,
-//       use: ['@svgr/webpack']
-//     });
-//     return config;
-//   },
-//   images: {
-//     remotePatterns: [
-//       { protocol: 'http', hostname: 'i.pinimg.com' },
-//       { protocol: 'https', hostname: 'i.pinimg.com' }
-//     ]
-//   }
-// };
-
-// export default nextConfig;
 import type { NextConfig } from 'next';
+import type { Configuration } from 'webpack';
 
-const nextConfig: NextConfig = {
+const pwaConfig = {
+  dest: 'public', // Service Worker 파일이 저장될 경로
+  register: true, // Service Worker 자동 등록
+  skipWaiting: true // 새 Service Worker가 즉시 활성화되도록 설정
+};
+
+const withPWA = require('next-pwa')(pwaConfig);
+
+const nextConfig: NextConfig = withPWA({
   /* 기존 설정 유지 */
   experimental: {
     forceSwcTransforms: true
   },
   reactStrictMode: false,
-  webpack(config) {
-    config.module.rules.push({
+  webpack(config: Configuration) {
+    config?.module?.rules?.push({
       test: /\.svg$/,
       use: [{ loader: '@svgr/webpack', options: { icon: true } }]
     });
@@ -53,6 +35,6 @@ const nextConfig: NextConfig = {
       }
     ];
   }
-};
+});
 
 export default nextConfig;

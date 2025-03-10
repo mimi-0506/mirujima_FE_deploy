@@ -78,25 +78,29 @@ export const useLoginMutation = () => {
       const { accessToken, refreshToken, user } = data.result;
       const { isAutoLogin } = variables;
 
-      setCookie('accessToken', accessToken, COOKIEOPTIONS_ACCESS);
-      setCookie('user', JSON.stringify(user), COOKIEOPTIONS_ACCESS);
-      setInfo({
-        userId: user.id,
-        email: user.email,
-        name: user.username
-      });
-      if (isAutoLogin) {
-        setCookie('refreshToken', refreshToken, COOKIEOPTIONS_REFRESH);
-        console.log('[로그인] 자동 로그인 활성화됨 - refreshToken 저장 (7일 유효)');
+      if (accessToken && user) {
+        // accessToken, user 쿠키 저장 (feat/#186/autologin 로직 사용)
+        setCookie('accessToken', accessToken, COOKIEOPTIONS_ACCESS);
+        setCookie('user', JSON.stringify(user), COOKIEOPTIONS_ACCESS);
+        setInfo({
+          userId: user.id,
+          email: user.email,
+          name: user.username
+        });
+        if (isAutoLogin) {
+          setCookie('refreshToken', refreshToken, COOKIEOPTIONS_REFRESH);
+          console.log('[로그인] 자동 로그인 활성화됨 - refreshToken 저장 (7일 유효)');
+        } else {
+          deleteCookie('refreshToken', { path: DOMAIN });
+          console.log('[로그인] 자동 로그인 비활성화됨 - refreshToken 삭제, accessToken만 1시간 유효');
+        }
+        toast.success(LOGIN_SUCCESS, { duration: 2000 });
+        router.push('/dashboard');
       } else {
         deleteCookie('refreshToken', { path: DOMAIN });
-        console.log(
-          '[로그인] 자동 로그인 비활성화됨 - refreshToken 삭제, accessToken만 1시간 유효'
-        );
+        console.log('[로그인] 자동 로그인 비활성화됨 - refreshToken 삭제, accessToken만 1시간 유효');
+        toast.error(LOGIN_ERROR);
       }
-
-      toast.success(LOGIN_SUCCESS, { duration: 2000 });
-      router.push('/dashboard');
     },
     onError: (error: unknown) => {
       setIsLoading(false);

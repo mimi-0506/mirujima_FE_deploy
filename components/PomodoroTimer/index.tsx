@@ -1,72 +1,28 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Confetti from '../Confetti';
-import Test from '@/public/images/logo/stem.png';
-import Image from 'next/image';
+import { useState } from 'react';
+import Confetti from '../confettis/Confetti';
+
 import { usePathname } from 'next/navigation';
 import { Rnd } from 'react-rnd';
-
-const FOCUS_TIME = 10; // 25 * 60;
-const BREAK_TIME = 5; // 5 * 60;
-
-type TimerState = 'focus' | 'break';
+import useConfetti from '../../hooks/pomodoro/useConfetti';
+import useIsDrag from '../../hooks/pomodoro/useIsDrag';
+import usePosition from '../../hooks/pomodoro/usePosition';
+import Timer from './Timer';
+import { BREAK_TIME, FOCUS_TIME } from '@/constant/numbers';
+import { TimerStateType } from '@/types/pomodoro.type';
+import Layout from './Layout';
 
 export default function PomodoroTimer() {
   const pathname = usePathname();
+  const [isExpanded, setIsExpanded] = useState(false);
   const [time, setTime] = useState(FOCUS_TIME);
   const [isRunning, setIsRunning] = useState(false);
-  const [state, setState] = useState<TimerState>('focus');
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [showConfetti, setShowConfetti] = useState(false); // Confetti 표시 여부
-  const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null);
+  const [state, setState] = useState<TimerStateType>('focus');
 
-  useEffect(() => {
-    if (!isRunning) return;
-    const timer = setInterval(() => {
-      setTime((prev) => {
-        if (prev === 0) {
-          setState((now) => (now === 'focus' ? 'break' : 'focus'));
-          setTime(state === 'focus' ? FOCUS_TIME : BREAK_TIME);
-          return 0;
-        }
-
-        // 컨페티 애니메이션 초기 동작 시간이 1초 정도 소요되므로, 1초일때 컨페티 시작
-        if (prev <= 1) setShowConfetti(true);
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [isRunning, state]);
-
-  const handleToggle = (e: React.MouseEvent) => {
-    setIsExpanded((prev) => !prev);
-  };
-
-  const handleStartPause = (e: React.MouseEvent) => {
-    setIsRunning((prev) => !prev);
-  };
-
-  const handleReset = (e: React.MouseEvent) => {
-    setTime(state === 'focus' ? FOCUS_TIME : BREAK_TIME);
-    setIsRunning(false);
-  };
-
-  const handleDragStart = (e: React.MouseEvent) => {
-    setDragStart({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleDragStop = (e: React.MouseEvent) => {
-    if (dragStart) {
-      const dx = e.clientX - dragStart.x;
-      const dy = e.clientY - dragStart.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      // 만약 드래그 거리가 일정 이상이면 클릭으로 인식하지 않도록
-      if (distance <= 5) handleToggle(e);
-    }
-  };
+  const { showConfetti, setShowConfetti } = useConfetti(isRunning, setTime, setState, state);
+  const { position, setPosition } = usePosition();
+  const { handleDragStart, handleDragStop } = useIsDrag(setIsExpanded, setPosition);
 
   const getColor = () => {
     const colors = ['#22C55E', '#74B45C', '#BEA353', '#F28D61', '#F86969'];
@@ -85,9 +41,10 @@ export default function PomodoroTimer() {
     <>
       <Rnd
         bounds="window"
+        position={{ x: position.x, y: position.y }}
         default={{
-          x: window.innerWidth - 100,
-          y: 0,
+          x: position.x,
+          y: position.y,
           width: isExpanded ? 320 : 80,
           height: isExpanded ? 320 : 80
         }}
@@ -99,50 +56,21 @@ export default function PomodoroTimer() {
           }`}
           onMouseDown={handleDragStart}
           onMouseUp={handleDragStop}
+          onTouchStart={handleDragStart}
+          onTouchEnd={handleDragStop}
         >
-          <div className="relative h-full w-full">
-            <Image
-              src={Test}
-              width={30}
-              height={30}
-              alt="stem"
-              className={'absolute top-[-10px] z-20 transition-all duration-500 ease-in-out'}
+          <Layout isExpanded={isExpanded} getColor={getColor}>
+            <Timer
+              state={state}
+              time={time}
+              setTime={setTime}
+              isRunning={isRunning}
+              setIsRunning={setIsRunning}
             />
-
-            <div
-              className={`cursor-pointer items-center justify-center overflow-hidden shadow-lg transition-all duration-500 ease-in-out ${
-                isExpanded ? 'h-80 w-80 rounded-3xl' : 'h-20 w-20 rounded-full'
-              }`}
-              style={{ backgroundColor: getColor() }}
-            >
-              <div className="flex h-full w-full flex-col items-center justify-center">
-                <h1 className="mb-5 text-3xl text-white">
-                  {state === 'focus' ? 'Focus' : 'Break'}
-                </h1>
-
-                <h2 className="py-5 text-2xl font-bold text-white">
-                  {`${Math.floor(time / 60)}:${String(time % 60).padStart(2, '0')}`}
-                </h2>
-
-                <div className="mt-4 flex gap-4">
-                  <button
-                    onClick={handleStartPause}
-                    className="rounded bg-blue-500 px-4 py-2 text-white"
-                  >
-                    {isRunning ? 'Pause' : 'Start'}
-                  </button>
-                  <button
-                    onClick={handleReset}
-                    className="rounded bg-gray-500 px-4 py-2 text-white"
-                  >
-                    Reset
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          </Layout>
         </div>
       </Rnd>
+
       {showConfetti && <Confetti setShowConfetti={setShowConfetti} />}
     </>
   );
