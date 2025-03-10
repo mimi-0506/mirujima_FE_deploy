@@ -9,7 +9,7 @@ import LargeNav from './LargeNav';
 import SmallNav from './SmallNav';
 import MediumNav from './MediumNav';
 
-export default function NavBar() {
+export default function NavigationBar() {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const { screenSize } = useResize();
   const pathname = usePathname();
