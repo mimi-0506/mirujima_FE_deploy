@@ -37,38 +37,40 @@ export default function UpcomingGoals() {
     <div className="rounded-container">
       <h3 className="mb-6">남은 일정</h3>
       <ul>
-        {upcomingGoals.map(({ date, day, goals }) => {
-          const isToday = date === todayDate;
-          return (
-            <li
-              key={date}
-              className={`-mt-[1px] flex items-center border-b border-l-[3px] border-t border-gray200 px-4 py-3 last:border-b-0 ${
-                isToday ? 'border-l-main bg-Cgray' : 'border-l-white'
-              }`}
-            >
-              <div className="mr-4 flex flex-col border-r border-dashed border-gray200 pr-4 text-center font-medium">
-                <span>{date}</span>
-                <span className="text-nowrap">{day}요일</span>
-              </div>
-              <div className="flex w-full flex-col gap-y-1 truncate text-[13px]">
-                {isLoading ? (
-                  <LoadingSpinner />
-                ) : goals.length > 0 ? (
-                  goals.map((goal: GoalType) => (
-                    <span
-                      key={goal.id}
-                      className="relative w-full truncate pl-2 before:absolute before:left-0 before:-ml-0.5 before:h-1 before:w-1 before:content-['•']"
-                    >
-                      {goal.title}
-                    </span>
-                  ))
-                ) : (
-                  <span className="text-gray350">등록된 일정이 없습니다</span>
-                )}
-              </div>
-            </li>
-          );
-        })}
+        {Array.isArray(upcomingGoals) &&
+          upcomingGoals.map(({ date, day, goals }) => {
+            const isToday = date === todayDate;
+            return (
+              <li
+                key={date}
+                className={`-mt-[1px] flex items-center border-b border-l-[3px] border-t border-gray200 px-4 py-3 last:border-b-0 ${
+                  isToday ? 'border-l-main bg-Cgray' : 'border-l-white'
+                }`}
+              >
+                <div className="mr-4 flex flex-col border-r border-dashed border-gray200 pr-4 text-center font-medium">
+                  <span>{date}</span>
+                  <span className="text-nowrap">{day}요일</span>
+                </div>
+                <div className="flex w-full flex-col gap-y-1 truncate text-[13px]">
+                  {isLoading ? (
+                    <LoadingSpinner />
+                  ) : goals.length > 0 ? (
+                    Array.isArray(goals) &&
+                    goals.map((goal: GoalType) => (
+                      <span
+                        key={goal.id}
+                        className="relative w-full truncate pl-2 before:absolute before:left-0 before:-ml-0.5 before:h-1 before:w-1 before:content-['•']"
+                      >
+                        {goal.title}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-gray350">등록된 일정이 없습니다</span>
+                  )}
+                </div>
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

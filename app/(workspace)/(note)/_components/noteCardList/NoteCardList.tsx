@@ -43,17 +43,18 @@ export default function NoteCardList({ goalId, noteList }: Props) {
     <div
       className={`space-y-2 ${noteList ? '' : 'custom-scrollbar max-h-[400px] overflow-y-scroll pb-3'}`}
     >
-      {data.map((note) => {
-        return (
-          <NoteCard
-            key={note.createdAt}
-            note={note}
-            onClickNote={onClickNote(note.id)}
-            onClickEdit={onClickEdit(note.todoDto.id)}
-            onClickDelete={onClickDelete(note.id, note.title)}
-          />
-        );
-      })}
+      {Array.isArray(data) &&
+        data.map((note) => {
+          return (
+            <NoteCard
+              key={note.createdAt}
+              note={note}
+              onClickNote={onClickNote(note.id)}
+              onClickEdit={onClickEdit(note.todoDto.id)}
+              onClickDelete={onClickDelete(note.id, note.title)}
+            />
+          );
+        })}
       {isFetching && (
         <div className="flex-center w-full py-2">
           <LoadingSpinner width="24" height="24" />

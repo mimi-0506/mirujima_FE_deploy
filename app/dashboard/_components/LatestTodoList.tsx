@@ -33,11 +33,12 @@ export default function LatestTodoList() {
         <LoadingSpinner />
       ) : hasTodos ? (
         <ul>
-          {todoData.map((todo: TodoType) => (
-            <motion.li key={todo.id} layout>
-              <TodoItem todo={todo} showGoal={true} isDashboard={true} />
-            </motion.li>
-          ))}
+          {Array.isArray(todoData) &&
+            todoData.map((todo: TodoType) => (
+              <motion.li key={todo.id} layout>
+                <TodoItem todo={todo} showGoal={true} isDashboard={true} />
+              </motion.li>
+            ))}
         </ul>
       ) : (
         <div className="empty-message">{EMPTY_MESSAGES.None}</div>

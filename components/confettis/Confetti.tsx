@@ -43,24 +43,25 @@ export default function Confetti({
 
   return (
     <div className="pointer-events-none absolute top-0 z-50 h-screen w-screen overflow-hidden">
-      {confettiPlayers.map((confetti, index) => (
-        <div
-          key={`conffet${index}`}
-          className="absolute animate-confetti"
-          style={{
-            left: `${confetti.left}vw`,
-            fontSize: `${confetti.scale * 3}rem`,
-            top: `${confetti.top}vh`,
-            animationDuration: `${confetti.duration}ms`,
-            animationName: 'confettiAnimation',
-            // animationDelay: `${confetti.delay}`
-            animationIterationCount: 1
-          }}
-          onAnimationEnd={handleAnimationEnd}
-        >
-          {confetti.text}
-        </div>
-      ))}
+      {Array.isArray(confettiPlayers) &&
+        confettiPlayers.map((confetti, index) => (
+          <div
+            key={`conffet${index}`}
+            className="absolute animate-confetti"
+            style={{
+              left: `${confetti.left}vw`,
+              fontSize: `${confetti.scale * 3}rem`,
+              top: `${confetti.top}vh`,
+              animationDuration: `${confetti.duration}ms`,
+              animationName: 'confettiAnimation',
+              // animationDelay: `${confetti.delay}`
+              animationIterationCount: 1
+            }}
+            onAnimationEnd={handleAnimationEnd}
+          >
+            {confetti.text}
+          </div>
+        ))}
     </div>
   );
 }

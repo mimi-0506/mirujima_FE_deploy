@@ -48,7 +48,8 @@ export default function GoalList() {
         {isFetching || isLoading ? (
           <LoadingIcon className="aspect-auto w-[100px]" />
         ) : (
-          goals?.map((goal: any) => {
+          Array.isArray(goals) &&
+          goals.map((goal) => {
             return (
               <li key={goal.id} className="rounded-xl p-2 hover:bg-gray200">
                 <div

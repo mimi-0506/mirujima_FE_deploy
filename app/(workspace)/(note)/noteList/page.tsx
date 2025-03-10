@@ -25,6 +25,7 @@ export default async function AllNoteList() {
           </div>
         </section>
       ) : (
+        Array.isArray(goalList.goals) &&
         goalList.goals.map((goal) => (
           <GoalNoteList key={goal.id} goalId={goal.id} goalTitle={goal.title} />
         ))

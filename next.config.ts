@@ -2,31 +2,40 @@ import type { NextConfig } from 'next';
 import type { Configuration } from 'webpack';
 
 const pwaConfig = {
-  dest: 'public', // Service Worker 파일이 저장될 경로
-  register: true, // Service Worker 자동 등록
-  skipWaiting: true // 새 Service Worker가 즉시 활성화되도록 설정
+  dest: 'public',
+  register: true,
+  skipWaiting: true
 };
 
 const withPWA = require('next-pwa')(pwaConfig);
 
 const nextConfig: NextConfig = withPWA({
-  /* 기존 설정 유지 */
   experimental: {
     forceSwcTransforms: true
   },
   reactStrictMode: false,
-  webpack(config: Configuration) {
+  webpack(config: Configuration, { isServer }: { isServer: boolean }) {
     config?.module?.rules?.push({
       test: /\.svg$/,
       use: [{ loader: '@svgr/webpack', options: { icon: true } }]
     });
+
+    if (!isServer && config.module && config.module.rules) {
+      config.module.rules.push({
+        test: /\.js$/,
+        loader: 'babel-loader',
+        options: {
+          plugins: ['transform-remove-console']
+        }
+      });
+    }
+
     return config;
   },
   images: {
     remotePatterns: [{ protocol: 'https', hostname: process.env.NEXT_PUBLIC_S3_BUCKET_HOST || '' }]
   },
 
-  // ✅ rewrites 추가
   async rewrites() {
     return [
       {

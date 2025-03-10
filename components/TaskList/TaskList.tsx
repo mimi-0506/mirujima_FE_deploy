@@ -55,6 +55,7 @@ export default function TaskList({
           <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 할 일이 없어요</li>
         ) : (
           // 3.  TodoItem 렌더링
+          Array.isArray(tasks) &&
           tasks.map((task) => (
             <li key={task.id}>
               <TodoItem todo={task} goalId={goalId} isDashboard={isDashboard} />
