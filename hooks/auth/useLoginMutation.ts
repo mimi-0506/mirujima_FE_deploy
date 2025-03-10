@@ -11,11 +11,6 @@ import { useInfoStore, useModalStore } from '@/provider/store-provider';
 const isLocal = process.env.NODE_ENV === 'development';
 const DOMAIN = isLocal ? '/' : process.env.NEXT_PUBLIC_DOMAIN;
 
-interface LoginFormData {
-  email: string;
-  password: string;
-}
-
 interface LoginResponse {
   success: boolean;
   code: number;
@@ -29,8 +24,11 @@ interface LoginResponse {
 }
 
 interface LoginMutationVariables {
-  formData: LoginFormData;
-  isAutoLogin: boolean;
+  formData?: {
+    email: string;
+    password: string;
+  };
+  isAutoLogin?: boolean;
 }
 
 const COOKIEOPTIONS_ACCESS = {
@@ -92,13 +90,17 @@ export const useLoginMutation = () => {
           console.log('[로그인] 자동 로그인 활성화됨 - refreshToken 저장 (7일 유효)');
         } else {
           deleteCookie('refreshToken', { path: DOMAIN });
-          console.log('[로그인] 자동 로그인 비활성화됨 - refreshToken 삭제, accessToken만 1시간 유효');
+          console.log(
+            '[로그인] 자동 로그인 비활성화됨 - refreshToken 삭제, accessToken만 1시간 유효'
+          );
         }
         toast.success(LOGIN_SUCCESS, { duration: 2000 });
         router.push('/dashboard');
       } else {
         deleteCookie('refreshToken', { path: DOMAIN });
-        console.log('[로그인] 자동 로그인 비활성화됨 - refreshToken 삭제, accessToken만 1시간 유효');
+        console.log(
+          '[로그인] 자동 로그인 비활성화됨 - refreshToken 삭제, accessToken만 1시간 유효'
+        );
         toast.error(LOGIN_ERROR);
       }
     },
