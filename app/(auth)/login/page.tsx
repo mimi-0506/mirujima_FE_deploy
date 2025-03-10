@@ -44,11 +44,7 @@ export default function LoginPage() {
             });
             const userCookie = getCookie('user') as string | undefined;
             const user = userCookie ? JSON.parse(userCookie) : {};
-            setInfo({
-              userId: user.id || 0,
-              email: user.email || '',
-              name: user.username || ''
-            });
+            setInfo({ userId: user.id || 0, email: user.email || '', name: user.username || '' });
             router.push('/dashboard');
           } else {
             deleteCookie('refreshToken', { path: '/' });
@@ -74,11 +70,7 @@ export default function LoginPage() {
     handleSubmit,
     trigger,
     formState: { errors }
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-    mode: 'onSubmit'
-  });
-  const setIsLoading = useModalStore((state) => state.setIsLoading);
+  } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema), mode: 'onSubmit' });
 
   useEffect(() => {
     setIsLoading(false);
