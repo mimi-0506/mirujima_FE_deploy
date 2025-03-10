@@ -4,8 +4,8 @@ import { debounce } from 'lodash';
 
 export default function useResize() {
   const [screenSize, setScreenSize] = useState({
-    width: window ? window?.innerWidth : 1920,
-    height: window ? window?.innerHeight : 1020
+    width: 1920,
+    height: 1020
   });
 
   useLayoutEffect(() => {
