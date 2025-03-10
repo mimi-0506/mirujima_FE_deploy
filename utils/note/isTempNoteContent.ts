@@ -1,6 +1,6 @@
 import type { TempNoteContentType, TempNoteType } from '@/types/note.type';
 
-function isTempNote(item: unknown): item is TempNoteType {
+const isTempNote = (item: unknown): item is TempNoteType => {
   if (typeof item !== 'object' || item === null) return false;
 
   const note = item as Record<string, unknown>;
@@ -11,7 +11,7 @@ function isTempNote(item: unknown): item is TempNoteType {
     typeof note.content === 'string' &&
     typeof note.linkUrl === 'string'
   );
-}
+};
 
 export const isTempNoteContent = (data: unknown): data is TempNoteContentType => {
   if (typeof data !== 'object' || data === null) return false;
