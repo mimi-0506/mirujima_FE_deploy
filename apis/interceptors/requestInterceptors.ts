@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { getCookie, setCookie } from 'cookies-next';
-
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 const REFRESH_THRESHOLD_MINUTES = 50;
