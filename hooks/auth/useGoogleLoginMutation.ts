@@ -1,7 +1,7 @@
 import toast from 'react-hot-toast';
 
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import authApi from '@/apis/clientActions/authApi';
 import { setCookie } from 'cookies-next';
 
 interface GoogleLoginResponse {
@@ -24,8 +24,11 @@ interface GoogleLoginResponse {
 }
 
 async function googleLogin(authorizationCode: string): Promise<GoogleLoginResponse> {
-  const response = await axios.get('https://api.mirujima.shop/mirujima/auth/google', {
-    params: { code: authorizationCode }
+  const response = await authApi.get('/auth/google', {
+    params: {
+      code: authorizationCode,
+      redirectUri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI
+    }
   });
   return response.data;
 }

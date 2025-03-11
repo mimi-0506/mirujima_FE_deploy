@@ -10,7 +10,6 @@ export default function GoogleCallbackPage() {
   const code = searchParams.get('code');
   const router = useRouter();
   const mutation = useGoogleLoginMutation();
-
   useEffect(() => {
     if (!code) return;
 
@@ -25,7 +24,7 @@ export default function GoogleCallbackPage() {
         toast.error('구글 로그인에 실패했습니다. 다시 시도해주세요.');
       }
     });
-  }, [code, mutation.status, router]);
+  }, [code, mutation, router]);
 
   return (
     <div>
