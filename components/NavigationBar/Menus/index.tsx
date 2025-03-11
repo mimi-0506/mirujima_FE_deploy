@@ -12,11 +12,12 @@ import TodoListIcon from '../../../public/icon/nav-todo-list.svg';
 
 export default function Menus() {
   const setInfo = useInfoStore((state) => state.setInfo);
+  const userId = useInfoStore((state) => state.userId);
 
   useLayoutEffect(() => {
-    getInfo();
+    if (userId === null) getInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userId]);
 
   const getInfo = async () => {
     const { data } = await apiWithClientToken.get('/user');

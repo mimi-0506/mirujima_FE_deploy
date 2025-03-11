@@ -68,31 +68,32 @@ export default function Calendar() {
             })}
           </div>
           <div className="grid grid-cols-7">
-            {days.map((day, i) => {
-              const formattedDay = format(day, 'yyyy-MM-dd');
-              const bgColor = getBgColorForGoal(
-                todoData,
-                formattedDay,
-                getGoalIdByTodo,
-                calcGoalCompletionPercentage
-              );
+            {Array.isArray(days) &&
+              days.map((day, i) => {
+                const formattedDay = format(day, 'yyyy-MM-dd');
+                const bgColor = getBgColorForGoal(
+                  todoData,
+                  formattedDay,
+                  getGoalIdByTodo,
+                  calcGoalCompletionPercentage
+                );
 
-              return (
-                <div
-                  key={i}
-                  className={
-                    'flex-center relative z-10 mx-1 mb-2 w-full text-body2 desktop:text-body1'
-                  }
-                  style={i === 0 ? { gridColumnStart: firstDayOfWeek } : {}}
-                >
-                  <span
-                    className={`${bgColor} flex-center relative -z-10 h-8 w-8 rounded-full text-center desktop:h-12 desktop:w-12`}
+                return (
+                  <div
+                    key={i}
+                    className={
+                      'flex-center relative z-10 mx-1 mb-2 w-full text-body2 desktop:text-body1'
+                    }
+                    style={i === 0 ? { gridColumnStart: firstDayOfWeek } : {}}
                   >
-                    {format(day, 'd')}
-                  </span>
-                </div>
-              );
-            })}
+                    <span
+                      className={`${bgColor} flex-center relative -z-10 h-8 w-8 rounded-full text-center desktop:h-12 desktop:w-12`}
+                    >
+                      {format(day, 'd')}
+                    </span>
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>

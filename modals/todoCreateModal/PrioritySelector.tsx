@@ -2,22 +2,24 @@ import { useEffect, useState } from 'react';
 import type { ChangeEvent } from 'react';
 
 import { useTodoCreateModalStore } from '@/provider/store-provider';
+import { Priority } from '@/types/color.type';
 
-const PRIORITY = [1, 2, 3, 4];
+const PRIORITY: Priority[] = [1, 2, 3, 4];
 
 export default function PrioritySelector() {
   const priority = useTodoCreateModalStore((state) => state.priority);
   const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
-  const [selectedPriority, setSelectedPriority] = useState<number | string>(priority);
+  const [selectedPriority, setSelectedPriority] = useState<Priority | 0>(priority as Priority | 0);
 
   useEffect(() => {
-    if (priority !== selectedPriority) setSelectedPriority(priority);
+    if (priority !== selectedPriority) setSelectedPriority(priority as Priority);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [priority]);
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedPriority(event.target.value);
-    setCreatedTodoState({ priority: parseInt(event.target.value) });
+    const newPriority = parseInt(event.target.value) as Priority;
+    setSelectedPriority(newPriority);
+    setCreatedTodoState({ priority: newPriority });
   };
 
   return (

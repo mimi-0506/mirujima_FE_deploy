@@ -10,7 +10,7 @@ interface CheckTodoParams {
 
 interface CheckTodoMutationVars {
   todo: TodoType;
-  goalId: number;
+  goalId?: number;
 }
 
 interface ApiError {

@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 
 import KebabFocusIcon from '@/public/icon/kebab-focus.svg';
 import KebabIcon from '@/public/icon/kebab.svg';
+import useResize from '@/hooks/nav/useResize';
 
 interface KebabMenuProps {
   size: number;
@@ -21,13 +22,14 @@ const KEBAB_MENU_TEXT = {
 export default function KebabForGoal({ size, onEdit, onDelete, className }: KebabMenuProps) {
   const [isKebabOpen, setIsKebabOpen] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ top: 0, right: 0 });
+  const { screenSize } = useResize();
 
   const toggleMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     const buttonRect = e.currentTarget.getBoundingClientRect();
     setMenuPosition({
       top: buttonRect.bottom,
-      right: window.innerWidth - buttonRect.right
+      right: screenSize.width - buttonRect.right
     });
     setIsKebabOpen((prev) => !prev);
   };

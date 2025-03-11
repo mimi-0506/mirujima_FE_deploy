@@ -16,6 +16,7 @@ import SpinIcon from '@/public/icon/spin.svg';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
 
 import Button from '../_components/Button';
+import useIsLargeScreen from '@/hooks/nav/useIsLargeScreen';
 
 export default function GoalDetailPage() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function GoalDetailPage() {
   const goalIdParam = Array.isArray(params.id) ? params.id[0] : params.id;
   const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
   const goalIdString = goalId ? goalId.toString() : '';
+  const { isLargeScreen } = useIsLargeScreen();
 
   const { data: goalData, isLoading, isError } = useGetGoalDetail(goalIdString);
   // const { data: todosTodo } = useGetTodoList(goalId, false);
@@ -210,7 +212,7 @@ export default function GoalDetailPage() {
             activeTab === 'todo' ? 'block' : 'hidden desktop:block'
           }`}
         >
-          {typeof window !== 'undefined' && window.innerWidth >= 1280 && (
+          {isLargeScreen && (
             <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
               To do
             </h2>
@@ -227,7 +229,7 @@ export default function GoalDetailPage() {
             activeTab === 'done' ? 'block' : 'hidden desktop:block'
           }`}
         >
-          {typeof window !== 'undefined' && window.innerWidth >= 1280 && (
+          {isLargeScreen && (
             <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
               Done
             </h2>

@@ -24,11 +24,16 @@ export default function GoalProgressBar({
   useEffect(() => {
     const percentage = calcGoalCompletionPercentage(goalTodos, goalId);
 
-    if (startAnimation) {
-      setTimeout(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    if (startAnimation)
+      timeoutId = setTimeout(() => {
         setProgress(percentage);
       }, 500);
-    }
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, [startAnimation, goalTodos, goalId]);
 
   return (

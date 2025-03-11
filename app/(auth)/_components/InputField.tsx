@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
 import EyeIcon from '@/components/icons/auth/EyeIcon';
@@ -28,6 +28,12 @@ export default function InputField({
   const isPasswordField = label === '비밀번호' || label === '비밀번호 확인';
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   const { onChange: formOnChange, onBlur: formOnBlur, ...restRegister } = register;
   const handleFocus = () => {

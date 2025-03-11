@@ -18,12 +18,12 @@ export type CreateModalType = BaseCreateModalType & {
   noteId?: number;
 };
 
-export type ModalControlProps = {
-  onConfirm: (...args: any[]) => void;
+export type ModalControlProps<TArgs extends unknown[] = []> = {
+  onConfirm: (...args: TArgs) => void;
   onCancel: () => void;
 };
 
-export type EditModalProps = ModalControlProps & {
+export type EditModalProps = ModalControlProps<[string]> & {
   initialValue: string;
 };
 

@@ -1,4 +1,5 @@
 import type { GoalType, ISODateString } from '@/types/goal.type';
+import { Priority } from './color.type';
 
 export type TodoCreateModalState = {
   title: string;
@@ -9,7 +10,7 @@ export type TodoCreateModalState = {
   createdAt?: ISODateString;
   updatedAt?: ISODateString;
   goal: Partial<GoalType> | null;
-  priority: number;
+  priority: Priority | 0;
   id?: number;
   noteId?: number | null;
   isEdit: boolean;

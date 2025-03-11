@@ -4,18 +4,31 @@ import axios from 'axios';
 import { getCookie, setCookie } from 'cookies-next/server';
 import { cookies } from 'next/headers';
 
-import type { AxiosResponse } from 'axios';
+import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 // 버셀 배포시에만 도메인을 버셀 도메인으로 적용. 그 외에는 "/"
 const isLocal = process.env.NODE_ENV === 'development';
 const DOMAIN = isLocal ? '/' : process.env.NEXT_PUBLIC_DOMAIN;
 
+interface RefreshTokenResponse {
+  result?: {
+    accessToken: string;
+    refreshToken?: string;
+  };
+}
+
+interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
+
 export const defaultResponseSuccessInterceptor = async (response: AxiosResponse) => response;
 
-export const retryRequestWhenAccessTokenIsExpire = async (error: any) => {
-  const originalRequest = error.config;
+export const retryRequestWhenAccessTokenIsExpire = async (error: AxiosError): Promise<unknown> => {
+  const originalRequest = error.config as ExtendedAxiosRequestConfig | undefined;
   const isTokenError =
-    (error.response?.status === 403 || error.response?.status === 401) && !originalRequest._retry;
+    (error.response?.status === 403 || error.response?.status === 401) &&
+    originalRequest &&
+    !originalRequest._retry;
 
   if (isTokenError) {
     originalRequest._retry = true;
@@ -26,11 +39,12 @@ export const retryRequestWhenAccessTokenIsExpire = async (error: any) => {
       }
 
       // 토큰 재발급
-      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/refresh`, {
-        refreshToken
-      });
+      const { data } = await axios.post<RefreshTokenResponse>(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/refresh`,
+        { refreshToken }
+      );
 
-      if (!data || !data.result || !data.result.accessToken) {
+      if (!data?.result?.accessToken) {
         return Promise.reject(new Error('새로운 access token 없음'));
       }
 
@@ -43,7 +57,7 @@ export const retryRequestWhenAccessTokenIsExpire = async (error: any) => {
       // 재시도
       return axios(originalRequest);
     } catch (refreshError) {
-      return Promise.reject(refreshError);
+      return Promise.reject(new Error((refreshError as AxiosError).message));
     }
   }
 

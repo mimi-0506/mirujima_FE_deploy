@@ -1,3 +1,4 @@
+import { Priority } from './color.type';
 import type { ISODateString } from './goal.type';
 import type { GoalSummary } from './goal.type';
 export type TodoListType = {
@@ -18,7 +19,7 @@ export type TodoType = {
   completionDate: ISODateString | null;
   createdAt: ISODateString;
   updatedAt: ISODateString;
-  priority: number;
+  priority: Priority;
 };
 
 export type TodoProgressType = Partial<{

@@ -1,26 +1,34 @@
-import type { TempNoteContentType } from '@/types/note.type';
+import type { TempNoteContentType, TempNoteType } from '@/types/note.type';
 
-export const isTempNoteContent = (data: any): data is TempNoteContentType => {
+const isTempNote = (item: unknown): item is TempNoteType => {
+  if (typeof item !== 'object' || item === null) return false;
+
+  const note = item as Record<string, unknown>;
+
+  return (
+    typeof note.todoId === 'number' &&
+    typeof note.noteTitle === 'string' &&
+    typeof note.content === 'string' &&
+    typeof note.linkUrl === 'string'
+  );
+};
+
+export const isTempNoteContent = (data: unknown): data is TempNoteContentType => {
   if (typeof data !== 'object' || data === null) return false;
 
-  for (const key in data) {
-    // for in문으로 Object 확인 시 기본으로 상속 받는 프로토타입 무시 (Object.prototype에에 속성을 추가했을 경우 대비)
-    if (!data.hasOwnProperty(key)) continue;
+  const record = data as Record<string, unknown>;
 
-    // goalId가 숫자가 아닐 때
+  for (const key in record) {
+    if (!Object.prototype.hasOwnProperty.call(record, key)) continue;
+
     const goalId = Number(key);
     if (isNaN(goalId)) return false;
 
-    // data[goalId]값이 배열이 아닐 때
-    const tempNoteList = data[key];
+    const tempNoteList = record[key];
     if (!Array.isArray(tempNoteList)) return false;
 
     for (const tempNote of tempNoteList) {
-      // 노트가 객체가 아닐 때
-      if (typeof tempNote !== 'object' || tempNote === null) return false;
-
-      // todoId가 숫자, content가 문자열이 아닐 때
-      if (typeof tempNote.todoId !== 'number' || typeof tempNote.content !== 'string') return false;
+      if (!isTempNote(tempNote)) return false;
     }
   }
 

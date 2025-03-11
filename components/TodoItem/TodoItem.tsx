@@ -56,8 +56,9 @@ export default function TodoItem({ todo, goalId, showGoal, isDashboard }: TodoIt
       done: isDone,
       completionDate: isDone ? new Date().toISOString() : null
     };
-    const resolvedGoalId = goalId || todo?.goal?.id;
-    if (resolvedGoalId) toggleTodo({ todo: updatedTodo, goalId: resolvedGoalId });
+
+    const goalId = todo?.goal?.id;
+    toggleTodo({ todo: updatedTodo, goalId });
   };
 
   const handleDelete = () => {

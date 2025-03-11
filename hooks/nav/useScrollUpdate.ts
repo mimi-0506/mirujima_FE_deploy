@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-export default function useScrollUpdate(
+export default function useScrollUpdate<T>(
   goalListRef: React.RefObject<HTMLElement | null>,
-  goals: any[]
+  goals: T[]
 ) {
   useEffect(() => {
     const scrollToBottom = () => {
@@ -14,15 +14,8 @@ export default function useScrollUpdate(
       }
     };
 
-    const observerCallback = () => {
-      setTimeout(scrollToBottom, 50);
-    };
+    const timeoutId = setTimeout(scrollToBottom, 50);
 
-    const observer = new MutationObserver(observerCallback);
-
-    if (goalListRef.current)
-      observer.observe(goalListRef.current, { childList: true, subtree: true });
-
-    return () => observer.disconnect();
+    return () => clearTimeout(timeoutId);
   }, [goals]);
 }
