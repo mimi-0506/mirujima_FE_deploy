@@ -1,8 +1,14 @@
 import toast from 'react-hot-toast';
-
 import { useMutation } from '@tanstack/react-query';
 import authApi from '@/apis/clientActions/authApi';
 import { setCookie } from 'cookies-next';
+import { useInfoStore, useModalStore } from '@/provider/store-provider';
+import { useRouter } from 'next/navigation';
+import {
+  GOOGLE_LOGIN_ERROR,
+  GOOGLE_LOGIN_SUCCESS,
+  GOOGLE_LOGIN_LOADING
+} from '@/constant/toastText';
 
 interface GoogleLoginResponse {
   success: boolean;
@@ -34,15 +40,21 @@ async function googleLogin(authorizationCode: string): Promise<GoogleLoginRespon
 }
 
 export const useGoogleLoginMutation = () => {
+  const setInfo = useInfoStore((state) => state.setInfo);
+  const setIsLoading = useModalStore((state) => state.setIsLoading);
+  const router = useRouter();
+
   return useMutation<GoogleLoginResponse, unknown, string>({
     mutationFn: googleLogin,
     onMutate: () => {
-      toast.loading('구글 로그인 중...', { id: 'googleLogin' });
+      setIsLoading(true);
+      toast.loading(GOOGLE_LOGIN_LOADING, { id: 'googleLogin' });
     },
     onSuccess: (data) => {
+      setIsLoading(false);
       toast.dismiss('googleLogin');
       if (!data.success || !data.result) {
-        toast.error(data.message || '구글 로그인에 실패했습니다.');
+        toast.error(data.message || GOOGLE_LOGIN_ERROR);
         console.log(data);
         return;
       }
@@ -50,12 +62,21 @@ export const useGoogleLoginMutation = () => {
       setCookie('accessToken', accessToken, { expires: new Date(expiredAt) });
       setCookie('refreshToken', refreshToken, { expires: new Date(expiredAt) });
       setCookie('user', JSON.stringify(user), { expires: new Date(expiredAt) });
-      toast.success('구글 로그인 성공!');
+
+      setInfo({
+        userId: user.id,
+        email: user.email,
+        name: user.username
+      });
+
+      toast.success(GOOGLE_LOGIN_SUCCESS);
+      router.push('/dashboard');
     },
     onError: (error) => {
+      setIsLoading(false);
       toast.dismiss('googleLogin');
       console.error(error);
-      toast.error('구글 로그인 중 오류가 발생했습니다.');
+      toast.error(GOOGLE_LOGIN_ERROR);
     }
   });
 };

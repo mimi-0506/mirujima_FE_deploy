@@ -87,20 +87,14 @@ export const useLoginMutation = () => {
         });
         if (isAutoLogin) {
           setCookie('refreshToken', refreshToken, COOKIEOPTIONS_REFRESH);
-          console.log('[로그인] 자동 로그인 활성화됨 - refreshToken 저장 (7일 유효)');
         } else {
           deleteCookie('refreshToken', { path: DOMAIN });
-          console.log(
-            '[로그인] 자동 로그인 비활성화됨 - refreshToken 삭제, accessToken만 1시간 유효'
-          );
         }
         toast.success(LOGIN_SUCCESS, { duration: 2000 });
         router.push('/dashboard');
       } else {
         deleteCookie('refreshToken', { path: DOMAIN });
-        console.log(
-          '[로그인] 자동 로그인 비활성화됨 - refreshToken 삭제, accessToken만 1시간 유효'
-        );
+
         toast.error(LOGIN_ERROR);
       }
     },

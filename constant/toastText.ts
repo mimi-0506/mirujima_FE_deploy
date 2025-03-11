@@ -49,3 +49,6 @@ export const SIGNUP_ERROR = '회원가입 중 오류가 발생했습니다.';
 
 export const LOGIN_ERROR = '로그인에 실패했습니다.';
 export const LOGIN_SUCCESS = '로그인 되었습니다!';
+export const GOOGLE_LOGIN_ERROR = '구글 로그인에 실패했습니다.';
+export const GOOGLE_LOGIN_SUCCESS = '구글 로그인 성공!';
+export const GOOGLE_LOGIN_LOADING = '구글 로그인중 .. ';
