@@ -2,13 +2,14 @@ import { useLayoutEffect } from 'react';
 
 import Link from 'next/link';
 
-import { apiWithClientToken } from '@/apis/clientActions';
+// import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
 import GoalList from './GoalList';
 import DashboardIcon from '../../../public/icon/dashboard-gray.svg';
 import NoteListIcon from '../../../public/icon/nav-note-list.svg';
 import TodoListIcon from '../../../public/icon/nav-todo-list.svg';
+import authApi from '@/apis/clientActions/authApi';
 
 export default function Menus() {
   const setInfo = useInfoStore((state) => state.setInfo);
@@ -20,8 +21,8 @@ export default function Menus() {
   }, [userId]);
 
   const getInfo = async () => {
-    const { data } = await apiWithClientToken.get('/user');
-
+    // const { data } = await apiWithClientToken.get('/user');
+    const { data } = await authApi.get('/user');
     setInfo({
       userId: data.id,
       email: data.email,
