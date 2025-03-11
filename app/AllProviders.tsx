@@ -1,7 +1,5 @@
 import { Toaster } from 'react-hot-toast';
 
-// import { GoogleOAuthProvider } from '@react-oauth/google';
-
 import {
   EmbedStoreProvider,
   InfoStoreProvider,
@@ -11,14 +9,12 @@ import {
 
 import ModalArea from './ModalArea';
 import ReactQueryProvider from '../hooks/useReactQuery';
-// const GOOGLE_CLIENT_ID = process.env.NEXT_GOOGLE_CLIENT_ID;
 export default function AllProviders({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    // <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID ?? ''}>
     <InfoStoreProvider>
       <ModalStoreProvider>
         <TodoCreateModalStoreProvider>
@@ -36,6 +32,5 @@ export default function AllProviders({
         </TodoCreateModalStoreProvider>
       </ModalStoreProvider>
     </InfoStoreProvider>
-    // </GoogleOAuthProvider>
   );
 }

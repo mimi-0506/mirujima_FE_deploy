@@ -32,13 +32,18 @@ const COOKIEOPTIONS = {
   sameSite: 'strict' as const
 };
 
-const kakaoLogin = async (code: string): Promise<LoginResponse> => {
+const kakaoLogin = async (authorizationCode: string): Promise<LoginResponse> => {
   try {
-    const response = await authApi.get<LoginResponse>(`/auth/kakao?code=${code}`);
+    const response = await authApi.get('/auth/kakao', {
+      params: {
+        code: authorizationCode,
+        redirectUri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI
+      }
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw error; // 인터셉터에서 에러 처리
+      throw error;
     } else {
       throw new Error('카카오 로그인 중 예상치 못한 오류 발생');
     }
@@ -70,7 +75,7 @@ export const useKakaoLoginMutation = () => {
         setCookie('user', JSON.stringify(user), COOKIEOPTIONS);
 
         setInfo({
-          id: user.id,
+          userId: user.id,
           email: user.email,
           name: user.username
         });
