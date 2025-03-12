@@ -11,12 +11,7 @@ import {
 } from '@/constant/toastText';
 
 import type { OAuthLoginResponse } from '@/types/auth.types';
-
-const COOKIEOPTIONS = {
-  maxAge: 60 * 60 * 24, // 1일
-  path: '/',
-  sameSite: 'strict' as const
-};
+import { COOKIEOPTIONS_ACCESS, COOKIEOPTIONS_REFRESH } from '@/constant/cookieOptions';
 const redirectUri =
   typeof window !== 'undefined'
     ? `${window.location.origin}/auth/callback`
@@ -52,9 +47,9 @@ export const useGoogleLoginMutation = () => {
         return;
       }
       const { accessToken, refreshToken, user } = data.result;
-      setCookie('accessToken', accessToken, COOKIEOPTIONS);
-      setCookie('refreshToken', refreshToken, COOKIEOPTIONS);
-      setCookie('user', JSON.stringify(user), COOKIEOPTIONS);
+      setCookie('accessToken', accessToken, COOKIEOPTIONS_ACCESS);
+      setCookie('refreshToken', refreshToken, COOKIEOPTIONS_REFRESH);
+      setCookie('user', JSON.stringify(user), COOKIEOPTIONS_ACCESS);
 
       setInfo({
         userId: user.id,

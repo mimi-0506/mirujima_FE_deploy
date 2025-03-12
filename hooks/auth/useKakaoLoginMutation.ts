@@ -8,12 +8,7 @@ import authApi from '@/apis/clientActions/authApi';
 import { useInfoStore } from '@/provider/store-provider';
 import type { OAuthLoginResponse } from '@/types/auth.types';
 import { KAKAO_LOGIN_ERROR, KAKAO_LOGIN_SUCCESS, KAKAO_LOGIN_LOADING } from '@/constant/toastText';
-
-const COOKIEOPTIONS = {
-  maxAge: 60 * 60 * 24, // 1일
-  path: '/',
-  sameSite: 'strict' as const
-};
+import { COOKIEOPTIONS_ACCESS, COOKIEOPTIONS_REFRESH } from '@/constant/cookieOptions';
 
 const redirectUri =
   typeof window !== 'undefined'
@@ -58,9 +53,9 @@ export const useKakaoLoginMutation = () => {
       const { accessToken, refreshToken, user } = data.result;
 
       if (accessToken && user) {
-        setCookie('accessToken', accessToken, COOKIEOPTIONS);
-        setCookie('refreshToken', refreshToken, COOKIEOPTIONS);
-        setCookie('user', JSON.stringify(user), COOKIEOPTIONS);
+        setCookie('accessToken', accessToken, COOKIEOPTIONS_ACCESS);
+        setCookie('user', JSON.stringify(user), COOKIEOPTIONS_ACCESS);
+        setCookie('refreshToken', refreshToken, COOKIEOPTIONS_REFRESH);
 
         setInfo({
           userId: user.id,

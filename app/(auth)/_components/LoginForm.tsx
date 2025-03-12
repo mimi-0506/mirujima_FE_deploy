@@ -6,7 +6,7 @@ import { useLoginMutation } from '@/hooks/auth/useLoginMutation';
 import { CheckedIcon } from '@/app/(workspace)/todoList/_components/CheckedIcon';
 import Button from '../_components/Button';
 import InputField from '../_components/InputField';
-
+import { useRouter } from 'next/navigation';
 const loginSchema = z.object({
   email: z.string().email('올바른 이메일을 입력해주세요.'),
   password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
@@ -19,6 +19,7 @@ interface LoginFormProps {
 }
 
 export default function LoginForm({ onSignup }: LoginFormProps) {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -32,10 +33,16 @@ export default function LoginForm({ onSignup }: LoginFormProps) {
   const { mutate: loginMutate, isError, error } = useLoginMutation();
   const [isChecked, setIsChecked] = useState(false);
 
-  const onSubmit = (data: LoginFormData) => {
-    loginMutate({ formData: data, isAutoLogin: isChecked });
+  const onSubmit = async (data: LoginFormData) => {
+    loginMutate(
+      { formData: data, isAutoLogin: isChecked },
+      {
+        onSuccess: () => {
+          router.push('/dashboard');
+        }
+      }
+    );
   };
-
   const serverErrorMessage = isError && error instanceof Error ? error.message : null;
 
   return (

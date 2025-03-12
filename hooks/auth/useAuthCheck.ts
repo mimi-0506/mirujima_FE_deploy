@@ -11,37 +11,42 @@ export function useAuthCheck() {
   const setIsLoading = useModalStore((state) => state.setIsLoading);
 
   useEffect(() => {
-    setIsLoading(true);
-    const refreshToken = getCookie('refreshToken') as string | undefined;
+    const checkAuth = async () => {
+      setIsLoading(true);
+      try {
+        const refreshToken = getCookie('refreshToken') as string | undefined;
 
-    if (refreshToken) {
-      authApi
-        .post('/auth/refresh', { refreshToken })
-        .then((response) => {
-          const data = response.data;
-          if (data.success && data.result.accessToken) {
-            setCookie('accessToken', data.result.accessToken, {
-              maxAge: 60 * 60, // 1시간
-              path: '/'
-            });
+        if (!refreshToken) {
+          setIsLoading(false);
+          return;
+        }
 
-            const userCookie = getCookie('user') as string | undefined;
-            const user = userCookie ? JSON.parse(userCookie) : {};
+        const response = await authApi.post('/auth/refresh', { refreshToken });
+        const data = response.data;
 
-            setInfo({ userId: user.id || 0, email: user.email || '', name: user.username || '' });
+        if (data.success && data.result.accessToken) {
+          setCookie('accessToken', data.result.accessToken, {
+            maxAge: 60 * 60 * 24,
+            path: '/'
+          });
 
-            router.push('/dashboard');
-          } else {
-            router.push('/logout');
-          }
-        })
-        .catch(() => {
+          const userCookie = getCookie('user') as string | undefined;
+          const user = userCookie ? JSON.parse(userCookie) : {};
+
+          setInfo({ userId: user.id || 0, email: user.email || '', name: user.username || '' });
+
+          router.push('/dashboard');
+        } else {
           router.push('/logout');
-        })
-        .finally(() => setIsLoading(false));
-    } else {
-      router.push('/logout');
-      setIsLoading(false);
-    }
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        router.push('/logout');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
   }, [router, logout, setInfo, setIsLoading]);
 }
