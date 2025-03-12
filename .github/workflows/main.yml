@@ -1,23 +1,49 @@
-name: Build
+name: Vercel Build Check
 
 on:
   pull_request:
     branches:
-      - main
       - develop
 
 jobs:
-  build:
+  vercel-build:
     runs-on: ubuntu-latest
     env:
-      NODE_ENV: production
+      HUSKY: 0 # PR에서는 husky 비활성화
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Install dependencies
+
+      - name: Install dependencies (Production Only)
         run: npm install
-      - name: Run build
+
+      - name: Set environment variables
+        run: |
+          echo "NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_S3_BUCKET_HOST=${{ secrets.NEXT_PUBLIC_S3_BUCKET_HOST }}" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_DOMAIN=${{ secrets.NEXT_PUBLIC_DOMAIN }}" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_KAKAO_CLIENT_ID=${{ secrets.NEXT_PUBLIC_KAKAO_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_REDIRECT_URI=${{ secrets.NEXT_PUBLIC_REDIRECT_URI }}" >> $GITHUB_ENV
+
+      - name: Debug Environment Variables
+        run: env | grep NEXT_PUBLIC_
+
+      - name: Run Next.js Build (without Vercel)
         run: npm run build
+
+      - name: Check Build Success
+        if: success()
+        run: echo "✅ Build successful!"
+
+      - name: Fail on Build Error
+        if: failure()
+        run: |
+          echo "❌ Build failed!"
+          exit 1

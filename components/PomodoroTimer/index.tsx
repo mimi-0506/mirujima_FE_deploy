@@ -12,6 +12,7 @@ import Timer from './Timer';
 import { BREAK_TIME, FOCUS_TIME } from '@/constant/numbers';
 import { TimerStateType } from '@/types/pomodoro.type';
 import Layout from './Layout';
+import useIsClick from './useIsClick';
 
 export default function PomodoroTimer() {
   const pathname = usePathname();
@@ -23,6 +24,7 @@ export default function PomodoroTimer() {
   const { showConfetti, setShowConfetti } = useConfetti(isRunning, setTime, setState, state);
   const { position, setPosition } = usePosition();
   const { handleDragStart, handleDragStop } = useIsDrag(setIsExpanded, setPosition);
+  const { handleMouseDown, handleMouseUp } = useIsClick(setIsExpanded);
 
   const getColor = () => {
     const colors = ['#22C55E', '#74B45C', '#BEA353', '#F28D61', '#F86969'];
@@ -42,22 +44,20 @@ export default function PomodoroTimer() {
       <Rnd
         bounds="window"
         position={{ x: position.x, y: position.y }}
-        default={{
-          x: position.x,
-          y: position.y,
-          width: isExpanded ? 320 : 80,
-          height: isExpanded ? 320 : 80
-        }}
-        className="z-50"
+        disableDragging={isExpanded}
+        enableUserSelectHack={true}
+        className="z-50 cursor-pointer"
+        onDragStart={handleDragStart}
+        onDragStop={handleDragStop}
       >
         <div
           className={`fixed right-6 top-6 flex cursor-pointer items-center justify-center transition-all duration-500 ease-in-out ${
             isExpanded ? '-translate-x-[2vw] translate-y-[2vw]' : ''
           }`}
-          onMouseDown={handleDragStart}
-          onMouseUp={handleDragStop}
-          onTouchStart={handleDragStart}
-          onTouchEnd={handleDragStop}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onTouchStart={handleMouseDown}
+          onTouchEnd={handleMouseUp}
         >
           <Layout isExpanded={isExpanded} getColor={getColor}>
             <Timer
