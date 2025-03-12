@@ -1,6 +1,7 @@
 import type { TodoType } from './todo.type';
 import type { ISODateString } from './ISODateString.type';
 import type { GoalSummary } from './goal.type';
+
 export type NoteCommonFields = {
   title: string;
   content: string;

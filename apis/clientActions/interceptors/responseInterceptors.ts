@@ -1,6 +1,7 @@
 import { getCookie, setCookie } from 'cookies-next';
-import authApi from '../clientActions/authApi';
+
 import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import authApi from '../authApi';
 
 interface RefreshTokenResponse {
   result?: {

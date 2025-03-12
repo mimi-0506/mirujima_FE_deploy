@@ -51,6 +51,7 @@ export type ModalPropsMap = {
 };
 
 export type ModalState = {
+  isIOSPWAGuideModalOpen: boolean;
   isNoteDetailPageModalOpen: boolean;
   noteDetailPageModalProps: NoteDetailPageModalProps | null;
   isNoteConfirmModalOpen: boolean;
@@ -68,6 +69,7 @@ export type ModalState = {
 };
 
 export type ModalActions = {
+  setIOSPWAGuideModalOpen: (isOpen: boolean) => void;
   setNoteDetailPageOpen: (isOpen: boolean, props?: NoteDetailPageModalProps) => void;
   setIsNoteConfirmModalOpen: (isOpen: boolean, props?: NoteConfirmModalProps) => void;
   setIsTodoCreateModalOpen: (isOpen: boolean) => void;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import requestInterceptors from '../interceptors/requestInterceptors';
-import responseInterceptors from '../interceptors/responseInterceptors';
+import requestInterceptors from './interceptors/requestInterceptors';
+import responseInterceptors from './interceptors/responseInterceptors';
 
 const authApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
