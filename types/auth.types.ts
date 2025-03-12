@@ -1,4 +1,5 @@
 import { ISODateString } from './ISODateString.type';
+import type { ApiResponse } from './apiResponse.type';
 
 type User = {
   id: number;
@@ -9,16 +10,12 @@ type User = {
   profileImagePath: string;
 };
 
-type AuthResponse = {
-  success: boolean;
-  code: number;
-  message: string;
-  result: {
-    user: User;
-    accessToken: string;
-    refreshToken: string;
-    expiredAt: string;
-  } | null;
+type AuthResult = {
+  user: User;
+  accessToken: string;
+  refreshToken: string;
+  expiredAt: string;
 };
 
-export type OAuthLoginResponse = AuthResponse;
+export type AuthResponse = ApiResponse<AuthResult>;
+export type OAuthLoginResponse = ApiResponse<AuthResult>;
