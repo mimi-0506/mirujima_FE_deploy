@@ -6,7 +6,6 @@ import authApi from '@/apis/clientActions/authApi';
 
 export function useAuthCheck() {
   const router = useRouter();
-  const logout = useInfoStore((state) => state.logout);
   const setInfo = useInfoStore((state) => state.setInfo);
   const setIsLoading = useModalStore((state) => state.setIsLoading);
 
@@ -48,5 +47,5 @@ export function useAuthCheck() {
     };
 
     checkAuth();
-  }, [router, logout, setInfo, setIsLoading]);
+  }, [router, setInfo, setIsLoading]);
 }
