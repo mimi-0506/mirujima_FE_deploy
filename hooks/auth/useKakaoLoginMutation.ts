@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import authApi from '@/apis/clientActions/authApi';
 import { useInfoStore } from '@/provider/store-provider';
 import type { OAuthLoginResponse } from '@/types/auth.types';
-
+import { KAKAO_LOGIN_ERROR, KAKAO_LOGIN_SUCCESS, KAKAO_LOGIN_LOADING } from '@/constant/toastText';
 const COOKIEOPTIONS = {
   maxAge: 60 * 60 * 24, // 1일
   path: '/',
@@ -40,13 +40,13 @@ export const useKakaoLoginMutation = () => {
   return useMutation({
     mutationFn: kakaoLogin,
     onMutate: () => {
-      toast.loading('카카오 로그인 처리 중...', { id: 'kakaoLogin' });
+      toast.loading(KAKAO_LOGIN_LOADING, { id: 'kakaoLogin' });
     },
     onSuccess: (data) => {
       toast.dismiss('kakaoLogin');
 
       if (!data.success || !data.result) {
-        toast.error(data.message || '카카오 로그인에 실패했습니다.');
+        toast.error(data.message || KAKAO_LOGIN_ERROR);
         return;
       }
 
@@ -63,21 +63,14 @@ export const useKakaoLoginMutation = () => {
           name: user.username
         });
 
-        toast.success('카카오로 로그인 되었습니다!', { duration: 2000 });
+        toast.success(KAKAO_LOGIN_SUCCESS, { duration: 2000 });
         router.push('/dashboard');
       } else {
-        toast.error('로그인 정보가 누락되었습니다.');
+        toast.error(KAKAO_LOGIN_ERROR);
       }
     },
     onError: (error: unknown) => {
       toast.dismiss('kakaoLogin');
-
-      // 인터셉터에서 이미 에러를 처리하므로 추가 메시지 생략 가능
-      if (axios.isAxiosError(error)) {
-        const errorMessage =
-          error.response?.data?.message || '카카오 로그인 중 오류가 발생했습니다.';
-        toast.error(errorMessage);
-      }
     }
   });
 };
