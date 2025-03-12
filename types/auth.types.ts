@@ -6,20 +6,19 @@ type User = {
   email: string;
   createdAt: ISODateString;
   updatedAt: ISODateString;
+  profileImagePath: string;
 };
 
-type AuthResponse<T extends User = User> = {
+type AuthResponse = {
   success: boolean;
   code: number;
   message: string;
   result: {
-    user: T;
+    user: User;
     accessToken: string;
     refreshToken: string;
     expiredAt: string;
   } | null;
 };
 
-export type GoogleLoginResponse = AuthResponse<User & { profileImagePath: string }>;
-
-export type KakaoLoginResponse = AuthResponse<User>;
+export type OAuthLoginResponse = AuthResponse;

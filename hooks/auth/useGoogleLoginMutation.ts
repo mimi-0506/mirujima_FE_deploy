@@ -10,14 +10,14 @@ import {
   GOOGLE_LOGIN_LOADING
 } from '@/constant/toastText';
 
-import type { GoogleLoginResponse } from '@/types/auth.types';
+import type { OAuthLoginResponse } from '@/types/auth.types';
 
 const COOKIEOPTIONS = {
   maxAge: 60 * 60 * 24, // 1일
   path: '/',
   sameSite: 'strict' as const
 };
-async function googleLogin(authorizationCode: string): Promise<GoogleLoginResponse> {
+async function googleLogin(authorizationCode: string): Promise<OAuthLoginResponse> {
   const response = await authApi.get('/auth/google', {
     params: {
       code: authorizationCode,
@@ -32,7 +32,7 @@ export const useGoogleLoginMutation = () => {
   const setIsLoading = useModalStore((state) => state.setIsLoading);
   const router = useRouter();
 
-  return useMutation<GoogleLoginResponse, unknown, string>({
+  return useMutation<OAuthLoginResponse, unknown, string>({
     mutationFn: googleLogin,
     onMutate: () => {
       setIsLoading(true);
