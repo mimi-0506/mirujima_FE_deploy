@@ -1,4 +1,4 @@
-import type { TodoListType } from '@/types/todo.type';
+import type { TodoListType, TodoProgressType } from '@/types/todo.type';
 
 import { apiWithClientToken } from '.';
 
@@ -31,5 +31,10 @@ export const updateTodoStatus = async (id: number, done: boolean): Promise<TodoL
       done
     }
   );
+  return response.data.result;
+};
+
+export const readTodoProgress = async () => {
+  const response = await apiWithClientToken.get<{ result: TodoProgressType }>('/todos/progress');
   return response.data.result;
 };

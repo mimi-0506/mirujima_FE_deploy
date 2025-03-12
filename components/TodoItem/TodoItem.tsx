@@ -1,7 +1,7 @@
 'use client';
-
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+
 import KebabForGoal from '@/components/kebab/KebabForGoal';
 import { primaryColors } from '@/constant/colors';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
@@ -13,10 +13,12 @@ import FlagIcon from '@/public/icon/flag-gray.svg';
 import LinkIcon from '@/public/icon/link.svg';
 import NoteIcon from '@/public/icon/note-s.svg';
 import PenIcon from '@/public/icon/pen.svg';
+
 import { CheckedIcon } from '../../app/(workspace)/todoList/_components/CheckedIcon';
 
 import type { TodoType, EditableTodo } from '@/types/todo.type';
 import { Priority } from '@/types/color.type';
+import { useTodoFileDownload } from '@/hooks/todo/useTodoFileDownload';
 
 interface TodoItemProps {
   todo: TodoType;
@@ -32,12 +34,17 @@ export default function TodoItem({ todo, goalId, showGoal, isDashboard }: TodoIt
   const { mutate: toggleTodo } = useCheckTodo();
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const setNoteDetailPageOpen = useModalStore((state) => state.setNoteDetailPageOpen);
+  const aTagRef = useRef<HTMLAnchorElement | null>(null);
+  const handleClickFileDownload = useTodoFileDownload();
 
+  // 1) 케밥 메뉴 열림/닫힘 상태
   const [isKebabSelected, setIsKebabSelected] = useState(false);
+  // 2) 마우스 hover 상태
   const [isHovered, setIsHovered] = useState(false);
 
   const handleNoteIconClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+
     setNoteDetailPageOpen(true, {
       params: Promise.resolve({ id: String(todo.noteId) }),
       onClose: () => setNoteDetailPageOpen(false)
@@ -108,72 +115,97 @@ export default function TodoItem({ todo, goalId, showGoal, isDashboard }: TodoIt
   const isGoalVisible = showGoal && todo.goal?.id;
 
   return (
-    <div
-      className={`relative mb-4 grid grid-cols-4 items-center justify-between ${
-        isGoalVisible ? 'grid-rows-2' : 'grid-rows-1'
-      }`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <>
       <div
-        className={`col-start-1 col-end-4 flex flex-1 items-baseline gap-2 ${
-          isHovered || isKebabSelected ? 'text-main' : 'text-gray500'
-        }`}
+        className={`relative mb-4 grid grid-cols-4 items-center justify-between ${isGoalVisible ? 'grid-rows-2' : 'grid-rows-1'}`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        <div className="relative flex translate-y-[3px] cursor-pointer">
-          <input
-            type="checkbox"
-            checked={todo.done ?? undefined}
-            onChange={handleCheckbox}
-            className="peer h-[18px] w-[18px] cursor-pointer appearance-none rounded-[6px] border border-gray200 transition-all checked:border-main checked:bg-main"
-          />
-          <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100">
-            <CheckedIcon />
-          </span>
-        </div>
-        <h4 className={`truncate py-0.5 ${todo.done ? 'line-through' : ''}`}>{todo.title}</h4>
-      </div>
-
-      <div className="relative flex shrink-0 items-center justify-end gap-1">
-        <div className="flex flex-row gap-1 py-[1px]">
-          {todo.filePath && <FileIcon width={18} height={18} />}
-          {todo.linkUrl && <LinkIcon width={18} height={18} />}
-          {todo.noteId && (
-            <span onClick={handleNoteIconClick} className="cursor-pointer">
-              <NoteIcon width={18} height={18} />
+        <div
+          className={`col-start-1 col-end-4 flex flex-1 items-baseline gap-2 ${
+            isHovered || isKebabSelected ? 'text-main' : 'text-gray500'
+          }`}
+        >
+          <div className="relative flex translate-y-[3px] cursor-pointer">
+            <input
+              type="checkbox"
+              checked={todo.done ?? undefined}
+              onChange={handleCheckbox}
+              className="peer h-[18px] w-[18px] cursor-pointer appearance-none rounded-[6px] border border-gray200 transition-all checked:border-main checked:bg-main"
+            />
+            <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100">
+              <CheckedIcon />
             </span>
+          </div>
+
+          <h4 className={`truncate py-0.5 ${todo.done ? 'line-through' : ''} `}>{todo.title}</h4>
+        </div>
+
+        <div className="relative flex shrink-0 items-center justify-end gap-1">
+          <div className="flex flex-row gap-1 py-[1px]">
+            {todo.filePath && (
+              <a
+                ref={aTagRef}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClickFileDownload(todo.filePath || '');
+                }}
+                className="cursor-pointer"
+                aria-label="파일 다운로드"
+                rel="noopener noreferrer"
+                title={`파일 다운로드: ${todo.filePath.split('/').pop() || '파일'}`}
+              >
+                <FileIcon width={18} height={18} />
+              </a>
+            )}
+            {todo.linkUrl && todo.linkUrl.startsWith('http') && (
+              <a
+                href={todo.linkUrl}
+                target="_blank"
+                aria-label="관련 링크 열기"
+                rel="noopener noreferrer"
+                title={todo.linkUrl}
+              >
+                <LinkIcon width={18} height={18} />
+              </a>
+            )}
+            {todo.noteId && (
+              <span onClick={handleNoteIconClick} className="cursor-pointer">
+                <NoteIcon width={18} height={18} />
+              </span>
+            )}
+          </div>
+          <span className={`${priorityClass} rounded-full border p-1 px-3 py-0.5 text-small`}>
+            {todo.priority}
+          </span>
+          {!todo.noteId && !isDashboard && (
+            <button
+              onClick={handlePenIconClick}
+              className={isHovered || isKebabSelected ? 'block' : 'hidden'}
+            >
+              <PenIcon width={18} height={18} />
+            </button>
+          )}
+          {!isDashboard && (
+            <div
+              className={isHovered || isKebabSelected ? 'block' : 'hidden'}
+              onClick={handleKebabClick}
+            >
+              <KebabForGoal
+                size={18}
+                onEdit={() => handleOpenEditModal(todo)}
+                onDelete={handleDelete}
+              />
+            </div>
           )}
         </div>
-        <span className={`${priorityClass} rounded-full border p-1 px-3 py-0.5 text-small`}>
-          {todo.priority}
-        </span>
-        {!todo.noteId && !isDashboard && (
-          <button
-            onClick={handlePenIconClick}
-            className={isHovered || isKebabSelected ? 'block' : 'hidden'}
-          >
-            <PenIcon width={18} height={18} />
-          </button>
-        )}
-        {!isDashboard && (
-          <div
-            className={isHovered || isKebabSelected ? 'block' : 'hidden'}
-            onClick={handleKebabClick}
-          >
-            <KebabForGoal
-              size={18}
-              onEdit={() => handleOpenEditModal(todo)}
-              onDelete={handleDelete}
-            />
-          </div>
+        {isGoalVisible && (
+          <span className="col-start-1 -col-end-1 flex items-center gap-1 truncate pl-5 text-body2 text-gray350">
+            <FlagIcon />
+            <span className="min-w-0 flex-1 truncate">{todo?.goal?.title}</span>
+          </span>
         )}
       </div>
-      {isGoalVisible && (
-        <span className="col-start-1 col-end-4 flex items-center gap-1 truncate pl-5 text-body2 text-gray350">
-          <FlagIcon />
-          <span className="min-w-0 flex-1 truncate">{todo?.goal?.title}</span>
-        </span>
-      )}
-    </div>
+    </>
   );
 }

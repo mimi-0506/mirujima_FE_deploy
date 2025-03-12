@@ -18,7 +18,7 @@ export default function TitleInput() {
         placeholder="할 일의 제목을 적어주세요"
         maxLength={30}
         required
-        className="rounded-lg border border-gray-200 px-4 py-[0.7vw] placeholder-gray350"
+        className="rounded-lg border border-gray-200 px-4 py-[0.7vw] placeholder-gray350 focus:outline-main"
         onChange={handleInputChange}
         defaultValue={title}
       />

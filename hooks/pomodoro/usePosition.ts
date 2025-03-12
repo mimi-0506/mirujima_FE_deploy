@@ -20,9 +20,5 @@ export default function usePosition() {
     });
   }, [screenSize]);
 
-  useEffect(() => {
-    console.log('포지션 변화', position);
-  }, [position]);
-
   return { position, setPosition };
 }

@@ -6,6 +6,7 @@ import { FILE_SIZE_ERROR, URL_ERROR, URL_VALID_ERROR } from '@/constant/toastTex
 import { useTodoCreateModalStore } from '@/provider/store-provider';
 
 import AddIcon from '../../public/icon/add-gray.svg';
+import useDragAndDrop from '../../hooks/todoCreate/useDragAndDrop';
 
 export default function Uploader() {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -13,35 +14,32 @@ export default function Uploader() {
   const linkUrl = useTodoCreateModalStore((state) => state.linkUrl);
   const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
 
+  const { handleDrop, handleDragOver, handleDragLeave, isDragging } = useDragAndDrop(fileRef);
+
   const [selectedOption, setSelectedOption] = useState<'file' | 'link'>('file');
+
+  const handleLinkPaste = async () => {
+    const nowLink = await navigator.clipboard.readText();
+    try {
+      const url = new URL(nowLink);
+      if (['http:', 'https:'].includes(url.protocol)) {
+        setCreatedTodoState({ linkUrl: nowLink });
+      } else toast.error(URL_VALID_ERROR);
+    } catch {
+      toast.error(URL_ERROR);
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files ? e.target.files[0] : null;
-
     if (selectedFile) {
       if (selectedFile.size > FILE_SIZE_5MB) {
         toast.error(FILE_SIZE_ERROR);
         return;
       }
+
       setCreatedTodoState({ fileName: selectedFile.name });
-    } else {
-      setCreatedTodoState({ fileName: '' });
-    }
-  };
-
-  const handleLinkPaste = async () => {
-    const nowLink = await navigator.clipboard.readText();
-
-    try {
-      const url = new URL(nowLink);
-      if (['http:', 'https:'].includes(url.protocol)) {
-        setCreatedTodoState({ linkUrl: nowLink });
-      } else {
-        toast.error(URL_VALID_ERROR);
-      }
-    } catch {
-      toast.error(URL_ERROR);
-    }
+    } else setCreatedTodoState({ fileName: '' });
   };
 
   const RadioButton = ({ use, text }: { use: 'file' | 'link'; text: string }) => {
@@ -74,7 +72,14 @@ export default function Uploader() {
         <RadioButton use="link" text="링크 첨부" />
       </div>
 
-      <div className="mt-2 flex h-[9vw] w-full items-center justify-center rounded-lg bg-Cgray text-gray350">
+      <div
+        className={`mt-2 flex h-[9vw] w-full items-center justify-center rounded-lg bg-Cgray text-gray350 ${
+          isDragging ? 'bg-blue-200' : ''
+        }`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
         <div className={`${selectedOption !== 'file' && 'hidden'}`}>
           <input
             type="file"
