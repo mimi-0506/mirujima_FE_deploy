@@ -17,8 +17,7 @@ export default function AuthCallbackPage() {
   const googleMutation = useGoogleLoginMutation();
   const kakaoMutation = useKakaoLoginMutation();
 
-  // 로그인 타입 구분 (예: URL에 state 또는 특정 파라미터로 구분)
-  const loginType = state?.includes('kakao') ? 'kakao' : 'google'; // state에 따라 구분하거나 다른 방식으로도 가능
+  const loginType = state?.includes('kakao') ? 'kakao' : 'google';
 
   useEffect(() => {
     if (!code) return;
@@ -61,7 +60,7 @@ export default function AuthCallbackPage() {
         </p>
       )}
       {(googleMutation.isSuccess || kakaoMutation.isSuccess) && (
-        <p className="text-green-500">로그인 성공! 이동 중...</p>
+        <p className="text-gray500">로그인 성공! 이동 중...</p>
       )}
     </div>
   );

@@ -7,24 +7,7 @@ import { useRouter } from 'next/navigation';
 
 import authApi from '@/apis/clientActions/authApi';
 import { useInfoStore } from '@/provider/store-provider';
-
-interface LoginResponse {
-  success: boolean;
-  code: number;
-  message: string;
-  result: {
-    user: {
-      id: number;
-      username: string;
-      email: string;
-      createdAt: string;
-      updatedAt: string;
-    };
-    accessToken: string;
-    refreshToken: string;
-    expiredAt: string;
-  } | null;
-}
+import type { KakaoLoginResponse } from '@/types/auth.types';
 
 const COOKIEOPTIONS = {
   maxAge: 60 * 60 * 24, // 1일
@@ -32,12 +15,12 @@ const COOKIEOPTIONS = {
   sameSite: 'strict' as const
 };
 
-const kakaoLogin = async (authorizationCode: string): Promise<LoginResponse> => {
+const kakaoLogin = async (authorizationCode: string): Promise<KakaoLoginResponse> => {
   try {
     const response = await authApi.get('/auth/kakao', {
       params: {
         code: authorizationCode,
-        redirectUri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI
+        redirectUri: process.env.NEXT_PUBLIC_REDIRECT_URI
       }
     });
     return response.data;

@@ -10,30 +10,18 @@ import {
   GOOGLE_LOGIN_LOADING
 } from '@/constant/toastText';
 
-interface GoogleLoginResponse {
-  success: boolean;
-  code: number;
-  message: string;
-  result: {
-    user: {
-      id: number;
-      username: string;
-      email: string;
-      profileImagePath: string;
-      createdAt: string;
-      updatedAt: string;
-    };
-    accessToken: string;
-    refreshToken: string;
-    expiredAt: string;
-  } | null;
-}
+import type { GoogleLoginResponse } from '@/types/auth.types';
 
+const COOKIEOPTIONS = {
+  maxAge: 60 * 60 * 24, // 1일
+  path: '/',
+  sameSite: 'strict' as const
+};
 async function googleLogin(authorizationCode: string): Promise<GoogleLoginResponse> {
   const response = await authApi.get('/auth/google', {
     params: {
       code: authorizationCode,
-      redirectUri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI
+      redirectUri: process.env.NEXT_PUBLIC_REDIRECT_URI
     }
   });
   return response.data;
@@ -58,10 +46,10 @@ export const useGoogleLoginMutation = () => {
         console.log(data);
         return;
       }
-      const { accessToken, refreshToken, user, expiredAt } = data.result;
-      setCookie('accessToken', accessToken, { expires: new Date(expiredAt) });
-      setCookie('refreshToken', refreshToken, { expires: new Date(expiredAt) });
-      setCookie('user', JSON.stringify(user), { expires: new Date(expiredAt) });
+      const { accessToken, refreshToken, user } = data.result;
+      setCookie('accessToken', accessToken, COOKIEOPTIONS);
+      setCookie('refreshToken', refreshToken, COOKIEOPTIONS);
+      setCookie('user', JSON.stringify(user), COOKIEOPTIONS);
 
       setInfo({
         userId: user.id,
