@@ -1,5 +1,61 @@
+'use client';
+
 import { createStore } from 'zustand/vanilla';
-import type { ModalStore } from '@/types/modalStore.types';
+
+export type EditModalProps = {
+  onConfirm: (value: string) => void;
+  onCancel: () => void;
+  initialValue: string;
+};
+
+export type DeleteModalProps = {
+  onConfirm: () => void;
+  onCancel: () => void;
+};
+
+export type ConfirmTempNoteModalProps = {
+  tempNoteTitle: string | undefined;
+  onCancel: () => void;
+  onConfirm: () => void;
+};
+
+export type NoteLinkModalProps = {
+  defaultValue: string | undefined;
+  onSubmit: () => void;
+  linkInputRef: React.RefObject<HTMLInputElement | null>;
+};
+
+export type NoteDetailPageModalProps = {
+  params: Promise<{ id: string }>;
+  onClose: () => void;
+};
+
+export interface ModalStore {
+  isNoteDetailPageModalOpen: boolean;
+  noteDetailPageModalProps: NoteDetailPageModalProps | null;
+  isNoteConfirmModalOpen: boolean;
+  noteConfirmModalProps: ConfirmTempNoteModalProps | null;
+  isTodoCreateModalOpen: boolean;
+  isTodoCreateCheckModalOpen: boolean;
+  isNoteLinkModalOpen: boolean;
+  noteLinkModalProps: NoteLinkModalProps | null;
+  isGoalDeleteModalOpen: boolean;
+  goalDeleteModalProps: DeleteModalProps | null;
+  isGoalEditModalOpen: boolean;
+  goalEditModalProps: EditModalProps | null;
+  isGoalCreateModalOpen: boolean;
+  isLoading: boolean;
+
+  setNoteDetailPageOpen: (isOpen: boolean, props?: NoteDetailPageModalProps) => void;
+  setIsNoteConfirmModalOpen: (isOpen: boolean, props?: ConfirmTempNoteModalProps) => void;
+  setIsTodoCreateModalOpen: (isOpen: boolean) => void;
+  setIsTodoCreateCheckModalOpen: (isOpen: boolean) => void;
+  setNoteLinkModalOpen: (isOpen: boolean, props?: NoteLinkModalProps) => void;
+  setGoalDeleteModalOpen: (isOpen: boolean, props?: DeleteModalProps) => void;
+  setGoalEditModalOpen: (isOpen: boolean, props?: EditModalProps) => void;
+  setIsGoalCreateModalOpen: (isOpen: boolean) => void;
+  setIsLoading: (isLoading: boolean) => void;
+}
 
 export const defaultInitState: ModalStore = {
   isNoteDetailPageModalOpen: false,
@@ -48,5 +104,3 @@ export const createModalStore = (initState: Partial<ModalStore> = defaultInitSta
     setIsLoading: (isLoading) => set({ isLoading })
   }));
 };
-
-export type { ModalStore };

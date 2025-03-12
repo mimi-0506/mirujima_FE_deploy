@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
 import SpinIcon from '@/public/icon/spin.svg';
@@ -34,6 +33,7 @@ export default function TaskList({
   const error = propTasks !== undefined ? (propError ?? false) : isError;
 
   const [showEmptyMessage, setShowEmptyMessage] = useState(false);
+
   useEffect(() => {
     setShowEmptyMessage(false);
   }, []);
@@ -42,19 +42,18 @@ export default function TaskList({
 
   return (
     <div
-      className={`scrollbar-thin custom-scrollbar overflow-y-auto pr-5 transition-all ${isMoreToggle ? 'max-h-full' : 'max-h-[260px]'} ${isDashboard ? 'scrollbar-hide' : ''}`}
+      className={`scrollbar-thin custom-scrollbar overflow-y-auto pr-5 transition-all ${
+        isMoreToggle ? 'max-h-full' : 'max-h-[260px]'
+      } ${isDashboard ? 'scrollbar-hide' : ''}`}
     >
       <ul className="mt-2 space-y-2 text-gray350">
         {loading ? (
-          // 1. 로딩 중일 때
           <div>
             <SpinIcon />
           </div>
         ) : showEmptyMessage || !tasks || tasks.length === 0 ? (
-          // 2. 로딩 끝났는데 비어있음
           <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 할 일이 없어요</li>
         ) : (
-          // 3.  TodoItem 렌더링
           Array.isArray(tasks) &&
           tasks.map((task) => (
             <li key={task.id}>

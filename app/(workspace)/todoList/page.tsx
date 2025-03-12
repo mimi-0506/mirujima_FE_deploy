@@ -1,9 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-
 import { motion } from 'motion/react';
-
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { useFilteredTodos } from '@/hooks/todo/useFilteredTodos';
@@ -11,7 +9,6 @@ import { useInfiniteTodoList } from '@/hooks/todo/useInfiniteTodoList';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 import PlusIcon from '@/public/icon/plus-border-none.svg';
 import TodoListIcon from '@/public/icon/todo-list-black.svg';
-
 import EmptyMessage from './_components/EmptyMessage';
 import PriorityFilter from './_components/PriorityFilter';
 import TodoFilter from './_components/TodoFilter';
@@ -74,7 +71,6 @@ export default function TodoListPage() {
           ) : (
             <EmptyMessage filter={filter} filteredTodos={filteredTodos} />
           )}
-
           <div ref={ref} />
         </div>
       </div>

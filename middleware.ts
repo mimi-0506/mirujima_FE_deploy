@@ -20,7 +20,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // 로그인 페이지 및 회원가입 페이지에서는 토큰 검사 제외
-  if (pathname === '/login' || pathname === '/signup') {
+  if (pathname === '/login' || pathname === '/signup' || pathname === '/auth/callback') {
     return NextResponse.next();
   }
 
@@ -48,7 +48,7 @@ export async function middleware(req: NextRequest) {
     // }
 
     // 로그인 상태에서 로그인 페이지 접근 시 대시보드로 리디렉트
-    if (pathname === '/login' || pathname === '/signup')
+    if (pathname === '/login' || pathname === '/signup' || pathname === '/auth/callback')
       return NextResponse.redirect(new URL('/dashboard', req.url));
 
     return NextResponse.next();
