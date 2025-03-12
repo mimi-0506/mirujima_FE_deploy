@@ -17,11 +17,16 @@ const COOKIEOPTIONS = {
   path: '/',
   sameSite: 'strict' as const
 };
+const redirectUri =
+  typeof window !== 'undefined'
+    ? `${window.location.origin}/auth/callback`
+    : process.env.NEXT_PUBLIC_REDIRECT_URI || '';
+
 async function googleLogin(authorizationCode: string): Promise<OAuthLoginResponse> {
   const response = await authApi.get('/auth/google', {
     params: {
       code: authorizationCode,
-      redirectUri: process.env.NEXT_PUBLIC_REDIRECT_URI
+      redirectUri
     }
   });
   return response.data;

@@ -1,5 +1,4 @@
 import toast from 'react-hot-toast';
-
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { setCookie } from 'cookies-next';
@@ -9,18 +8,24 @@ import authApi from '@/apis/clientActions/authApi';
 import { useInfoStore } from '@/provider/store-provider';
 import type { OAuthLoginResponse } from '@/types/auth.types';
 import { KAKAO_LOGIN_ERROR, KAKAO_LOGIN_SUCCESS, KAKAO_LOGIN_LOADING } from '@/constant/toastText';
+
 const COOKIEOPTIONS = {
   maxAge: 60 * 60 * 24, // 1일
   path: '/',
   sameSite: 'strict' as const
 };
 
+const redirectUri =
+  typeof window !== 'undefined'
+    ? `${window.location.origin}/auth/callback`
+    : process.env.NEXT_PUBLIC_REDIRECT_URI || '';
+
 const kakaoLogin = async (authorizationCode: string): Promise<OAuthLoginResponse> => {
   try {
     const response = await authApi.get('/auth/kakao', {
       params: {
         code: authorizationCode,
-        redirectUri: process.env.NEXT_PUBLIC_REDIRECT_URI
+        redirectUri
       }
     });
     return response.data;
@@ -71,6 +76,8 @@ export const useKakaoLoginMutation = () => {
     },
     onError: (error: unknown) => {
       toast.dismiss('kakaoLogin');
+      console.error(error);
+      toast.error(KAKAO_LOGIN_ERROR);
     }
   });
 };

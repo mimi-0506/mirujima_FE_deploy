@@ -1,5 +1,3 @@
-'use client';
-
 import { ISODateString } from './ISODateString.type';
 import { ApiResponse } from './apiResponse.type';
 
