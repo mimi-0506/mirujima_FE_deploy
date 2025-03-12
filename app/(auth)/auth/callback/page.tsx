@@ -55,7 +55,7 @@ export default function AuthCallbackPage() {
         <LoadingSpinner width={48} height={48} />
       )}
       {(googleMutation.isError || kakaoMutation.isError) && (
-        <p className="text-red-500">
+        <p className="text-warning">
           {loginType === 'google' ? '구글 로그인에 실패했습니다.' : '카카오 로그인에 실패했습니다.'}
         </p>
       )}
