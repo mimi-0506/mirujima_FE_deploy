@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import { apiWithClientToken } from '@/apis/clientActions';
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import { useCountUp } from '@/hooks/dashboard/useCountUp';
 import { useAllTodos } from '@/hooks/todo/useAllTodos';
@@ -13,17 +12,16 @@ import { calcTotalCompletionPercentage } from '@/utils/percentageUtils';
 import Chart from './Chart';
 
 import type { ChartDataType } from './Chart';
-import type { TodoProgressType } from '@/types/todo.type';
+import { readTodoProgress } from '@/apis/clientActions/todo';
 
 export default function WeeklyChart() {
   const userId = useInfoStore((state) => state.userId);
   const [chartData, setChartData] = useState<ChartDataType[]>([]);
   const [progressData, setProgressData] = useState(0);
-  const count = useCountUp(Number(progressData), 2000);
+  const count = useCountUp(progressData, 2000);
 
-  const readTodoProgress = async () => {
-    const response = await apiWithClientToken.get<{ result: TodoProgressType }>('/todos/progress');
-    const data = response.data.result;
+  const fetchAllTodoProgress = async () => {
+    const data = await readTodoProgress();
 
     const completionRate = calcTotalCompletionPercentage({
       todoCount: data?.todoCount,
@@ -43,9 +41,12 @@ export default function WeeklyChart() {
 
       return () => clearTimeout(timeoutId);
     }
-
-    readTodoProgress();
   }, [todoData]);
+
+  useEffect(() => {
+    fetchAllTodoProgress();
+  }, [todoData]);
+
   return (
     <div className="rounded-container flex flex-col">
       <h4 className="mb-4">이번주 평균 달성률</h4>
