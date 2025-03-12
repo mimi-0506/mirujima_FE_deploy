@@ -15,7 +15,7 @@ import { calcGoalCompletionPercentage } from '@/utils/percentageUtils';
 
 import Label from './Label';
 import { labelColors } from '@/constant/colors';
-import { LabelType } from '@/types/color.type';
+import { LabelType } from '@/types/color.types';
 
 export default function Calendar() {
   const userId = useInfoStore((state) => state.userId);

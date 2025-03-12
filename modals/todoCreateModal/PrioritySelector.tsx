@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { ChangeEvent } from 'react';
 
 import { useTodoCreateModalStore } from '@/provider/store-provider';
-import { Priority } from '@/types/color.type';
+import { Priority } from '@/types/color.types';
 
 const PRIORITY: Priority[] = [1, 2, 3, 4];
 

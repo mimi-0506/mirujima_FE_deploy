@@ -6,7 +6,7 @@ import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import useGetGoalList from '@/hooks/useGetGoalList';
 import { getUpcomingDates } from '@/utils/dateUtils';
 
-import type { GoalType } from '@/types/goal.type';
+import type { GoalType } from '@/types/goal.types';
 
 type UpcomingGoalType = Pick<GoalType, 'id' | 'title' | 'completionDate'>;
 

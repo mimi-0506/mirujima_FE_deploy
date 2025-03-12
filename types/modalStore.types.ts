@@ -1,7 +1,7 @@
 import type { NoteDetailPageModalProps } from '@/app/(workspace)/goals/_components/NoteDetailModal';
 import type { NoteConfirmModalProps, NoteLinkModalProps } from '@/types/note.type';
 import type { NoteType } from '@/types/note.type';
-import { GoalSummary } from './goal.type';
+import { GoalSummary } from './goal.types';
 
 export type BaseCreateModalType = Pick<
   NoteType,

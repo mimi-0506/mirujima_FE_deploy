@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
-import type { GoalType } from '@/types/goal.type';
+import type { GoalType } from '@/types/goal.types';
 
 const fetchGoalList = async (): Promise<GoalType[]> => {
   const { data } = await apiWithClientToken.get('/goals', {

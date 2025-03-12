@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { redirect } from 'next/navigation';
 
 import type { ApiResponse } from '@/types/apiResponse.type';
-import type { GoalListType, GoalType } from '@/types/goal.type';
+import type { GoalListType, GoalType } from '@/types/goal.types';
 
 import { apiWithServerToken } from '.';
 

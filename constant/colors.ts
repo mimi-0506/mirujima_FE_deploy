@@ -1,4 +1,4 @@
-import { BgVariant, BorderVariant, LabelType, Priority, TextVariant } from '@/types/color.type';
+import { BgVariant, BorderVariant, LabelType, Priority, TextVariant } from '@/types/color.types';
 
 export const primaryColors: Record<Priority, `border-${BorderVariant} text-${TextVariant}`> = {
   1: 'border-default text-main',

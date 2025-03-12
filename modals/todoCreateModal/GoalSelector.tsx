@@ -4,7 +4,7 @@ import type { ChangeEvent } from 'react';
 import useGetGoalList from '@/hooks/useGetGoalList';
 import { useTodoCreateModalStore } from '@/provider/store-provider';
 
-import type { GoalType } from '@/types/goal.type';
+import type { GoalType } from '@/types/goal.types';
 
 export default function GoalSelector() {
   const [goalList, setGoalList] = useState<GoalType[]>([]);

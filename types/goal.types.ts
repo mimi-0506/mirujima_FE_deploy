@@ -21,19 +21,4 @@ export type GoalType = {
 
 export type GoalSummary = Pick<GoalType, 'id' | 'title' | 'completionDate'>;
 
-export type GoalId = {
-  goalId: GoalType['id'];
-  completionDate?: GoalType['completionDate'];
-};
-
-export type GoalListResponse = ApiResponse<GoalListType>;
-export type CreateGoalType = Pick<GoalType, 'title'>;
-export type DeleteGoalResponse = ApiResponse<{}>;
-
-export type UpdateGoalRequest = {
-  goalId: number;
-  title: string;
-  completionDate?: ISODateString;
-};
-
 export type UpdateGoalResponse = ApiResponse<GoalType>;
