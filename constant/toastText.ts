@@ -57,3 +57,5 @@ export const GOOGLE_LOGIN_LOADING = '구글 로그인중 ... ';
 export const KAKAO_LOGIN_ERROR = '카카오 로그인에 실패했습니다.';
 export const KAKAO_LOGIN_SUCCESS = '카카오 로그인 성공!';
 export const KAKAO_LOGIN_LOADING = '카카오 로그인중 ...';
+
+export const INSTALL_APP_ERROR = '앱 설치에 실패했습니다.';

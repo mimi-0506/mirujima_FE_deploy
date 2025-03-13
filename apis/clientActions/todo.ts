@@ -20,8 +20,8 @@ export const readTodoList = async ({
   return { ...response.data.result, todos: response.data.result.todos.reverse() };
 };
 
-export const deleteTodoItem = async (id: number) => {
-  await apiWithClientToken.delete(`/todos/${id}`);
+export const deleteTodoItem = async (todoId: number): Promise<void> => {
+  await apiWithClientToken.delete(`/todos/${todoId}`);
 };
 
 export const updateTodoStatus = async (id: number, done: boolean): Promise<TodoListType> => {

@@ -1,4 +1,3 @@
-import type { NoteDetailPageModalProps } from '@/app/(workspace)/goals/_components/NoteDetailModal';
 import type { NoteConfirmModalProps, NoteLinkModalProps } from '@/types/note.type';
 import type { NoteType } from '@/types/note.type';
 import { GoalSummary } from './goal.types';
@@ -40,7 +39,6 @@ export type ModalType =
   | 'GoalCreate';
 
 export type ModalPropsMap = {
-  NoteDetailPage: NoteDetailPageModalProps;
   NoteConfirm: NoteConfirmModalProps;
   TodoCreate: never;
   TodoCreateCheck: never;
@@ -51,8 +49,7 @@ export type ModalPropsMap = {
 };
 
 export type ModalState = {
-  isNoteDetailPageModalOpen: boolean;
-  noteDetailPageModalProps: NoteDetailPageModalProps | null;
+  isIOSPWAGuideModalOpen: boolean;
   isNoteConfirmModalOpen: boolean;
   noteConfirmModalProps: NoteConfirmModalProps | null;
   isTodoCreateModalOpen: boolean;
@@ -68,7 +65,7 @@ export type ModalState = {
 };
 
 export type ModalActions = {
-  setNoteDetailPageOpen: (isOpen: boolean, props?: NoteDetailPageModalProps) => void;
+  setIOSPWAGuideModalOpen: (isOpen: boolean) => void;
   setIsNoteConfirmModalOpen: (isOpen: boolean, props?: NoteConfirmModalProps) => void;
   setIsTodoCreateModalOpen: (isOpen: boolean) => void;
   setIsTodoCreateCheckModalOpen: (isOpen: boolean) => void;

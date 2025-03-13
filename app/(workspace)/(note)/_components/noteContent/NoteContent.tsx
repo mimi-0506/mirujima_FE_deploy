@@ -34,6 +34,7 @@ import ContentLayout from '../layout/ContentLayout';
 import type { NoteInputData } from '@/schema/noteSchema';
 import type { CreateNoteType, NoteType, UpdateNoteType } from '@/types/note.type';
 import type { TodoType } from '@/types/todo.type';
+import _ from 'lodash';
 
 interface Props {
   todo: TodoType;
@@ -66,7 +67,7 @@ export default function NoteContent({ todo, note }: Props) {
     }
   });
 
-  const onSubmit: SubmitHandler<NoteInputData> = async (data) => {
+  const onSubmit: SubmitHandler<NoteInputData> = _.throttle(async (data) => {
     const { title, content } = data;
 
     try {
@@ -99,9 +100,9 @@ export default function NoteContent({ todo, note }: Props) {
     } catch (error) {
       toast.error(NOTE_CREATE_ERROR);
     }
-  };
+  }, 1000);
 
-  const onSaveTempNote = () => {
+  const onSaveTempNote = _.throttle(() => {
     onSaveTempToStorage(getValues('title').trim(), getValues('content'), linkUrl);
     toast.success(TEMP_SAVE_SUCCESS, {
       duration: 2000,
@@ -109,9 +110,9 @@ export default function NoteContent({ todo, note }: Props) {
       style: { color: '#F86969', borderRadius: '20px', border: '1px solid #F86969' },
       icon: <SuccessIcon />
     });
-  };
+  }, 1000);
 
-  const onLoadTempNote = () => {
+  const onLoadTempNote = _.throttle(() => {
     if (!tempedNote) return;
 
     setLink(tempedNote.linkUrl);
@@ -122,7 +123,7 @@ export default function NoteContent({ todo, note }: Props) {
     setDefaultNoteContent(tempedNote.content);
     resetHasTempNote();
     toast.success(TEMP_GET_SUCCESS);
-  };
+  }, 1000);
 
   return (
     <ContentLayout>

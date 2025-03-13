@@ -22,7 +22,8 @@ export default function NavigationBar() {
   if (
     pathname.includes('login') ||
     pathname.includes('signup') ||
-    pathname.includes('/auth/callback')
+    pathname.includes('/auth/callback') ||
+    pathname === '/'
   )
     return null;
 

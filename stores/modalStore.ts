@@ -1,5 +1,6 @@
 'use client';
 
+import { NoteConfirmModalProps } from '@/types/note.type';
 import { createStore } from 'zustand/vanilla';
 
 export type EditModalProps = {
@@ -13,30 +14,20 @@ export type DeleteModalProps = {
   onCancel: () => void;
 };
 
-export type ConfirmTempNoteModalProps = {
-  tempNoteTitle: string | undefined;
-  onCancel: () => void;
-  onConfirm: () => void;
-};
-
 export type NoteLinkModalProps = {
   defaultValue: string | undefined;
   onSubmit: () => void;
   linkInputRef: React.RefObject<HTMLInputElement | null>;
 };
 
-export type NoteDetailPageModalProps = {
-  params: Promise<{ id: string }>;
-  onClose: () => void;
-};
-
 export interface ModalStore {
-  isNoteDetailPageModalOpen: boolean;
-  noteDetailPageModalProps: NoteDetailPageModalProps | null;
+  isIOSPWAGuideModalOpen: boolean;
   isNoteConfirmModalOpen: boolean;
-  noteConfirmModalProps: ConfirmTempNoteModalProps | null;
+  noteConfirmModalProps: NoteConfirmModalProps | null;
   isTodoCreateModalOpen: boolean;
   isTodoCreateCheckModalOpen: boolean;
+  isTodoDeleteConfirmModalOpen: boolean;
+  todoDeleteConfirmModalProps: DeleteModalProps | null;
   isNoteLinkModalOpen: boolean;
   noteLinkModalProps: NoteLinkModalProps | null;
   isGoalDeleteModalOpen: boolean;
@@ -46,10 +37,11 @@ export interface ModalStore {
   isGoalCreateModalOpen: boolean;
   isLoading: boolean;
 
-  setNoteDetailPageOpen: (isOpen: boolean, props?: NoteDetailPageModalProps) => void;
-  setIsNoteConfirmModalOpen: (isOpen: boolean, props?: ConfirmTempNoteModalProps) => void;
+  setIOSPWAGuideModalOpen: (isOpen: boolean) => void;
+  setIsNoteConfirmModalOpen: (isOpen: boolean, props?: NoteConfirmModalProps) => void;
   setIsTodoCreateModalOpen: (isOpen: boolean) => void;
   setIsTodoCreateCheckModalOpen: (isOpen: boolean) => void;
+  setIsTodoDeleteConfirmModalOpen: (isOpen: boolean, props?: DeleteModalProps) => void;
   setNoteLinkModalOpen: (isOpen: boolean, props?: NoteLinkModalProps) => void;
   setGoalDeleteModalOpen: (isOpen: boolean, props?: DeleteModalProps) => void;
   setGoalEditModalOpen: (isOpen: boolean, props?: EditModalProps) => void;
@@ -58,12 +50,13 @@ export interface ModalStore {
 }
 
 export const defaultInitState: ModalStore = {
-  isNoteDetailPageModalOpen: false,
-  noteDetailPageModalProps: null,
+  isIOSPWAGuideModalOpen: false,
   isNoteConfirmModalOpen: false,
   noteConfirmModalProps: null,
   isTodoCreateModalOpen: false,
   isTodoCreateCheckModalOpen: false,
+  isTodoDeleteConfirmModalOpen: false,
+  todoDeleteConfirmModalProps: null,
   isNoteLinkModalOpen: false,
   noteLinkModalProps: null,
   isGoalDeleteModalOpen: false,
@@ -73,10 +66,11 @@ export const defaultInitState: ModalStore = {
   isGoalCreateModalOpen: false,
   isLoading: false,
 
-  setNoteDetailPageOpen: () => {},
+  setIOSPWAGuideModalOpen: () => {},
   setIsNoteConfirmModalOpen: () => {},
   setIsTodoCreateModalOpen: () => {},
   setIsTodoCreateCheckModalOpen: () => {},
+  setIsTodoDeleteConfirmModalOpen: () => {},
   setNoteLinkModalOpen: () => {},
   setGoalDeleteModalOpen: () => {},
   setGoalEditModalOpen: () => {},
@@ -88,12 +82,13 @@ export const createModalStore = (initState: Partial<ModalStore> = defaultInitSta
   return createStore<ModalStore>()((set) => ({
     ...defaultInitState,
     ...initState,
-    setNoteDetailPageOpen: (isOpen, props) =>
-      set({ isNoteDetailPageModalOpen: isOpen, noteDetailPageModalProps: props || null }),
+    setIOSPWAGuideModalOpen: (isOpen) => set({ isIOSPWAGuideModalOpen: isOpen }),
     setIsNoteConfirmModalOpen: (isOpen, props) =>
       set({ isNoteConfirmModalOpen: isOpen, noteConfirmModalProps: props || null }),
     setIsTodoCreateModalOpen: (isOpen) => set({ isTodoCreateModalOpen: isOpen }),
     setIsTodoCreateCheckModalOpen: (isOpen) => set({ isTodoCreateCheckModalOpen: isOpen }),
+    setIsTodoDeleteConfirmModalOpen: (isOpen, props) =>
+      set({ isTodoDeleteConfirmModalOpen: isOpen, todoDeleteConfirmModalProps: props || null }),
     setNoteLinkModalOpen: (isOpen, props) =>
       set({ isNoteLinkModalOpen: isOpen, noteLinkModalProps: props || null }),
     setGoalDeleteModalOpen: (isOpen, props) =>
