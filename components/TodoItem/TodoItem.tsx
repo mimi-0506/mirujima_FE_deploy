@@ -27,7 +27,7 @@ interface TodoItemProps {
   isDashboard?: boolean;
 }
 
-export default function TodoItem({ todo, goalId, showGoal, isDashboard }: TodoItemProps) {
+export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps) {
   const router = useRouter();
   const { setCreatedTodoState } = useTodoCreateModalStore((state) => state);
   const { mutate: toggleTodo } = useCheckTodo();
