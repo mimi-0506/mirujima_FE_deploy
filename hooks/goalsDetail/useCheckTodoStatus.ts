@@ -19,8 +19,8 @@ export const useCheckTodo = () => {
   const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
 
-  return useMutation<TodoType, Error, { todo: TodoType; goalId: GoalType['id'] }>({
-    mutationFn: ({ todo }) => checkTodo(todo),
+  return useMutation<TodoType, Error, TodoType & { goalId: GoalType['id'] }>({
+    mutationFn: (todoWithGoalId) => checkTodo(todoWithGoalId),
     onSuccess: (_, { goalId }) => {
       const todoKeys = [false, true].map((done) => ['todos', goalId, userId, done]);
       todoKeys.forEach((key) => {
