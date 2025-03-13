@@ -1,16 +1,14 @@
-export type ModalControlProps<TArgs extends unknown[] = []> = {
-  onConfirm: (...args: TArgs) => void;
-  onCancel: () => void;
-};
+import type { ModalActionProps } from './modalAction.type';
 
-/**
- * 노트 관련 모달 타입
- */
-export type NoteConfirmModalProps = {
+export type ModalControlProps<TArgs extends unknown[] = []> = Omit<
+  ModalActionProps,
+  'onConfirm'
+> & {
+  onConfirm: (...args: TArgs) => void;
+};
+export type NoteConfirmModalProps = ModalActionProps & {
   type: 'temp' | 'delete';
   contentTitle: string;
-  onCancel: () => void;
-  onConfirm: () => void;
 };
 
 export type NoteLinkModalProps = {
@@ -25,28 +23,30 @@ export type EditModalProps = ModalControlProps<[string]> & {
 
 export type DeleteModalProps = ModalControlProps;
 
-/**
- * 전체 모달 스토어 타입
- */
-export interface ModalStore {
+interface ModalState {
   isIOSPWAGuideModalOpen: boolean;
   isNoteConfirmModalOpen: boolean;
-  noteConfirmModalProps: NoteConfirmModalProps | null;
   isTodoCreateModalOpen: boolean;
   isTodoCreateCheckModalOpen: boolean;
   isTodoDeleteConfirmModalOpen: boolean;
-  todoDeleteConfirmModalProps: DeleteModalProps | null;
   isNoteLinkModalOpen: boolean;
-  noteLinkModalProps: NoteLinkModalProps | null;
   isGoalDeleteModalOpen: boolean;
-  goalDeleteModalProps: DeleteModalProps | null;
   isGoalEditModalOpen: boolean;
-  goalEditModalProps: EditModalProps | null;
   isGoalCreateModalOpen: boolean;
   isLoading: boolean;
 }
 
-export interface ModalActions {
+interface ModalProps {
+  noteConfirmModalProps: NoteConfirmModalProps | null;
+  todoDeleteConfirmModalProps: DeleteModalProps | null;
+  noteLinkModalProps: NoteLinkModalProps | null;
+  goalDeleteModalProps: DeleteModalProps | null;
+  goalEditModalProps: EditModalProps | null;
+}
+
+interface ModalStore extends ModalState, ModalProps {}
+
+interface ModalActions {
   setIOSPWAGuideModalOpen: (isOpen: boolean) => void;
   setIsNoteConfirmModalOpen: (isOpen: boolean, props?: NoteConfirmModalProps) => void;
   setIsTodoCreateModalOpen: (isOpen: boolean) => void;
