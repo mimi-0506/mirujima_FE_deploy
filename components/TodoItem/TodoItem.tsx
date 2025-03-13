@@ -14,7 +14,7 @@ import PenIcon from '@/public/icon/pen.svg';
 
 import { CheckedIcon } from '../../app/(workspace)/todoList/_components/CheckedIcon';
 import { GoalType } from '@/types/goal.types';
-import type { TodoType, EditableTodo } from '@/types/todo.type';
+import type { TodoType, EditableTodo } from '@/types/todo.types';
 import { Priority } from '@/types/color.types';
 import { useTodoFileDownload } from '@/hooks/todo/useTodoFileDownload';
 

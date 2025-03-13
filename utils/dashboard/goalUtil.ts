@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
 import type { GoalType } from '@/types/goal.types';
-import type { TodoType } from '@/types/todo.type';
+import type { TodoType } from '@/types/todo.types';
 
 export const getGoalTodos = (todos: TodoType[], goalId: GoalType['id']) => {
   return todos.filter((todo) => todo.goal?.id === goalId);

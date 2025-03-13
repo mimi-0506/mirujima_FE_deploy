@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import type { TodoType } from '@/types/todo.type';
+import type { TodoType } from '@/types/todo.types';
 import type { Priority } from '@/types/color.types';
 export const useFilteredTodos = (todos: TodoType[], filter: string, priority: Priority | 'all') => {
   const queryClient = useQueryClient();

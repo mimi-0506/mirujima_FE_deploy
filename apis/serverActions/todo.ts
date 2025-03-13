@@ -1,5 +1,5 @@
 import type { ApiResponse } from '@/types/apiResponse.type';
-import type { TodoType } from '@/types/todo.type';
+import type { TodoType } from '@/types/todo.types';
 
 import { apiWithServerToken } from '.';
 

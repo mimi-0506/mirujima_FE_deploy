@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiWithClientToken } from '@/apis/clientActions/index';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 import type { GoalType } from '@/types/goal.types';
-import type { TodoType, TodoListResponse } from '@/types/todo.type';
+import type { TodoType, TodoListResponse } from '@/types/todo.types';
 import type { QueryClient } from '@tanstack/react-query';
 
 const fetchTodoList = async (

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
-import type { TodoType } from '@/types/todo.type';
+import type { TodoType } from '@/types/todo.types';
 import type { GoalType } from '@/types/goal.types';
 
 const checkTodo = async (todo: TodoType) => {

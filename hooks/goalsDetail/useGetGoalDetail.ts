@@ -5,7 +5,7 @@ import { useInfoStore } from '@/provider/store-provider';
 
 import type { ApiResponse } from '@/types/apiResponse.type';
 import type { GoalType } from '@/types/goal.types';
-import type { TodoType } from '@/types/todo.type';
+import type { TodoType } from '@/types/todo.types';
 
 type GoalDetailResult = GoalType & {
   todos: TodoType[];

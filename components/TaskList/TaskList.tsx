@@ -5,7 +5,7 @@ import TodoItem from '@/components/TodoItem/TodoItem';
 import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
 import SpinIcon from '@/public/icon/spin.svg';
 
-import type { TodoType } from '@/types/todo.type';
+import type { TodoType } from '@/types/todo.types';
 import type { GoalType } from '@/types/goal.types';
 
 interface TaskListProps {

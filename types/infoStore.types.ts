@@ -5,7 +5,7 @@ export type InfoState = {
   profileImage: string | null;
 };
 
-export type InfoActions = {
+type InfoActions = {
   setInfo: (newInfo: Partial<InfoState>) => void;
   logout: () => void;
 };

@@ -11,7 +11,7 @@ import PlusIcon from '@/public/icon/plus-border-none.svg';
 
 import GoalProgressBar from './GoalProgressBar';
 
-import type { TodoType } from '@/types/todo.type';
+import type { TodoType } from '@/types/todo.types';
 import type { GoalType } from '@/types/goal.types';
 import TaskSection from './TaskSection';
 

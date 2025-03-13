@@ -1,25 +1,22 @@
-import type { NoteConfirmModalProps, NoteLinkModalProps } from '@/types/note.type';
-import type { NoteType } from '@/types/note.type';
-import { GoalSummary } from './goal.types';
-
-export type BaseCreateModalType = Pick<
-  NoteType,
-  'title' | 'linkUrl' | 'userId' | 'createdAt' | 'updatedAt'
-> & {
-  done: boolean;
-  filePath: string;
-};
-
-export type CreateModalType = BaseCreateModalType & {
-  goal: GoalSummary;
-  priority: number;
-  id?: number;
-  noteId?: number;
-};
-
 export type ModalControlProps<TArgs extends unknown[] = []> = {
   onConfirm: (...args: TArgs) => void;
   onCancel: () => void;
+};
+
+/**
+ * 노트 관련 모달 타입
+ */
+export type NoteConfirmModalProps = {
+  type: 'temp' | 'delete';
+  contentTitle: string;
+  onCancel: () => void;
+  onConfirm: () => void;
+};
+
+export type NoteLinkModalProps = {
+  defaultValue: string | undefined;
+  onSubmit: () => void;
+  linkInputRef: React.RefObject<HTMLInputElement | null>;
 };
 
 export type EditModalProps = ModalControlProps<[string]> & {
@@ -28,32 +25,17 @@ export type EditModalProps = ModalControlProps<[string]> & {
 
 export type DeleteModalProps = ModalControlProps;
 
-export type ModalType =
-  | 'NoteDetailPage'
-  | 'NoteConfirm'
-  | 'TodoCreate'
-  | 'TodoCreateCheck'
-  | 'NoteLink'
-  | 'GoalDelete'
-  | 'GoalEdit'
-  | 'GoalCreate';
-
-export type ModalPropsMap = {
-  NoteConfirm: NoteConfirmModalProps;
-  TodoCreate: never;
-  TodoCreateCheck: never;
-  NoteLink: NoteLinkModalProps;
-  GoalDelete: DeleteModalProps;
-  GoalEdit: EditModalProps;
-  GoalCreate: never;
-};
-
-export type ModalState = {
+/**
+ * 전체 모달 스토어 타입
+ */
+export interface ModalStore {
   isIOSPWAGuideModalOpen: boolean;
   isNoteConfirmModalOpen: boolean;
   noteConfirmModalProps: NoteConfirmModalProps | null;
   isTodoCreateModalOpen: boolean;
   isTodoCreateCheckModalOpen: boolean;
+  isTodoDeleteConfirmModalOpen: boolean;
+  todoDeleteConfirmModalProps: DeleteModalProps | null;
   isNoteLinkModalOpen: boolean;
   noteLinkModalProps: NoteLinkModalProps | null;
   isGoalDeleteModalOpen: boolean;
@@ -62,18 +44,19 @@ export type ModalState = {
   goalEditModalProps: EditModalProps | null;
   isGoalCreateModalOpen: boolean;
   isLoading: boolean;
-};
+}
 
-export type ModalActions = {
+export interface ModalActions {
   setIOSPWAGuideModalOpen: (isOpen: boolean) => void;
   setIsNoteConfirmModalOpen: (isOpen: boolean, props?: NoteConfirmModalProps) => void;
   setIsTodoCreateModalOpen: (isOpen: boolean) => void;
   setIsTodoCreateCheckModalOpen: (isOpen: boolean) => void;
+  setIsTodoDeleteConfirmModalOpen: (isOpen: boolean, props?: DeleteModalProps) => void;
   setNoteLinkModalOpen: (isOpen: boolean, props?: NoteLinkModalProps) => void;
   setGoalDeleteModalOpen: (isOpen: boolean, props?: DeleteModalProps) => void;
   setGoalEditModalOpen: (isOpen: boolean, props?: EditModalProps) => void;
   setIsGoalCreateModalOpen: (isOpen: boolean) => void;
   setIsLoading: (isLoading: boolean) => void;
-};
+}
 
-export type ModalStore = ModalState & ModalActions;
+export type ModalStoreType = ModalStore & ModalActions;
