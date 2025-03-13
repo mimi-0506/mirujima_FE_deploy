@@ -3,7 +3,7 @@ import React from 'react';
 import { TEMP_STORAGE_KEY } from '@/constant/tempNoteStorageKey';
 import { isTempNoteContent } from '@/utils/note/isTempNoteContent';
 
-import type { TempNoteContentType, TempNoteType } from '@/types/note.type';
+import type { TempNoteContentType, TempNoteType } from '@/types/note.types';
 
 const useTempNote = (goalId: number | undefined, todoId?: number) => {
   const effectGoalId = goalId ?? 0;

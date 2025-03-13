@@ -4,7 +4,7 @@ import { deleteNote } from '@/apis/clientActions/note';
 
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
-import type { NoteListType } from '@/types/note.type';
+import type { NoteListType } from '@/types/note.types';
 import type { InfiniteData } from '@tanstack/react-query';
 
 const useDeleteNote = (goalId: number) => {

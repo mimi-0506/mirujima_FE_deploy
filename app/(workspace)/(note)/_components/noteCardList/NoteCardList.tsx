@@ -10,7 +10,7 @@ import LoadingSpinner from '@/public/icon/spin.svg';
 
 import NoteCard from './noteCard/NoteCard';
 
-import type { NoteListType } from '@/types/note.type';
+import type { NoteListType } from '@/types/note.types';
 
 interface Props {
   goalId: number | undefined;
