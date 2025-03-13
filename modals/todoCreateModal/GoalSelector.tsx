@@ -11,7 +11,7 @@ export default function GoalSelector() {
   const { data } = useGetGoalList();
   const goal = useTodoCreateModalStore((state) => state.goal) as GoalType | null;
   const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
-  const [selectedGoal, setSelectedGoal] = useState<GoalType | null>(goal as GoalType);
+  const [selectedGoal, setSelectedGoal] = useState<GoalType | null>(goal);
 
   useEffect(() => {
     if (goal && goal.id !== selectedGoal?.id) setSelectedGoal(goal);

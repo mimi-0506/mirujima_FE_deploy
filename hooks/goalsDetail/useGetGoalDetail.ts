@@ -13,16 +13,16 @@ type GoalDetailResult = GoalType & {
 
 type GoalDetailResponse = ApiResponse<GoalDetailResult>;
 
-const fetchGoalDetail = async (goalId: string): Promise<GoalDetailResponse> => {
+const fetchGoalDetail = async (goalId: GoalType['id']): Promise<GoalDetailResponse> => {
   const response = await apiWithClientToken.get<GoalDetailResponse>(`/goals/${goalId}`);
   return response.data;
 };
 
-export const useGetGoalDetail = (goalId?: string) => {
+export const useGetGoalDetail = (goalId: GoalType['id']) => {
   const userId = useInfoStore((state) => state.userId);
   const query = useQuery<GoalDetailResponse>({
     queryKey: ['goal', goalId, userId],
-    queryFn: () => fetchGoalDetail(goalId as string),
+    queryFn: () => fetchGoalDetail(goalId),
     enabled: !!goalId
   });
 

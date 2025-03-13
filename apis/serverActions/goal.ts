@@ -6,10 +6,10 @@ import type { GoalListType, GoalType } from '@/types/goal.types';
 
 import { apiWithServerToken } from '.';
 
-export const readGoalFromServer = async (goalId: string | number) => {
+export const readGoalFromServer = async (goalId: GoalType['id']) => {
   'use server';
   try {
-    const isInvalid = isNaN(Number(goalId));
+    const isInvalid = isNaN(goalId);
     if (isInvalid) throw new Error('잘못된 URL');
 
     const res = await apiWithServerToken.get<ApiResponse<GoalType>>(`/goals/${goalId}`);
