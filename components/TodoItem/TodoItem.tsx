@@ -15,14 +15,13 @@ import NoteIcon from '@/public/icon/note-s.svg';
 import PenIcon from '@/public/icon/pen.svg';
 
 import { CheckedIcon } from '../../app/(workspace)/todoList/_components/CheckedIcon';
-
+import { GoalType } from '@/types/goal.types';
 import type { TodoType, EditableTodo } from '@/types/todo.type';
 import { Priority } from '@/types/color.types';
 import { useTodoFileDownload } from '@/hooks/todo/useTodoFileDownload';
-
 interface TodoItemProps {
   todo: TodoType;
-  goalId?: number;
+  goalId?: GoalType['id'];
   showGoal?: boolean;
   isDashboard?: boolean;
 }
