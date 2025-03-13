@@ -13,7 +13,7 @@ const useDeleteNote = (goalId: number) => {
   const setIsLoading = useModalStore((state) => state.setIsLoading);
 
   return useMutation({
-    mutationFn: (noteId: number) => deleteNote(noteId),
+    mutationFn: deleteNote,
     onMutate: async (noteId) => {
       setIsLoading(true);
 
