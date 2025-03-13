@@ -20,15 +20,8 @@ export type NoteLinkModalProps = {
   linkInputRef: React.RefObject<HTMLInputElement | null>;
 };
 
-export type NoteDetailPageModalProps = {
-  params: Promise<{ id: string }>;
-  onClose: () => void;
-};
-
 export interface ModalStore {
   isIOSPWAGuideModalOpen: boolean;
-  isNoteDetailPageModalOpen: boolean;
-  noteDetailPageModalProps: NoteDetailPageModalProps | null;
   isNoteConfirmModalOpen: boolean;
   noteConfirmModalProps: NoteConfirmModalProps | null;
   isTodoCreateModalOpen: boolean;
@@ -45,7 +38,6 @@ export interface ModalStore {
   isLoading: boolean;
 
   setIOSPWAGuideModalOpen: (isOpen: boolean) => void;
-  setNoteDetailPageOpen: (isOpen: boolean, props?: NoteDetailPageModalProps) => void;
   setIsNoteConfirmModalOpen: (isOpen: boolean, props?: NoteConfirmModalProps) => void;
   setIsTodoCreateModalOpen: (isOpen: boolean) => void;
   setIsTodoCreateCheckModalOpen: (isOpen: boolean) => void;
@@ -59,8 +51,6 @@ export interface ModalStore {
 
 export const defaultInitState: ModalStore = {
   isIOSPWAGuideModalOpen: false,
-  isNoteDetailPageModalOpen: false,
-  noteDetailPageModalProps: null,
   isNoteConfirmModalOpen: false,
   noteConfirmModalProps: null,
   isTodoCreateModalOpen: false,
@@ -77,7 +67,6 @@ export const defaultInitState: ModalStore = {
   isLoading: false,
 
   setIOSPWAGuideModalOpen: () => {},
-  setNoteDetailPageOpen: () => {},
   setIsNoteConfirmModalOpen: () => {},
   setIsTodoCreateModalOpen: () => {},
   setIsTodoCreateCheckModalOpen: () => {},
@@ -94,8 +83,6 @@ export const createModalStore = (initState: Partial<ModalStore> = defaultInitSta
     ...defaultInitState,
     ...initState,
     setIOSPWAGuideModalOpen: (isOpen) => set({ isIOSPWAGuideModalOpen: isOpen }),
-    setNoteDetailPageOpen: (isOpen, props) =>
-      set({ isNoteDetailPageModalOpen: isOpen, noteDetailPageModalProps: props || null }),
     setIsNoteConfirmModalOpen: (isOpen, props) =>
       set({ isNoteConfirmModalOpen: isOpen, noteConfirmModalProps: props || null }),
     setIsTodoCreateModalOpen: (isOpen) => set({ isTodoCreateModalOpen: isOpen }),

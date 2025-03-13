@@ -34,9 +34,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children
+  children,
+  note
 }: Readonly<{
   children: React.ReactNode;
+  note: React.ReactNode;
 }>) {
   return (
     <html lang="ko">
@@ -47,6 +49,7 @@ export default function RootLayout({
         <AllProviders>
           <NavigationBar />
           <main className="h-screen w-screen overflow-hidden bg-white">{children}</main>
+          {note}
           <PomodoroTimer />
         </AllProviders>
       </body>

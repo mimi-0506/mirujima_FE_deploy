@@ -85,18 +85,3 @@ export const deleteNote = async (noteId: number) => {
     throw error;
   }
 };
-
-export const readNoteFromClient = async (noteId: number): Promise<NoteType> => {
-  try {
-    const res = await apiWithClientToken.get<ApiResponse<NoteType>>(`/notes/${noteId}`);
-
-    if (res.data.result === null) throw new Error('노트가 존재하지 않습니다');
-
-    return res.data.result;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-    }
-
-    throw error;
-  }
-};

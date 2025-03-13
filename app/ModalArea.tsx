@@ -10,15 +10,12 @@ import { useModalStore } from '@/provider/store-provider';
 import NoteConfirmModal from './(workspace)/(note)/_components/modals/noteConfirmModal/NoteConfirmModal';
 import UploadLinkModal from './(workspace)/(note)/_components/modals/uploadLinkModal/UploadLinkModal';
 import GoalDeleteConfirmModal from './(workspace)/goals/_components/GoalDeleteConfirmModal';
-import NoteDetailModal from './(workspace)/goals/_components/NoteDetailModal';
 import IOSPWAGuideModal from '@/modals/iOSPWAGuideModal/IOSPWAGuideModal';
 import TodoDeleteConfirmModal from '@/modals/todoDeleteConfirmModal/TodoDeleteConfirmModal';
 
 export default function ModalArea() {
   const {
     isIOSPWAGuideModalOpen,
-    isNoteDetailPageModalOpen,
-    noteDetailPageModalProps,
     isNoteConfirmModalOpen,
     noteConfirmModalProps,
     isNoteLinkModalOpen,
@@ -38,12 +35,6 @@ export default function ModalArea() {
   return (
     <>
       {isIOSPWAGuideModalOpen && <IOSPWAGuideModal />}
-      {isNoteDetailPageModalOpen && noteDetailPageModalProps ? (
-        <NoteDetailModal
-          params={noteDetailPageModalProps.params}
-          onClose={noteDetailPageModalProps.onClose}
-        />
-      ) : null}
       {isTodoCreateModalOpen && <TodoCreateModal />}
       {isTodoCreateCheckModalOpen && <TodoCreateCheckModal />}
       {isTodoDeleteConfirmModalOpen && todoDeleteConfirmModalProps && (
