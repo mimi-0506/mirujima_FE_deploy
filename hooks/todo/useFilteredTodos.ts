@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import type { TodoType } from '@/types/todo.type';
 import type { Priority } from '@/types/color.types';
-export const useFilteredTodos = (todos: TodoType[], filter: string, priority: Priority) => {
+export const useFilteredTodos = (todos: TodoType[], filter: string, priority: Priority | 'all') => {
   const queryClient = useQueryClient();
 
   let filteredTodos = todos;
@@ -17,9 +17,9 @@ export const useFilteredTodos = (todos: TodoType[], filter: string, priority: Pr
   });
 
   // // 2. 우선순위 정렬
-  // if (priority !== 'all') {
-  //   filteredTodos = filteredTodos?.filter((todo) => todo.priority === priority);
-  // }
+  if (priority !== 'all') {
+    filteredTodos = filteredTodos?.filter((todo) => todo.priority === priority);
+  }
 
   useEffect(() => {
     if (filter) {
