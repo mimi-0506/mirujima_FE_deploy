@@ -25,7 +25,6 @@ export const useCheckTodo = () => {
       const todoKeys = [false, true].map((done) => ['todos', goalId, userId, done]);
       todoKeys.forEach((key) => {
         queryClient.invalidateQueries({ queryKey: key });
-        queryClient.refetchQueries({ queryKey: key });
       });
       queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
     },

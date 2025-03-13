@@ -23,7 +23,7 @@ import { useDeleteTodoItem } from '@/hooks/goalsDetail/useDeleteTodoItem';
 
 interface TodoItemProps {
   todo: TodoType;
-  goalId?: GoalType['id'];
+  goalId?: GoalType['id'] | null;
   showGoal?: boolean;
   isDashboard?: boolean;
 }
@@ -59,11 +59,8 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
     };
 
     const goalId = todo?.goal?.id;
-    if (goalId !== undefined) {
-      toggleTodo({ ...updatedTodo, goalId });
-    }
+    toggleTodo({ ...updatedTodo, goalId: goalId ?? null });
   };
-
   const handleOpenEditModal = (todo: TodoType): void => {
     const editableTodo: EditableTodo = {
       ...todo,
