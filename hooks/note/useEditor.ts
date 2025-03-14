@@ -24,14 +24,12 @@ const useEditor = (defaultContent: string | undefined) => {
       },
       initialContent
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialContent]);
 
   React.useEffect(() => {
     convertDataForEditor(defaultContent).then((content) => {
       setInitialContent(content);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultContent]);
 
   return { editor };

@@ -43,7 +43,7 @@ export default function IOSPWAGuideModal() {
             onClick={() => setIOSPWAGuideModalOpen(false)}
             name="modal-close-button"
             aria-label="확인하고 모달 닫기"
-            className="h-[40px] w-full rounded-lg bg-main text-button2 text-white"
+            className="color-animate h-[40px] w-full rounded-lg bg-main text-button2 text-white hover:bg-mainhover"
           >
             확인
           </button>
