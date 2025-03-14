@@ -11,7 +11,7 @@ export const useInfiniteTodoList = (userId: number) => {
     getNextPageParam: (lastPage) => (lastPage.remainingCount > 0 ? lastPage.lastSeenId : undefined),
     select: (data) => ({
       ...data,
-      pages: Array.isArray(data.pages) ? data.pages.flatMap((page) => page.todos) : []
+      pages: Array.isArray(data?.pages) ? data.pages.flatMap((page) => page.todos) : []
     })
   });
 

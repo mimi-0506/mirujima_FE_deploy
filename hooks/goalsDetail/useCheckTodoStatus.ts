@@ -33,8 +33,6 @@ export const useCheckTodo = () => {
             const oldTodos = [...cache];
             const newTodos = [...oldTodos, todo].sort((a, b) => a.id - b.id);
 
-            console.log(cache, oldTodos, newTodos);
-
             return newTodos;
           }
         );
@@ -56,13 +54,17 @@ export const useCheckTodo = () => {
           cache: cacheType<{ lastSeeId: number; remainigCount: number; todos: TodoType[] }> | []
         ) => {
           if (!cache || Array.isArray(cache)) return [];
-          const oldTodos = cache.pages[0].todos;
-          const newTodos = oldTodos.map((item: TodoType) => {
-            if (item?.id === todo?.id) return todo;
-            else return item;
-          });
+          const oldTodos = Array.isArray(cache.pages) ? cache.pages[0].todos : cache.todos;
+          const newTodos = Array.isArray(oldTodos)
+            ? oldTodos.map((item: TodoType) => {
+                if (item?.id === todo?.id) return todo;
+                else return item;
+              })
+            : [];
 
-          return { ...cache, pages: [{ ...cache.pages[0], todos: newTodos }] };
+          return Array.isArray(cache.pages)
+            ? { ...cache, pages: [{ ...cache.pages[0], todos: newTodos }] }
+            : { ...cache, todos: newTodos };
         }
       );
     },
