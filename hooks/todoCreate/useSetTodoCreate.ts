@@ -1,7 +1,5 @@
 import toast from 'react-hot-toast';
-
-import { useQueryClient } from '@tanstack/react-query';
-
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiWithClientToken } from '@/apis/clientActions';
 import { COMMON_ERROR, TODO_CREATE_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
@@ -11,36 +9,35 @@ export default function useTodoCreate() {
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const queryClient = useQueryClient();
 
-  const setTodoCreate = async (
-    formData: { [k: string]: FormDataEntryValue },
-    savedPath?: string
-  ) => {
-    const body = {
-      goalId: formData.goal,
-      title: formData.title,
-      filePath: savedPath || '',
-      linkUrl: formData?.linkUrl,
-      priority: formData.priority
-    };
+  return useMutation({
+    mutationFn: async ({
+      data,
+      savedPath
+    }: {
+      data: { [k: string]: FormDataEntryValue };
+      savedPath?: string;
+    }) => {
+      const body = {
+        goalId: data.goal,
+        title: data.title,
+        filePath: savedPath || '',
+        linkUrl: data?.linkUrl,
+        priority: data.priority
+      };
 
-    const { data } = await apiWithClientToken.post('/todos', body);
+      await apiWithClientToken.post('/todos', body);
+      return { body };
+    },
+    onSuccess: (_) => {
+      toast.success(TODO_CREATE_SUCCESS);
 
-    if (data.code === 200) todoCreateSueccess();
-    else todoCreateFail();
-  };
+      // 실제 아이디 필요하므로 refetch
+      queryClient.invalidateQueries({ queryKey: ['allTodos', userId] });
 
-  const todoCreateSueccess = () => {
-    toast.success(TODO_CREATE_SUCCESS);
-
-    queryClient.invalidateQueries({ queryKey: ['allTodos', userId] });
-    queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
-
-    setIsTodoCreateModalOpen(false);
-  };
-
-  const todoCreateFail = () => {
-    toast.error(COMMON_ERROR);
-  };
-
-  return { setTodoCreate };
+      setIsTodoCreateModalOpen(false);
+    },
+    onError: (_err, _) => {
+      toast.error(COMMON_ERROR);
+    }
+  });
 }

@@ -58,8 +58,7 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
       completionDate: isDone ? new Date().toISOString() : null
     };
 
-    const goalId = todo?.goal?.id;
-    toggleTodo({ ...updatedTodo, goalId: goalId ?? null });
+    toggleTodo({ todo: updatedTodo });
   };
   const handleOpenEditModal = (todo: TodoType): void => {
     const editableTodo: EditableTodo = {
@@ -75,7 +74,7 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
   const handleOpenDeleteModal = () => {
     setIsTodoDeleteConfirmModalOpen(true, {
       onConfirm: () => {
-        deleteTodoMutate(todo.id, {
+        deleteTodoMutate(todo, {
           onSuccess: () => {
             setIsTodoDeleteConfirmModalOpen(false);
           }

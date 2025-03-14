@@ -40,7 +40,7 @@ const useDeleteNote = (goalId: number) => {
       queryClient.removeQueries({ queryKey: ['note', noteId, userId] });
       queryClient.invalidateQueries({ queryKey: ['notes', goalId, userId] });
     },
-    onError: (_, noteId, ctx) => {
+    onError: (_, _noteId, ctx) => {
       queryClient.setQueryData<InfiniteData<NoteListType>>(
         ['notes', goalId, userId],
         ctx?.prevList

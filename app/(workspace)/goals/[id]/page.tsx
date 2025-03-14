@@ -26,9 +26,7 @@ export default function GoalDetailPage() {
   // const goalIdString = goalId ? goalId.toString() : '';
   const { isLargeScreen } = useIsLargeScreen();
 
-  const { data: goalData, isLoading, isError } = useGetGoalDetail(Number(goalId));
-  // const { data: todosTodo } = useGetTodoList(goalId, false);
-  // const { data: todosDone } = useGetTodoList(goalId, true);
+  const { data: goalData, isLoading, isError } = useGetGoalDetail(goalIdString);
 
   const goalTitle = goalData?.result?.title ?? '목표 제목이 없어요';
   const { mutate: updateGoalTitle } = useUpdateGoalTitle();

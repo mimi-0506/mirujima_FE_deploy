@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
@@ -21,13 +22,18 @@ export const useFilteredTodos = (todos: TodoType[], filter: string, priority: Pr
     filteredTodos = filteredTodos?.filter((todo) => todo.priority === priority);
   }
 
+
   useEffect(() => {
-    if (filter) {
-      queryClient.invalidateQueries({ queryKey: ['allTodos'] });
-      queryClient.refetchQueries({ queryKey: ['allTodos'] });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
+    const nextFilteredTodos = todos.filter((todo) => {
+      if (filter === 'To do') return !todo.done;
+      else if (filter === 'Done') return todo.done;
+      return true;
+    });
+
+    if (priority !== 'all')
+      setFilteredTodos(nextFilteredTodos?.filter((todo) => todo.priority === priority));
+    else setFilteredTodos(nextFilteredTodos);
+  }, [filter, priority]);
 
   return filteredTodos;
 };
