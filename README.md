@@ -42,6 +42,9 @@
 <br/>
 
 ## ⚙ 테스트 계정
+ID: test@gmail.com 
+PW: 11111111
+
 
 <br/>
 <br/>
