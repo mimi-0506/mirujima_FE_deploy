@@ -3,7 +3,7 @@ const getKakaoLoginUrl = () => {
   const redirectUri =
     process.env.NEXT_PUBLIC_REDIRECT_URI ||
     process.env.NEXT_LOCAL_REDIRECT_URI ||
-    'https://mirujima-fe-deploy-mimi0506.vercel.app/auth/callback' ||
+    'https://mirujima-fe-deploy.vercel.app/loginauth/callback' ||
     'http://localhost:3000/auth/callback';
 
   if (!clientId || !redirectUri) {
