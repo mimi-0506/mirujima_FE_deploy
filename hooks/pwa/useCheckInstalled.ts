@@ -28,6 +28,7 @@ const useCheckInstalled = ({ isInApp, isAppleDevice, setIsInstallable }: Args) =
         setInstallAppInStorage();
         setIsInstallable(false);
       } else {
+        removeInstalledInStorage();
         setIsInstallable(true);
       }
     };
