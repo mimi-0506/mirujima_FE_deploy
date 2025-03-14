@@ -1,9 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useState, useTransition } from 'react';
-
 import { useParams, useRouter } from 'next/navigation';
-
 import KebabForGoal from '@/components/kebab/KebabForGoal';
 import TaskList from '@/components/TaskList/TaskList';
 import { useUpdateGoalTitle } from '@/hooks/goalsDetail/useChangeGoalTitle';
@@ -14,7 +12,6 @@ import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provide
 import PlusIcon from '@/public/icon/plus-border-none.svg';
 import SpinIcon from '@/public/icon/spin.svg';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
-
 import Button from '../_components/Button';
 import useIsLargeScreen from '@/hooks/nav/useIsLargeScreen';
 
@@ -22,11 +19,12 @@ export default function GoalDetailPage() {
   const router = useRouter();
   const params = useParams();
   const goalIdParam = Array.isArray(params.id) ? params.id[0] : params.id;
-  const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
-  const goalIdString = goalId ? goalId.toString() : '';
+  const initialGoalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
   const { isLargeScreen } = useIsLargeScreen();
 
-  const { data: goalData, isLoading, isError } = useGetGoalDetail(parseInt(goalIdString));
+  const fixedGoalId = useState(initialGoalId)[0];
+
+  const { data: goalData, isLoading, isError } = useGetGoalDetail(fixedGoalId as number);
 
   const goalTitle = goalData?.result?.title ?? '목표 제목이 없어요';
   const { mutate: updateGoalTitle } = useUpdateGoalTitle();
@@ -54,7 +52,7 @@ export default function GoalDetailPage() {
 
   const handleEditConfirm = useCallback(
     (newTitle: string) => {
-      if (!goalId) return;
+      if (!fixedGoalId) return;
 
       const trimmedTitle = newTitle.trim();
       if (trimmedTitle === '') {
@@ -67,7 +65,7 @@ export default function GoalDetailPage() {
       setGoalEditModalOpen(false);
 
       updateGoalTitle(
-        { goalId, title: trimmedTitle },
+        { goalId: fixedGoalId, title: trimmedTitle },
         {
           onSuccess: () => {
             console.log('제목 수정 성공!');
@@ -79,7 +77,7 @@ export default function GoalDetailPage() {
         }
       );
     },
-    [goalId, editedTitle, updateGoalTitle, setGoalEditModalOpen, goalTitle]
+    [fixedGoalId, editedTitle, updateGoalTitle, setGoalEditModalOpen, goalTitle]
   );
 
   const handleEditCancel = useCallback(() => {
@@ -95,14 +93,14 @@ export default function GoalDetailPage() {
   }, [editedTitle, handleEditConfirm, handleEditCancel, setGoalEditModalOpen]);
 
   const handleDeleteConfirm = useCallback(() => {
-    if (!goalId) return;
-    deleteGoalMutate(goalId, {
+    if (!fixedGoalId) return;
+    deleteGoalMutate(fixedGoalId, {
       onSuccess: () => {
         setGoalDeleteModalOpen(false);
         router.push('/dashboard');
       }
     });
-  }, [goalId, deleteGoalMutate, router, setGoalDeleteModalOpen]);
+  }, [fixedGoalId, deleteGoalMutate, router, setGoalDeleteModalOpen]);
 
   const handleDeleteCancel = useCallback(() => {
     setGoalDeleteModalOpen(false);
@@ -120,27 +118,26 @@ export default function GoalDetailPage() {
   }, []);
 
   const handleNoteListClick = useCallback(() => {
-    if (!goalId) return;
+    if (!fixedGoalId) return;
     setIsNavigating(true);
     startTransition(() => {
-      router.push(`/noteList/${goalId}`);
+      router.push(`/noteList/${fixedGoalId}`);
       setIsNavigating(false);
     });
-  }, [goalId, router, startTransition]);
+  }, [fixedGoalId, router, startTransition]);
 
   const handleAddTodo = useCallback(() => {
-    if (goalId) setCreatedTodoState({ goal: { id: goalId } });
+    if (fixedGoalId) setCreatedTodoState({ goal: { id: fixedGoalId } });
     setIsTodoCreateModalOpen(true);
-  }, [goalId, setCreatedTodoState, setIsTodoCreateModalOpen]);
+  }, [fixedGoalId, setCreatedTodoState, setIsTodoCreateModalOpen]);
 
-  if (!goalId) return <div>유효하지 않은 목표입니다.</div>;
+  if (!fixedGoalId) return <div>유효하지 않은 목표입니다.</div>;
   if (isLoading || isNavigating || isPending)
     return (
       <div>
         <Loading />
       </div>
     );
-  if (isError || !goalData) return <div>목표 정보를 불러오는데 실패했습니다.</div>;
 
   return (
     <section className="flex min-h-[262px] w-full max-w-[1284px] flex-col gap-6 md:pt-4">
@@ -156,7 +153,9 @@ export default function GoalDetailPage() {
               className="w-full truncate border-b border-gray200 text-lg font-bold outline-none"
             />
           ) : (
-            <span className="block w-full truncate text-lg font-bold">{editedTitle}</span>
+            <span className="block w-full truncate text-lg font-bold">
+              {isError ? '목표 정보를 불러오지 못했습니다' : editedTitle}
+            </span>
           )}
         </div>
         <KebabForGoal
@@ -194,9 +193,7 @@ export default function GoalDetailPage() {
                 <div className="absolute bottom-0 left-0 h-0.5 w-full bg-main"></div>
               )}
             </button>
-
             <div className="flex-grow"></div>
-
             {activeTab === 'todo' && (
               <button onClick={handleAddTodo} className="flex items-center text-main">
                 <PlusIcon /> 할일 추가
@@ -204,7 +201,6 @@ export default function GoalDetailPage() {
             )}
           </div>
         </div>
-
         <div
           className={`flex-1 p-4 desktop:p-0 ${
             activeTab === 'todo' ? 'block' : 'hidden desktop:block'
@@ -215,13 +211,11 @@ export default function GoalDetailPage() {
               To do
             </h2>
           )}
-          <TaskList goalId={goalId} done={false} />
+          <TaskList goalId={fixedGoalId} done={false} fixedGoalId={fixedGoalId} />
         </div>
-
         <div className="mx-6 my-4 hidden translate-y-5 items-center justify-center desktop:flex">
           <span className="min-h-[160px] w-px border-l border-dashed border-gray200"></span>
         </div>
-
         <div
           className={`flex-1 p-4 desktop:p-0 ${
             activeTab === 'done' ? 'block' : 'hidden desktop:block'
@@ -232,7 +226,7 @@ export default function GoalDetailPage() {
               Done
             </h2>
           )}
-          <TaskList goalId={goalId} done={true} />
+          <TaskList goalId={fixedGoalId} done={true} fixedGoalId={fixedGoalId} />
         </div>
       </div>
       {(isLoading || isNavigating || isPending) && <Loading />}

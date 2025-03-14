@@ -44,5 +44,5 @@ package-lock.json
 certificates
 
 # Ignore Service Worker and Workbox files
-public/sw.js
-public/workbox-*
+public/sw*
+public/swe-worker*
