@@ -4,9 +4,8 @@ import React from 'react';
 
 import Overlay from '@/modals/Overlay';
 
-import type { NoteConfirmModalProps } from '@/types/note.type';
-
-interface Props extends NoteConfirmModalProps {}
+import type { NoteConfirmModalProps } from '@/types/modalStore.types';
+import type { ModalActionProps } from '@/types/modalAction.type';
 
 const TEXT = {
   header: {
@@ -19,7 +18,12 @@ const TEXT = {
   }
 } as const;
 
-export default function NoteConfirmModal({ type, contentTitle, onCancel, onConfirm }: Props) {
+export default function NoteConfirmModal({
+  type,
+  contentTitle,
+  onCancel,
+  onConfirm
+}: NoteConfirmModalProps & ModalActionProps) {
   return (
     <Overlay onClick={onCancel}>
       <div
@@ -38,7 +42,7 @@ export default function NoteConfirmModal({ type, contentTitle, onCancel, onConfi
             type="button"
             onClick={onCancel}
             aria-label="임시 저장 노트 불러오기 취소"
-            className="h-[40px] w-full rounded-lg border border-main text-button2 text-main md:h-[43px] md:text-button1"
+            className="color-animate h-[40px] w-full rounded-lg border border-main text-button2 text-main hover:bg-solid md:h-[43px] md:text-button1"
           >
             취소
           </button>
@@ -46,7 +50,7 @@ export default function NoteConfirmModal({ type, contentTitle, onCancel, onConfi
             type="button"
             onClick={onConfirm}
             aria-label="임시 저장 노트 불러오기"
-            className="h-[40px] w-full rounded-lg bg-main text-button2 text-white md:h-[43px] md:text-button1"
+            className="color-animate h-[40px] w-full rounded-lg bg-main text-button2 text-white hover:bg-mainhover md:h-[43px] md:text-button1"
           >
             확인
           </button>

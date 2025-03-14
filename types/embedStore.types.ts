@@ -3,7 +3,7 @@ export type EmbedState = {
   embedUrl: string;
 };
 
-export type EmbedActions = {
+type EmbedActions = {
   setEmbedContentOpen: (now: boolean) => void;
   setEmbedUrl: (url: string) => void;
 };

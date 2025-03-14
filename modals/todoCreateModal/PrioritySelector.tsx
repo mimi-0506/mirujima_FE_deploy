@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { ChangeEvent } from 'react';
 
 import { useTodoCreateModalStore } from '@/provider/store-provider';
-import { Priority } from '@/types/color.type';
+import { Priority } from '@/types/color.types';
 
 const PRIORITY: Priority[] = [1, 2, 3, 4];
 
@@ -27,7 +27,7 @@ export default function PrioritySelector() {
       <label htmlFor="Priority-select">우선순위</label>
       <select
         id="Priority-select"
-        className={`mt-4 rounded-lg border border-gray-200 px-4 py-[0.7vw] ${selectedPriority === 0 ? 'text-gray350' : 'text-gray500'} `}
+        className={`mt-4 rounded-lg border border-gray-200 px-4 py-[0.7vw] focus:outline-main ${selectedPriority === 0 ? 'text-gray350' : 'text-gray500'} `}
         name="priority"
         onChange={handleChange}
         value={selectedPriority}

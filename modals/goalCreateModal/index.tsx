@@ -44,7 +44,7 @@ export default function GoalCreateModal() {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') handleGoalCreat();
+    if (e.key === 'Enter' && textValid && dateValid) handleGoalCreat();
   };
 
   return (
@@ -59,7 +59,7 @@ export default function GoalCreateModal() {
         <input
           ref={textRef}
           onChange={handleTextValidCheck}
-          className="mb-[28px] mt-[25px] box-border h-[50px] w-full rounded-lg border border-gray200 px-[16px] py-[14px]"
+          className="mb-[28px] mt-[25px] box-border h-[50px] w-full rounded-lg border border-gray200 px-[16px] py-[14px] focus:outline-main"
           placeholder="목표를 적어주세요"
           onKeyDown={handleKeyPress}
         />
@@ -68,7 +68,7 @@ export default function GoalCreateModal() {
           type="date"
           ref={dateRef}
           onChange={handleDateValidCheck}
-          className="mb-[28px] mt-[25px] box-border h-[50px] w-full rounded-lg border border-gray200 px-[16px] py-[14px]"
+          className="mb-[28px] mt-[25px] box-border h-[50px] w-full rounded-lg border border-gray200 px-[16px] py-[14px] focus:outline-main"
         />
         <button
           className={`${

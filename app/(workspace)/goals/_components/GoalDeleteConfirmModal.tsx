@@ -4,16 +4,8 @@ import React from 'react';
 
 import Overlay from '@/modals/Overlay';
 import CloseIcon from '@/public/icon/X.svg';
-
-interface GoalDeleteConfirmModalProps {
-  onConfirm: () => void;
-  onCancel: () => void;
-}
-
-export default function GoalDeleteConfirmModal({
-  onConfirm,
-  onCancel
-}: GoalDeleteConfirmModalProps) {
+import type { ModalActionProps } from '@/types/modalAction.type';
+export default function GoalDeleteConfirmModal({ onConfirm, onCancel }: ModalActionProps) {
   return (
     <Overlay onClick={onCancel}>
       <div className="w-[343px] rounded-xl bg-white p-6" onClick={(e) => e.stopPropagation()}>

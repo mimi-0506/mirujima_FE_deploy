@@ -42,7 +42,10 @@ export default function KebabMenu({
         )}
       </button>
       {isKebabOpen && (
-        <div className="absolute right-0 top-full z-10" onMouseDown={(e) => e.preventDefault()}>
+        <div
+          className="absolute right-0 top-full z-10 mt-1"
+          onMouseDown={(e) => e.preventDefault()}
+        >
           <ul className="shadow-note relative overflow-hidden rounded-xl border border-gray200 bg-white p-1 text-body2 text-gray350">
             <li className="color-animate text-nowrap hover:text-gray500">
               <button

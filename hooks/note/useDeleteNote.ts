@@ -4,7 +4,7 @@ import { deleteNote } from '@/apis/clientActions/note';
 
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
-import type { NoteListType } from '@/types/note.type';
+import type { NoteListType } from '@/types/note.types';
 import type { InfiniteData } from '@tanstack/react-query';
 
 const useDeleteNote = (goalId: number) => {
@@ -13,7 +13,7 @@ const useDeleteNote = (goalId: number) => {
   const setIsLoading = useModalStore((state) => state.setIsLoading);
 
   return useMutation({
-    mutationFn: (noteId: number) => deleteNote(noteId),
+    mutationFn: deleteNote,
     onMutate: async (noteId) => {
       setIsLoading(true);
 
@@ -40,7 +40,7 @@ const useDeleteNote = (goalId: number) => {
       queryClient.removeQueries({ queryKey: ['note', noteId, userId] });
       queryClient.invalidateQueries({ queryKey: ['notes', goalId, userId] });
     },
-    onError: (_, noteId, ctx) => {
+    onError: (_, _noteId, ctx) => {
       queryClient.setQueryData<InfiniteData<NoteListType>>(
         ['notes', goalId, userId],
         ctx?.prevList

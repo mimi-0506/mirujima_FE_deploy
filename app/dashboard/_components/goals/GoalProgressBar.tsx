@@ -4,11 +4,11 @@ import { useCountUp } from '@/hooks/dashboard/useCountUp';
 import { getGoalTodos } from '@/utils/dashboard/goalUtil';
 import { calcGoalCompletionPercentage } from '@/utils/percentageUtils';
 
-import type { TodoType } from '@/types/todo.type';
-
+import type { TodoType } from '@/types/todo.types';
+import type { GoalType } from '@/types/goal.types';
 interface GoalProgressBarProps {
   todos?: TodoType[];
-  goalId: number;
+  goalId: GoalType['id'];
   startAnimation: boolean;
 }
 

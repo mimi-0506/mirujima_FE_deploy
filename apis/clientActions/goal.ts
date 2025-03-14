@@ -1,4 +1,4 @@
-import type { GoalListType } from '@/types/goal.type';
+import type { GoalListType } from '@/types/goal.types';
 
 import { apiWithClientToken } from '.';
 

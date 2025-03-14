@@ -2,13 +2,14 @@ import { useLayoutEffect } from 'react';
 
 import Link from 'next/link';
 
-import { apiWithClientToken } from '@/apis/clientActions';
+// import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
 import GoalList from './GoalList';
 import DashboardIcon from '../../../public/icon/dashboard-gray.svg';
 import NoteListIcon from '../../../public/icon/nav-note-list.svg';
 import TodoListIcon from '../../../public/icon/nav-todo-list.svg';
+import authApi from '@/apis/clientActions/authApi';
 
 export default function Menus() {
   const setInfo = useInfoStore((state) => state.setInfo);
@@ -20,8 +21,8 @@ export default function Menus() {
   }, [userId]);
 
   const getInfo = async () => {
-    const { data } = await apiWithClientToken.get('/user');
-
+    // const { data } = await apiWithClientToken.get('/user');
+    const { data } = await authApi.get('/user');
     setInfo({
       userId: data.id,
       email: data.email,
@@ -41,10 +42,10 @@ export default function Menus() {
 
       <div className="flex flex-col gap-[17px] px-[21px] py-[17px] text-gray400">
         <Link href="/todoList" className="flex items-center gap-[6px]">
-          <TodoListIcon /> <p>할 일 모아보기</p>
+          <TodoListIcon width={18} height={18} /> <p>할 일 모아보기</p>
         </Link>
         <Link href="/noteList" className="flex items-center gap-[6px]">
-          <NoteListIcon /> <p>노트 모아보기</p>
+          <NoteListIcon width={18} height={18} /> <p>노트 모아보기</p>
         </Link>
       </div>
 

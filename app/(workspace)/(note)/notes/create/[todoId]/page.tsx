@@ -8,7 +8,7 @@ import { readTodoFromServer } from '@/apis/serverActions/todo';
 import EmbedContent from '../../../_components/embedContent/EmbedContent';
 import NoteContent from '../../../_components/noteContent/NoteContent';
 
-import type { NoteType } from '@/types/note.type';
+import type { NoteType } from '@/types/note.types';
 
 interface Props {
   params: Promise<{ todoId: string }>;

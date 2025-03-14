@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-export default function useScrollUpdate(
+export default function useScrollUpdate<T>(
   goalListRef: React.RefObject<HTMLElement | null>,
-  goals: any[]
+  goals: T[]
 ) {
   useEffect(() => {
     const scrollToBottom = () => {

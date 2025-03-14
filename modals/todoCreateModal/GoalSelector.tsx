@@ -4,14 +4,14 @@ import type { ChangeEvent } from 'react';
 import useGetGoalList from '@/hooks/useGetGoalList';
 import { useTodoCreateModalStore } from '@/provider/store-provider';
 
-import type { GoalType } from '@/types/goal.type';
+import type { GoalType } from '@/types/goal.types';
 
 export default function GoalSelector() {
   const [goalList, setGoalList] = useState<GoalType[]>([]);
   const { data } = useGetGoalList();
   const goal = useTodoCreateModalStore((state) => state.goal) as GoalType | null;
   const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
-  const [selectedGoal, setSelectedGoal] = useState<GoalType | null>(goal as GoalType);
+  const [selectedGoal, setSelectedGoal] = useState<GoalType | null>(goal);
 
   useEffect(() => {
     if (goal && goal.id !== selectedGoal?.id) setSelectedGoal(goal);
@@ -35,7 +35,7 @@ export default function GoalSelector() {
       <label htmlFor="goal-select">목표</label>
       <select
         id="goal-select"
-        className="mt-4 rounded-lg border border-gray-200 px-4 py-[0.7vw] text-gray350"
+        className="mt-4 rounded-lg border border-gray-200 px-4 py-[0.7vw] text-gray350 focus:outline-main"
         name="goal"
         onChange={handleSelecteGoalChange}
         value={selectedGoal ? selectedGoal.id : 'default'}
@@ -43,11 +43,12 @@ export default function GoalSelector() {
         <option value={'default'} className="hidden" disabled>
           목표를 선택해주세요
         </option>
-        {goalList.map((goal, index) => (
-          <option key={index} id={`${index}`} value={goal?.id} className="text-gray500">
-            {goal?.title}
-          </option>
-        ))}
+        {Array.isArray(goalList) &&
+          goalList.map((goal, index) => (
+            <option key={index} id={`${index}`} value={goal?.id} className="text-gray500">
+              {goal?.title}
+            </option>
+          ))}
       </select>
     </div>
   );

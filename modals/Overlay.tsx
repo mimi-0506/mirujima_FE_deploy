@@ -8,8 +8,11 @@ type OverlayProps = {
 export default function Overlay({ children, onClick }: OverlayProps) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+    document.body.style.scrollBehavior = 'auto';
+
     return () => {
       document.body.style.overflow = '';
+      document.body.style.scrollBehavior = '';
     };
   }, []);
 

@@ -6,8 +6,10 @@ import { LOGOUT_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 
 import ProfileImage from './ProfileImage';
-
-export default function Info() {
+interface InfoProps {
+  truncateEmail?: boolean;
+}
+export default function Info({ truncateEmail }: InfoProps) {
   const email = useInfoStore((state) => state.email);
   const name = useInfoStore((state) => state.name);
 
@@ -26,11 +28,10 @@ export default function Info() {
       <div className="relative flex h-[64px] w-[64px] items-center justify-center rounded-[12.8px] border border-gray-200">
         <ProfileImage />
       </div>
-      <div>
+      <div className="flex w-full flex-col items-start overflow-hidden">
         <div>{name}</div>
-        <div className="text-gray400">{email}</div>
-
-        <button className="text-gray350" onClick={handleLogoutClick}>
+        <div className={`w-full ${truncateEmail ? 'truncate' : ''} text-gray400`}>{email}</div>
+        <button className="w-full text-left text-gray350" onClick={handleLogoutClick}>
           로그아웃
         </button>
       </div>
