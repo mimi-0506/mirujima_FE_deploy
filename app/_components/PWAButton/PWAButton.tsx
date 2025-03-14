@@ -46,14 +46,14 @@ export default function PWAButton({ className }: Props) {
         <button
           type="button"
           onClick={handleClick}
-          className="h-[40px] w-full animate-bounce rounded-lg bg-main text-button2 text-white md:h-[50px] md:text-button2"
+          className="color-animate h-[40px] w-full animate-bounce rounded-lg bg-main text-button2 text-white hover:bg-mainhover md:h-[50px] md:text-button2"
         >
           앱 다운로드
         </button>
       ) : (
         <Link
           href={valid ? '/dashboard' : '/login'}
-          className="flex-center inline-block h-[40px] w-full rounded-lg bg-main text-button2 text-white md:h-[50px] md:text-button2"
+          className="flex-center color-animate inline-block h-[40px] w-full rounded-lg bg-main text-button2 text-white hover:bg-mainhover md:h-[50px] md:text-button2"
         >
           이대로 사용할래요
         </Link>
