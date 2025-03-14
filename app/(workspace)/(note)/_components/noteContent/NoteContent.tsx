@@ -96,7 +96,7 @@ export default function NoteContent({ todo, note }: Props) {
       });
       deleteTempNote();
 
-      router.push('/noteList');
+      router.push(`/noteList?initOpen=${todo.goal?.id ?? 0}`);
     } catch (error) {
       toast.error(NOTE_CREATE_ERROR);
     }
