@@ -1,22 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
-import type { TodoType } from '@/types/todo.types';
-import type { GoalType } from '@/types/goal.types';
-
-
-import type { TodoType } from '@/types/todo.type';
 import { cacheType } from '@/types/query.type';
+import { TodoType } from '@/types/todo.types';
 
 interface CheckTodoParams {
   todo: TodoType;
 }
 
-
 export const useCheckTodo = () => {
   const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
-
 
   return useMutation({
     mutationFn: async ({ todo }: CheckTodoParams) => {
@@ -74,7 +68,6 @@ export const useCheckTodo = () => {
     },
     onError: (error, _) => {
       console.error(error);
-
     }
   });
 };

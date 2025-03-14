@@ -4,7 +4,7 @@ import { apiWithClientToken } from '@/apis/clientActions';
 import { COMMON_ERROR, TODO_EDIT_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 import { cacheType } from '@/types/query.type';
-import { TodoType } from '@/types/todo.type';
+import { TodoType } from '@/types/todo.types';
 
 interface TodoBodyType {
   goalId: FormDataEntryValue;

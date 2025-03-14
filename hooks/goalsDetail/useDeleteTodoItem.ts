@@ -4,9 +4,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { TODO_DELETE_ERROR, TODO_DELETE_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
-import { TodoType } from '@/types/todo.type';
 import { cacheType } from '@/types/query.type';
 import { deleteTodoItem } from '@/apis/clientActions/todo';
+import { TodoType } from '@/types/todo.types';
 
 export function useDeleteTodoItem() {
   const userId = useInfoStore((state) => state.userId);

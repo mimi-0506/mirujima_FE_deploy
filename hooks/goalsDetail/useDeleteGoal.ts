@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiWithClientToken } from '@/apis/clientActions';
 import { GOAL_DELETE_ERROR, GOAL_DELETE_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
-import { GoalType } from '@/types/goal.type';
+import { GoalType } from '@/types/goal.types';
 
 export function useDeleteGoal() {
   const userId = useInfoStore((state) => state.userId);
