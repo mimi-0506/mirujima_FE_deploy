@@ -23,10 +23,10 @@ export default function GoalDetailPage() {
   const params = useParams();
   const goalIdParam = Array.isArray(params.id) ? params.id[0] : params.id;
   const goalId = goalIdParam ? parseInt(goalIdParam, 10) : null;
-  const goalIdString = goalId ? goalId.toString() : '';
+  // const goalIdString = goalId ? goalId.toString() : '';
   const { isLargeScreen } = useIsLargeScreen();
 
-  const { data: goalData, isLoading, isError } = useGetGoalDetail(goalIdString);
+  const { data: goalData, isLoading, isError } = useGetGoalDetail(Number(goalId));
   // const { data: todosTodo } = useGetTodoList(goalId, false);
   // const { data: todosDone } = useGetTodoList(goalId, true);
 

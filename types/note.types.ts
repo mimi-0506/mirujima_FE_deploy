@@ -1,8 +1,7 @@
-import type { TodoType } from './todo.type';
+import type { TodoType } from './todo.types';
 import type { ISODateString } from './ISODateString.type';
-import type { GoalSummary } from './goal.type';
-
-export type NoteCommonFields = {
+import type { GoalSummary } from './goal.types';
+type NoteCommonFields = {
   title: string;
   content: string;
   linkUrl?: string;
@@ -49,17 +48,4 @@ export type TempNoteType = {
 
 export type TempNoteContentType = {
   [goalId: number]: TempNoteType[];
-};
-
-export type NoteConfirmModalProps = {
-  type: 'temp' | 'delete';
-  contentTitle: string;
-  onCancel: () => void;
-  onConfirm: () => void;
-};
-
-export type NoteLinkModalProps = {
-  defaultValue: string | undefined;
-  onSubmit: () => void;
-  linkInputRef: React.RefObject<HTMLInputElement | null>;
 };

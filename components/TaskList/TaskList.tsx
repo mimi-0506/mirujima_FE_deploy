@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
 import SpinIcon from '@/public/icon/spin.svg';
 
-import type { TodoType } from '@/types/todo.type';
+import type { TodoType } from '@/types/todo.types';
+import type { GoalType } from '@/types/goal.types';
 
 interface TaskListProps {
-  goalId: number;
+  goalId: GoalType['id'];
   done: boolean;
   tasks?: TodoType[];
   isLoading?: boolean;
@@ -28,15 +29,9 @@ export default function TaskList({
 }: TaskListProps) {
   const { data, isLoading, isError } = useGetTodoList(goalId, done);
 
-  const tasks = propTasks !== undefined ? propTasks : data;
-  const loading = propTasks !== undefined ? (propLoading ?? false) : isLoading;
-  const error = propTasks !== undefined ? (propError ?? false) : isError;
-
-  const [showEmptyMessage, setShowEmptyMessage] = useState(false);
-
-  useEffect(() => {
-    setShowEmptyMessage(false);
-  }, []);
+  const tasks = propTasks ?? data;
+  const loading = propTasks ? (propLoading ?? false) : isLoading;
+  const error = propTasks ? (propError ?? false) : isError;
 
   if (error) return <div>에러가 발생했어요.</div>;
 
@@ -51,10 +46,9 @@ export default function TaskList({
           <div>
             <SpinIcon />
           </div>
-        ) : showEmptyMessage || !tasks || tasks.length === 0 ? (
+        ) : !tasks || tasks.length === 0 ? (
           <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 할 일이 없어요</li>
         ) : (
-          Array.isArray(tasks) &&
           tasks.map((task) => (
             <li key={task.id}>
               <TodoItem todo={task} goalId={goalId} isDashboard={isDashboard} />

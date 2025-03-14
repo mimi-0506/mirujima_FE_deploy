@@ -1,5 +1,5 @@
 import { labelColors } from '@/constant/colors';
-import { LabelType } from '@/types/color.type';
+import { LabelType } from '@/types/color.types';
 
 export default function Label({ label }: { label: LabelType }) {
   return (

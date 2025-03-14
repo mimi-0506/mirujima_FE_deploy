@@ -4,9 +4,8 @@ import React from 'react';
 
 import Overlay from '@/modals/Overlay';
 
-import type { NoteConfirmModalProps } from '@/types/note.type';
-
-interface Props extends NoteConfirmModalProps {}
+import type { NoteConfirmModalProps } from '@/types/modalStore.types';
+import type { ModalActionProps } from '@/types/modalAction.type';
 
 const TEXT = {
   header: {
@@ -19,7 +18,12 @@ const TEXT = {
   }
 } as const;
 
-export default function NoteConfirmModal({ type, contentTitle, onCancel, onConfirm }: Props) {
+export default function NoteConfirmModal({
+  type,
+  contentTitle,
+  onCancel,
+  onConfirm
+}: NoteConfirmModalProps & ModalActionProps) {
   return (
     <Overlay onClick={onCancel}>
       <div

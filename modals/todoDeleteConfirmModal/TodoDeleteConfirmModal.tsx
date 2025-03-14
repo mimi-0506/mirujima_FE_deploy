@@ -4,16 +4,8 @@ import React from 'react';
 
 import Overlay from '@/modals/Overlay';
 import CloseIcon from '@/public/icon/X.svg';
-
-interface TodoDeleteConfirmModalProps {
-  onConfirm: () => void;
-  onCancel: () => void;
-}
-
-export default function TodoDeleteConfirmModal({
-  onConfirm,
-  onCancel
-}: TodoDeleteConfirmModalProps) {
+import type { ModalActionProps } from '@/types/modalAction.type';
+export default function TodoDeleteConfirmModal({ onConfirm, onCancel }: ModalActionProps) {
   return (
     <Overlay onClick={onCancel}>
       <div className="w-[343px] rounded-xl bg-white p-6" onClick={(e) => e.stopPropagation()}>

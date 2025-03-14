@@ -7,7 +7,7 @@ import NoteIcon from '@/public/icon/note.svg';
 
 import TodoChip from '../../todoChip/TodoChip';
 
-import type { NoteType } from '@/types/note.type';
+import type { NoteType } from '@/types/note.types';
 
 interface Props {
   note: NoteType;

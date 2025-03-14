@@ -1,6 +1,6 @@
 import { convertDataForEditor } from './convertDataForEditor';
 
-import type { NoteContentTextLength } from '@/types/note.type';
+import type { NoteContentTextLength } from '@/types/note.types';
 import type { StyledText } from '@blocknote/core';
 
 type CustomBlockType = {

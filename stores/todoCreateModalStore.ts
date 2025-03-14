@@ -1,5 +1,5 @@
 import { createStore } from 'zustand/vanilla';
-import type { TodoCreateModalState, TodoCreateModalStore } from '@/types/todoCreateModal.types.ts';
+import type { TodoCreateModalState, TodoCreateModalStore } from '@/types/todoCreateModal.types';
 
 const initTodoCreateModalState: TodoCreateModalState = {
   title: '',

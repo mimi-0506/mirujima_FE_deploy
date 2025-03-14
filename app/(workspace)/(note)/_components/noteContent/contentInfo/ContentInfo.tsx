@@ -7,7 +7,7 @@ import { useWatch } from 'react-hook-form';
 import { getTextLength } from '@/utils/note/getTextLength';
 
 import type { NoteInputData } from '@/schema/noteSchema';
-import type { NoteContentTextLength } from '@/types/note.type';
+import type { NoteContentTextLength } from '@/types/note.types';
 
 interface Props {
   control: Control<NoteInputData>;

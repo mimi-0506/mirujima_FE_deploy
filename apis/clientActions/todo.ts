@@ -1,4 +1,4 @@
-import type { TodoListType, TodoProgressType } from '@/types/todo.type';
+import type { TodoListType, TodoProgressType } from '@/types/todo.types';
 
 import { apiWithClientToken } from '.';
 

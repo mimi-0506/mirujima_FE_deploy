@@ -9,7 +9,7 @@ import { useAllTodos } from '@/hooks/todo/useAllTodos';
 import { useInfoStore } from '@/provider/store-provider';
 import ArrowRightIcon from '@/public/icon/arrow-right-red.svg';
 
-import type { TodoType } from '@/types/todo.type';
+import type { TodoType } from '@/types/todo.types';
 
 export default function LatestTodoList() {
   const userId = useInfoStore((state) => state.userId);

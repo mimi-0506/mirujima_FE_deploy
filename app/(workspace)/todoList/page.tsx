@@ -12,15 +12,16 @@ import TodoListIcon from '@/public/icon/todo-list-black.svg';
 import EmptyMessage from './_components/EmptyMessage';
 import PriorityFilter from './_components/PriorityFilter';
 import TodoFilter from './_components/TodoFilter';
-
-import type { FilterType } from './_components/TodoFilter';
+import type { FilterType } from '@/types/filter.type';
+import type { Priority } from '@/types/color.types';
 
 export default function TodoListPage() {
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const userId = useInfoStore((state) => state.userId);
 
   const [filter, setFilter] = useState<FilterType>('All');
-  const [priority, setPriority] = useState<'all' | number>('all');
+
+  const [priority, setPriority] = useState<Priority | 'all'>('all');
 
   const { data, isLoading, ref } = useInfiniteTodoList(Number(userId), filter, Number(priority));
   const filteredTodos = useFilteredTodos(data?.pages || [], filter, priority);

@@ -5,7 +5,7 @@ import React from 'react';
 import { useModalStore } from '@/provider/store-provider';
 import CloseCircleIcon from '@/public/icon/X-circle.svg';
 
-import type { TempNoteType } from '@/types/note.type';
+import type { TempNoteType } from '@/types/note.types';
 
 interface Props {
   tempedNote: TempNoteType | undefined;

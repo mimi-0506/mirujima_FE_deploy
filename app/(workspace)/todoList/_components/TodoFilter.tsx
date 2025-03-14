@@ -1,5 +1,4 @@
-export type FilterType = 'All' | 'To do' | 'Done';
-
+import { FilterType } from '@/types/filter.type';
 interface TodoFilterProps {
   filter: FilterType;
   setFilter: (filter: FilterType) => void;

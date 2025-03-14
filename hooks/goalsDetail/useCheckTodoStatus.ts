@@ -1,27 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
+import type { TodoType } from '@/types/todo.types';
+import type { GoalType } from '@/types/goal.types';
 
-import type { TodoType } from '@/types/todo.type';
-
-interface CheckTodoParams {
-  todo: TodoType;
-}
-
-interface CheckTodoMutationVars {
-  todo: TodoType;
-  goalId?: number;
-}
-
-interface ApiError {
-  response?: {
-    data?: {
-      message?: string;
-    };
-  };
-}
-
-const checkTodo = async ({ todo }: CheckTodoParams): Promise<TodoType> => {
+const checkTodo = async (todo: TodoType) => {
   if (!todo.id) {
     throw new Error('ToDo id가 없습니다.');
   }
@@ -36,19 +19,17 @@ export const useCheckTodo = () => {
   const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
 
-  return useMutation<TodoType, ApiError, CheckTodoMutationVars>({
-    mutationFn: async ({ todo }: CheckTodoMutationVars): Promise<TodoType> => {
-      return checkTodo({ todo });
-    },
+  return useMutation<TodoType, Error, TodoType & { goalId: GoalType['id'] | null }>({
+    mutationFn: (todoWithGoalId) => checkTodo(todoWithGoalId),
     onSuccess: (_, { goalId }) => {
-      queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, false] });
-      queryClient.invalidateQueries({ queryKey: ['todos', goalId, userId, true] });
-      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, false] });
-      queryClient.refetchQueries({ queryKey: ['todos', goalId, userId, true] });
+      const todoKeys = [false, true].map((done) => ['todos', goalId, userId, done]);
+      todoKeys.forEach((key) => {
+        queryClient.invalidateQueries({ queryKey: key });
+      });
       queryClient.refetchQueries({ queryKey: ['allTodos', userId] });
     },
-    onError: (error: ApiError) => {
-      console.error('업데이트 실패:', error.response?.data?.message || 'Unknown error occurred.');
+    onError: (error) => {
+      console.error('업데이트 실패:', error || 'Unknown error occurred.');
     }
   });
 };

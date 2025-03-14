@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
-import type { GoalType } from '@/types/goal.type';
+import type { GoalListType } from '@/types/goal.types';
 
-const fetchGoalList = async (): Promise<GoalType[]> => {
+const fetchGoalList = async (): Promise<GoalListType['goals']> => {
   const { data } = await apiWithClientToken.get('/goals', {
     params: { pageSize: 9999 }
   });
@@ -14,7 +14,7 @@ const fetchGoalList = async (): Promise<GoalType[]> => {
 export default function useGetGoalList() {
   const userId = useInfoStore((state) => state.userId);
 
-  const { data, isFetching, isLoading } = useQuery<GoalType[]>({
+  const { data, isFetching, isLoading } = useQuery<GoalListType['goals']>({
     queryKey: ['goals', userId],
     queryFn: fetchGoalList,
     refetchOnWindowFocus: false,
