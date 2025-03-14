@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { readTodoList } from '@/apis/clientActions/todo';
 
-import type { TodoListType } from '@/types/todo.type';
+import type { TodoListType } from '@/types/todo.types';
 
 export const useAllTodos = (userId: number, pageSize?: number) => {
   const { data, isLoading } = useQuery<TodoListType>({

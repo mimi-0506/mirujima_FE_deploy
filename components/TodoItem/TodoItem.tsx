@@ -13,16 +13,17 @@ import NoteIcon from '@/public/icon/note-s.svg';
 import PenIcon from '@/public/icon/pen.svg';
 
 import { CheckedIcon } from '../../app/(workspace)/todoList/_components/CheckedIcon';
-
-import type { TodoType, EditableTodo } from '@/types/todo.type';
-import { Priority } from '@/types/color.type';
+import { GoalType } from '@/types/goal.types';
+import type { TodoType, EditableTodo } from '@/types/todo.types';
+import { Priority } from '@/types/color.types';
 import { useTodoFileDownload } from '@/hooks/todo/useTodoFileDownload';
+
 import KebabMenu from '../kebab/KebabMenu';
 import { useDeleteTodoItem } from '@/hooks/goalsDetail/useDeleteTodoItem';
 
 interface TodoItemProps {
   todo: TodoType;
-  goalId?: number;
+  goalId?: GoalType['id'] | null;
   showGoal?: boolean;
   isDashboard?: boolean;
 }
@@ -57,10 +58,8 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
       completionDate: isDone ? new Date().toISOString() : null
     };
 
-    const goalId = todo?.goal?.id;
-    toggleTodo({ todo: updatedTodo, goalId });
+    toggleTodo({ todo: updatedTodo });
   };
-
   const handleOpenEditModal = (todo: TodoType): void => {
     const editableTodo: EditableTodo = {
       ...todo,
@@ -75,7 +74,7 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
   const handleOpenDeleteModal = () => {
     setIsTodoDeleteConfirmModalOpen(true, {
       onConfirm: () => {
-        deleteTodoMutate(todo.id, {
+        deleteTodoMutate(todo, {
           onSuccess: () => {
             setIsTodoDeleteConfirmModalOpen(false);
           }

@@ -9,7 +9,7 @@ import { Editor } from '../noteContent/editor/DynamicEditor';
 import LinkArea from '../noteContent/linkArea/LinkArea';
 import NoteInfo from '../noteContent/noteInfo/NoteInfo';
 
-import type { NoteType } from '@/types/note.type';
+import type { NoteType } from '@/types/note.types';
 
 interface Props {
   note: NoteType;

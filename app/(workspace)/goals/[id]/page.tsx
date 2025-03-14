@@ -26,9 +26,7 @@ export default function GoalDetailPage() {
   const goalIdString = goalId ? goalId.toString() : '';
   const { isLargeScreen } = useIsLargeScreen();
 
-  const { data: goalData, isLoading, isError } = useGetGoalDetail(goalIdString);
-  // const { data: todosTodo } = useGetTodoList(goalId, false);
-  // const { data: todosDone } = useGetTodoList(goalId, true);
+  const { data: goalData, isLoading, isError } = useGetGoalDetail(parseInt(goalIdString));
 
   const goalTitle = goalData?.result?.title ?? '목표 제목이 없어요';
   const { mutate: updateGoalTitle } = useUpdateGoalTitle();
@@ -171,7 +169,7 @@ export default function GoalDetailPage() {
       <Button onClick={handleNoteListClick}>
         {isNavigating || isPending ? <SpinIcon /> : '노트 모아보기'}
       </Button>
-      <div className="flex flex-col rounded-2xl border border-gray200 bg-white shadow-sm desktop:flex-row desktop:rounded-2xl desktop:p-6">
+      <div className="flex min-h-[70vh] flex-col rounded-2xl border border-gray200 bg-white shadow-sm desktop:flex-row desktop:rounded-2xl desktop:p-6">
         <div className="flex rounded-t-lg desktop:hidden">
           <div className="flex h-[52px] w-full items-center rounded-lg border-b border-gray200 border-transparent px-4">
             <button
@@ -208,12 +206,12 @@ export default function GoalDetailPage() {
         </div>
 
         <div
-          className={`flex-1 overflow-y-auto p-4 desktop:p-0 ${
+          className={`flex-1 p-4 desktop:p-0 ${
             activeTab === 'todo' ? 'block' : 'hidden desktop:block'
           }`}
         >
           {isLargeScreen && (
-            <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
+            <h2 className="z-5 top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
               To do
             </h2>
           )}
@@ -225,12 +223,12 @@ export default function GoalDetailPage() {
         </div>
 
         <div
-          className={`flex-1 overflow-y-auto p-4 desktop:p-0 ${
+          className={`flex-1 p-4 desktop:p-0 ${
             activeTab === 'done' ? 'block' : 'hidden desktop:block'
           }`}
         >
           {isLargeScreen && (
-            <h2 className="z-5 sticky top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
+            <h2 className="z-5 top-0 bg-white py-2 text-[15px] font-medium leading-[20px] text-gray500">
               Done
             </h2>
           )}

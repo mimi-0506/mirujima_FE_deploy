@@ -1,7 +1,7 @@
 import { getGoalTodos } from './dashboard/goalUtil';
 
-import type { TodoType } from './../types/todo.type';
-import type { TodoProgressType } from '@/types/todo.type';
+import type { TodoType } from '../types/todo.types';
+import type { TodoProgressType } from '@/types/todo.types';
 
 const calculatePercentage = (count: number, total: number) => {
   return total ? Math.round((count / total) * 100) : 0;

@@ -1,6 +1,7 @@
-import { Priority } from './color.type';
-import type { ISODateString } from './goal.type';
-import type { GoalSummary } from './goal.type';
+import { Priority } from './color.types';
+import type { ISODateString } from './goal.types';
+import type { GoalSummary } from './goal.types';
+import type { ApiResponse } from './apiResponse.type';
 export type TodoListType = {
   lastSeenId: number;
   remainingCount: number;
@@ -31,3 +32,4 @@ export type EditableTodo = TodoType & {
   fileName?: string | null;
   isEdit: boolean;
 };
+export type TodoListResponse = ApiResponse<TodoListType>;

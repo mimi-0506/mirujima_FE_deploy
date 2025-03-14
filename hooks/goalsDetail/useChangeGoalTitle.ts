@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiWithClientToken } from '@/apis/clientActions';
 import { useInfoStore } from '@/provider/store-provider';
 
-import type { GoalType, ISODateString } from '@/types/goal.type';
+import type { GoalType, ISODateString } from '@/types/goal.types';
 import type { ApiResponse } from '@/types/apiResponse.type';
 
 interface UpdateGoalVariables {
@@ -14,54 +14,37 @@ interface UpdateGoalVariables {
 
 type UpdateGoalResponse = ApiResponse<GoalType>;
 
-const changeGoalTitle = async ({
-  goalId,
-  title,
-  completionDate
-}: UpdateGoalVariables): Promise<UpdateGoalResponse> => {
-  const { data } = await apiWithClientToken.patch<UpdateGoalResponse>(`/goals/${goalId}`, {
-    title,
-    completionDate
-  });
-  return data;
-};
-
 export function useUpdateGoalTitle() {
   const userId = useInfoStore((state) => state.userId);
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (variables: UpdateGoalVariables) => changeGoalTitle(variables),
-    onMutate: async ({ goalId, title }) => {
-      const queryKey = ['goal', goalId, userId];
-      await queryClient.cancelQueries({ queryKey });
-      const previousData = queryClient.getQueryData<UpdateGoalResponse>(queryKey);
-
-      queryClient.setQueryData<UpdateGoalResponse>(
-        queryKey,
-        (old: UpdateGoalResponse | undefined) => {
-          const updatedResult = {
-            ...old?.result,
-            title
-          };
-          return {
-            success: old?.success ?? true,
-            code: old?.code,
-            message: old?.message,
-            result: updatedResult
-          } as UpdateGoalResponse;
-        }
-      );
-
-      return { previousData };
+    mutationFn: async ({ goalId, title, completionDate }: UpdateGoalVariables) => {
+      await apiWithClientToken.patch<UpdateGoalResponse>(`/goals/${goalId}`, {
+        title,
+        completionDate
+      });
+      return { goalId, title };
     },
-    onError: (error, { goalId }, context) => {
-      queryClient.setQueryData(['goal', goalId, userId], context?.previousData);
+    onMutate: ({ goalId, title }) => {
+      return { goalId, title };
     },
-    onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: ['goals', userId] });
-      queryClient.invalidateQueries({
-        queryKey: ['goals', userId]
+    onError: (error) => {
+      console.error('목표 수정 실패', error);
+    },
+    onSuccess: async ({ goalId, title }: { goalId: number; title: string }) => {
+      await queryClient.setQueryData(['goal', goalId, userId], () => {
+        return { result: { title: title } };
+      });
+
+      await queryClient.setQueryData(['goals', userId], (cache: GoalType[]) => {
+        console.log(cache);
+        const newGoals = cache.map((item: GoalType) => {
+          if (item.id === goalId) return { ...item, title: title };
+          else return item;
+        });
+
+        return newGoals;
       });
     },
     onSettled: (_, __, { goalId }) => {

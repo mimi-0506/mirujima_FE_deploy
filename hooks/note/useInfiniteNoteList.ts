@@ -6,7 +6,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { readNoteListFromClient } from '@/apis/clientActions/note';
 import { useInfoStore } from '@/provider/store-provider';
 
-import type { NoteListType } from '@/types/note.type';
+import type { NoteListType } from '@/types/note.types';
 
 const useInfiniteNoteList = (goalId: number | undefined, initData?: NoteListType) => {
   const effectGoalId = goalId ?? 0;

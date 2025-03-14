@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import Link from 'next/link';
 
@@ -10,7 +10,7 @@ import LoadingSpinner from '@/public/icon/spin.svg';
 
 import NoteCard from './noteCard/NoteCard';
 
-import type { NoteListType } from '@/types/note.type';
+import type { NoteListType } from '@/types/note.types';
 
 interface Props {
   goalId: number | undefined;
@@ -21,6 +21,10 @@ export default function NoteCardList({ goalId, noteList }: Props) {
   const { data, isFetching, inViewRef } = useInfiniteNoteList(goalId, noteList);
   const { onClickNote, onClickEdit, onClickDelete } = useNoteActions(goalId);
 
+  const dynamicHref = useMemo(() => {
+    return goalId ? `/goals/${goalId}?t=${Date.now()}` : `/todoList?t=${Date.now()}`;
+  }, [goalId]);
+
   if ((!data || data.length === 0) && !isFetching) {
     return (
       <div
@@ -29,10 +33,7 @@ export default function NoteCardList({ goalId, noteList }: Props) {
         }
       >
         <p>노트가 없어요..!</p>
-        <Link
-          href={goalId ? `/goals/${goalId}` : '/todoList'}
-          className="rounded text-main hover:underline"
-        >
+        <Link href={dynamicHref} className="rounded text-main hover:underline">
           👉 {goalId ? '목표 상세페이지로 가기' : '할 일 추가하러 가기'}
         </Link>
       </div>

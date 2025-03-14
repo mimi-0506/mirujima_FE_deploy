@@ -37,7 +37,7 @@ export default function GoalList() {
     <>
       <div className="mt-6 box-border flex h-12 items-center gap-2 rounded-[8px] bg-Cgray px-[21px] py-[17px] text-gray500">
         <div className="flex gap-2">
-          <FlagIcon />
+          <FlagIcon width={24} height={24} />
           목표
         </div>
       </div>

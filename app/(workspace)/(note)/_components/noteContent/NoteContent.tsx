@@ -32,8 +32,8 @@ import TitleInput from './titleInput/TitleInput';
 import ContentLayout from '../layout/ContentLayout';
 
 import type { NoteInputData } from '@/schema/noteSchema';
-import type { CreateNoteType, NoteType, UpdateNoteType } from '@/types/note.type';
-import type { TodoType } from '@/types/todo.type';
+import type { CreateNoteType, NoteType, UpdateNoteType } from '@/types/note.types';
+import type { TodoType } from '@/types/todo.types';
 import _ from 'lodash';
 
 interface Props {

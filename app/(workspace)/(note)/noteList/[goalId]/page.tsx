@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { redirect } from 'next/navigation';
-
+import type { GoalType } from '@/types/goal.types';
 import { readGoalFromServer } from '@/apis/serverActions/goal';
 import { readNoteListFromServer } from '@/apis/serverActions/note';
 import TodoIcon from '@/public/icon/work.svg';
@@ -12,14 +12,14 @@ import NoteCardList from '../../_components/noteCardList/NoteCardList';
 export const dynamicParams = true;
 
 interface Props {
-  params: Promise<{ goalId: string }>;
+  params: Promise<{ goalId: GoalType['id'] }>;
 }
 
 export default async function NoteList({ params }: Props) {
   const { goalId } = await params;
 
   const goal = await readGoalFromServer(goalId);
-  if (!goal) redirect('/dashboard'); // goalId가 잘못됐을 때 처리
+  if (!goal) redirect('/dashboard');
 
   const noteList = await readNoteListFromServer({
     goalId: goal.id,

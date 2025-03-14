@@ -2,22 +2,24 @@ import { useState } from 'react';
 
 import ArrowDown from '@/public/icon/arrow-down.svg';
 
-interface PriorityFilterProps {
-  setPriority: (priority: 'all' | number) => void;
-}
-const PRIORITY_OPTION: { value: 'all' | number; text: string }[] = [
+import type { Priority, PriorityOption } from '@/types/color.types';
+
+const PRIORITY_OPTION: PriorityOption[] = [
   { value: 'all', text: '전체' },
   { value: 1, text: '1' },
   { value: 2, text: '2' },
   { value: 3, text: '3' },
   { value: 4, text: '4' }
 ];
+type PriorityFilterProps = {
+  setPriority: React.Dispatch<React.SetStateAction<Priority | 'all'>>;
+};
 
 export default function PriorityFilter({ setPriority }: PriorityFilterProps) {
   const [selectedPriority, setSelectedPriority] = useState<'all' | number>('all');
   const [isSelectOpen, setIsSelectOpen] = useState(false);
 
-  const handleSelectPriority = (value: 'all' | number) => {
+  const handleSelectPriority = (value: 'all' | Priority) => {
     setSelectedPriority(value);
     setPriority(value);
     setIsSelectOpen(false);

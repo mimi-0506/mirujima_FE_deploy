@@ -1,5 +1,5 @@
-import type { GoalType, ISODateString } from '@/types/goal.type';
-import { Priority } from './color.type';
+import type { GoalType, ISODateString } from '@/types/goal.types';
+import { Priority } from './color.types';
 
 export type TodoCreateModalState = {
   title: string;

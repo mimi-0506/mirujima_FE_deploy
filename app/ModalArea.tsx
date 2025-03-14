@@ -1,17 +1,27 @@
 'use client';
 
-import GoalEditModal from '@/app/(workspace)/goals/_components/GoalEditModal';
-import GoalCreateModal from '@/modals/goalCreateModal';
-import Loading from '@/modals/loadingOverlay/Loading';
-import TodoCreateCheckModal from '@/modals/todoCreateCheckModal';
-import TodoCreateModal from '@/modals/todoCreateModal';
 import { useModalStore } from '@/provider/store-provider';
+import dynamic from 'next/dynamic';
 
-import NoteConfirmModal from './(workspace)/(note)/_components/modals/noteConfirmModal/NoteConfirmModal';
-import UploadLinkModal from './(workspace)/(note)/_components/modals/uploadLinkModal/UploadLinkModal';
-import GoalDeleteConfirmModal from './(workspace)/goals/_components/GoalDeleteConfirmModal';
-import IOSPWAGuideModal from '@/modals/iOSPWAGuideModal/IOSPWAGuideModal';
-import TodoDeleteConfirmModal from '@/modals/todoDeleteConfirmModal/TodoDeleteConfirmModal';
+const GoalEditModal = dynamic(() => import('@/app/(workspace)/goals/_components/GoalEditModal'));
+const GoalCreateModal = dynamic(() => import('@/modals/goalCreateModal'));
+const Loading = dynamic(() => import('@/modals/loadingOverlay/Loading'));
+const TodoCreateCheckModal = dynamic(() => import('@/modals/todoCreateCheckModal'));
+const TodoCreateModal = dynamic(() => import('@/modals/todoCreateModal'));
+const NoteConfirmModal = dynamic(
+  () => import('./(workspace)/(note)/_components/modals/noteConfirmModal/NoteConfirmModal')
+);
+const UploadLinkModal = dynamic(
+  () => import('./(workspace)/(note)/_components/modals/uploadLinkModal/UploadLinkModal')
+);
+const GoalDeleteConfirmModal = dynamic(
+  () => import('./(workspace)/goals/_components/GoalDeleteConfirmModal')
+);
+const IOSPWAGuideModal = dynamic(() => import('@/modals/iOSPWAGuideModal/IOSPWAGuideModal'));
+
+const TodoDeleteConfirmModal = dynamic(
+  () => import('@/modals/todoDeleteConfirmModal/TodoDeleteConfirmModal')
+);
 
 export default function ModalArea() {
   const {

@@ -9,7 +9,7 @@ import type {
   NoteType,
   ReadNoteListType,
   UpdateNoteType
-} from '@/types/note.type';
+} from '@/types/note.types';
 
 import { apiWithClientToken } from '.';
 

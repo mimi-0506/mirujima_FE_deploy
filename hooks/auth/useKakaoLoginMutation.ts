@@ -13,7 +13,9 @@ import { COOKIEOPTIONS_ACCESS, COOKIEOPTIONS_REFRESH } from '@/constant/cookieOp
 const redirectUri =
   typeof window !== 'undefined'
     ? `${window.location.origin}/auth/callback`
-    : process.env.NEXT_PUBLIC_REDIRECT_URI || '';
+    : process.env.NEXT_PUBLIC_REDIRECT_URI ||
+      process.env.NEXT_LOCAL_REDIRECT_URI ||
+      'http://localhost:3000/auth/callback';
 
 const kakaoLogin = async (authorizationCode: string): Promise<OAuthLoginResponse> => {
   try {

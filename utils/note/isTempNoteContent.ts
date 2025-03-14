@@ -1,4 +1,4 @@
-import type { TempNoteContentType, TempNoteType } from '@/types/note.type';
+import type { TempNoteContentType, TempNoteType } from '@/types/note.types';
 
 const isTempNote = (item: unknown): item is TempNoteType => {
   if (typeof item !== 'object' || item === null) return false;

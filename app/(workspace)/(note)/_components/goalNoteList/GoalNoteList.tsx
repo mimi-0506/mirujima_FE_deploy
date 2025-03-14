@@ -8,7 +8,7 @@ import ArrowUp from '@/public/icon/arrow-up.svg';
 import TodoIcon from '@/public/icon/work.svg';
 
 import NoteCardList from '../noteCardList/NoteCardList';
-import type { GoalType } from '@/types/goal.type';
+import type { GoalType } from '@/types/goal.types';
 
 interface Props {
   goalId: GoalType['id'];

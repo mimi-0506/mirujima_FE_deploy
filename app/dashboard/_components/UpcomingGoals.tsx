@@ -6,9 +6,7 @@ import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import useGetGoalList from '@/hooks/useGetGoalList';
 import { getUpcomingDates } from '@/utils/dateUtils';
 
-import type { GoalType } from '@/types/goal.type';
-
-type UpcomingGoalType = Pick<GoalType, 'id' | 'title' | 'completionDate'>;
+import type { GoalType, GoalSummary } from '@/types/goal.types';
 
 export default function UpcomingGoals() {
   const { data, isLoading } = useGetGoalList();
@@ -17,7 +15,7 @@ export default function UpcomingGoals() {
   // 오늘, 내일, 모레 목표 필터링
   const upcomingGoals = getUpcomingDates(3).map(({ date, day }) => {
     const filteredGoals =
-      data?.filter((goal: UpcomingGoalType) => {
+      data?.filter((goal: GoalSummary) => {
         if (!goal.completionDate) return false;
         return new Date(goal.completionDate).getDate() === date;
       }) || [];
