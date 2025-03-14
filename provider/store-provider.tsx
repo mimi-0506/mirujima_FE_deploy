@@ -6,7 +6,8 @@ import { useStore } from 'zustand';
 
 import { createEmbedStore } from '@/stores/embedStore';
 import { createInfoStore } from '@/stores/infoStore';
-import { createModalStore, type ModalStore } from '@/stores/modalStore';
+import { createModalStore } from '@/stores/modalStore';
+import type { ModalStoreType } from '@/types/modalStore.types';
 import { createTodoCreateModalStore } from '@/stores/todoCreateModalStore';
 import type { InfoStore } from '@/types/infoStore.types';
 import type { TodoCreateModalStore } from '@/types/todoCreateModal.types';
@@ -53,7 +54,7 @@ export const ModalStoreProvider = ({ children }: storeProviderProps) => {
   );
 };
 
-export const useModalStore = <T,>(selector: (store: ModalStore) => T): T => {
+export const useModalStore = <T,>(selector: (store: ModalStoreType) => T): T => {
   const modalStoreContext = useContext(ModalStoreContext);
 
   if (!modalStoreContext) throw new Error('useModalStore must be used within ModalStoreProvider');

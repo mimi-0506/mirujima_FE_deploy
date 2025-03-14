@@ -44,8 +44,18 @@ export const TODO_DELETE_SUCCESS = '할일이 삭제되었습니다!';
 export const NOTE_DELETE_ERROR = '노트 삭제 실패했습니다.';
 export const NOTE_DELETE_SUCCESS = '노트가 삭제되었습니다!';
 
-export const SIGNUP_SUCCESS = '회원가입 되었습니다!';
+export const SIGNUP_SUCCESS = '회원가입 성공!';
 export const SIGNUP_ERROR = '회원가입 중 오류가 발생했습니다.';
 
 export const LOGIN_ERROR = '로그인에 실패했습니다.';
-export const LOGIN_SUCCESS = '로그인 되었습니다!';
+export const LOGIN_SUCCESS = '로그인 성공!';
+
+export const GOOGLE_LOGIN_ERROR = '구글 로그인에 실패했습니다.';
+export const GOOGLE_LOGIN_SUCCESS = '구글 로그인 성공!';
+export const GOOGLE_LOGIN_LOADING = '구글 로그인중 ... ';
+
+export const KAKAO_LOGIN_ERROR = '카카오 로그인에 실패했습니다.';
+export const KAKAO_LOGIN_SUCCESS = '카카오 로그인 성공!';
+export const KAKAO_LOGIN_LOADING = '카카오 로그인중 ...';
+
+export const INSTALL_APP_ERROR = '앱 설치에 실패했습니다.';

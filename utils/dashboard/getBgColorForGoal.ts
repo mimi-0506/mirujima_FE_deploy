@@ -1,10 +1,13 @@
-import type { TodoType } from '@/types/todo.type';
-import type { GoalId } from '@/types/goal.type';
+import type { TodoType } from '@/types/todo.types';
+import type { GoalType } from '@/types/goal.types';
 
 export const getBgColorForGoal = (
   todos: TodoType[],
   formattedDay: string,
-  getGoalIdByTodo: (todos: TodoType[]) => GoalId[],
+  getGoalIdByTodo: (todos: TodoType[]) => Array<{
+    goalId: GoalType['id'];
+    completionDate: GoalType['completionDate'];
+  }>,
   calcGoalCompletionPercentage: (todos: TodoType[], goalId: number) => number
 ) => {
   const goalId = getGoalIdByTodo(todos)?.find(

@@ -2,7 +2,6 @@
 
 import { motion } from 'motion/react';
 import Link from 'next/link';
-
 import LoadingSpinner from '@/components/loading/LoadingSpinner';
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { EMPTY_MESSAGES } from '@/constant/emtymessage';
@@ -10,7 +9,7 @@ import { useAllTodos } from '@/hooks/todo/useAllTodos';
 import { useInfoStore } from '@/provider/store-provider';
 import ArrowRightIcon from '@/public/icon/arrow-right-red.svg';
 
-import type { TodoType } from '@/types/todo.type';
+import type { TodoType } from '@/types/todo.types';
 
 export default function LatestTodoList() {
   const userId = useInfoStore((state) => state.userId);
@@ -33,11 +32,12 @@ export default function LatestTodoList() {
         <LoadingSpinner />
       ) : hasTodos ? (
         <ul>
-          {todoData.map((todo: TodoType) => (
-            <motion.li key={todo.id} layout>
-              <TodoItem todo={todo} showGoal={true} isDashboard={true} />
-            </motion.li>
-          ))}
+          {Array.isArray(todoData) &&
+            todoData.map((todo: TodoType) => (
+              <motion.li key={todo.id} layout>
+                <TodoItem todo={todo} showGoal={true} isDashboard={true} />
+              </motion.li>
+            ))}
         </ul>
       ) : (
         <div className="empty-message">{EMPTY_MESSAGES.None}</div>

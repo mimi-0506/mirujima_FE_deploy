@@ -9,7 +9,6 @@ import {
 
 import ModalArea from './ModalArea';
 import ReactQueryProvider from '../hooks/useReactQuery';
-
 export default function AllProviders({
   children
 }: Readonly<{

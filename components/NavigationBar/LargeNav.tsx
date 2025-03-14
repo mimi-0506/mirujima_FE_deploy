@@ -43,7 +43,7 @@ export default function LargeNav({
       </div>
 
       <div className={isOpen ? '' : 'absolute left-[-10vw] w-[inherit]'}>
-        <Info />
+        <Info truncateEmail={isOpen} />
         <NewTodo />
         <Menus />
       </div>

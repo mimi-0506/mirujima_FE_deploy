@@ -2,7 +2,7 @@ import { endOfWeek, isWithinInterval, parseISO, startOfWeek } from 'date-fns';
 
 import { WEEK_DAYS } from '@/constant/date';
 
-import type { TodoType } from '@/types/todo.type';
+import type { TodoType } from '@/types/todo.types';
 import type { ISODateString } from '@/types/ISODateString.type';
 
 type DayOfWeek = '월' | '화' | '수' | '목' | '금' | '토' | '일';

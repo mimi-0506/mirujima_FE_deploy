@@ -7,21 +7,8 @@ import { useRouter } from 'next/navigation';
 import authApi from '@/apis/clientActions/authApi';
 import { LOGIN_ERROR, LOGIN_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
-
-const isLocal = process.env.NODE_ENV === 'development';
-const DOMAIN = isLocal ? '/' : process.env.NEXT_PUBLIC_DOMAIN;
-
-interface LoginResponse {
-  success: boolean;
-  code: number;
-  message: string;
-  result: {
-    user: { id: number; username: string; email: string; createdAt: string; updatedAt: string };
-    accessToken: string;
-    refreshToken: string;
-    expiredAt: string;
-  } | null;
-}
+import { COOKIEOPTIONS_ACCESS, COOKIEOPTIONS_REFRESH } from '@/constant/cookieOptions';
+import { AuthResponse } from '@/types/auth.types';
 
 interface LoginMutationVariables {
   formData?: {
@@ -31,22 +18,10 @@ interface LoginMutationVariables {
   isAutoLogin?: boolean;
 }
 
-const COOKIEOPTIONS_ACCESS = {
-  maxAge: 60 * 60, // 1시간
-  path: DOMAIN,
-  sameSite: 'strict' as const
-};
-
-const COOKIEOPTIONS_REFRESH = {
-  maxAge: 60 * 60 * 24 * 7, // 1주일
-  path: DOMAIN,
-  sameSite: 'strict' as const
-};
-
-const loginUser = async (variables: LoginMutationVariables): Promise<LoginResponse> => {
+const loginUser = async (variables: LoginMutationVariables): Promise<AuthResponse> => {
   const { formData } = variables;
   try {
-    const response = await authApi.post<LoginResponse>('/auth/login', formData);
+    const response = await authApi.post<AuthResponse>('/auth/login', formData);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -55,7 +30,6 @@ const loginUser = async (variables: LoginMutationVariables): Promise<LoginRespon
     throw new Error('Axios 외 다른 에러 발생');
   }
 };
-
 export const useLoginMutation = () => {
   const router = useRouter();
   const setInfo = useInfoStore((state) => state.setInfo);
@@ -77,7 +51,6 @@ export const useLoginMutation = () => {
       const { isAutoLogin } = variables;
 
       if (accessToken && user) {
-        // accessToken, user 쿠키 저장 (feat/#186/autologin 로직 사용)
         setCookie('accessToken', accessToken, COOKIEOPTIONS_ACCESS);
         setCookie('user', JSON.stringify(user), COOKIEOPTIONS_ACCESS);
         setInfo({
@@ -87,20 +60,14 @@ export const useLoginMutation = () => {
         });
         if (isAutoLogin) {
           setCookie('refreshToken', refreshToken, COOKIEOPTIONS_REFRESH);
-          console.log('[로그인] 자동 로그인 활성화됨 - refreshToken 저장 (7일 유효)');
         } else {
-          deleteCookie('refreshToken', { path: DOMAIN });
-          console.log(
-            '[로그인] 자동 로그인 비활성화됨 - refreshToken 삭제, accessToken만 1시간 유효'
-          );
+          deleteCookie('refreshToken', { path: COOKIEOPTIONS_REFRESH.path });
         }
         toast.success(LOGIN_SUCCESS, { duration: 2000 });
         router.push('/dashboard');
       } else {
-        deleteCookie('refreshToken', { path: DOMAIN });
-        console.log(
-          '[로그인] 자동 로그인 비활성화됨 - refreshToken 삭제, accessToken만 1시간 유효'
-        );
+        deleteCookie('refreshToken', { path: COOKIEOPTIONS_REFRESH.path });
+
         toast.error(LOGIN_ERROR);
       }
     },

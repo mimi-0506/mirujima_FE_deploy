@@ -5,7 +5,7 @@ import React from 'react';
 import { useModalStore } from '@/provider/store-provider';
 import CloseCircleIcon from '@/public/icon/X-circle.svg';
 
-import type { TempNoteType } from '@/types/note.type';
+import type { TempNoteType } from '@/types/note.types';
 
 interface Props {
   tempedNote: TempNoteType | undefined;
@@ -37,7 +37,7 @@ export default function TempNote({ tempedNote, onRemove, onLoad }: Props) {
           aria-label="임시 저장 노트 알림 삭제"
           className="flex-center h-4 w-4"
         >
-          <CloseCircleIcon className="fill-main" />
+          <CloseCircleIcon className="color-animate fill-main hover:fill-mainhover" />
         </button>
         <p className="flex flex-wrap text-button2 text-main md:text-button1">
           <span>임시 저장된 노트가 있어요.</span>
@@ -48,7 +48,7 @@ export default function TempNote({ tempedNote, onRemove, onLoad }: Props) {
         type="button"
         onClick={handleConfirmModal}
         aria-label="임시 저장 노트 불러오기"
-        className="h-[32px] w-[73px] rounded-[7px] bg-main text-button2 text-white"
+        className="color-animate h-[32px] w-[73px] rounded-[7px] bg-main text-button2 text-white hover:bg-mainhover"
       >
         불러오기
       </button>

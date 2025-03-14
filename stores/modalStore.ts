@@ -1,13 +1,16 @@
-import { createStore } from 'zustand/vanilla';
-import type { ModalStore } from '@/types/modalStore.types';
+'use client';
 
-export const defaultInitState: ModalStore = {
-  isNoteDetailPageModalOpen: false,
-  noteDetailPageModalProps: null,
+import { createStore } from 'zustand/vanilla';
+
+import { ModalStoreType } from '@/types/modalStore.types';
+export const defaultInitState: ModalStoreType = {
+  isIOSPWAGuideModalOpen: false,
   isNoteConfirmModalOpen: false,
   noteConfirmModalProps: null,
   isTodoCreateModalOpen: false,
   isTodoCreateCheckModalOpen: false,
+  isTodoDeleteConfirmModalOpen: false,
+  todoDeleteConfirmModalProps: null,
   isNoteLinkModalOpen: false,
   noteLinkModalProps: null,
   isGoalDeleteModalOpen: false,
@@ -17,10 +20,11 @@ export const defaultInitState: ModalStore = {
   isGoalCreateModalOpen: false,
   isLoading: false,
 
-  setNoteDetailPageOpen: () => {},
+  setIOSPWAGuideModalOpen: () => {},
   setIsNoteConfirmModalOpen: () => {},
   setIsTodoCreateModalOpen: () => {},
   setIsTodoCreateCheckModalOpen: () => {},
+  setIsTodoDeleteConfirmModalOpen: () => {},
   setNoteLinkModalOpen: () => {},
   setGoalDeleteModalOpen: () => {},
   setGoalEditModalOpen: () => {},
@@ -28,16 +32,17 @@ export const defaultInitState: ModalStore = {
   setIsLoading: () => {}
 };
 
-export const createModalStore = (initState: Partial<ModalStore> = defaultInitState) => {
-  return createStore<ModalStore>()((set) => ({
+export const createModalStore = (initState: Partial<ModalStoreType> = defaultInitState) => {
+  return createStore<ModalStoreType>()((set) => ({
     ...defaultInitState,
     ...initState,
-    setNoteDetailPageOpen: (isOpen, props) =>
-      set({ isNoteDetailPageModalOpen: isOpen, noteDetailPageModalProps: props || null }),
+    setIOSPWAGuideModalOpen: (isOpen) => set({ isIOSPWAGuideModalOpen: isOpen }),
     setIsNoteConfirmModalOpen: (isOpen, props) =>
       set({ isNoteConfirmModalOpen: isOpen, noteConfirmModalProps: props || null }),
     setIsTodoCreateModalOpen: (isOpen) => set({ isTodoCreateModalOpen: isOpen }),
     setIsTodoCreateCheckModalOpen: (isOpen) => set({ isTodoCreateCheckModalOpen: isOpen }),
+    setIsTodoDeleteConfirmModalOpen: (isOpen, props) =>
+      set({ isTodoDeleteConfirmModalOpen: isOpen, todoDeleteConfirmModalProps: props || null }),
     setNoteLinkModalOpen: (isOpen, props) =>
       set({ isNoteLinkModalOpen: isOpen, noteLinkModalProps: props || null }),
     setGoalDeleteModalOpen: (isOpen, props) =>
@@ -48,5 +53,3 @@ export const createModalStore = (initState: Partial<ModalStore> = defaultInitSta
     setIsLoading: (isLoading) => set({ isLoading })
   }));
 };
-
-export type { ModalStore };

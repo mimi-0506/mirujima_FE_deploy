@@ -4,18 +4,12 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { apiWithClientToken } from '@/apis/clientActions/index';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
-import type { ApiResponse } from '@/types/apiResponse.type';
-import type { TodoType } from '@/types/todo.type';
+import type { GoalType } from '@/types/goal.types';
+import type { TodoType, TodoListResponse } from '@/types/todo.types';
 import type { QueryClient } from '@tanstack/react-query';
 
-interface TodoListData {
-  lastSeenId: number;
-  totalCount: number;
-  todos: TodoType[];
-}
-type TodoListResponse = ApiResponse<TodoListData>;
 const fetchTodoList = async (
-  goalId: number | undefined | null,
+  goalId: GoalType['id'] | undefined | null,
   done = false,
   lastSeenId = 9999,
   pageSize = 50
@@ -29,7 +23,7 @@ const fetchTodoList = async (
   return response.data.result.todos;
 };
 
-export const useGetTodoList = (goalId?: number | null | undefined, done = false) => {
+export const useGetTodoList = (goalId?: GoalType['id'] | null | undefined, done = false) => {
   const isTodoCreateModalOpen = useModalStore((state) => state.isTodoCreateModalOpen);
   const queryClient: QueryClient = useQueryClient();
   const userId = useInfoStore((state) => state.userId);

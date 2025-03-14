@@ -19,19 +19,23 @@ export async function middleware(req: NextRequest) {
     return response;
   }
 
-  // 로그인 페이지 및 회원가입 페이지에서는 토큰 검사 제외
-  if (pathname === '/login' || pathname === '/signup') {
+  if (
+    pathname === '/login' ||
+    pathname === '/signup' ||
+    pathname === '/' ||
+    pathname === '/auth/callback'
+  ) {
     return NextResponse.next();
   }
 
   // 토큰 검사
   const accessToken = req.cookies.get('accessToken');
   if (!accessToken) {
-    console.log(req.url, '❌ 액세스토큰 없음');
+    // console.log(req.url, '❌ 액세스토큰 없음');
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  console.log(req.url, '✅ 액세스토큰 있음');
+  // console.log(req.url, '✅ 액세스토큰 있음');
 
   try {
     // axios보다 fetch가 next/server에서 더 안정적
@@ -48,7 +52,7 @@ export async function middleware(req: NextRequest) {
     // }
 
     // 로그인 상태에서 로그인 페이지 접근 시 대시보드로 리디렉트
-    if (pathname === '/login' || pathname === '/signup')
+    if (pathname === '/login' || pathname === '/signup' || pathname === '/auth/callback')
       return NextResponse.redirect(new URL('/dashboard', req.url));
 
     return NextResponse.next();

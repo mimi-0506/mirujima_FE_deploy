@@ -4,7 +4,7 @@ import React from 'react';
 
 import useGoalActions from '@/hooks/goal/useGoalActions';
 import KebabMenu from '@/components/kebab/KebabMenu';
-import { GoalType } from '@/types/goal.type';
+import { GoalType } from '@/types/goal.types';
 
 interface Props {
   goalId: GoalType['id'];

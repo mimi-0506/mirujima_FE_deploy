@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 
 import type { ApiResponse } from '@/types/apiResponse.type';
-import type { NoteListType, NoteType, ReadNoteListType } from '@/types/note.type';
+import type { NoteListType, NoteType, ReadNoteListType } from '@/types/note.types';
 
 import { apiWithServerToken } from '.';
 
