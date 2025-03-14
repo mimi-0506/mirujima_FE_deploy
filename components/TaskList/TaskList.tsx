@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'motion/react';
 import TodoItem from '@/components/TodoItem/TodoItem';
 import { useGetTodoList } from '@/hooks/goalsDetail/useGetTodoList';
 import SpinIcon from '@/public/icon/spin.svg';
@@ -37,9 +38,9 @@ export default function TaskList({
 
   return (
     <div
-      className={`scrollbar-thin custom-scrollbar overflow-y-auto pr-5 transition-all ${
+      className={`scrollbar-thin custom-scrollbar pr-1 transition-all ${
         isMoreToggle ? 'max-h-full' : 'max-h-[260px]'
-      } ${isDashboard ? 'scrollbar-hide' : ''}`}
+      } ${isDashboard ? 'overflow-y-auto scrollbar-hide' : 'max-h-full'}`}
     >
       <ul className="mt-2 space-y-2 text-gray350">
         {loading ? (
@@ -49,10 +50,18 @@ export default function TaskList({
         ) : !tasks || tasks.length === 0 ? (
           <li className="py-3 text-[14px] font-medium leading-[16px]">등록된 할 일이 없어요</li>
         ) : (
-          tasks.map((task) => (
-            <li key={task.id}>
+          tasks.map((task, i) => (
+            <motion.li
+              key={task.id}
+              initial={{ y: 30 }}
+              whileInView={{ y: 0 }}
+              animate={{ transition: { duration: 0.3, delay: i * 0.3 } }}
+              viewport={{ once: true }}
+              exit={{ opacity: 1 }}
+              layout
+            >
               <TodoItem todo={task} goalId={goalId} isDashboard={isDashboard} />
-            </li>
+            </motion.li>
           ))
         )}
       </ul>
