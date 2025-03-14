@@ -17,7 +17,7 @@ export default function Layout({
         width={30}
         height={30}
         alt="stem"
-        className={'absolute top-[-15px] z-20 transition-all duration-500 ease-in-out'}
+        className={'absolute left-[3px] top-[-6px] z-20 transition-all duration-500 ease-in-out'}
       />
 
       <div
