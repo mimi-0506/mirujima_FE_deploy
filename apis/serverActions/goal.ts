@@ -10,7 +10,8 @@ export const readGoalFromServer = async (goalId: GoalType['id']) => {
   'use server';
   try {
     const isInvalid = isNaN(goalId);
-    if (isInvalid) throw new Error('잘못된 URL');
+    if (isInvalid) redirect('/dashboard');
+
 
     const res = await apiWithServerToken.get<ApiResponse<GoalType>>(`/goals/${goalId}`);
 
