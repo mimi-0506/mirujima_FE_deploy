@@ -6,10 +6,17 @@ import NoteIcon from '@/public/icon/note.svg';
 import GoalNoteList from '../_components/goalNoteList/GoalNoteList';
 import NoGoalNoteList from '../_components/noGoalNoteList/NoGoalNoteList';
 
-export default async function AllNoteList() {
+interface Props {
+  searchParams: Promise<{ initOpen: string | undefined }>;
+}
+
+export default async function AllNoteList({ searchParams }: Props) {
+  const initOpen = (await searchParams)?.initOpen;
   const goalList = await readGoalListFromServer();
 
   const showErrorMessage = !goalList || !goalList.goals || goalList.goals.length === 0;
+
+  const initOpenGoalId = isNaN(Number(initOpen)) ? null : Number(initOpen);
 
   return (
     <section className="w-full space-y-6">
@@ -27,10 +34,15 @@ export default async function AllNoteList() {
       ) : (
         Array.isArray(goalList.goals) &&
         goalList.goals.map((goal) => (
-          <GoalNoteList key={goal.id} goalId={goal.id} goalTitle={goal.title} />
+          <GoalNoteList
+            key={goal.id}
+            goalId={goal.id}
+            goalTitle={goal.title}
+            initOpen={goal.id === initOpenGoalId}
+          />
         ))
       )}
-      <NoGoalNoteList />
+      <NoGoalNoteList initOpen={initOpenGoalId === 0} />
     </section>
   );
 }
