@@ -12,7 +12,6 @@ export const readGoalFromServer = async (goalId: GoalType['id']) => {
     const isInvalid = isNaN(goalId);
     if (isInvalid) redirect('/dashboard');
 
-
     const res = await apiWithServerToken.get<ApiResponse<GoalType>>(`/goals/${goalId}`);
 
     return res.data.result;

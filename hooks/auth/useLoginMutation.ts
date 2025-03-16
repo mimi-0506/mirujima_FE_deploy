@@ -8,6 +8,7 @@ import authApi from '@/apis/clientActions/authApi';
 import { LOGIN_ERROR, LOGIN_SUCCESS } from '@/constant/toastText';
 import { useInfoStore, useModalStore } from '@/provider/store-provider';
 import { COOKIEOPTIONS_ACCESS, COOKIEOPTIONS_REFRESH } from '@/constant/cookieOptions';
+import { encrypt } from '@/utils/cryptoUtils';
 import { AuthResponse } from '@/types/auth.types';
 
 interface LoginMutationVariables {
@@ -20,8 +21,15 @@ interface LoginMutationVariables {
 
 const loginUser = async (variables: LoginMutationVariables): Promise<AuthResponse> => {
   const { formData } = variables;
+
+  if (!formData) throw new Error('로그인 정보가 없습니다.');
+
   try {
-    const response = await authApi.post<AuthResponse>('/auth/login', formData);
+    // 비밀번호 암호화 적용
+    const encryptedPassword = encrypt(formData.password);
+    const encryptedFormData = { ...formData, password: encryptedPassword };
+
+    const response = await authApi.post<AuthResponse>('/auth/login', encryptedFormData);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
