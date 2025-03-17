@@ -31,6 +31,6 @@ export const readGoalListFromServer = async () => {
 
     return res.data.result;
   } catch (e) {
-    redirect('/logout');
+    redirect('/dashboard');
   }
 };
