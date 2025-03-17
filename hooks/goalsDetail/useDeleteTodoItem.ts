@@ -18,7 +18,7 @@ export function useDeleteTodoItem() {
       queryKey,
       (cache: cacheType<{ lastSeeId: number; remainigCount: number; todos: TodoType[] }> | []) => {
         console.log(cache);
-        if (!cache || Array.isArray(cache)) return [];
+        if (!cache || Array.isArray(cache) || !Array.isArray(cache.pages)) return [];
         const oldTodos = cache.pages[0].todos;
         const newTodos = oldTodos.filter((item: TodoType) => item.id !== todo.id);
 
