@@ -14,20 +14,25 @@ export default function useConfetti(
     if (!isRunning) return;
     const timer = setInterval(() => {
       setTime((prev: number) => {
-        if (prev === 0) {
-          setState((now: TimerStateType) => (now === 'focus' ? 'break' : 'focus'));
-          setTime(state === 'focus' ? FOCUS_TIME : BREAK_TIME);
+        // 컨페티 애니메이션 초기 동작 시간이 1초 정도 소요되므로, 1초일때 컨페티 시작
+        if (prev <= 1) setShowConfetti(true);
+
+        if (prev === 1) {
+          setState((now: TimerStateType) => {
+            const next = now === 'focus' ? 'break' : 'focus';
+            setTime(next === 'focus' ? FOCUS_TIME : BREAK_TIME);
+            return next;
+          });
+
           return 0;
         }
 
-        // 컨페티 애니메이션 초기 동작 시간이 1초 정도 소요되므로, 1초일때 컨페티 시작
-        if (prev <= 1) setShowConfetti(true);
         return prev - 1;
       });
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isRunning, state]);
+  }, [isRunning]);
 
   return { showConfetti, setShowConfetti };
 }
