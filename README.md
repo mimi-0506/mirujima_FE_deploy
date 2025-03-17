@@ -149,8 +149,7 @@ PW: 11111111
 <br/>
 
 ## 🎬 주요 기능 시연영상
-
-[youtube.com](https://youtu.be/7UOW_8Q6iPQ)
+[📺 YouTube에서 보기](https://youtu.be/jOvbl1b1UX0)
 
 <br/>
 <br/>
