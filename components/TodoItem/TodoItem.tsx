@@ -1,17 +1,16 @@
 'use client';
-import { useRef } from 'react';
-import { useRouter } from 'next/navigation';
 
+import { useRef, useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import { primaryColors } from '@/constant/colors';
 import { useCheckTodo } from '@/hooks/goalsDetail/useCheckTodoStatus';
-import { useModalStore } from '@/provider/store-provider';
-import { useTodoCreateModalStore } from '@/provider/store-provider';
+import { useModalStore, useTodoCreateModalStore } from '@/provider/store-provider';
 import FileIcon from '@/public/icon/file.svg';
 import FlagIcon from '@/public/icon/flag-gray.svg';
 import LinkIcon from '@/public/icon/link.svg';
 import NoteIcon from '@/public/icon/note-s.svg';
 import PenIcon from '@/public/icon/pen.svg';
-
+import SpinIcon from '@/public/icon/spin.svg';
 import { CheckedIcon } from '../../app/(workspace)/todoList/_components/CheckedIcon';
 import { GoalType } from '@/types/goal.types';
 import type { TodoType, EditableTodo } from '@/types/todo.types';
@@ -30,24 +29,40 @@ interface TodoItemProps {
 
 export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps) {
   const router = useRouter();
-  const { setCreatedTodoState } = useTodoCreateModalStore((state) => state);
+  const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
   const { mutate: toggleTodo } = useCheckTodo();
   const { mutate: deleteTodoMutate } = useDeleteTodoItem();
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
   const aTagRef = useRef<HTMLAnchorElement | null>(null);
   const handleClickFileDownload = useTodoFileDownload();
-  const setIsTodoDeleteConfirmModalOpen = useModalStore(
-    (state) => state.setIsTodoDeleteConfirmModalOpen
-  );
+
+  const [isNoteLoading, setIsNoteLoading] = useState(false);
+  const [isNotePending, startNoteTransition] = useTransition();
+  const [isPenLoading, setIsPenLoading] = useState(false);
+  const [isPenPending, startPenTransition] = useTransition();
 
   const handleNoteIconClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    router.push(`/notes/${todo.noteId}`, { scroll: false });
+    setIsNoteLoading(true);
+    startNoteTransition(async () => {
+      try {
+        await router.push(`/notes/${todo.noteId}`, { scroll: false });
+      } finally {
+        setIsNoteLoading(false);
+      }
+    });
   };
 
   const handlePenIconClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    router.push(`/notes/create/${todo.id}`);
+    setIsPenLoading(true);
+    startPenTransition(async () => {
+      try {
+        await router.push(`/notes/create/${todo.id}`);
+      } finally {
+        setIsPenLoading(false);
+      }
+    });
   };
 
   const handleCheckbox = () => {
@@ -57,9 +72,9 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
       done: isDone,
       completionDate: isDone ? new Date().toISOString() : null
     };
-
     toggleTodo({ todo: updatedTodo });
   };
+
   const handleOpenEditModal = (todo: TodoType): void => {
     const editableTodo: EditableTodo = {
       ...todo,
@@ -72,31 +87,21 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
   };
 
   const handleOpenDeleteModal = () => {
-    setIsTodoDeleteConfirmModalOpen(true, {
-      onConfirm: () => {
-        deleteTodoMutate(todo, {
-          onSuccess: () => {
-            setIsTodoDeleteConfirmModalOpen(false);
-          }
-        });
-      },
-      onCancel: () => setIsTodoDeleteConfirmModalOpen(false)
+    deleteTodoMutate(todo, {
+      onSuccess: () => {}
     });
   };
 
   const priorityClass = primaryColors[todo.priority as Priority];
-
   const isGoalVisible = showGoal && todo.goal?.id;
 
   return (
     <div
-      className={`group relative mb-4 grid grid-cols-4 items-center justify-between ${isGoalVisible ? 'grid-rows-2' : 'grid-rows-1'}`}
+      className={`group relative mb-4 grid grid-cols-4 items-center justify-between ${
+        isGoalVisible ? 'grid-rows-2' : 'grid-rows-1'
+      }`}
     >
-      <div
-        className={
-          'col-start-1 col-end-4 flex flex-1 items-baseline gap-2 group-focus-within:text-main group-hover:text-main'
-        }
-      >
+      <div className="col-start-1 col-end-4 flex flex-1 items-baseline gap-2 group-focus-within:text-main group-hover:text-main">
         <div className="relative flex translate-y-[3px] cursor-pointer">
           <input
             type="checkbox"
@@ -108,8 +113,7 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
             <CheckedIcon />
           </span>
         </div>
-
-        <h4 className={`truncate py-0.5 ${todo.done ? 'line-through' : ''} `}>{todo.title}</h4>
+        <h4 className={`truncate py-0.5 ${todo.done ? 'line-through' : ''}`}>{todo.title}</h4>
       </div>
 
       <ul className="relative flex shrink-0 items-center justify-end gap-1">
@@ -130,6 +134,7 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
             </a>
           </li>
         )}
+
         {todo.linkUrl?.startsWith('http') && (
           <li>
             <a
@@ -143,24 +148,32 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
             </a>
           </li>
         )}
-        {todo.noteId && (
-          <li onClick={handleNoteIconClick} className="cursor-pointer">
-            <NoteIcon width={18} height={18} />
-          </li>
-        )}
+
+        <li>
+          {todo.noteId ? (
+            isNoteLoading || isNotePending ? (
+              <SpinIcon width={18} height={18} />
+            ) : (
+              <span onClick={handleNoteIconClick} className="cursor-pointer">
+                <NoteIcon width={18} height={18} />
+              </span>
+            )
+          ) : (
+            !isDashboard &&
+            (isPenLoading || isPenPending ? (
+              <SpinIcon width={18} height={18} />
+            ) : (
+              <button onClick={handlePenIconClick} className="relative top-[3px] cursor-pointer">
+                <PenIcon width={18} height={18} />
+              </button>
+            ))
+          )}
+        </li>
+
         <li className={`${priorityClass} rounded-full border p-1 px-3 py-0.5 text-small`}>
           {todo.priority}
         </li>
-        {!todo.noteId && !isDashboard && (
-          <li className="-ml-6 opacity-0 transition-all group-focus-within:ml-0 group-focus-within:opacity-100 group-hover:ml-0 group-hover:opacity-100">
-            <PenIcon
-              width={18}
-              height={18}
-              className="cursor-pointer"
-              onClick={handlePenIconClick}
-            />
-          </li>
-        )}
+
         {!isDashboard && (
           <li className="-ml-6 opacity-0 transition-all group-focus-within:ml-0 group-focus-within:opacity-100 group-hover:ml-0 group-hover:opacity-100">
             <KebabMenu
@@ -171,6 +184,7 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
           </li>
         )}
       </ul>
+
       {isGoalVisible && (
         <span className="col-start-1 -col-end-1 flex items-center gap-1 truncate pl-5 text-body2 text-gray350">
           <FlagIcon />

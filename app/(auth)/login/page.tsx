@@ -3,11 +3,18 @@ import { useAuthCheck } from '@/hooks/auth/useAuthCheck';
 import { useRouter } from 'next/navigation';
 import SocialLoginButtons from '../_components/SocialLoginButtons';
 import LoginForm from '../_components/LoginForm';
+import { useInfoStore } from '@/provider/store-provider';
+import { useEffect } from 'react';
 
 export default function LoginPage() {
   const router = useRouter();
+  const logout = useInfoStore((state) => state.logout);
 
   useAuthCheck();
+
+  useEffect(() => {
+    logout();
+  }, []);
 
   return (
     <>

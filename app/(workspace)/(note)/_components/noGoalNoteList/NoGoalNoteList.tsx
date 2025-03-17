@@ -9,8 +9,8 @@ import TodoIcon from '@/public/icon/work.svg';
 
 import NoteCardList from '../noteCardList/NoteCardList';
 
-export default function NoGoalNoteList() {
-  const { isToggleOpen, handleToggle } = useToggle();
+export default function NoGoalNoteList({ initOpen }: { initOpen: boolean }) {
+  const { isToggleOpen, handleToggle } = useToggle(initOpen);
 
   return (
     <section className="pl-8">

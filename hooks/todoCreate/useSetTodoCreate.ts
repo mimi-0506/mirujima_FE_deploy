@@ -30,9 +30,8 @@ export default function useTodoCreate() {
     },
     onSuccess: (_) => {
       toast.success(TODO_CREATE_SUCCESS);
-
-      // 실제 아이디 필요하므로 refetch
       queryClient.invalidateQueries({ queryKey: ['allTodos', userId] });
+      queryClient.invalidateQueries({ queryKey: ['allTodosInfiniteScroll', userId] });
 
       setIsTodoCreateModalOpen(false);
     },

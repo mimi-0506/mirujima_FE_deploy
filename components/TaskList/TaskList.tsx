@@ -17,6 +17,7 @@ interface TaskListProps {
   isError?: boolean;
   isMoreToggle?: boolean;
   isDashboard?: boolean;
+  fixedGoalId?: GoalType['id'];
 }
 
 export default function TaskList({
@@ -26,9 +27,12 @@ export default function TaskList({
   isLoading: propLoading,
   isError: propError,
   isMoreToggle,
-  isDashboard
+  isDashboard,
+  fixedGoalId
 }: TaskListProps) {
-  const { data, isLoading, isError } = useGetTodoList(goalId, done);
+  const effectiveGoalId = fixedGoalId ?? goalId;
+
+  const { data, isLoading, isError } = useGetTodoList(effectiveGoalId, done);
 
   const tasks = propTasks ?? data;
   const loading = propTasks ? (propLoading ?? false) : isLoading;
@@ -60,7 +64,7 @@ export default function TaskList({
               exit={{ opacity: 1 }}
               layout
             >
-              <TodoItem todo={task} goalId={goalId} isDashboard={isDashboard} />
+              <TodoItem todo={task} goalId={effectiveGoalId} isDashboard={isDashboard} />
             </motion.li>
           ))
         )}

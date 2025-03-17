@@ -18,8 +18,6 @@ export default function useSetNewGoal() {
     },
     onSuccess: () => {
       toast.success(GOAL_CREATE_SUCCESS);
-
-      // 실제 아이디 필요하므로 refetch
       queryClient.invalidateQueries({ queryKey: ['goals', userId] });
     },
     onError: (error, _) => {

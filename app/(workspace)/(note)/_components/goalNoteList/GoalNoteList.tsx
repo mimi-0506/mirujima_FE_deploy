@@ -11,11 +11,12 @@ import NoteCardList from '../noteCardList/NoteCardList';
 import type { GoalType } from '@/types/goal.types';
 
 interface Props {
+  initOpen: boolean;
   goalId: GoalType['id'];
   goalTitle: GoalType['title'];
 }
-export default function GoalNoteList({ goalId, goalTitle }: Props) {
-  const { isToggleOpen, handleToggle } = useToggle();
+export default function GoalNoteList({ initOpen, goalId, goalTitle }: Props) {
+  const { isToggleOpen, handleToggle } = useToggle(initOpen);
 
   return (
     <section className="pl-8">

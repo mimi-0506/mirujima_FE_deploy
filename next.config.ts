@@ -1,15 +1,20 @@
 import type { NextConfig } from 'next';
-import type { Configuration } from 'webpack';
+import { Configuration } from 'webpack';
+import withSerwistInit from '@serwist/next';
 
-const pwaConfig = {
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
-  mode: 'production'
+const isProd = process.env.NODE_ENV === 'production';
+const noWrapper = (config: NextConfig) => config;
+
+const revision = crypto.randomUUID();
+
+const serwistConfig = {
+  swSrc: 'app/sw.ts',
+  swDest: 'public/sw.js',
+  cacheOnNavigation: true,
+  additionalPrecacheEntries: [{ url: '/~offline', revision }]
 };
 
-const withPWA = require('next-pwa')(pwaConfig);
+const withPWA = isProd ? withSerwistInit(serwistConfig) : noWrapper;
 
 const nextConfig: NextConfig = withPWA({
   experimental: {

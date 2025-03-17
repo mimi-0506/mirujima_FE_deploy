@@ -12,7 +12,7 @@ const useInfiniteNoteList = (goalId: number | undefined, initData?: NoteListType
   const effectGoalId = goalId ?? 0;
 
   const [isFirst, setIsFirst] = React.useState(true);
-  const { userId } = useInfoStore((state) => state);
+  const userId = useInfoStore((state) => state.userId);
 
   const staleTime = initData ? (isFirst ? 1000 : 10 * 60 * 1000) : isFirst ? 0 : 10 * 60 * 1000;
 
