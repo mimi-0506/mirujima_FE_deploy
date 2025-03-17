@@ -31,7 +31,7 @@ export default function TodoListPage() {
       <div className="flex justify-between">
         <h2 className="h2 flex items-center gap-2">
           <TodoListIcon />
-          모든 할 일
+          모든 할 일 ({filteredTodos.length})
         </h2>
         <button
           onClick={() => {
