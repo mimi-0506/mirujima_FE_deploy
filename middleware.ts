@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-
+import { cookies } from 'next/headers';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
@@ -13,52 +13,32 @@ export async function middleware(req: NextRequest) {
   // 로그아웃
   if (pathname === '/logout') {
     const response = NextResponse.redirect(new URL('/login', req.url));
-    response.cookies.set('accessToken', '', { expires: new Date(0) });
-    response.cookies.set('refreshToken', '', { expires: new Date(0) });
-    response.cookies.set('user', '', { expires: new Date(0) });
     return response;
   }
 
-  if (
-    pathname === '/login' ||
-    pathname === '/signup' ||
-    pathname === '/' ||
-    pathname === '/auth/callback'
-  ) {
+  // 로그인에서 쿠키 싹 밀기
+  if (pathname === '/login') {
+    const cookieStore = await cookies();
+    cookieStore.getAll().forEach(({ name }) => {
+      cookieStore.set(name, '', { expires: new Date(0) });
+    });
     return NextResponse.next();
   }
+
+  // /는 토큰이 있어도, 없어도 접근 가능
+  const NO_TOKEN_AREA = ['/login', '/signup', '/auth/callback'];
 
   // 토큰 검사
   const accessToken = req.cookies.get('accessToken');
-  if (!accessToken) {
-    // console.log(req.url, '❌ 액세스토큰 없음');
-    return NextResponse.redirect(new URL('/login', req.url));
-  }
 
-  // console.log(req.url, '✅ 액세스토큰 있음');
-
-  try {
-    // axios보다 fetch가 next/server에서 더 안정적
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/user`, {
-    //   method: 'GET',
-    //   headers: { Authorization: `Bearer ${accessToken}` }
-    // });
-
-    // console.log(response.status);
-
-    // if (!response.ok) {
-    //   console.log('토큰 유효하지 않음');
-    //   return NextResponse.redirect(new URL('/login', req.url));
-    // }
-
-    // 로그인 상태에서 로그인 페이지 접근 시 대시보드로 리디렉트
-    if (pathname === '/login' || pathname === '/signup' || pathname === '/auth/callback')
+  if (accessToken) {
+    // 토큰있음
+    if (NO_TOKEN_AREA.includes(pathname))
       return NextResponse.redirect(new URL('/dashboard', req.url));
-
-    return NextResponse.next();
-  } catch (error) {
-    console.log('❌ 서버 통신 오류:', error);
-    return NextResponse.redirect(new URL('/login', req.url));
+  } else {
+    // 토큰없음
+    if (!NO_TOKEN_AREA.includes(pathname) && pathname !== '/')
+      return NextResponse.redirect(new URL('/login', req.url));
   }
 }
 

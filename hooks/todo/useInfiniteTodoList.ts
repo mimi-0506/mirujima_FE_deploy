@@ -5,21 +5,34 @@ import { readTodoList } from '@/apis/clientActions/todo';
 
 export const useInfiniteTodoList = (userId: number) => {
   const { data, isLoading, isFetching, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['allTodos', userId],
+    queryKey: ['allTodosInfiniteScroll', userId],
     queryFn: ({ pageParam }) => readTodoList({ lastSeenId: pageParam ?? 9999 }),
     initialPageParam: 9999,
-    getNextPageParam: (lastPage) => (lastPage.remainingCount > 0 ? lastPage.lastSeenId : undefined),
-    select: (data) => ({
-      ...data,
-      pages: Array.isArray(data.pages) ? data.pages.flatMap((page) => page.todos) : []
-    })
+    getNextPageParam: (lastPage) => {
+      if (lastPage && lastPage.remainingCount > 0) {
+        return lastPage.lastSeenId;
+      }
+      return undefined;
+    },
+    select: (data) => {
+      if (!data || !data.pages) {
+        return { pages: [], pageParams: [] };
+      }
+      return {
+        ...data,
+        pages: data.pages.flatMap((page) => page?.todos ?? [])
+      };
+    }
   });
 
   const { ref, inView } = useInView();
 
   useEffect(() => {
-    if (inView && !isFetching) fetchNextPage();
-  }, [inView, isFetching]);
+    if (inView && !isFetching) {
+      fetchNextPage();
+    }
+  }, [inView, isFetching, fetchNextPage]);
+  const todos = data?.pages ?? [];
 
-  return { data, isLoading, isFetching, fetchNextPage, ref };
+  return { data: todos, isLoading, isFetching, fetchNextPage, ref };
 };

@@ -38,7 +38,7 @@ export default {
         lightLabel4: '#A8D2F5',
         lightGray400: '#B3B3B3',
         mainhover: '#E46161',
-        solidhover: '#FDE1E1',
+        solidhover: '#EBDDDD',
         whitehover: '#EBEBEB'
       },
       screens: {

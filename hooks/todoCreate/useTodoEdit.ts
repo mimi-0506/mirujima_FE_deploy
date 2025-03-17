@@ -27,7 +27,7 @@ export default function useTodoEdit() {
       queryKey,
       (cache: cacheType<{ lastSeeId: number; remainigCount: number; todos: TodoType[] }> | []) => {
         console.log(cache);
-        if (!cache || Array.isArray(cache)) return [];
+        if (!cache || Array.isArray(cache) || !Array.isArray(cache.pages)) return [];
         const oldTodos = cache.pages[0].todos;
         const newTodos = oldTodos.map((todo) =>
           todo.id === id
@@ -84,6 +84,7 @@ export default function useTodoEdit() {
 
       if (body.goalId) cacheUpdate(['todos', body.goalId, userId], body);
       cacheUpdate(['allTodos', userId], body);
+      queryClient.invalidateQueries({ queryKey: ['allTodosInfiniteScroll', userId] });
 
       setIsTodoCreateModalOpen(false);
     },
