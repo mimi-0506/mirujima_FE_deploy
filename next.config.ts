@@ -3,20 +3,8 @@ import { Configuration } from 'webpack';
 import withSerwistInit from '@serwist/next';
 
 const isProd = process.env.NODE_ENV === 'production';
-const noWrapper = (config: NextConfig) => config;
 
-const revision = crypto.randomUUID();
-
-const serwistConfig = {
-  swSrc: 'app/sw.ts',
-  swDest: 'public/sw.js',
-  cacheOnNavigation: true,
-  additionalPrecacheEntries: [{ url: '/~offline', revision }]
-};
-
-const withPWA = isProd ? withSerwistInit(serwistConfig) : noWrapper;
-
-const nextConfig: NextConfig = withPWA({
+const nextConfig: NextConfig = {
   experimental: {
     forceSwcTransforms: true
   },
@@ -43,14 +31,41 @@ const nextConfig: NextConfig = withPWA({
     remotePatterns: [{ protocol: 'https', hostname: process.env.NEXT_PUBLIC_S3_BUCKET_HOST || '' }]
   },
 
-  async rewrites() {
+  async headers() {
     return [
       {
-        source: '/api/:path*',
-        destination: 'https://api.mirujima.shop/:path*'
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ],
+        source: '/icon/(.*).(svg)'
+      },
+      {
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ],
+        source: '/images/(.*).(png|svg|ico)'
       }
     ];
   }
-});
+};
 
-export default nextConfig;
+const noWrapper = (config: NextConfig) => config;
+
+const revision = crypto.randomUUID();
+
+const serwistConfig = {
+  swSrc: 'app/sw.ts',
+  swDest: 'public/sw.js',
+  cacheOnNavigation: true,
+  additionalPrecacheEntries: [{ url: '/~offline', revision }]
+};
+
+const withPWA = isProd ? withSerwistInit(serwistConfig) : noWrapper;
+
+export default withPWA(nextConfig);
