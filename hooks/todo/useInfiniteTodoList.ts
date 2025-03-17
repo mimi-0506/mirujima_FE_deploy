@@ -5,7 +5,7 @@ import { readTodoList } from '@/apis/clientActions/todo';
 
 export const useInfiniteTodoList = (userId: number) => {
   const { data, isLoading, isFetching, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['allTodos', userId],
+    queryKey: ['allTodosInfiniteScroll', userId],
     queryFn: ({ pageParam }) => readTodoList({ lastSeenId: pageParam ?? 9999 }),
     initialPageParam: 9999,
     getNextPageParam: (lastPage) => {
