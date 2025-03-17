@@ -1,9 +1,11 @@
 'use server';
 
 import axios from 'axios';
-
 import { withTokenFromServer } from './interceptors/request';
-import { defaultResponseSuccessInterceptor } from './interceptors/response';
+import {
+  defaultResponseSuccessInterceptor,
+  errorHandlerInterceptor
+} from './interceptors/response';
 
 export const apiWithServerToken = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -12,4 +14,7 @@ export const apiWithServerToken = axios.create({
 });
 
 apiWithServerToken.interceptors.request.use(withTokenFromServer);
-apiWithServerToken.interceptors.response.use(defaultResponseSuccessInterceptor);
+apiWithServerToken.interceptors.response.use(
+  defaultResponseSuccessInterceptor,
+  errorHandlerInterceptor
+);
