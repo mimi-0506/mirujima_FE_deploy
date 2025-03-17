@@ -32,12 +32,15 @@ export function useAuthCheck() {
           const userCookie = getCookie('user') as string | undefined;
           const user = userCookie ? JSON.parse(userCookie) : {};
 
-          setInfo({ userId: user.id || 0, email: user.email || '', name: user.username || '' });
+          setInfo({
+            userId: user.id || 0,
+            email: user.email || '',
+            name: user.username || '',
+            profileImage: user.profileImagePath || null
+          });
 
           router.push('/dashboard');
-        } else {
-          router.push('/logout');
-        }
+        } else router.push('/logout');
       } catch (error) {
         console.error('Auth check failed:', error);
         router.push('/logout');
@@ -47,5 +50,5 @@ export function useAuthCheck() {
     };
 
     checkAuth();
-  }, [router, setInfo, setIsLoading]);
+  }, [setIsLoading]);
 }

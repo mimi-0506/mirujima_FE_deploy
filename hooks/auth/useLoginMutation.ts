@@ -64,7 +64,8 @@ export const useLoginMutation = () => {
         setInfo({
           userId: user.id,
           email: user.email,
-          name: user.username
+          name: user.username,
+          profileImage: user.profileImagePath || null
         });
         if (isAutoLogin) {
           setCookie('refreshToken', refreshToken, COOKIEOPTIONS_REFRESH);
