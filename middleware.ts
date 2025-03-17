@@ -43,5 +43,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next|api|manifest\\.webmanifest|.*\\.png$).*)']
+  matcher: ['/((?!_next|api|manifest\\.webmanifest|.*\\.png$|sw\\.js$).*)']
 };
