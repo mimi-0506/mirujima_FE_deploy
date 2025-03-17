@@ -29,7 +29,7 @@ interface TodoItemProps {
 
 export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps) {
   const router = useRouter();
-  const { setCreatedTodoState } = useTodoCreateModalStore((state) => state);
+  const setCreatedTodoState = useTodoCreateModalStore((state) => state.setCreatedTodoState);
   const { mutate: toggleTodo } = useCheckTodo();
   const { mutate: deleteTodoMutate } = useDeleteTodoItem();
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
