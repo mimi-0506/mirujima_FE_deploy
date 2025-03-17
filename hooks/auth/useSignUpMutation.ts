@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import authApi from '@/apis/clientActions/authApi';
 import { SIGNUP_ERROR, SIGNUP_SUCCESS } from '@/constant/toastText';
 import { useModalStore } from '@/provider/store-provider';
+import { encrypt } from '@/utils/cryptoUtils';
 
 export interface SignUpFormData {
   username: string;
@@ -34,7 +35,11 @@ export const checkEmailExists = async (email: string): Promise<boolean> => {
 
 const signUpUser = async (formData: SignUpFormData): Promise<void> => {
   try {
-    await authApi.post('/user', formData);
+    // 비밀번호 암호화 적용
+    const encryptedPassword = encrypt(formData.password);
+    const encryptedFormData = { ...formData, password: encryptedPassword };
+
+    await authApi.post('/user', encryptedFormData);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw error;

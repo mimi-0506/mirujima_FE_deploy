@@ -37,7 +37,7 @@ const kakaoLogin = async (authorizationCode: string): Promise<OAuthLoginResponse
 
 export const useKakaoLoginMutation = () => {
   const router = useRouter();
-  const { setInfo } = useInfoStore((state) => state);
+  const setInfo = useInfoStore((state) => state.setInfo);
 
   return useMutation({
     mutationFn: kakaoLogin,

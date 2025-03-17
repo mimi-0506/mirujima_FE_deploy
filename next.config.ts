@@ -5,9 +5,13 @@ import withSerwistInit from '@serwist/next';
 const isProd = process.env.NODE_ENV === 'production';
 const noWrapper = (config: NextConfig) => config;
 
+const revision = crypto.randomUUID();
+
 const serwistConfig = {
   swSrc: 'app/sw.ts',
-  swDest: 'public/sw.js'
+  swDest: 'public/sw.js',
+  cacheOnNavigation: true,
+  additionalPrecacheEntries: [{ url: '/~offline', revision }]
 };
 
 const withPWA = isProd ? withSerwistInit(serwistConfig) : noWrapper;

@@ -33,7 +33,7 @@ export default function Calendar() {
       <h4 className="mb-4">이번달 평균 달성률</h4>
       <h3 className="mb-6 text-head3 desktop:text-head2">
         {currentDate.getMonth() + 1}월에는 100%에{' '}
-        <span className="text-main">{completedGoalCount}번</span>
+        <span className="text-main">{completedGoalCount}번 </span>
         도달했어요!
       </h3>
 
