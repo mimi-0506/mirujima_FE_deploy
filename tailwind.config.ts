@@ -64,7 +64,8 @@ export default {
         tomatogradation: 'tomatogradation 2s infinite',
         confetti: 'confettiAnimation 3s infinite ease-in-out',
         fadeIn: 'fadeIn 0.3s ease-out forwards',
-        modalContent: 'modalContent 0.3s ease-out forwards'
+        modalContent: 'modalContent 0.3s ease-out forwards',
+        confettiFall: 'confettiFall linear infinite'
       },
       keyframes: {
         slideupfade: {
@@ -102,6 +103,10 @@ export default {
           '100%': {
             transform: 'translate3d(10vw, 170vh, 0) scale(1) rotate(720deg)' // 아래로 떨어지고, 화면 밖에서 사라짐
           }
+        },
+        confettiFall: {
+          '0%': { top: '-0vh' },
+          '100%': { top: '100vh' }
         }
       }
     }

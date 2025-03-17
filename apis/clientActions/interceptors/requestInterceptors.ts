@@ -3,7 +3,7 @@ import { getCookie, setCookie } from 'cookies-next';
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 const REFRESH_THRESHOLD_MINUTES = 50;
-
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 let isRefreshing = false;
 let refreshPromise: Promise<string> | null = null;
 
@@ -44,7 +44,7 @@ async function refreshAccessToken(): Promise<string> {
 
   try {
     const response = await axios.post(
-      'https://api.mirujima.shop/mirujima/auth/refresh',
+      `${BASE_URL}/auth/refresh`,
       {
         refreshToken
       },
