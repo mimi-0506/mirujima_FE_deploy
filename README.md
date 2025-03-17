@@ -57,6 +57,7 @@ PW: 11111111
 - **대시보드 제공**: 학습 진도 및 프로젝트 진행 상황을 그래프로 시각화
 - **목표 설정 및 관리**: 목표별 할 일과 진행 상황 한눈에 확인
 - **노트 기능**: 각 할 일에 대한 상세 노트 작성 및 저장
+- **뽀모도로 타이머**: 집중력 향상을 위한 작업 및 휴식 시간 관리하는 타이머 제공
 
 <br/>
 <br/>
@@ -68,16 +69,13 @@ PW: 11111111
 - **`main` 브랜치**: 배포 가능한 상태 유지
 - **`develop` 브랜치**: 다음 릴리스 개발을 위한 브랜치
 - **`feature` 브랜치**: 특정 기능이나 작업을 위한 브랜치
+- **`hotfix` 브랜치**: 배포 후 버그 작업을 위한 브랜치
 - **배포 주기**: 스프린트 주기로 배포
 
 <br/>
 <br/>
 
 ## ⛑ 개발 컨벤션
-
-<br/>
-<br/>
-
 ### 커밋 컨벤션
 
 | 커밋 유형  | 설명          |
@@ -89,9 +87,6 @@ PW: 11111111
 | `test`     | 테스트        |
 | `docs`     | 문서 수정     |
 | `style`    | 스타일 수정   |
-
-<br/>
-<br/>
 
 ### 함수, 변수 컨벤션
 
@@ -115,38 +110,39 @@ PW: 11111111
 ## 🗂 디렉토리 구조
 
 ```bash
-📦 apis
-📦 app
- ┣ 📂(auth)
- ┃ ┣ 📂login
- ┃ ┣ 📂signup
- ┣ 📂(workspace)
- ┃ ┣ 📂(note)
- ┃ ┃ ┣ 📂noteList
- ┃ ┃ ┃ ┣ 📂@note
- ┃ ┃ ┃ ┃ ┣ 📂(...)notes
- ┃ ┃ ┃ ┃ ┃ ┗ 📂[id]
- ┃ ┃ ┃ ┣ 📂[goalId]
- ┃ ┃ ┣ 📂notes
- ┃ ┃ ┃ ┣ 📂create
- ┃ ┃ ┃ ┃ ┣ 📂[todoId]
- ┃ ┃ ┃ ┗ 📂[id]
- ┃ ┣ 📂goals
- ┃ ┃ ┣ 📂[id]
- ┃ ┣ 📂todoList
- ┃ ┃ ┣ 📂(.)notes
- ┃ ┃ ┃ ┗ 📂[id]
- ┣ 📂404
- ┣ 📂dashboard
-📦 components
-📦 constant
-📦 hooks
-📦 modals
-📦 provider
-📦 schema
-📦 stores
-📦 types
-📦 utils
+📦apis
+┣ 📂(clientActions)
+┣ 📂(serverActions)
+📦app
+┣ 📂_components
+┣ 📂(auth)
+┃ ┣ 📂login 
+┃ ┗ 📂signup 
+┣ 📂(workspace)
+┃ ┣ 📂(note)
+┃ ┃ ┣ 📂noteList
+┃ ┃ ┃ ┗ 📂[goalId]
+┃ ┃ ┣ 📂notes
+┃ ┃ ┃ ┣ 📂[id]
+┃ ┃ ┃ ┗ 📂create
+┃ ┃ ┃      ┗ 📂[todoId]
+┃ ┣ 📂goals
+┃ ┃ ┣ 📂[id]
+┃ ┣ 📂todoList
+┣ 📂@note
+┃  ┣ 📂(.)notes
+┃  ┗ 📂[...catchAll]
+┣ 📂dashboard
+📦components
+📦constant
+📦hooks
+📦modals
+📦provider
+📦public
+📦schema
+📦stores
+📦types
+📦utils
 ```
 
 <br/>
@@ -161,18 +157,21 @@ PW: 11111111
 
 ## 🎨 디자인 컨셉
 
-디자이너님께 요청 예정
+🍅 **뽀모도로** 컨셉 UI와 브랜드 컬러
+
+![03_리소스_디자인](https://github.com/user-attachments/assets/20f414dd-5da1-4ab1-8dd6-1e6577cc600f)
+
 
 <br/>
 <br/>
 
 ## 🧑‍💻 팀원 소개
 
-| 이름   | 역할       | 깃허브                                 | 간단 소개             |
+| 이름   | 역할       | 깃허브                                 | 담당 작업        |
 | ------ | ---------- | -------------------------------------- | --------------------- |
-| 박혜미 | 프론트엔드 | [GitHub](https://github.com/mimi-0506) | 프로젝트 리딩         |
-| 김지윤 | 프론트엔드 | [GitHub](https://github.com/kirnjiyun) |                       |
-| 노진철 | 프론트엔드 | [GitHub](https://github.com/jinoc-git) |                       |
-| 이송아 | 프론트엔드 | [GitHub](https://github.com/soma0078)  |                       |
-| 정철훈 | 백엔드     | [GitHub](http://github.com/huneeJung)  | 서버 및 API 개발 담당 |
-| 이주희 | 디자이너   |                                        | UI 디자인             |
+| 박혜미 | 프론트엔드 | [GitHub](https://github.com/mimi-0506) | 프로젝트 리딩 및 스케줄링 / 네비게이션 바 / 미들웨어 및 라우팅 / 할 일 생성 및 수정 모달 / 뽀모도로 타이머 |
+| 김지윤 | 프론트엔드 | [GitHub](https://github.com/kirnjiyun) | 로그인/회원가입 페이지 / SNS 및 자동 로그인 / 목표 상세 페이지 / 목표 수정 및 삭제 모달 / 전체 타입 정리 |
+| 노진철 | 프론트엔드 | [GitHub](https://github.com/jinoc-git) | 노트 작성/수정 페이지 / 노트 상세 페이지 / 노트 리스트 페이지 / 노트 관련 기능 / PWA 기능 |
+| 이송아 | 프론트엔드 | [GitHub](https://github.com/soma0078)  | 프로젝트 초기 세팅 및 문서화 / 대시보드 페이지 / 모든 할 일 페이지 / 할 일 아이템 컴포넌트 / 비밀번호 암호화 |
+| 정철훈 | 백엔드     | [GitHub](http://github.com/huneeJung)  | 서버 설계 및 API 개발 |
+| 이주희 | 디자이너   |               -                        | UI 디자인 및 프로토타입 제작 |
