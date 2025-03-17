@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 
-type confettiType = {
+export type confettiType = {
   text: string;
   left: number;
   top: number;
