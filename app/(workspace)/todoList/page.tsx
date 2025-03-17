@@ -14,6 +14,7 @@ import PriorityFilter from './_components/PriorityFilter';
 import TodoFilter from './_components/TodoFilter';
 import type { FilterType } from '@/types/filter.type';
 import type { Priority } from '@/types/color.types';
+import { useAllTodos } from '@/hooks/todo/useAllTodos';
 
 export default function TodoListPage() {
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
@@ -26,12 +27,15 @@ export default function TodoListPage() {
   const todos = data ?? [];
   const filteredTodos = useFilteredTodos(todos, filter, priority);
 
+  // 할 일 전체 개수 가져오기
+  const { todoData } = useAllTodos(Number(userId));
+
   return (
     <>
       <div className="flex justify-between">
         <h2 className="h2 flex items-center gap-2">
           <TodoListIcon />
-          모든 할 일
+          모든 할 일 ({todoData.length})
         </h2>
         <button
           onClick={() => {
