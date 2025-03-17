@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 import { readNoteFromServer } from '@/apis/serverActions/note';
 import EmbedContent from '@/app/(workspace)/(note)/_components/embedContent/EmbedContent';
@@ -17,7 +17,7 @@ export default async function NoteDetailModal({ params }: Props) {
 
   const note = await readNoteFromServer(Number(id));
 
-  if (!note) redirect('/dashboard');
+  if (!note) notFound();
 
   return (
     <NoteLayoutModal embed={<EmbedContent linkUrl={note.linkUrl} isReadOnlyPage />}>
