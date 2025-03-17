@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import type { GoalType } from '@/types/goal.types';
 import { readGoalFromServer } from '@/apis/serverActions/goal';
 import { readNoteListFromServer } from '@/apis/serverActions/note';
@@ -19,7 +19,7 @@ export default async function NoteList({ params }: Props) {
   const { goalId } = await params;
 
   const goal = await readGoalFromServer(goalId);
-  if (!goal) redirect('/dashboard');
+  if (!goal) notFound();
 
   const noteList = await readNoteListFromServer({
     goalId: goal.id,
@@ -37,8 +37,8 @@ export default async function NoteList({ params }: Props) {
         <h2 className="w-full items-center truncate text-gray500">{goal.title}</h2>
         <EditGoal goalId={goal.id} goalTitle={goal.title} />
       </div>
-      {noteList.result ? (
-        <NoteCardList goalId={goal.id} noteList={noteList.result} />
+      {noteList ? (
+        <NoteCardList goalId={goal.id} noteList={noteList} />
       ) : (
         <div>작성한 노트가 없어요</div>
       )}

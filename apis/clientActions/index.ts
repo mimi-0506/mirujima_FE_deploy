@@ -21,14 +21,7 @@ export const apiWithClientToken = axios.create({
 // ✅ 응답 인터셉터: 에러 발생 시 URL 이동
 const errorInterceptor = async (error: AxiosError) => {
   if (error.response) {
-    if (error.response.status === 401) {
-      window.location.href = '/logout';
-    }
-    //  else if (error.response.status >= 400 && error.response.status < 500) {
-    //   window.location.href = '/pageError';
-    // } else if (error.response.status >= 500) {
-    //   window.location.href = '/serverError';
-    // }
+    if (error.response.status === 401) window.location.href = '/logout';
   }
   return Promise.reject(error);
 };

@@ -1,9 +1,7 @@
 import React from 'react';
 
-import { redirect } from 'next/navigation';
-
+import { notFound } from 'next/navigation';
 import { readNoteFromServer } from '@/apis/serverActions/note';
-
 import EmbedContent from '../../_components/embedContent/EmbedContent';
 import ContentLayout from '../../_components/layout/ContentLayout';
 import ReadOnlyNoteContent from '../../_components/readOnlyNoteContent/ReadOnlyNoteContent';
@@ -17,7 +15,7 @@ export default async function NoteDetail({ params }: Props) {
 
   const note = await readNoteFromServer(Number(id));
 
-  if (!note) redirect('/dashboard');
+  if (!note) notFound();
 
   return (
     <div className="flex h-full min-h-[calc(100vh-132px)] md:min-h-[calc(100vh-162px)]">

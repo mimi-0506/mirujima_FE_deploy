@@ -14,6 +14,8 @@ import SpinIcon from '@/public/icon/spin.svg';
 import GoalIcon from '@/public/icon/todo-list-black.svg';
 import Button from '../_components/Button';
 import useIsLargeScreen from '@/hooks/nav/useIsLargeScreen';
+import toast from 'react-hot-toast';
+import { GOAL_EDIT_ERROR, GOAL_EDIT_SUCCESS } from '@/constant/toastText';
 
 export default function GoalDetailPage() {
   const router = useRouter();
@@ -68,11 +70,11 @@ export default function GoalDetailPage() {
         { goalId: fixedGoalId, title: trimmedTitle },
         {
           onSuccess: () => {
-            console.log('제목 수정 성공!');
+            toast.success(GOAL_EDIT_SUCCESS);
           },
           onError: () => {
             setEditedTitle(previousTitle);
-            alert('제목 수정에 실패했습니다. 다시 시도해주세요.');
+            toast.error(GOAL_EDIT_ERROR);
           }
         }
       );
