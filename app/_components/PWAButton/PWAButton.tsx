@@ -1,6 +1,5 @@
 'use client';
 
-import { apiWithClientToken } from '@/apis/clientActions';
 import { INSTALL_APP_ERROR } from '@/constant/toastText';
 import usePWA from '@/hooks/pwa/usePWA';
 import { useModalStore } from '@/provider/store-provider';
@@ -25,21 +24,6 @@ export default function PWAButton({ className }: Props) {
     }
   };
 
-  // 개선 필요(사용하지 않는 route를 api route로 만들어서 사용?)
-  const [valid, setValid] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
-    const handleValidCheck = async () => {
-      try {
-        const { data } = await apiWithClientToken.get('/user');
-        setValid(!!data);
-      } catch (error) {
-        setValid(false);
-      }
-    };
-    handleValidCheck();
-  }, []);
-
   return (
     <div className={`w-full ${className ? className : ''}`}>
       {isInstallable ? (
@@ -52,7 +36,7 @@ export default function PWAButton({ className }: Props) {
         </button>
       ) : (
         <Link
-          href={valid ? '/dashboard' : '/login'}
+          href={'/login'}
           className="flex-center color-animate inline-block h-[40px] w-full rounded-lg bg-main text-button2 text-white hover:bg-mainhover md:h-[50px] md:text-button2"
         >
           이대로 사용할래요

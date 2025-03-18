@@ -2,8 +2,6 @@ import type { NextConfig } from 'next';
 import { Configuration } from 'webpack';
 import withSerwistInit from '@serwist/next';
 
-const isProd = process.env.NODE_ENV === 'production';
-
 const nextConfig: NextConfig = {
   experimental: {
     forceSwcTransforms: true
@@ -29,34 +27,11 @@ const nextConfig: NextConfig = {
   },
   images: {
     remotePatterns: [{ protocol: 'https', hostname: process.env.NEXT_PUBLIC_S3_BUCKET_HOST || '' }]
-  },
-
-  async headers() {
-    return [
-      {
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ],
-        source: '/icon/(.*).(svg)'
-      },
-      {
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ],
-        source: '/images/(.*).(png|svg|ico)'
-      }
-    ];
   }
 };
 
+const isProd = process.env.NODE_ENV === 'production';
 const noWrapper = (config: NextConfig) => config;
-
 const revision = crypto.randomUUID();
 
 const serwistConfig = {
