@@ -47,18 +47,18 @@ export default function ModalArea() {
       {isIOSPWAGuideModalOpen && <IOSPWAGuideModal />}
       {isTodoCreateModalOpen && <TodoCreateModal />}
       {isTodoCreateCheckModalOpen && <TodoCreateCheckModal />}
-      {isTodoDeleteConfirmModalOpen && todoDeleteConfirmModalProps && (
+      {isTodoDeleteConfirmModalOpen && todoDeleteConfirmModalProps ? (
         <TodoDeleteConfirmModal
           onConfirm={todoDeleteConfirmModalProps.onConfirm}
           onCancel={todoDeleteConfirmModalProps.onCancel}
         />
-      )}
-      {isGoalDeleteModalOpen && goalDeleteModalProps && (
+      ) : null}
+      {isGoalDeleteModalOpen && goalDeleteModalProps ? (
         <GoalDeleteConfirmModal
           onConfirm={goalDeleteModalProps.onConfirm}
           onCancel={goalDeleteModalProps.onCancel}
         />
-      )}
+      ) : null}
       {isGoalEditModalOpen && goalEditModalProps ? (
         <GoalEditModal
           isOpen={isGoalEditModalOpen}
