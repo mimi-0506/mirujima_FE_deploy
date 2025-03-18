@@ -33,6 +33,9 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
   const { mutate: toggleTodo } = useCheckTodo();
   const { mutate: deleteTodoMutate } = useDeleteTodoItem();
   const setIsTodoCreateModalOpen = useModalStore((state) => state.setIsTodoCreateModalOpen);
+  const setIsTodoDeleteConfirmModalOpen = useModalStore(
+    (state) => state.setIsTodoDeleteConfirmModalOpen
+  );
   const aTagRef = useRef<HTMLAnchorElement | null>(null);
   const handleClickFileDownload = useTodoFileDownload();
 
@@ -87,8 +90,15 @@ export default function TodoItem({ todo, showGoal, isDashboard }: TodoItemProps)
   };
 
   const handleOpenDeleteModal = () => {
-    deleteTodoMutate(todo, {
-      onSuccess: () => {}
+    setIsTodoDeleteConfirmModalOpen(true, {
+      onConfirm: () => {
+        deleteTodoMutate(todo, {
+          onSuccess: () => {}
+        });
+      },
+      onCancel: () => {
+        setIsTodoDeleteConfirmModalOpen(false);
+      }
     });
   };
 

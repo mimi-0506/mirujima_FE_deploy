@@ -2,21 +2,7 @@ import type { NextConfig } from 'next';
 import { Configuration } from 'webpack';
 import withSerwistInit from '@serwist/next';
 
-const isProd = process.env.NODE_ENV === 'production';
-const noWrapper = (config: NextConfig) => config;
-
-const revision = crypto.randomUUID();
-
-const serwistConfig = {
-  swSrc: 'app/sw.ts',
-  swDest: 'public/sw.js',
-  cacheOnNavigation: true,
-  additionalPrecacheEntries: [{ url: '/~offline', revision }]
-};
-
-const withPWA = isProd ? withSerwistInit(serwistConfig) : noWrapper;
-
-const nextConfig: NextConfig = withPWA({
+const nextConfig: NextConfig = {
   experimental: {
     forceSwcTransforms: true
   },
@@ -41,16 +27,20 @@ const nextConfig: NextConfig = withPWA({
   },
   images: {
     remotePatterns: [{ protocol: 'https', hostname: process.env.NEXT_PUBLIC_S3_BUCKET_HOST || '' }]
-  },
-
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://api.mirujima.shop/:path*'
-      }
-    ];
   }
-});
+};
 
-export default nextConfig;
+const isProd = process.env.NODE_ENV === 'production';
+const noWrapper = (config: NextConfig) => config;
+const revision = crypto.randomUUID();
+
+const serwistConfig = {
+  swSrc: 'app/sw.ts',
+  swDest: 'public/sw.js',
+  cacheOnNavigation: true,
+  additionalPrecacheEntries: [{ url: '/~offline', revision }]
+};
+
+const withPWA = isProd ? withSerwistInit(serwistConfig) : noWrapper;
+
+export default withPWA(nextConfig);
