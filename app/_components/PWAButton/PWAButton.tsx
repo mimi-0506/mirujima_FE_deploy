@@ -36,7 +36,7 @@ export default function PWAButton({ className }: Props) {
         </button>
       ) : (
         <Link
-          href={'/login'}
+          href={'/dashboard'}
           className="flex-center color-animate inline-block h-[40px] w-full rounded-lg bg-main text-button2 text-white hover:bg-mainhover md:h-[50px] md:text-button2"
         >
           이대로 사용할래요
