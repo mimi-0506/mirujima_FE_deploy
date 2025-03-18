@@ -30,6 +30,7 @@ export const useCheckTodo = () => {
         await queryClient.setQueryData(
           ['todos', todo.goal.id, userId, todo.done],
           (cache: TodoType[]) => {
+            if (!cache) return;
             const oldTodos = [...cache];
             const newTodos = [...oldTodos, todo].sort((a, b) => a.id - b.id);
 
@@ -40,6 +41,7 @@ export const useCheckTodo = () => {
         await queryClient.setQueryData(
           ['todos', todo.goal.id, userId, !todo.done],
           (cache: TodoType[]) => {
+            if (!cache) return;
             const oldTodos = [...cache];
             const newTodos = oldTodos.filter((item: TodoType) => item.id !== todo.id);
 
@@ -50,6 +52,26 @@ export const useCheckTodo = () => {
 
       await queryClient.setQueryData(
         ['allTodos', userId],
+        (
+          cache: cacheType<{ lastSeeId: number; remainigCount: number; todos: TodoType[] }> | []
+        ) => {
+          if (!cache || Array.isArray(cache)) return [];
+          const oldTodos = Array.isArray(cache.pages) ? cache.pages[0].todos : cache.todos;
+          const newTodos = Array.isArray(oldTodos)
+            ? oldTodos.map((item: TodoType) => {
+                if (item?.id === todo?.id) return todo;
+                else return item;
+              })
+            : [];
+
+          return Array.isArray(cache.pages)
+            ? { ...cache, pages: [{ ...cache.pages[0], todos: newTodos }] }
+            : { ...cache, todos: newTodos };
+        }
+      );
+
+      await queryClient.setQueryData(
+        ['allTodosInfiniteScroll', userId],
         (
           cache: cacheType<{ lastSeeId: number; remainigCount: number; todos: TodoType[] }> | []
         ) => {

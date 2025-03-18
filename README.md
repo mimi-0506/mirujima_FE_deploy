@@ -15,6 +15,7 @@
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white)
 ![Recharts](https://img.shields.io/badge/Recharts-FF6F61?style=for-the-badge&logo=Recharts&logoColor=white)
 ![Motion](https://img.shields.io/badge/Motion-12A5F4?style=for-the-badge&logo=Motion&logoColor=white)
+![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=for-the-badge&logo=PWA&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=Vercel&logoColor=white)
 ![Amazon EC2](https://img.shields.io/badge/Amazon%20EC2-FF9900?style=for-the-badge&logo=Amazon%20EC2&logoColor=white)
 ![Amazon S3](https://img.shields.io/badge/Amazon%20S3-569A31?style=for-the-badge&logo=Amazon%20S3&logoColor=white)
@@ -42,11 +43,11 @@
 <br/>
 
 ## ⚙ 테스트 계정
- ```
-ID: test@gmail.com 
+
+```
+ID: test@gmail.com
 PW: 11111111
 ```
-
 
 <br/>
 <br/>
@@ -76,6 +77,7 @@ PW: 11111111
 <br/>
 
 ## ⛑ 개발 컨벤션
+
 ### 커밋 컨벤션
 
 | 커밋 유형  | 설명          |
@@ -116,8 +118,8 @@ PW: 11111111
 📦app
 ┣ 📂_components
 ┣ 📂(auth)
-┃ ┣ 📂login 
-┃ ┗ 📂signup 
+┃ ┣ 📂login
+┃ ┗ 📂signup
 ┣ 📂(workspace)
 ┃ ┣ 📂(note)
 ┃ ┃ ┣ 📂noteList
@@ -149,6 +151,7 @@ PW: 11111111
 <br/>
 
 ## 🎬 주요 기능 시연영상
+
 [📺 YouTube에서 보기](https://youtu.be/jOvbl1b1UX0)
 
 <br/>
@@ -160,17 +163,16 @@ PW: 11111111
 
 ![03_리소스_디자인](https://github.com/user-attachments/assets/20f414dd-5da1-4ab1-8dd6-1e6577cc600f)
 
-
 <br/>
 <br/>
 
 ## 🧑‍💻 팀원 소개
 
-| 이름   | 역할       | 깃허브                                 | 담당 작업        |
-| ------ | ---------- | -------------------------------------- | --------------------- |
-| 박혜미 | 프론트엔드 | [GitHub](https://github.com/mimi-0506) | 프로젝트 리딩 및 스케줄링 / 네비게이션 바 / 미들웨어 및 라우팅 / 할 일 생성 및 수정 모달 / 뽀모도로 타이머 |
-| 김지윤 | 프론트엔드 | [GitHub](https://github.com/kirnjiyun) | 로그인/회원가입 페이지 / SNS 및 자동 로그인 / 목표 상세 페이지 / 목표 수정 및 삭제 모달 / 전체 타입 정리 |
-| 노진철 | 프론트엔드 | [GitHub](https://github.com/jinoc-git) | 노트 작성/수정 페이지 / 노트 상세 페이지 / 노트 리스트 페이지 / 노트 관련 기능 / PWA 기능 |
+| 이름   | 역할       | 깃허브                                 | 담당 작업                                                                                                    |
+| ------ | ---------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| 박혜미 | 프론트엔드 | [GitHub](https://github.com/mimi-0506) | 프로젝트 리딩 및 스케줄링 / 네비게이션 바 / 미들웨어 및 라우팅 / 할 일 생성 및 수정 모달 / 뽀모도로 타이머   |
+| 김지윤 | 프론트엔드 | [GitHub](https://github.com/kirnjiyun) | 로그인/회원가입 페이지 / SNS 및 자동 로그인 / 목표 상세 페이지 / 목표 수정 및 삭제 모달 / 전체 타입 정리     |
+| 노진철 | 프론트엔드 | [GitHub](https://github.com/jinoc-git) | 노트 작성/수정 페이지 / 노트 상세 페이지 / 노트 리스트 페이지 / 노트 관련 기능 / PWA 기능                    |
 | 이송아 | 프론트엔드 | [GitHub](https://github.com/soma0078)  | 프로젝트 초기 세팅 및 문서화 / 대시보드 페이지 / 모든 할 일 페이지 / 할 일 아이템 컴포넌트 / 비밀번호 암호화 |
-| 정철훈 | 백엔드     | [GitHub](http://github.com/huneeJung)  | 서버 설계 및 API 개발 |
-| 이주희 | 디자이너   |               -                        | UI 디자인 및 프로토타입 제작 |
+| 정철훈 | 백엔드     | [GitHub](http://github.com/huneeJung)  | 서버 설계 및 API 개발                                                                                        |
+| 이주희 | 디자이너   | -                                      | UI 디자인 및 프로토타입 제작                                                                                 |
